@@ -3,23 +3,217 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        card_view:cardCornerRadius="2dp"
-        card_view:contentPadding="10dp">
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_margin="5dp"
+        android:background="#ffffff"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp">
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+
+                android:layout_marginRight="16dp">
+
+                <ImageView
+                    android:id="@+id/imgItemIcon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/onion"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textItemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nasik Onion"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/textItemdesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Xyz (1 Kg)"
+                        android:textSize="12dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textRupee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/indian_rupees"
+                                android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/textItemPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="250"
+                            android:textSize="14dp" />
+
+
+                                <LinearLayout
+                                    android:id="@+id/linearTxtMinus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent">
+
+                                    <TextView
+                                        android:id="@+id/txtMinus"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:background="@drawable/circle_btn_grey_border"
+                                        android:gravity="center"
+                                        android:text="-"
+                                        android:textSize="18dp"
+                                        android:paddingBottom="5dp"
+                                        android:layout_margin="2dp"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:gravity="center" >
+
+                                    <TextView
+                                        android:id="@+id/txtCount"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:gravity="center"
+                                        android:text="1"
+                                        android:textSize="18sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/linearTxtPlus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="0dp"
+                                   >
+
+                                    <TextView
+                                        android:id="@+id/txtPlus"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:background="@drawable/circle_btn_grey_border"
+                                        android:gravity="center"
+                                        android:text="+"
+                                        android:textSize="18dp"
+                                        android:layout_margin="2dp"/>
+                                </LinearLayout>
+
+                    </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+         <!--   <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight=".35"
+                android:layout_height="64dp"
+                android:gravity="bottom"
+                android:orientation="horizontal" >
+
+
+                <LinearLayout
+                    android:id="@+id/linearTxtMinus"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:gravity="bottom|center" >
+
+                    <TextView
+                        android:id="@+id/txtMinus"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/circle_btn_grey_border"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textSize="18dp"
+                        android:paddingBottom="5dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="15dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="bottom|center" >
+
+                    <TextView
+                        android:id="@+id/txtCount"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textSize="18dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearTxtPlus"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="0dp"
+                    android:gravity="bottom|center" >
+
+                    <TextView
+                        android:id="@+id/txtPlus"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/circle_btn_grey_border"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textSize="18dp" />
+                </LinearLayout>
+            </LinearLayout>-->
+        </LinearLayout>
+
+
 
 </android.support.v7.widget.CardView>
 </LinearLayout>
