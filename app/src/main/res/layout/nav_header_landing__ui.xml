@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/menu_bg"
     android:gravity="center"
     android:orientation="horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <groots.canbrand.com.groots.Ui.CircularGreyBorderImage
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="56dp"
-        android:padding="5dp"
-        android:src="@android:drawable/sym_def_app_icon"
-        android:background="@drawable/circle_image"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/onion" />
 
     <TextView
         android:layout_width="match_parent"

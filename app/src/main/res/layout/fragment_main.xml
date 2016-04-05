@@ -8,6 +8,111 @@
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:scrollbars="none" />
+
+    <LinearLayout
+        android:id="@+id/list_main_footer_"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/cart"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCart_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="#ffffff"
+                    android:textSize="8dp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Total"
+                    android:textColor="#00000f"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/indian_rupees"
+                        android:textColor="#00000f"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtamount_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="450"
+                        android:textColor="#00000f"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Checkout"
+                android:textColor="#00000f"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/checkouticon_main"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/continu" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </FrameLayout>

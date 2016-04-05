@@ -15,9 +15,20 @@
             android:id="@+id/detail_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:scrollbars="none"
+            android:fadeScrollbars="true"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listfooter"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -25,12 +36,9 @@
         android:background="#000000"></View>
 
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="end|bottom"
-        android:background="#ffffff"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
 
@@ -82,7 +90,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/indian_rupees"
                     android:textColor="#00000f"
                     android:textSize="18sp" />
@@ -90,7 +98,7 @@
                 <TextView
                     android:id="@+id/txtamount"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="450"
                     android:textColor="#00000f"
                     android:textSize="18sp" />
@@ -102,10 +110,11 @@
         <TextView
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Checkout"
+            android:gravity="center"
             android:textColor="#00000f"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/checkouticon"
@@ -113,7 +122,7 @@
             android:layout_height="64dp"
             android:src="@drawable/continu" />
     </LinearLayout>
-
+</LinearLayout>
 
 </RelativeLayout>
 

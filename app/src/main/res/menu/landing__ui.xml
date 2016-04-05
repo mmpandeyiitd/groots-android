@@ -13,6 +13,6 @@
     <item
         android:id="@+id/show"
         android:title="show"
-        android:icon="@drawable/popup_check_1"
+        android:icon="@drawable/expanded_list_view"
         app:showAsAction="always"></item>
 </menu>

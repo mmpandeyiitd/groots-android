@@ -1,7 +1,13 @@
 package groots.canbrand.com.groots;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import groots.canbrand.com.groots.Fragments.DetailFrag;
 import groots.canbrand.com.groots.Fragments.MainFrag;
@@ -17,7 +24,7 @@ import groots.canbrand.com.groots.Fragments.MainFrag;
 public class Landing_UI extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    boolean flag=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,9 @@ public class Landing_UI extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+
             actionBar.setTitle("#nofilter,SDA Market");
+
 
         }
     }
@@ -66,14 +75,47 @@ public class Landing_UI extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.show) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new DetailFrag()).commitAllowingStateLoss();
+            if(flag==false) {
+                flag=true;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new DetailFrag()).commitAllowingStateLoss();
+                item.setIcon(R.drawable.list_view);
+            }
+            else
+            {
+                flag=false;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
+                item.setIcon(R.drawable.expanded_list_view);
+            }
 
+
+        }
+        else if(id==R.id.phone)
+        {
+            makeaCall();
         }
 
         //noinspection SimplifiableIfStatement
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void makeaCall() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ActivityCompat.checkSelfPermission(Landing_UI.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 9);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + "9999999999"));
+                startActivity(intent);
+            }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + "9999999999"));
+            startActivity(intent);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
