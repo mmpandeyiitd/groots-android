@@ -1,12 +1,11 @@
-package groots.canbrand.com.groots;
+package groots.canbrand.com.groots.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.ActionBar;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,13 +15,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import java.util.ArrayList;
 
 import groots.canbrand.com.groots.Adapter.Landing_Adapter;
 import groots.canbrand.com.groots.Model.LandingInfo;
 
+import groots.canbrand.com.groots.R;
+
 public class Landing_UI extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     RecyclerView mRecyclerView;
 
@@ -47,8 +50,10 @@ public class Landing_UI extends AppCompatActivity
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
         Landing_Adapter mAdapter = new Landing_Adapter(dummyValue,this);
         mRecyclerView.setAdapter(mAdapter);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

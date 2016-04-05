@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Landing_UI;
 import groots.canbrand.com.groots.Model.LandingInfo;
 import groots.canbrand.com.groots.R;
 
