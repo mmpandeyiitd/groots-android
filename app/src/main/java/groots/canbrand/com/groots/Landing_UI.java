@@ -1,30 +1,22 @@
 package groots.canbrand.com.groots;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
-import groots.canbrand.com.groots.Adapter.Landing_Adapter;
-import groots.canbrand.com.groots.Model.LandingInfo;
+import groots.canbrand.com.groots.Fragments.DetailFrag;
+import groots.canbrand.com.groots.Fragments.MainFrag;
 
 public class Landing_UI extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +24,7 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-
-        ArrayList<LandingInfo> dummyValue=new ArrayList<>();
-        dummyValue.add(new LandingInfo("Nasik Onion","Grade A Onion Sourced From Nasik.","45/kg","0",R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato","Grade A Potato Sourced From India.","15/kg","0",R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion","Grade A Onion Sourced From Nasik.","45/kg","0",R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato","Grade A Potato Sourced From India.","15/kg","0",R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion","Grade A Onion Sourced From Nasik.","45/kg","0",R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato","Grade A Potato Sourced From India.","15/kg","0",R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion","Grade A Onion Sourced From Nasik.","45/kg","0",R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato","Grade A Potato Sourced From India.","15/kg","0",R.drawable.potato));
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        Landing_Adapter mAdapter = new Landing_Adapter(dummyValue,this);
-        mRecyclerView.setAdapter(mAdapter);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,14 +34,12 @@ public class Landing_UI extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null)
-        {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setTitle("#nofilter,SDA Market");
 
         }
     }
-
 
 
     @Override
@@ -91,6 +65,10 @@ public class Landing_UI extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.show) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new DetailFrag()).commitAllowingStateLoss();
+
+        }
 
         //noinspection SimplifiableIfStatement
 
@@ -104,17 +82,17 @@ public class Landing_UI extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.pending_menu) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.help_menu) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.contact_menu) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.rate_menu) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.about_menu) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.logout_menu) {
 
         }
 

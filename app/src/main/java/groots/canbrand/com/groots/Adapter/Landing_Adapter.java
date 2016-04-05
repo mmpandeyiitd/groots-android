@@ -24,8 +24,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     Context context;
 
     public Landing_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
-        this.dummyValue=dummyValue;
-        this.context=context;
+        this.dummyValue = dummyValue;
+        this.context = context;
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -41,9 +41,9 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
             super(itemView);
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
-            textItemPrice=(TextView)itemView.findViewById(R.id.textItemPrice);
-            imgItemIcon=(ImageView)itemView.findViewById(R.id.imgItemIcon);
-            txtCount=(TextView)itemView.findViewById(R.id.txtCount);
+            textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
+            imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
+            txtCount = (TextView) itemView.findViewById(R.id.txtCount);
             itemView.setOnClickListener(this);
         }
 
@@ -52,6 +52,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
         }
     }
+
     @Override
     public Landing_Adapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
@@ -67,7 +68,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         holder.textItemdesc.setText(dummyValue.get(position).getItemDesc());
         holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
         holder.txtCount.setText(dummyValue.get(position).getItemcount());
-       holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+        holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
 
     }
 
@@ -77,4 +78,4 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     }
 
 
-    }
+}
