@@ -36,6 +36,7 @@ import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
 
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.ui.Landing_UI;
 import groots.canbrand.com.groots.utilz.Utilz;
 
 public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener{
@@ -254,7 +255,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         final CoordinatorLayout cdForgetPwd=(CoordinatorLayout)dialog.findViewById(R.id.cdForgetPwd);
 
         LinearLayout submitforgot=(LinearLayout)dialog.findViewById(R.id.submitforgot);
-        submitforgot.setOnClickListener(new View.OnClickListener() {
+        submitforgot.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {

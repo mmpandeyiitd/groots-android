@@ -20,28 +20,37 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbars"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:titleTextAppearance="@style/Toolbar.TitleText"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbars"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:titleTextColor="@color/white"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:titleTextAppearance="@style/Toolbar.TitleText"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+             >
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="nofilter,SDA Market"
+                android:textColor="@color/white"
+                android:textSize="18dp"/>
+
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/frameLayoutForAllFrags"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            android:layout_height="match_parent" />
 
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
+
 
 
 
@@ -52,6 +61,200 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_landing__ui"
-        app:menu="@menu/activity_landing__ui_drawer" />
+        app:menu="@menu/activity_landing__ui_drawer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="160dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/pending_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/order"
+                    android:text="ORDERS PENDING" />
+
+                <ImageView
+                    android:id="@+id/order"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/pending" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorPrimary"></View>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/help_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/help"
+                    android:text="HELP" />
+
+                <ImageView
+                    android:id="@+id/help"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/help4" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/textPrimaryLight"></View>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/contact_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/contact"
+                    android:text="CONTACT US" />
+
+                <ImageView
+                    android:id="@+id/contact"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/contact" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/textPrimaryLight"></View>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rate_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/rate"
+                    android:text="RATE US" />
+
+                <ImageView
+                    android:id="@+id/rate"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/rate" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/textPrimaryLight"></View>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/about_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_about"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/info" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/iv_about"
+                    android:text="ABOUT" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/textPrimaryLight"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/logout_menu"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+
+                <TextView
+                    android:id="@+id/txtcontact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/out"
+                    android:text="LOGOUT" />
+
+                <ImageView
+                    android:id="@+id/out"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/out" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
