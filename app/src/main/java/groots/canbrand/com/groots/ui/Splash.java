@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Ui;
+package groots.canbrand.com.groots.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

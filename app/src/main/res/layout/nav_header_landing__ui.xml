@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <groots.canbrand.com.groots.Ui.CircularGreyBorderImage
+    <groots.canbrand.com.groots.ui.CircularGreyBorderImage
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
