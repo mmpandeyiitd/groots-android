@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import groots.canbrand.com.groots.Adapter.Detail_Adapter;
 import groots.canbrand.com.groots.Model.LandingInfo;
 import groots.canbrand.com.groots.R;
-import groots.canbrand.com.groots.Ui.HidingScrollListener;
+import groots.canbrand.com.groots.ui.HidingScrollListener;
 
 
 public class DetailFrag extends Fragment {

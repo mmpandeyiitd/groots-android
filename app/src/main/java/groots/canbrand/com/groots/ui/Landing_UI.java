@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Ui;
+package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -30,13 +30,11 @@ import android.widget.Toast;
 import groots.canbrand.com.groots.Fragments.DetailFrag;
 import groots.canbrand.com.groots.Fragments.MainFrag;
 
-import java.util.ArrayList;
-
-import groots.canbrand.com.groots.Adapter.Landing_Adapter;
-import groots.canbrand.com.groots.Model.LandingInfo;
 
 
 import groots.canbrand.com.groots.R;
+
+
 
 public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
@@ -51,6 +49,7 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
+
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
         navContact=(RelativeLayout)findViewById(R.id.contact_menu);
@@ -66,6 +65,7 @@ public class Landing_UI extends AppCompatActivity
         navAbout.setOnClickListener(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -147,10 +147,6 @@ public class Landing_UI extends AppCompatActivity
                 intent.setData(Uri.parse("tel:" + "9999999999"));
                 startActivity(intent);
             }
-        } else {
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:" + "9999999999"));
-            startActivity(intent);
         }
     }
 

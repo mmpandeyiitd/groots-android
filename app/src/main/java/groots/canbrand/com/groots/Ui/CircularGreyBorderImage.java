@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Ui;
+package groots.canbrand.com.groots.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

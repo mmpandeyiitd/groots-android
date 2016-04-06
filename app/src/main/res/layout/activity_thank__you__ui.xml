@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="groots.canbrand.com.groots.Ui.Thank_You_UI">
+    tools:context="groots.canbrand.com.groots.ui.Thank_You_UI">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
