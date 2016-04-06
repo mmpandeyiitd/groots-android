@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,18 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
         holder.itemdgrade.setText(dummyValue.get(position).getItemgrade());
         holder.selectedquantity.setText(dummyValue.get(position).getItemquantity());
         holder.iconImage.setImageResource(dummyValue.get(position).getImageitem());
+        holder.txtMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
+            }
+        });
+        holder.txtPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -59,7 +72,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade, selectedquantity;
+        TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade,
+                selectedquantity,txtMinus,txtPlus;
         ImageView iconImage;
         EditText txtCount;
 
@@ -76,6 +90,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             selectedquantity = (TextView) itemView.findViewById(R.id.selectedquantity);
             iconImage = (ImageView) itemView.findViewById(R.id.iconImage);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
+            txtMinus=(TextView)itemView.findViewById(R.id.txtMinus);
+            txtPlus=(TextView)itemView.findViewById(R.id.txtPlus);
 
         }
     }

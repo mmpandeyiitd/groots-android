@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Landing_UI;
 import groots.canbrand.com.groots.Model.LandingInfo;
 import groots.canbrand.com.groots.R;
 
@@ -33,7 +33,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
             .OnClickListener {
         TextView textItemName;
         TextView textItemdesc;
-        TextView textItemPrice;
+        TextView textItemPrice,txtMinus,txtPlus;;
         ImageView imgItemIcon;
         TextView txtCount;
 
@@ -44,7 +44,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
             txtCount = (TextView) itemView.findViewById(R.id.txtCount);
-            itemView.setOnClickListener(this);
+            txtMinus=(TextView)itemView.findViewById(R.id.txtMinus);
+            txtPlus=(TextView)itemView.findViewById(R.id.txtPlus);
         }
 
         @Override
@@ -69,6 +70,19 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
         holder.txtCount.setText(dummyValue.get(position).getItemcount());
         holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+
+        holder.txtMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
+            }
+        });
+        holder.txtPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

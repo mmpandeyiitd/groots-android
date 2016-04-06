@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,14 +24,28 @@ import groots.canbrand.com.groots.Ui.HidingScrollListener;
 
 public class DetailFrag extends Fragment {
 
+    TextView txtamount_detail,txtCart_detail;
+    ImageView checkouticon;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         final LinearLayout listfooter=(LinearLayout)view.findViewById(R.id.listfooter);
+        txtamount_detail=(TextView)view.findViewById(R.id.txtamount_detail);
+        txtCart_detail=(TextView)view.findViewById(R.id.txtCart_detail);
+        checkouticon=(ImageView)view.findViewById(R.id.checkouticon);
+        checkouticon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getActivity(),"Button Clicked !",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         ArrayList<LandingInfo> dummyValue = new ArrayList<>();
         dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10kg"));

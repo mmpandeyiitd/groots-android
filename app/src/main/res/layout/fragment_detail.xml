@@ -51,14 +51,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtCart"
+                android:id="@+id/txtCart_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="13dp"
                 android:gravity="center"
                 android:text="100"
                 android:textColor="#ffffff"
@@ -96,7 +96,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/txtamount"
+                    android:id="@+id/txtamount_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="450"

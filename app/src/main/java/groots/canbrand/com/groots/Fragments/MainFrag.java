@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -24,7 +27,10 @@ import groots.canbrand.com.groots.Ui.HidingScrollListener;
 
 public class MainFrag extends Fragment {
 
-   LinearLayout list_main_footer_;
+    LinearLayout list_main_footer_;
+    TextView txtCart_main,txtamount_main;
+    ImageView checkouticon_main;
+
 
     public MainFrag() {
 
@@ -33,9 +39,20 @@ public class MainFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       View view =inflater.inflate(R.layout.fragment_main, container, false);
+        View view =inflater.inflate(R.layout.fragment_main, container, false);
         ArrayList<LandingInfo> dummyValue=new ArrayList<>();
         list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
+
+        txtCart_main=(TextView)view.findViewById(R.id.txtCart_main);
+        checkouticon_main=(ImageView)view.findViewById(R.id.checkouticon_main);
+        txtamount_main=(TextView)view.findViewById(R.id.txtamount_main);
+        checkouticon_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getActivity(),"Button Clicked !",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         dummyValue.add(new LandingInfo("Nasik Onion","Grade A Onion Sourced From Nasik.","45/kg","0",R.drawable.onion));
         dummyValue.add(new LandingInfo("Big Potato","Grade A Potato Sourced From India.","15/kg","0",R.drawable.potato));

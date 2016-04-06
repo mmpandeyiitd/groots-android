@@ -1,11 +1,18 @@
-package groots.canbrand.com.groots;
+package groots.canbrand.com.groots.Ui;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import android.support.v7.app.ActionBar;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -16,21 +23,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import groots.canbrand.com.groots.Fragments.DetailFrag;
 import groots.canbrand.com.groots.Fragments.MainFrag;
 
+import java.util.ArrayList;
+
+import groots.canbrand.com.groots.Adapter.Landing_Adapter;
+import groots.canbrand.com.groots.Model.LandingInfo;
+
+
+import groots.canbrand.com.groots.R;
+
 public class Landing_UI extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements View.OnClickListener {
 
     boolean flag=false;
+    NavigationView navigationView;
+    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
+        navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
+        navHelp=(RelativeLayout)findViewById(R.id.help_menu);
+        navContact=(RelativeLayout)findViewById(R.id.contact_menu);
+        navRate=(RelativeLayout)findViewById(R.id.rate_menu);
+        navLogout=(RelativeLayout)findViewById(R.id.about_menu);
+        navAbout=(RelativeLayout)findViewById(R.id.logout_menu);
+
+        navOrder.setOnClickListener(this);
+        navHelp.setOnClickListener(this);
+        navContact.setOnClickListener(this);
+        navRate.setOnClickListener(this);
+        navLogout.setOnClickListener(this);
+        navAbout.setOnClickListener(this);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -39,12 +73,14 @@ public class Landing_UI extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+       // navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
 
-            actionBar.setTitle("#nofilter,SDA Market");
+           // actionBar.setTitle("#nofilter,SDA Market");
+           actionBar.setHomeAsUpIndicator(R.drawable.menu);
+           // actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         }
@@ -118,13 +154,13 @@ public class Landing_UI extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+/*    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.pending_menu) {
+      *//*  if (id == R.id.pending_menu) {
             // Handle the camera action
         } else if (id == R.id.help_menu) {
 
@@ -137,9 +173,40 @@ public class Landing_UI extends AppCompatActivity
         } else if (id == R.id.logout_menu) {
 
         }
-
+*//*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }*/
+
+    @Override
+    public void onClick(View view) {
+
+       switch (view.getId())
+       {
+           case R.id.pending_menu:
+              Toast.makeText(this,"Pending Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           case R.id.help_menu:
+               Toast.makeText(this,"Help Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           case R.id.contact_menu:
+               Toast.makeText(this,"Contact Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           case R.id.rate_menu:
+               Toast.makeText(this,"Rate Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           case R.id.about_menu:
+               Toast.makeText(this,"About Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           case R.id.logout_menu:
+               Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
+               break;
+           default:
+               break;
+       }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
     }
 }
