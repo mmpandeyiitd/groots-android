@@ -5,40 +5,52 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        tools:context=".ui.LandingUI">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbars"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:titleTextColor="#ffffff"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="nofilter,SDA Market"
-                android:textColor="@color/white"
-                android:textSize="18dp"/>
-
-        </android.support.v7.widget.Toolbar>
-
-        <FrameLayout
-            android:id="@+id/frameLayoutForAllFrags"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbars"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/toolbar_color"
+                app:contentInsetLeft="0dp"
+                android:contentInsetStart="0dp"
+                app:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp">
 
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nofilter,SDA Market"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    />
+
+            </android.support.v7.widget.Toolbar>
+
+            <FrameLayout
+                android:id="@+id/frameLayoutForAllFrags"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -110,6 +122,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/help4" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -141,6 +154,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/contact" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

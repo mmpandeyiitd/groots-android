@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#336C37</color>
     <color name="colorPrimaryDark">#142C16</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ffffff</color>
 
     <color name="textPrimaryDark">#000000</color>
     <color name="textPrimaryNormal">#494949</color>
@@ -11,5 +11,8 @@
 
     <color name="white">#ffffff</color>
     <color name="view">#B1B1B1</color>
+
+    <color name="toolbar_color">#2A5B2B</color>
+
 
 </resources>

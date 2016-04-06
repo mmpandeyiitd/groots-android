@@ -30,6 +30,7 @@ public class MainFrag extends Fragment {
     LinearLayout list_main_footer_;
     TextView txtCart_main,txtamount_main;
     ImageView checkouticon_main;
+    View viewId;
 
 
     public MainFrag() {
@@ -42,6 +43,8 @@ public class MainFrag extends Fragment {
         View view =inflater.inflate(R.layout.fragment_main, container, false);
         ArrayList<LandingInfo> dummyValue=new ArrayList<>();
         list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
+        viewId=(View)view.findViewById(R.id.viewid);
+
 
         txtCart_main=(TextView)view.findViewById(R.id.txtCart_main);
         checkouticon_main=(ImageView)view.findViewById(R.id.checkouticon_main);
@@ -74,11 +77,14 @@ public class MainFrag extends Fragment {
             @Override
             public void onHide() {
                 list_main_footer_.animate().translationY(list_main_footer_.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+                viewId.bringToFront();
+
             }
 
             @Override
             public void onShow() {
                 list_main_footer_.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+                viewId.bringToFront();
             }
         });
 
