@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Splash">
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    tools:context=".ui.Splash"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,11 +16,22 @@
         android:clickable="false"
        >
 
+       <!-- <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbars"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:titleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:titleTextAppearance="@style/Toolbar.TitleText"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            />-->
     <com.flaviofaria.kenburnsview.KenBurnsView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/splash_bck_normal" />
+
 
     <View android:id="@+id/viewBlur"
         android:layout_width="match_parent"
@@ -89,7 +103,7 @@
                  android:textColor="@color/white"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
-                 android:hint="Enter Name"
+                 android:hint="Enter Email"
                  android:background="@null"
                  android:imeOptions="actionNext"
                  android:autoText="false"

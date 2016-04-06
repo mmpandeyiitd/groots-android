@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -31,9 +32,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.ui.Landing_UI;
@@ -52,6 +55,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
+    Toolbar toolbars;
 
     String storePhoneNo="1234567899";
 
@@ -61,6 +65,16 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(false);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+        // set the transparent color of the status bar, 20% darker
+        tintManager.setTintColor(Color.parseColor("#20000000"));
+//        toolbars=(Toolbar)findViewById(R.id.toolbars);
+//        toolbars.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         context=Splash.this;
         cdLogin=(CoordinatorLayout)findViewById(R.id.cdLogin);
         ivGroots=(ImageView)findViewById(R.id.ivGroots);
@@ -80,7 +94,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
         alphaAnimation.setDuration(3000);
-        alphaAnimation.setStartOffset(1000);
+        alphaAnimation.setStartOffset(100);
         ivGroots.startAnimation(alphaAnimation);
         alphaAnimation.setAnimationListener(new AnimationListener() {
             @Override
@@ -287,4 +301,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         dialog.show();
     }
+
+
+
+
 }
