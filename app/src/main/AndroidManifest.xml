@@ -13,19 +13,21 @@
         android:theme="@style/AppTheme">
         <activity
 
-            android:name=".ui.Landing_UI"
+            android:name=".ui.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
-            android:name=".ui.Splash"
+            android:name=".ui.Landing_UI"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.Thank_You_UI"
             android:screenOrientation="portrait"
