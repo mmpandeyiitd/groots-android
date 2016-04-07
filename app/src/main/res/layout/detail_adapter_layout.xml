@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#ffffff"
-        card_view:cardUseCompatPadding="true"
-        android:elevation="4dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
         card_view:cardCornerRadius="2dp"
-       >
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,9 +37,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".2"
                 android:layout_margin="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_weight=".2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -75,9 +74,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="5dp"
                 android:layout_margin="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight=".1">
 
                 <TextView
@@ -99,9 +98,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="5dp"
                 android:layout_margin="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight=".1"
                 android:orientation="horizontal">
 
@@ -166,8 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:layout_margin="5dp"
-                android:layout_marginRight="5dp"
+                android:padding="5dp"
                 android:background="@drawable/product_detail_bg1"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -196,20 +194,19 @@
 
                     <ImageView
                         android:id="@+id/txtMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_margin="2dp"
-                        android:src="@drawable/reduce_quantity"
-                        android:background="@null"
-                        android:paddingBottom="5dp"
-                        android:gravity="center"/>
+                        android:background="@drawable/reduce_quantity"
+                        android:gravity="center"
+                        android:paddingBottom="5dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp">
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center">
 
                     <EditText
                         android:id="@+id/txtCount"
@@ -225,17 +222,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-
                     android:gravity="top">
 
                     <ImageView
                         android:id="@+id/txtPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_margin="2dp"
                         android:background="@drawable/add_quantity"
-                        android:paddingBottom="5dp"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:paddingBottom="5dp" />
                 </LinearLayout>
 
             </LinearLayout>
