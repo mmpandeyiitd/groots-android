@@ -7,18 +7,20 @@
     android:orientation="horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <groots.canbrand.com.groots.ui.CircularGreyBorderImage
+    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
-        android:src="@drawable/onion" />
+        android:gravity="center"
+        android:text="MB"
+        android:textColor="#0F230F"
+        android:background="@drawable/drawer_header_text" />
 
-    <TextView
+    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:layout_marginLeft="16dp"
         android:text="Molly BotMan"
         android:textSize="20sp"

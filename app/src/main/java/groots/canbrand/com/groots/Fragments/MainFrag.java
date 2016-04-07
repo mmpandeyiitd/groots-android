@@ -1,15 +1,17 @@
 package groots.canbrand.com.groots.Fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -91,6 +93,12 @@ public class MainFrag extends Fragment {
         return view;
     }
 
+   /* @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        return AnimationUtils.loadAnimation(getActivity(),
+                enter ? android.R.anim.fade_in : android.R.anim.fade_out);
+    }
+*/
 
 
 }
