@@ -49,7 +49,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
-    RippleView btnSignIn;
+   // RippleView btnSignIn;
+   LayoutRipple btnSignIn;
 
     String storePhoneNo="1234567899";
 
@@ -59,8 +60,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        btnSignIn = (RippleView)findViewById(R.id.btnSignIn);
-        btnSignIn.setRippleDuration(200);
+      /*  btnSignIn = (RippleView)findViewById(R.id.btnSignIn);
+        btnSignIn.setRippleDuration(200);*/
+
+        btnSignIn = (LayoutRipple) findViewById(R.id.btnSignIn);
+        setOriginRiple(btnSignIn);
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -132,7 +136,17 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         ivCallLogin.setOnClickListener(this);
     }
 
+    private void setOriginRiple(LayoutRipple linearLogin) {
 
+        btnSignIn.post(new Runnable() {
+
+            @Override
+            public void run() {
+                btnSignIn.setRippleColor(Color.parseColor("#142C16"));
+                btnSignIn.setRippleSpeed(30);
+            }
+        });
+    }
 
 
     protected void moveup() {
@@ -180,10 +194,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.btnSignIn:
 
-                btnSignIn.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+               /* btnSignIn.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
                     @Override
-                    public void onComplete(RippleView rippleView) {
+                    public void onComplete(RippleView rippleView) {*/
                         Utilz utilz = new Utilz();
 
                         String strEmail = etLogin.getText().toString();
@@ -228,9 +242,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             }
                         }
 
-                   }
+                  // }
 
-                });
+                /*});*/
 
 
 
