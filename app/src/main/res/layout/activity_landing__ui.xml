@@ -25,14 +25,14 @@
                 android:id="@+id/toolbars"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/toolbar_color"
+                android:background="@color/colorPrimary"
                 app:contentInsetLeft="0dp"
                 android:contentInsetStart="0dp"
                 app:contentInsetStart="0dp"
                 android:contentInsetLeft="0dp">
 
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="nofilter,SDA Market"
@@ -73,12 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp">
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/order"
                     android:text="ORDERS PENDING" />
 
@@ -93,9 +94,9 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary"></View>
+                    android:background="#9BBE9B"></View>
             </RelativeLayout>
 
 
@@ -105,12 +106,13 @@
                 android:layout_height="64dp">
 
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/help"
                     android:text="HELP" />
 
@@ -127,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/textPrimaryLight"></View>
+                    android:background="@color/view"></View>
             </RelativeLayout>
 
 
@@ -137,12 +139,13 @@
                 android:layout_height="64dp">
 
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/contact"
                     android:text="CONTACT US" />
 
@@ -159,7 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/textPrimaryLight"></View>
+                    android:background="@color/view"></View>
             </RelativeLayout>
 
 
@@ -169,12 +172,13 @@
                 android:layout_height="64dp">
 
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/rate"
                     android:text="RATE US" />
 
@@ -191,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/textPrimaryLight"></View>
+                    android:background="@color/view"></View>
 
             </RelativeLayout>
 
@@ -208,14 +212,16 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+
                     android:src="@drawable/info" />
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/iv_about"
                     android:text="ABOUT" />
 
@@ -223,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/textPrimaryLight"></View>
+                    android:background="@color/view"></View>
             </RelativeLayout>
 
             <RelativeLayout
@@ -232,13 +238,14 @@
                 android:layout_height="64dp">
 
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/txtcontact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:textSize="14dp"
                     android:layout_toRightOf="@+id/out"
                     android:text="LOGOUT" />
 

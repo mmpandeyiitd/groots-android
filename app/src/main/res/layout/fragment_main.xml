@@ -74,11 +74,12 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <TextView
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight=".5"
-                        android:text="Total"
+                        android:text="TOTAL"
+                        android:textColor="@color/textPrimaryLight"
                         android:gravity="bottom"
                         android:textSize="16sp" />
 
@@ -90,32 +91,32 @@
                         android:gravity="top"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="@string/indian_rupees"
-
+                            android:textColor="@color/textPrimaryDark"
                             android:textSize="18sp" />
 
-                        <TextView
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                             android:id="@+id/txtamount_main"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="450"
-
+                            android:textColor="@color/textPrimaryDark"
                             android:textSize="18sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
 
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Checkout"
-                    android:textColor="#00000f"
+                    android:textColor="@color/textPrimaryLight"
                     android:textSize="16sp" />
 
                 <ImageView

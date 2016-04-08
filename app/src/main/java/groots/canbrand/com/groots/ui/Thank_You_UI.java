@@ -1,5 +1,6 @@
 package groots.canbrand.com.groots.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,8 @@ public class Thank_You_UI extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Thank_You_UI.this,"Button Clicked!",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(Thank_You_UI.this,Landing_UI.class);
+                startActivity(intent);
             }
         });
     }

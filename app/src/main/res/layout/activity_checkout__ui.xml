@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="groots.canbrand.com.groots.ui.Checkout_Ui">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        android:orientation="vertical">
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbars"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_color"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backbtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/back"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                />
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="CHECKOUT"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/makecall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/call"
+                android:layout_marginRight="16dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="#ffffff"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Order Summary -" />
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:gravity="center"
+                android:text="29 March 2016" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shadow_1"></View>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/checkout_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/list_main_footer_"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:background="#edffffff"
+        android:orientation="vertical">
+
+
+
+            <View
+                android:id="@+id/viewid"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view"></View>
+
+            <LinearLayout
+                android:id="@+id/footeriner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight=".5"
+                        android:text="TOTAL"
+                        android:textColor="@color/textPrimaryLight"
+                        android:gravity="bottom"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight=".5"
+                        android:layout_marginTop="2dp"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/indian_rupees"
+                            android:textColor="@color/textPrimaryDark"
+                            android:textSize="18sp" />
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:id="@+id/txtamount_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="450"
+                            android:textColor="@color/textPrimaryDark"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/checkouticon_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/checkout_footer"
+                    android:layout_marginRight="7dp"
+                    android:textColor="#4C834B"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:text="PLACE ORDER" />
+            </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
