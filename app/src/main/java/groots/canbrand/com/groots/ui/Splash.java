@@ -1,22 +1,18 @@
 package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,21 +21,19 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
+import com.andexert.library.RippleView;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import groots.canbrand.com.groots.R;
-import groots.canbrand.com.groots.ui.Landing_UI;
 import groots.canbrand.com.groots.utilz.Utilz;
 
 public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener{
@@ -50,12 +44,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
     LinearLayout llUserName, llPassword;
-    Button btnSignIn;
+    //Button btnSignIn;
     EditText etLogin, etPassword;
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
-    Toolbar toolbars;
+    RippleView btnSignIn;
 
     String storePhoneNo="1234567899";
 
@@ -64,6 +58,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        btnSignIn = (RippleView)findViewById(R.id.btnSignIn);
+        btnSignIn.setRippleDuration(200);
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -75,6 +72,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         tintManager.setTintColor(Color.parseColor("#20000000"));
 //        toolbars=(Toolbar)findViewById(R.id.toolbars);
 //        toolbars.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+       /* LayoutRipple linearLogin = (LayoutRipple) findViewById(R.id.btnSignIn);
+        setOriginRiple(linearLogin);*/
+
         context=Splash.this;
         cdLogin=(CoordinatorLayout)findViewById(R.id.cdLogin);
         ivGroots=(ImageView)findViewById(R.id.ivGroots);
@@ -82,7 +83,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         kbv = (KenBurnsView) findViewById(R.id.image);
         llUserName=(LinearLayout)findViewById(R.id.llUserName);
         llPassword=(LinearLayout)findViewById(R.id.llPassword);
-        btnSignIn=(Button)findViewById(R.id.btnSignIn);
+       // btnSignIn=(Button)findViewById(R.id.btnSignIn);
         etPassword=(EditText)findViewById(R.id.etPassword);
         etLogin=(EditText)findViewById(R.id.etLogin);
         tvForgetPass=(TextView)findViewById(R.id.tvForgetPass);
@@ -133,6 +134,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
 
+
     protected void moveup() {
         animationmoveup= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.moveup);
         animationmoveup.setAnimationListener(this);
@@ -169,7 +171,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.ivCallLogin:
 
@@ -178,54 +180,63 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.btnSignIn:
 
-                Utilz utilz=new Utilz();
+                btnSignIn.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
-                String strEmail=etLogin.getText().toString();
-                String strPwd=etPassword.getText().toString();
+                    @Override
+                    public void onComplete(RippleView rippleView) {
+                        Utilz utilz = new Utilz();
 
-                if(strEmail.length()<=0){
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter email", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                }else
-                if (!utilz.isValidEmail1(strEmail)){
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter a valid email", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                }else
-                if (strPwd.length()<=0){
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                }else
-                if (strPwd.length()<=3){
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password with minimum 4 character long", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                }else
-                {
-                    if(!utilz.isInternetConnected(context)) {
+                        String strEmail = etLogin.getText().toString();
+                        String strPwd = etPassword.getText().toString();
 
-                        Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(Color.WHITE);
-                        View snackbarView = snackbar.getView();
-                        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                        snackbar.show();
-                    }
-                    else{
-                        Intent i=new Intent(Splash.this, Landing_UI.class);
-                        startActivity(i);
-                        finish();
-                    }
-                }
+                        if (strEmail.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter email", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (!utilz.isValidEmail1(strEmail)) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter a valid email", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 3) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password with minimum 4 character long", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else {
+                            if (!utilz.isInternetConnected(context)) {
+
+                                Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+                                snackbar.setActionTextColor(Color.WHITE);
+                                View snackbarView = snackbar.getView();
+                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                snackbar.show();
+                            } else {
+                                Intent i = new Intent(Splash.this, Landing_UI.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }
+
+                   }
+
+                });
+
+
+
+
+
+
 
 
                 break;

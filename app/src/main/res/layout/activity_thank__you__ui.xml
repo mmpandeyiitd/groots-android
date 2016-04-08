@@ -4,54 +4,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="groots.canbrand.com.groots.ui.Thank_You_UI">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".6"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/menu_bg">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/thank_you_check"
-            android:layout_marginBottom="30dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="25sp"
-            android:text="  THANK YOU FOR\n\nORDERING WITH US"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:background="@drawable/background_veggies"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/thank_you_check" />
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  THANK YOU FOR"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="  ORDERING WITH US!"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".3"
+            android:background="@drawable/bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WE LOOK FORWARD TO\n  SERVING YOU AGAIN!"
+                android:textColor="@color/textPrimaryDark"
+                android:layout_marginTop="50dp"
+                android:textSize="25sp" />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:background="@drawable/bg"
+                android:gravity="center"
+                android:orientation="vertical">
+            <Button
+                android:id="@+id/backbtn"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:background="@drawable/home" />
+                </LinearLayout>
+
 
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".4"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/bg">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:text="WE LOOK FORWARD TO\n  SERVING YOU AGAIN!"
-            android:layout_marginBottom="20dp"/>
 
-        <Button
-            android:id="@+id/backbtn"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:background="@drawable/home"/>
-
-    </LinearLayout>
-
-</LinearLayout>
 </RelativeLayout>

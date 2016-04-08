@@ -39,10 +39,11 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
     @Override
     public void onBindViewHolder(Checkout_Adapter.CartHolder holder, int position) {
 
-        holder.textNameCart.setText(dummyValue.get(position).getItemName());
-        holder.textPriceCart.setText(dummyValue.get(position).getItemprice());
-        holder.imgIconCart.setImageResource(dummyValue.get(position).getImageitem());
-
+        holder.textItemName.setText(dummyValue.get(position).getItemName());
+        holder.textItemdesc.setText(dummyValue.get(position).getItemDesc());
+        holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
+        holder.txtCount.setText(dummyValue.get(position).getItemcount());
+        holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
     }
 
     @Override
@@ -51,15 +52,26 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
     }
 
     public class CartHolder extends RecyclerView.ViewHolder {
-        ImageView imgIconCart,imagecross;
-        TextView textNameCart,textPriceCart;
+
+        TextView textItemName;
+        TextView textItemdesc;
+        TextView textItemPrice;
+        ImageView imgItemIcon;
+        TextView txtCount;
+
         public CartHolder(View itemView) {
             super(itemView);
-            imagecross=(ImageView)itemView.findViewById(R.id.imagecross);
-            imgIconCart=(ImageView)itemView.findViewById(R.id.imgIconCart);
-            textNameCart=(TextView)itemView.findViewById(R.id.textNameCart);
-            textPriceCart=(TextView)itemView.findViewById(R.id.textPriceCart);
+            textItemName = (TextView) itemView.findViewById(R.id.textItemName);
+            textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
+            textItemPrice=(TextView)itemView.findViewById(R.id.textItemPrice);
+            imgItemIcon=(ImageView)itemView.findViewById(R.id.imgItemIcon);
+            txtCount=(TextView)itemView.findViewById(R.id.txtCount);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                }
+            });
 
         }
     }

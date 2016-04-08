@@ -165,33 +165,15 @@ public class Landing_UI extends AppCompatActivity
                 intent.setData(Uri.parse("tel:" + "9999999999"));
                 startActivity(intent);
             }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + "9999999999"));
+            startActivity(intent);
         }
+
     }
 
-/*    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-      *//*  if (id == R.id.pending_menu) {
-            // Handle the camera action
-        } else if (id == R.id.help_menu) {
-
-        } else if (id == R.id.contact_menu) {
-
-        } else if (id == R.id.rate_menu) {
-
-        } else if (id == R.id.about_menu) {
-
-        } else if (id == R.id.logout_menu) {
-
-        }
-*//*
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }*/
 
     @Override
     public void onClick(View view) {
