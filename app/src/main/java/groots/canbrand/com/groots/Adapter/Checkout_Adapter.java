@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
 
     ArrayList<LandingInfo> dummyValue;
     Context context;
+    int lastPosition=-1;
     public Checkout_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
         this.dummyValue=dummyValue;
         this.context=context;
@@ -44,6 +46,11 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
         holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
         holder.txtCount.setText(dummyValue.get(position).getItemcount());
         holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+
+        if (position > lastPosition) {
+            holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+            lastPosition = position;
+        }
     }
 
     @Override

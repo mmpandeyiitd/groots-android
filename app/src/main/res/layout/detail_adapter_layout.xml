@@ -60,22 +60,30 @@
                     android:textColor="@color/textPrimaryDark"
                     android:text="10 Kg."
                     android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="45dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <!--<groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/indian_rupees"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />-->
+                    android:textSize="18sp" />
+
+
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/itemPrice"
-                    android:layout_width="45dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="45"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_width="46dp"

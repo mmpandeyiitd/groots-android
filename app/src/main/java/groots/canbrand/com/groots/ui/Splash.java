@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import com.andexert.library.RippleView;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
@@ -228,18 +226,18 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                             snackbar.show();
                         } else {
-                            if (!utilz.isInternetConnected(context)) {
+                           /* if (!utilz.isInternetConnected(context)) {
 
                                 Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
                                 snackbar.setActionTextColor(Color.WHITE);
                                 View snackbarView = snackbar.getView();
                                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                 snackbar.show();
-                            } else {
+                            } else {*/
                                 Intent i = new Intent(Splash.this, Landing_UI.class);
                                 startActivity(i);
                                 finish();
-                            }
+                           // }
                         }
 
                   // }

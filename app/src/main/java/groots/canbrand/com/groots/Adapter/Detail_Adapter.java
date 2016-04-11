@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
 
     ArrayList<LandingInfo> dummyValue;
     Context context;
+    int lastPosition=-1;
 
     public Detail_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
         this.context = context;
@@ -63,6 +65,11 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
                 Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
             }
         });
+
+        if (position > lastPosition) {
+            holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+            lastPosition = position;
+        }
 
     }
 
