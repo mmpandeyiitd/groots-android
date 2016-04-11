@@ -64,33 +64,46 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow_1">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:background="#ffffff"
             android:gravity="center"
+            android:background="#ffffff"
             android:orientation="horizontal">
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Order Summary -" />
+           <RelativeLayout
+               android:gravity="center"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+               <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:gravity="center"
+                   android:layout_toRightOf="@+id/datetxt"
+                   android:text="29 March 2016" />
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="2dp"
-                android:gravity="center"
-                android:text="29 March 2016" />
+               <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                   android:id="@+id/datetxt"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_marginLeft="2dp"
+                   android:gravity="center"
+                   android:text="Order Summary -" />
+           </RelativeLayout>
 
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/shadow_1"></View>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shadow_1"></View>
+        </RelativeLayout>
+        </RelativeLayout>
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
