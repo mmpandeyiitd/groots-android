@@ -21,13 +21,11 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-
-import com.andexert.library.RippleView;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
@@ -49,7 +47,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
-    RippleView btnSignIn;
+    Button btnSignIn;
 
     String storePhoneNo="1234567899";
 
@@ -59,8 +57,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        btnSignIn = (RippleView)findViewById(R.id.btnSignIn);
-        btnSignIn.setRippleDuration(200);
+        btnSignIn = (Button)findViewById(R.id.btnSignIn);
+
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -180,10 +178,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.btnSignIn:
 
-                btnSignIn.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-
+                btnSignIn.setOnClickListener(new OnClickListener() {
                     @Override
-                    public void onComplete(RippleView rippleView) {
+                    public void onClick(View v) {
                         Utilz utilz = new Utilz();
 
                         String strEmail = etLogin.getText().toString();
@@ -228,10 +225,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             }
                         }
 
-                   }
-
+                    }
                 });
-
 
 
 
