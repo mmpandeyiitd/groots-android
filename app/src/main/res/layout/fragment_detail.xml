@@ -23,106 +23,121 @@
     <LinearLayout
         android:id="@+id/listfooter"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"></View>
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:background="#edffffff"
         android:orientation="horizontal">
 
-
         <RelativeLayout
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/cart"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/txtCart_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="13dp"
-                android:gravity="center"
-                android:text="100"
-                android:textColor="#ffffff"
-                android:textSize="8dp" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Total"
-                android:textColor="#00000f"
-                android:textSize="16sp" />
+            <View
+                android:id="@+id/viewid"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/view"></View>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/footeriner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end|bottom"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/cart">
+
+
+                    <TextView
+                        android:id="@+id/txtCart_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="13dp"
+                        android:gravity="center"
+                        android:text="100"
+                        android:textColor="#ffffff"
+                        android:textSize="8dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="@string/indian_rupees"
-                    android:textColor="#00000f"
-                    android:textSize="18sp" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight=".5"
+                        android:text="TOTAL"
+                        android:textColor="@color/textPrimaryLight"
+                        android:gravity="bottom"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight=".5"
+                        android:layout_marginTop="2dp"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/indian_rupees"
+                            android:textColor="@color/textPrimaryDark"
+                            android:textSize="18sp" />
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:id="@+id/txtamount_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="450"
+                            android:textColor="@color/textPrimaryDark"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/txtamount_detail"
+
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="450"
-                    android:textColor="#00000f"
-                    android:textSize="18sp" />
+                    android:gravity="center"
+                    android:text="Checkout"
+                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="16sp" />
 
+                <ImageView
+                    android:id="@+id/checkouticon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/continu"
+                    android:layout_marginRight="7dp"
+                    android:layout_margin="5dp"
+                    android:text="Checkout" />
             </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Checkout"
-            android:gravity="center"
-            android:textColor="#00000f"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/checkouticon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/continu" />
+        </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
 
 </RelativeLayout>
 

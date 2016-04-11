@@ -1,7 +1,9 @@
 package groots.canbrand.com.groots.Fragments;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import groots.canbrand.com.groots.Adapter.Detail_Adapter;
 import groots.canbrand.com.groots.Model.LandingInfo;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.ui.Checkout_Ui;
 import groots.canbrand.com.groots.ui.HidingScrollListener;
 
 
@@ -42,20 +45,23 @@ public class DetailFrag extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getActivity(),"Button Clicked !",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(), Checkout_Ui.class);
+                startActivity(intent);
             }
         });
 
 
+
+
         ArrayList<LandingInfo> dummyValue = new ArrayList<>();
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10kg"));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","\u20B9"+"445", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","\u20B9" +"1", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "\u20B9" +"485", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "\u20B9" +"15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "\u20B9" +"45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "\u20B9" +"15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "\u20B9" +"45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "\u20B9" +"15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
 
 
         RecyclerView detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
@@ -81,4 +87,5 @@ public class DetailFrag extends Fragment {
 
         return view;
     }
+
 }

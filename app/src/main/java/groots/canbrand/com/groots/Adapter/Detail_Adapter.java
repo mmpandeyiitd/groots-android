@@ -73,8 +73,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade,
-                selectedquantity,txtMinus,txtPlus;
-        ImageView iconImage;
+                selectedquantity;
+        ImageView iconImage,txtMinus,txtPlus;
         EditText txtCount;
 
         public ViewHolder(View itemView) {
@@ -90,8 +90,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             selectedquantity = (TextView) itemView.findViewById(R.id.selectedquantity);
             iconImage = (ImageView) itemView.findViewById(R.id.iconImage);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
-            txtMinus=(TextView)itemView.findViewById(R.id.txtMinus);
-            txtPlus=(TextView)itemView.findViewById(R.id.txtPlus);
+            txtMinus=(ImageView)itemView.findViewById(R.id.txtMinus);
+            txtPlus=(ImageView)itemView.findViewById(R.id.txtPlus);
 
         }
     }

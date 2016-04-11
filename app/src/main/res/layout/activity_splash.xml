@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/cdLogin"
+<android.support.design.widget.CoordinatorLayout android:id="@+id/cdLogin"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,13 +7,14 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
     tools:context=".ui.Splash"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
        >
+
 
        <!-- <android.support.v7.widget.Toolbar
             android:id="@+id/toolbars"
@@ -26,11 +26,12 @@
             android:titleTextAppearance="@style/Toolbar.TitleText"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             />-->
+
     <com.flaviofaria.kenburnsview.KenBurnsView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash_bck_normal" />
+        android:src="@drawable/splash_bg" />
 
 
     <View android:id="@+id/viewBlur"
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logo"
         android:id="@+id/ivGroots"
+
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -55,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/llUserName"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_marginRight="22dp"
             android:layout_marginLeft="22dp"
@@ -62,22 +65,20 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:weightSum="10"
-            android:visibility="gone">
+           >
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:gravity="center_vertical"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView2"
-                android:src="@drawable/email"
-                />
+                android:src="@drawable/email" />
 
 
         </LinearLayout>
@@ -92,22 +93,22 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/white"
+                android:layout_height="match_parent"
+                android:textColorHint="#817C80"
                  >
 
 
              <EditText
                  android:id="@+id/etLogin"
-                 android:textColorHint="@color/white"
-                 android:textColor="@color/white"
+                 android:textColor="#817C80"
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="match_parent"
                  android:hint="Enter Email"
                  android:background="@null"
+                 android:gravity="center_vertical"
                  android:imeOptions="actionNext"
                  android:autoText="false"
-                 android:textSize="18dp"
+                 android:textSize="18sp"
                  android:inputType="textEmailAddress"
                  />
 
@@ -127,13 +128,14 @@
         android:id="@+id/llPassword"
         android:layout_marginRight="22dp"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:weightSum="10"
         android:layout_below="@+id/ivGroots"
         android:layout_alignLeft="@+id/llUserName"
         android:layout_alignStart="@+id/llUserName"
         android:layout_marginTop="20dp"
-        android:visibility="gone">
+     >
 
 
         <LinearLayout
@@ -163,22 +165,22 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/white"
-                >
+                android:layout_height="match_parent"
+                android:textColorHint="#817C80">
 
 
                 <EditText
                     android:id="@+id/etPassword"
-                    android:textColorHint="#ffffff"
-                    android:textColor="@color/white"
+                    android:textColor="#817C80"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="Enter Password"
                     android:background="@null"
-                    android:inputType="textPassword"
+                    android:gravity="center_vertical"
+                    android:imeOptions="actionNext"
                     android:autoText="false"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
+                    android:inputType="textPassword"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -187,21 +189,23 @@
 
     </LinearLayout>
 
+
+
     <Button
-        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/btnSignIn"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
-        android:layout_height="40dp"
-        android:textSize="15dp"
-        android:gravity="center"
-        android:text="Sign In"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:id="@+id/btnSignIn"
         android:layout_marginBottom="69dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:text="Sign In"
+        android:textColor="@color/white"
         android:textAllCaps="false"/>
 
 
@@ -220,17 +224,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Forget Password"
+            android:text="Forgot Password?"
             android:gravity="center"
+            android:visibility="gone"
             android:id="@+id/tvForgetPass"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#817C80"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="22dp"
             android:layout_marginBottom="22dp"
             android:textSize="16dp"
-            android:visibility="gone"/>
+            />
 
 
     </RelativeLayout>

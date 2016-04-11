@@ -1,6 +1,12 @@
 package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,10 +14,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +26,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,8 +69,8 @@ public class Landing_UI extends AppCompatActivity
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
+        FragmentManager manager=getFragmentManager();
+        manager.beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,9 +84,9 @@ public class Landing_UI extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
 
-           // actionBar.setTitle("#nofilter,SDA Market");
+           actionBar.setTitle("");
            actionBar.setHomeAsUpIndicator(R.drawable.menu);
-           // actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
 
         }
@@ -113,13 +119,25 @@ public class Landing_UI extends AppCompatActivity
         if (id == R.id.show) {
             if(flag==false) {
                 flag=true;
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new DetailFrag()).commitAllowingStateLoss();
+
+                FragmentManager manager =getFragmentManager();
+                DetailFrag detailFrag=new DetailFrag();
+                MainFrag mainFrag=new MainFrag();
+
+                manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
+                        .replace(R.id.frameLayoutForAllFrags, detailFrag, "loadingFragment").remove(mainFrag).commit();
+
+               // getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, detailFrag).commitAllowingStateLoss();
                 item.setIcon(R.drawable.list_view);
             }
             else
             {
+                FragmentManager manager =getFragmentManager();
+                MainFrag mainFrag=new MainFrag();
                 flag=false;
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
+                manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
+                        .replace(R.id.frameLayoutForAllFrags, mainFrag, "loadingFragment").commit();
+              //  getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
                 item.setIcon(R.drawable.expanded_list_view);
             }
 
@@ -147,33 +165,15 @@ public class Landing_UI extends AppCompatActivity
                 intent.setData(Uri.parse("tel:" + "9999999999"));
                 startActivity(intent);
             }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + "9999999999"));
+            startActivity(intent);
         }
+
     }
 
-/*    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-      *//*  if (id == R.id.pending_menu) {
-            // Handle the camera action
-        } else if (id == R.id.help_menu) {
-
-        } else if (id == R.id.contact_menu) {
-
-        } else if (id == R.id.rate_menu) {
-
-        } else if (id == R.id.about_menu) {
-
-        } else if (id == R.id.logout_menu) {
-
-        }
-*//*
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }*/
 
     @Override
     public void onClick(View view) {

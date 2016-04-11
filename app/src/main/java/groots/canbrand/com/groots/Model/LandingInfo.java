@@ -31,6 +31,14 @@ public class LandingInfo {
         this.itemgrade=itemgrade;
         this.itemquantity=itemquantity;
     }
+
+    public LandingInfo(String itemName, String itemprice, int imageitem) {
+        this.itemName=itemName;
+        this.itemprice=itemprice;
+        this.imageitem=imageitem;
+
+    }
+
     public String getItemquantity()
     {
         return itemquantity;
