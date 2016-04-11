@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         this.context=context;
     }
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
+    public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
         TextView textItemName;
@@ -41,16 +42,32 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         TextView textItemPrice;
         ImageView imgItemIcon;
         TextView txtCount;
+        ImageView txtPlus,txtMinus;
 
 
-        public DataObjectHolder(View itemView) {
+        public DataObjectHolder(final View itemView) {
             super(itemView);
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice=(TextView)itemView.findViewById(R.id.textItemPrice);
             imgItemIcon=(ImageView)itemView.findViewById(R.id.imgItemIcon);
             txtCount=(TextView)itemView.findViewById(R.id.txtCount);
+            txtMinus=(ImageView)itemView.findViewById(R.id.txtMinus);
+            txtPlus=(ImageView)itemView.findViewById(R.id.txtPlus);
             itemView.setOnClickListener(this);
+            txtMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Button Clicked!",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            txtPlus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"Button Clicked!",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -74,6 +91,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
         holder.txtCount.setText(dummyValue.get(position).getItemcount());
         holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+
+
 
        /* if(position>4) {
 

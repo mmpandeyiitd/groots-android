@@ -15,7 +15,7 @@
     <LinearLayout
         android:id="@+id/list_main_footer_"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:background="#edffffff"
@@ -43,22 +43,22 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:background="@drawable/cart">
 
 
-                    <TextView
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/txtCart_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="13dp"
+                        android:layout_marginRight="6dp"
+                        android:layout_marginTop="9dp"
                         android:gravity="center"
                         android:text="100"
                         android:textColor="#ffffff"
@@ -81,7 +81,7 @@
                         android:text="TOTAL"
                         android:textColor="@color/textPrimaryLight"
                         android:gravity="bottom"
-                        android:textSize="16sp" />
+                        android:textSize="12dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                             android:layout_height="match_parent"
                             android:text="@string/indian_rupees"
                             android:textColor="@color/textPrimaryDark"
-                            android:textSize="18sp" />
+                            android:textSize="15sp" />
 
                         <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                             android:id="@+id/txtamount_main"
@@ -104,20 +104,19 @@
                             android:layout_height="match_parent"
                             android:text="450"
                             android:textColor="@color/textPrimaryDark"
-                            android:textSize="18sp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Checkout"
                     android:textColor="@color/textPrimaryLight"
-                    android:textSize="16sp" />
+                    android:textSize="14dp" />
 
                 <ImageView
                     android:id="@+id/checkouticon_main"
