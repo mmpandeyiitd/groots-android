@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.Landing_UI"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".ui.Thank_You_UI"
             android:screenOrientation="portrait"

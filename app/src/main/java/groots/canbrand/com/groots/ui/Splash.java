@@ -21,6 +21,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,7 +49,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     Context context;
     TextView tvForgetPass;
    // RippleView btnSignIn;
-   LayoutRipple btnSignIn;
+   Button btnSignIn;
 
     String storePhoneNo="1234567899";
 
@@ -61,8 +62,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
       /*  btnSignIn = (RippleView)findViewById(R.id.btnSignIn);
         btnSignIn.setRippleDuration(200);*/
 
-        btnSignIn = (LayoutRipple) findViewById(R.id.btnSignIn);
-        setOriginRiple(btnSignIn);
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -75,8 +76,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 //        toolbars=(Toolbar)findViewById(R.id.toolbars);
 //        toolbars.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-       /* LayoutRipple linearLogin = (LayoutRipple) findViewById(R.id.btnSignIn);
-        setOriginRiple(linearLogin);*/
+
 
         context=Splash.this;
         cdLogin=(CoordinatorLayout)findViewById(R.id.cdLogin);
@@ -134,17 +134,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         ivCallLogin.setOnClickListener(this);
     }
 
-    private void setOriginRiple(LayoutRipple linearLogin) {
 
-        btnSignIn.post(new Runnable() {
-
-            @Override
-            public void run() {
-                btnSignIn.setRippleColor(Color.parseColor("#142C16"));
-                btnSignIn.setRippleSpeed(30);
-            }
-        });
-    }
 
 
     protected void moveup() {
