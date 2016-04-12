@@ -55,26 +55,23 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:background="@color/drawer_header"
-        app:headerLayout="@layout/nav_header_landing__ui"
-        app:menu="@menu/activity_landing__ui_drawer">
-
+        android:fitsSystemWindows="false"
+        android:background="@color/drawer_header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="150dp"
             android:background="#ffffff"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/pending_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
@@ -107,7 +104,7 @@
             <RelativeLayout
                 android:id="@+id/help_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold
@@ -141,7 +138,7 @@
             <RelativeLayout
                 android:id="@+id/contact_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold
@@ -175,7 +172,7 @@
             <RelativeLayout
                 android:id="@+id/rate_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold
@@ -209,7 +206,7 @@
             <RelativeLayout
                 android:id="@+id/about_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
 
                 <ImageView
@@ -243,7 +240,7 @@
             <RelativeLayout
                 android:id="@+id/logout_menu"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="60dp">
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold

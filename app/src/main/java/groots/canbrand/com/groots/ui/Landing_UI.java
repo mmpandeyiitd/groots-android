@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,17 +41,15 @@ import groots.canbrand.com.groots.Fragments.DetailFrag;
 import groots.canbrand.com.groots.Fragments.MainFrag;
 
 
-
 import groots.canbrand.com.groots.R;
-
 
 
 public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
 
-    boolean flag=false;
+    boolean flag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +67,23 @@ public class Landing_UI extends AppCompatActivity
         navLogout=(RelativeLayout)findViewById(R.id.about_menu);
         navAbout=(RelativeLayout)findViewById(R.id.logout_menu);
 
+        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
+        navHelp = (RelativeLayout) findViewById(R.id.help_menu);
+        navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navRate = (RelativeLayout) findViewById(R.id.rate_menu);
+        navLogout = (RelativeLayout) findViewById(R.id.about_menu);
+        navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
+
+
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
-        FragmentManager manager=getFragmentManager();
+
+
+        FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
 
 
@@ -85,12 +94,16 @@ public class Landing_UI extends AppCompatActivity
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-       // navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
+        RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
+
+        // navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
 
-           actionBar.setTitle("");
-           actionBar.setHomeAsUpIndicator(R.drawable.menu);
+            actionBar.setTitle("");
+            actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
 
 
@@ -122,34 +135,30 @@ public class Landing_UI extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.show) {
-            if(flag==false) {
-                flag=true;
+            if (flag == false) {
+                flag = true;
 
-                FragmentManager manager =getFragmentManager();
-                DetailFrag detailFrag=new DetailFrag();
-                MainFrag mainFrag=new MainFrag();
+                FragmentManager manager = getFragmentManager();
+                DetailFrag detailFrag = new DetailFrag();
+                MainFrag mainFrag = new MainFrag();
 
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
                         .replace(R.id.frameLayoutForAllFrags, detailFrag, "loadingFragment").remove(mainFrag).commit();
 
-               // getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, detailFrag).commitAllowingStateLoss();
+                // getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, detailFrag).commitAllowingStateLoss();
                 item.setIcon(R.drawable.list_view);
-            }
-            else
-            {
-                FragmentManager manager =getFragmentManager();
-                MainFrag mainFrag=new MainFrag();
-                flag=false;
+            } else {
+                FragmentManager manager = getFragmentManager();
+                MainFrag mainFrag = new MainFrag();
+                flag = false;
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
                         .replace(R.id.frameLayoutForAllFrags, mainFrag, "loadingFragment").commit();
-              //  getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
+                //  getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
                 item.setIcon(R.drawable.expanded_list_view);
             }
 
 
-        }
-        else if(id==R.id.phone)
-        {
+        } else if (id == R.id.phone) {
             makeaCall();
         }
 
@@ -179,50 +188,48 @@ public class Landing_UI extends AppCompatActivity
     }
 
 
-
     @Override
     public void onClick(View view) {
 
-       switch (view.getId())
-       {
-           case R.id.pending_menu:
-              Toast.makeText(this,"Pending Menu Pressed",Toast.LENGTH_SHORT).show();
-               break;
-           case R.id.help_menu:
-               Toast.makeText(this,"Help Menu Pressed",Toast.LENGTH_SHORT).show();
-               break;
-           case R.id.contact_menu:
-               Toast.makeText(this,"Contact Menu Pressed",Toast.LENGTH_SHORT).show();
-               break;
-           case R.id.rate_menu:
-               Toast.makeText(this,"Rate Menu Pressed",Toast.LENGTH_SHORT).show();
-               break;
-           case R.id.about_menu:
-               Toast.makeText(this,"About Menu Pressed",Toast.LENGTH_SHORT).show();
-               break;
-           case R.id.logout_menu:
-             //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
-               logoutPopUp();
-               break;
-           default:
-               break;
-       }
+        switch (view.getId()) {
+            case R.id.pending_menu:
+                Toast.makeText(this, "Pending Menu Pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.help_menu:
+                Toast.makeText(this, "Help Menu Pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.contact_menu:
+                Toast.makeText(this, "Contact Menu Pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rate_menu:
+                Toast.makeText(this, "Rate Menu Pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.about_menu:
+                Toast.makeText(this, "About Menu Pressed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.logout_menu:
+                //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
+                logoutPopUp();
+                break;
+            default:
+                break;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
     }
 
     private void logoutPopUp() {
-        final Dialog logoutdialog=new Dialog(Landing_UI.this);
+        final Dialog logoutdialog = new Dialog(Landing_UI.this);
         logoutdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         logoutdialog.setContentView(R.layout.logout_layout);
         logoutdialog.setCancelable(true);
-        TextView logout=(TextView)logoutdialog.findViewById(R.id.logout);
-        TextView cancel=(TextView)logoutdialog.findViewById(R.id.cancel);
+        TextView logout = (TextView) logoutdialog.findViewById(R.id.logout);
+        TextView cancel = (TextView) logoutdialog.findViewById(R.id.cancel);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(Landing_UI.this,Splash.class);
+                Intent i = new Intent(Landing_UI.this, Splash.class);
                 startActivity(i);
                 finish();
             }
