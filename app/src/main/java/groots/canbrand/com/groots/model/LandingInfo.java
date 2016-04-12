@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Model;
+package groots.canbrand.com.groots.model;
 
 /**
  * Created by Administrator on 04-04-2016.

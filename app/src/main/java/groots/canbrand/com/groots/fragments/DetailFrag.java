@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Fragments;
+package groots.canbrand.com.groots.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -14,12 +14,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Adapter.Detail_Adapter;
-import groots.canbrand.com.groots.Model.LandingInfo;
+import groots.canbrand.com.groots.adapter.Detail_Adapter;
+import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
 import groots.canbrand.com.groots.ui.HidingScrollListener;

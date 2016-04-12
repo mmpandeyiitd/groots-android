@@ -5,6 +5,7 @@ import java.util.Map;
 import groots.canbrand.com.groots.pojo.ForgetPwdData;
 import groots.canbrand.com.groots.pojo.LoginData;
 
+import groots.canbrand.com.groots.pojo.ProductListData;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
@@ -30,6 +31,15 @@ public interface API_Interface {
                           @Header("APP_VERSION") String appversion,
                           @Header("CONFIG_VERSION") String config,
                           @FieldMap Map<String,String> alldata, Callback<ForgetPwdData> cb);
+
+
+    @FormUrlEncoded
+    @POST("/index.php/api/productlist")
+    void getproductListingResponse(@Header("API_KEY") String apikey,
+                              @Header("APP_VERSION") String appversion,
+                              @Header("CONFIG_VERSION") String config,
+                              @Header("AUTH_TOKEN") String auth,
+                              @FieldMap Map<String,String> alldata, Callback<ProductListData> cb);
 
 
 }

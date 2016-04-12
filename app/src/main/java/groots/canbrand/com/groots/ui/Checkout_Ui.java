@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,12 +21,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Adapter.Checkout_Adapter;
-import groots.canbrand.com.groots.Adapter.Landing_Adapter;
-import groots.canbrand.com.groots.Model.LandingInfo;
+import groots.canbrand.com.groots.adapter.Checkout_Adapter;
+import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
-
-import static groots.canbrand.com.groots.R.drawable.background_veggies;
 
 public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener {
 

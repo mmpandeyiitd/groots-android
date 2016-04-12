@@ -1,4 +1,4 @@
-package groots.canbrand.com.groots.Adapter;
+package groots.canbrand.com.groots.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Model.LandingInfo;
+import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
-import groots.canbrand.com.groots.ui.Checkout_Ui;
 
 /**
  * Created by Administrator on 07-04-2016.

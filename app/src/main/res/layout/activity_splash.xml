@@ -191,7 +191,7 @@
             android:text="Sign In"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:visibility="gone"
             custom:pb_colorComplete="@color/colorPrimaryDark"
             custom:pb_colorNormal="@color/colorPrimary"

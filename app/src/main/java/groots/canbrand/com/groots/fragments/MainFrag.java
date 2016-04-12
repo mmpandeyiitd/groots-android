@@ -1,9 +1,7 @@
-package groots.canbrand.com.groots.Fragments;
+package groots.canbrand.com.groots.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,20 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import groots.canbrand.com.groots.Adapter.Detail_Adapter;
-import groots.canbrand.com.groots.Adapter.Landing_Adapter;
-import groots.canbrand.com.groots.Model.LandingInfo;
+import groots.canbrand.com.groots.adapter.Landing_Adapter;
+import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
 import groots.canbrand.com.groots.ui.HidingScrollListener;
 
@@ -35,10 +30,15 @@ public class MainFrag extends Fragment {
     TextView txtCart_main,txtamount_main;
     ImageView checkouticon_main;
     View viewId;
+    ArrayList<ProductListDocData> productListData;
 
 
     public MainFrag() {
 
+    }
+
+    public MainFrag(ArrayList<ProductListDocData> productListData){
+        this.productListData=productListData;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
