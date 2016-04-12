@@ -25,7 +25,7 @@
                 android:id="@+id/toolbars"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/header_green_texture"
                 app:contentInsetLeft="0dp"
                 android:contentInsetStart="0dp"
                 app:contentInsetStart="0dp"
@@ -33,12 +33,12 @@
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:id="@+id/tooltext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="nofilter,SDA Market"
                     android:textColor="@color/white"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="18dp"/>
 
             </android.support.v7.widget.Toolbar>
 
@@ -58,14 +58,17 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@color/drawer_header"
         app:headerLayout="@layout/nav_header_landing__ui"
         app:menu="@menu/activity_landing__ui_drawer">
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="160dp"
+            android:background="#ffffff"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -73,13 +76,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/textPrimaryDark"
                     android:layout_toRightOf="@+id/order"
                     android:text="ORDERS PENDING" />
 
@@ -106,13 +110,14 @@
                 android:layout_height="64dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="10dp"
                     android:layout_toRightOf="@+id/help"
                     android:text="HELP" />
 
@@ -139,13 +144,14 @@
                 android:layout_height="64dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/textPrimaryLight"
                     android:layout_toRightOf="@+id/contact"
                     android:text="CONTACT US" />
 
@@ -172,13 +178,14 @@
                 android:layout_height="64dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/textPrimaryLight"
                     android:layout_toRightOf="@+id/rate"
                     android:text="RATE US" />
 
@@ -215,15 +222,16 @@
 
                     android:src="@drawable/info" />
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/textPrimaryLight"
                     android:layout_toRightOf="@+id/iv_about"
-                    android:text="ABOUT" />
+                    android:text="ABOUT GROOTS" />
 
                 <View
                     android:layout_width="match_parent"
@@ -238,14 +246,15 @@
                 android:layout_height="64dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
                     android:id="@+id/txtcontact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="14dp"
+                    android:textSize="10dp"
+                    android:textColor="#FF0000"
                     android:layout_toRightOf="@+id/out"
                     android:text="LOGOUT" />
 
@@ -262,6 +271,7 @@
             </RelativeLayout>
 
         </LinearLayout>
+
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

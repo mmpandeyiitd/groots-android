@@ -25,7 +25,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
 
     ArrayList<LandingInfo> dummyValue;
     Context context;
-    int lastPosition=-1;
+    int lastPosition = -1;
 
     public Detail_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
         this.context = context;
@@ -33,43 +33,62 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Detail_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.detail_adapter_layout, parent, false);
-
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textItemName.setText(dummyValue.get(position).getItemName());
+        if(dummyValue.get(position).getItemName()!=null) {
+            holder.textItemName.setText(dummyValue.get(position).getItemName());
+        }
+        else
+            holder.textItemName.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemquantity()!=null)
         holder.textItemQuan.setText(dummyValue.get(position).getItemquantity());
+        else
+            holder.textItemQuan.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemprice()!=null)
         holder.itemPrice.setText(dummyValue.get(position).getItemprice());
+        else
+            holder.itemPrice.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemDesc()!=null)
         holder.itemdesc.setText(dummyValue.get(position).getItemDesc());
+        else
+            holder.itemdesc.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemquantity()!=null)
         holder.itemquantity.setText(dummyValue.get(position).getItemquantity());
+        else
+            holder.itemquantity.setVisibility(View.INVISIBLE);
+        if (dummyValue.get(position).getItemdia()!=null)
         holder.itemdia.setText(dummyValue.get(position).getItemdia());
+        else
+            holder.itemdia.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemcolor()!=null)
         holder.itemcolor.setText(dummyValue.get(position).getItemcolor());
+        else
+            holder.itemcolor.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemgrade()!=null)
         holder.itemdgrade.setText(dummyValue.get(position).getItemgrade());
+        else
+            holder.itemdgrade.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getItemquantity()!=null)
         holder.selectedquantity.setText(dummyValue.get(position).getItemquantity());
+        else
+            holder.selectedquantity.setVisibility(View.INVISIBLE);
+        if(dummyValue.get(position).getImageitem()!=0)
         holder.iconImage.setImageResource(dummyValue.get(position).getImageitem());
-        holder.txtMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
-            }
-        });
-        holder.txtPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,"Button Clicked!",Toast.LENGTH_LONG).show();
-            }
-        });
+        else
+            holder.iconImage.setVisibility(View.INVISIBLE);
 
-        if (position > lastPosition) {
+     /* if (position > lastPosition) {
             holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
             lastPosition = position;
-        }
+        }*/
+
 
     }
 
@@ -81,11 +100,12 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade,
                 selectedquantity;
-        ImageView iconImage,txtMinus,txtPlus;
+        ImageView iconImage, txtMinus, txtPlus;
         EditText txtCount;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
             textItemQuan = (TextView) itemView.findViewById(R.id.textItemQuan);
             itemPrice = (TextView) itemView.findViewById(R.id.itemPrice);
@@ -97,8 +117,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             selectedquantity = (TextView) itemView.findViewById(R.id.selectedquantity);
             iconImage = (ImageView) itemView.findViewById(R.id.iconImage);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
-            txtMinus=(ImageView)itemView.findViewById(R.id.txtMinus);
-            txtPlus=(ImageView)itemView.findViewById(R.id.txtPlus);
+            txtMinus = (ImageView) itemView.findViewById(R.id.txtMinus);
+            txtPlus = (ImageView) itemView.findViewById(R.id.txtPlus);
 
         }
     }

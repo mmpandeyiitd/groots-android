@@ -3,84 +3,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/toolbar_color"
     tools:context="groots.canbrand.com.groots.ui.Thank_You_UI">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_veggies" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".5"
-            android:background="@drawable/background_veggies"
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/thank_you_check" />
+                android:layout_height="match_parent">
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="  THANK YOU FOR"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="25sp" />
+                <!-- <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:src="@drawable/background_veggies"
+                     android:scaleType="centerCrop"/>-->
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="  ORDERING WITH US!"
-                android:textColor="#ffffff"
-                android:textSize="25sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/thank_you_check" />
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="  THANK YOU FOR"
+                        android:textColor="#ffffff"
+                        android:textSize="25sp" />
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="  ORDERING WITH US!"
+                        android:textColor="#ffffff"
+                        android:textSize="25sp" />
+
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg" />
+
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:gravity="center"
+                    android:text="WE LOOK FORWARD TO\n  SERVING YOU AGAIN!"
+                    android:textColor="@color/textPrimaryDark"
+                    android:textSize="25sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".2"
             android:background="@drawable/bg"
             android:gravity="center"
             android:orientation="vertical">
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WE LOOK FORWARD TO\n  SERVING YOU AGAIN!"
-                android:textColor="@color/textPrimaryDark"
-                android:layout_marginTop="50dp"
-                android:textSize="25sp" />
-        </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".2"
-                android:background="@drawable/bg"
-                android:gravity="center"
-                android:orientation="vertical">
-            <Button
-                android:id="@+id/backbtn"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:background="@drawable/home" />
-                </LinearLayout>
+                android:layout_height="match_parent">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg" />
+
+                <Button
+                    android:id="@+id/backbtn"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/home" />
+            </RelativeLayout>
+        </LinearLayout>
 
 
     </LinearLayout>

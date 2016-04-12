@@ -40,6 +40,7 @@ public class DetailFrag extends Fragment {
         final LinearLayout listfooter=(LinearLayout)view.findViewById(R.id.listfooter);
         txtamount_detail=(TextView)view.findViewById(R.id.txtamount_detail);
         txtCart_detail=(TextView)view.findViewById(R.id.txtCart_detail);
+
         checkouticon=(ImageView)view.findViewById(R.id.checkouticon);
         checkouticon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +63,32 @@ public class DetailFrag extends Fragment {
         dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
         dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
         dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","445", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","1", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","485", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","445", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","1", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","485", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
+
 
 
         RecyclerView detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        detail_recycler_view.setHasFixedSize(true);
         detail_recycler_view.setLayoutManager(linearLayoutManager);
+        detail_recycler_view.setHasFixedSize(true);
         Detail_Adapter mAdapter = new Detail_Adapter(dummyValue, getActivity());
         detail_recycler_view.setAdapter(mAdapter);
+        detail_recycler_view.smoothScrollToPosition(0);
 
         detail_recycler_view.setOnScrollListener(new HidingScrollListener() {
             @Override

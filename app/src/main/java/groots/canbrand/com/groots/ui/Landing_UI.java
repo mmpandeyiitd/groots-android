@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -30,7 +31,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import groots.canbrand.com.groots.Fragments.DetailFrag;
@@ -196,7 +199,8 @@ public class Landing_UI extends AppCompatActivity
                Toast.makeText(this,"About Menu Pressed",Toast.LENGTH_SHORT).show();
                break;
            case R.id.logout_menu:
-               Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
+             //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
+               logoutPopUp();
                break;
            default:
                break;
@@ -204,6 +208,30 @@ public class Landing_UI extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
+    }
+
+    private void logoutPopUp() {
+        final Dialog logoutdialog=new Dialog(Landing_UI.this);
+        logoutdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        logoutdialog.setContentView(R.layout.logout_layout);
+        logoutdialog.setCancelable(true);
+        TextView logout=(TextView)logoutdialog.findViewById(R.id.logout);
+        TextView cancel=(TextView)logoutdialog.findViewById(R.id.cancel);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(Landing_UI.this,Splash.class);
+                startActivity(i);
+                finish();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutdialog.dismiss();
+            }
+        });
+        logoutdialog.show();
     }
 
 }
