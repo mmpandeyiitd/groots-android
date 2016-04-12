@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout android:id="@+id/cdLogin"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
     tools:context=".ui.Splash"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -187,7 +188,7 @@
 
 
 
-    <Button
+    <com.dd.processbutton.iml.ActionProcessButton
         android:visibility="gone"
         android:id="@+id/btnSignIn"
         android:layout_marginLeft="22dp"
@@ -202,7 +203,13 @@
         android:background="@color/colorPrimary"
         android:text="Sign In"
         android:textColor="@color/white"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        custom:pb_colorComplete="@color/colorPrimaryDark"
+        custom:pb_colorNormal="@color/colorPrimary"
+        custom:pb_colorPressed="@color/colorPrimaryDark"
+        custom:pb_colorProgress="@color/green_complete"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="Loading"/>
 
 
         <ImageView
@@ -257,7 +264,22 @@
             android:visibility="gone"
             />
 
+
+
     </RelativeLayout>
+
+
+ <!--   <ProgressBar
+        android:id="@+id/progressMobile"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:progress="0"
+
+        android:layout_height="match_parent"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:max="100"
+        />-->
 
 
     </android.support.design.widget.CoordinatorLayout>

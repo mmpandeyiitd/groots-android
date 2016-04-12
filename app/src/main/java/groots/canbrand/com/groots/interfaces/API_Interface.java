@@ -2,6 +2,7 @@ package groots.canbrand.com.groots.interfaces;
 
 import java.util.Map;
 
+import groots.canbrand.com.groots.pojo.ForgetPwdData;
 import groots.canbrand.com.groots.pojo.LoginData;
 
 import retrofit.Callback;
@@ -22,6 +23,13 @@ public interface API_Interface {
                           @Header("APP_VERSION") String appversion,
                           @Header("CONFIG_VERSION") String config,
                           @FieldMap Map<String,String> alldata, Callback<LoginData> cb);
+
+    @FormUrlEncoded
+    @POST("/index.php/api/forgotPassword")
+    void getForgetPwdResponse(@Header("API_KEY") String apikey,
+                          @Header("APP_VERSION") String appversion,
+                          @Header("CONFIG_VERSION") String config,
+                          @FieldMap Map<String,String> alldata, Callback<ForgetPwdData> cb);
 
 
 }
