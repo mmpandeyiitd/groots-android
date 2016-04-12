@@ -59,6 +59,8 @@ public class Landing_UI extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 
+        Bundle bundle=getIntent().getExtras();
+        String userName=bundle.getString("USERNAME");
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
         navContact=(RelativeLayout)findViewById(R.id.contact_menu);
