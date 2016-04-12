@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -26,13 +27,29 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.squareup.okhttp.OkHttpClient;
+
+import java.util.HashMap;
+
 
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.interfaces.API_Interface;
+import groots.canbrand.com.groots.pojo.LoginData;
+
+import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
+import retrofit.client.Response;
+
 
 public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener{
 
@@ -42,14 +59,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
     LinearLayout llUserName, llPassword;
-    //Button btnSignIn;
     EditText etLogin, etPassword;
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
     Button btnSignIn;
-
     String storePhoneNo="1234567899";
+    View viewUser, viewPass;
+    API_Interface api_interface;
 
 
     @Override
@@ -81,11 +98,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         kbv = (KenBurnsView) findViewById(R.id.image);
         llUserName=(LinearLayout)findViewById(R.id.llUserName);
         llPassword=(LinearLayout)findViewById(R.id.llPassword);
-       // btnSignIn=(Button)findViewById(R.id.btnSignIn);
         etPassword=(EditText)findViewById(R.id.etPassword);
         etLogin=(EditText)findViewById(R.id.etLogin);
+        viewUser=findViewById(R.id.viewUser);
+        viewPass=findViewById(R.id.viewPass);
         tvForgetPass=(TextView)findViewById(R.id.tvForgetPass);
         tvForgetPass.setOnClickListener(this);
+
 
         AccelerateDecelerateInterpolator ACCELERATE_DECELERATE = new AccelerateDecelerateInterpolator();
         RandomTransitionGenerator generator = new RandomTransitionGenerator(20000, ACCELERATE_DECELERATE);
@@ -100,12 +119,15 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             public void onAnimationEnd(Animation arg0) {
                 moveup();
                 moveupTextField();
-                ((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
+                //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
+                kbv.setImageResource(R.drawable.bck_blur);
                 llUserName.setVisibility(View.VISIBLE);
                 llPassword.setVisibility(View.VISIBLE);
                 btnSignIn.setVisibility(View.VISIBLE);
                 ivCallLogin.setVisibility(View.VISIBLE);
                 tvForgetPass.setVisibility(View.VISIBLE);
+                viewUser.setVisibility(View.VISIBLE);
+                viewPass.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -154,6 +176,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         llPassword.startAnimation(animationmovebt);
         btnSignIn.startAnimation(animationmovebt);
         tvForgetPass.startAnimation(animationmovebt);
+        viewUser.startAnimation(animationmovebt);
+        viewPass.startAnimation(animationmovebt);
     }
 
 
@@ -219,9 +243,74 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                 snackbar.show();
                             } else {
-                                Intent i = new Intent(Splash.this, Landing_UI.class);
-                                startActivity(i);
-                                finish();
+
+
+                                RestAdapter restAdapter = new RestAdapter.Builder()
+                                        .setEndpoint(Http_Urls.sBaseUrl)
+                                        .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+                                API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+
+                                HashMap hashMap=new HashMap();
+                                hashMap.put("email",  strEmail);
+                                hashMap.put("password", strPwd);
+
+                                apiInterface.getloginResponse("andapikey", "1.0", "1.0", hashMap, new Callback<LoginData>() {
+                                    @Override
+                                    public void success(LoginData loginData, Response response) {
+
+                                        if(loginData!=null){
+
+                                            int status=loginData.getStatus();
+
+                                            if(status==0){
+                                                String msg=loginData.getMsg();
+                                                Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
+                                                snackbar.setActionTextColor(Color.WHITE);
+                                                View snackbarView = snackbar.getView();
+                                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                snackbar.show();
+                                            }else if(status==1)
+                                            {
+                                                if(loginData.getData()!=null) {
+
+                                                    String msg = loginData.getMsg();
+                                                    Intent i = new Intent(Splash.this, Landing_UI.class);
+                                                    i.putExtra("USERNAME",loginData.getData().getName());
+                                                    startActivity(i);
+                                                    finish();
+                                                    Toast.makeText(Splash.this, msg, Toast.LENGTH_SHORT).show();
+                                                }else
+                                                {
+                                                    Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                                                    snackbar.setActionTextColor(Color.WHITE);
+                                                    View snackbarView = snackbar.getView();
+                                                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                    snackbar.show();
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                                            snackbar.setActionTextColor(Color.WHITE);
+                                            View snackbarView = snackbar.getView();
+                                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                            snackbar.show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error..."+error.toString(), Snackbar.LENGTH_SHORT);
+                                        snackbar.setActionTextColor(Color.WHITE);
+                                        View snackbarView = snackbar.getView();
+                                        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                        snackbar.show();
+
+                                    }
+                                });
+
+
                             }
                         }
 
@@ -307,8 +396,6 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         dialog.show();
     }
-
-
 
 
 }
