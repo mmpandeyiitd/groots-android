@@ -1,14 +1,14 @@
 package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
+
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 
 
 import android.app.Dialog;
+
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
