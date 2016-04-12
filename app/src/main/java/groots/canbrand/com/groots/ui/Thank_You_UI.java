@@ -22,7 +22,13 @@ public class Thank_You_UI extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(Thank_You_UI.this,Landing_UI.class);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

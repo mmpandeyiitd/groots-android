@@ -115,6 +115,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
           case R.id.checkouticon_main:
               Intent intent =new Intent(Checkout_Ui.this,Thank_You_UI.class);
               startActivity(intent);
+              overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
               break;
           case R.id.backbtn:
               finish();

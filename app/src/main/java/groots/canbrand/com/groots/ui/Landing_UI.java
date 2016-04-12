@@ -205,4 +205,5 @@ public class Landing_UI extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
     }
+
 }

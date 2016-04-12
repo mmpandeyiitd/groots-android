@@ -1,5 +1,7 @@
 package groots.canbrand.com.groots.Adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,6 +88,14 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.pull_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;*/
+
+        if (position > lastPosition) {
+            holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+           // Animator animator = AnimatorInflater.loadAnimator(context, R.animator.rotate_animation);
+           // animator.setTarget(holder.itemView);
+            //animator.start();
+            lastPosition = position;
+        }
 
     }
 

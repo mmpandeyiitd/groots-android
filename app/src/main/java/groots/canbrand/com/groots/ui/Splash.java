@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
@@ -47,7 +48,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     CoordinatorLayout cdLogin;
     Context context;
     TextView tvForgetPass;
-    Button btnSignIn;
+
+   LayoutRipple btnSignIn;
+
 
     String storePhoneNo="1234567899";
 
@@ -57,7 +60,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        btnSignIn = (Button)findViewById(R.id.btnSignIn);
+
+
+        btnSignIn = (LayoutRipple) findViewById(R.id.btnSignIn);
+        setOriginRiple(btnSignIn);
 
 
         // create our manager instance after the content view is set
@@ -130,7 +136,17 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         ivCallLogin.setOnClickListener(this);
     }
 
+    private void setOriginRiple(LayoutRipple linearLogin) {
 
+        btnSignIn.post(new Runnable() {
+
+            @Override
+            public void run() {
+                btnSignIn.setRippleColor(Color.parseColor("#142C16"));
+                btnSignIn.setRippleSpeed(30);
+            }
+        });
+    }
 
 
     protected void moveup() {
@@ -178,9 +194,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.btnSignIn:
 
+
                 btnSignIn.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Utilz utilz = new Utilz();
 
                         String strEmail = etLogin.getText().toString();
@@ -211,22 +229,24 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                             snackbar.show();
                         } else {
-                            if (!utilz.isInternetConnected(context)) {
+                           /* if (!utilz.isInternetConnected(context)) {
 
                                 Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
                                 snackbar.setActionTextColor(Color.WHITE);
                                 View snackbarView = snackbar.getView();
                                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                 snackbar.show();
-                            } else {
+                            } else {*/
                                 Intent i = new Intent(Splash.this, Landing_UI.class);
                                 startActivity(i);
                                 finish();
-                            }
+                           // }
                         }
+
 
                     }
                 });
+
 
 
 
