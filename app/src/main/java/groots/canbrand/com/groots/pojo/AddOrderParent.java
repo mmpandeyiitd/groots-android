@@ -1,0 +1,74 @@
+package groots.canbrand.com.groots.pojo;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * Created by Administrator on 13-04-2016.
+ */
+public class AddOrderParent {
+
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("msg")
+    @Expose
+    private String msg;
+    @SerializedName("data")
+    @Expose
+    private AddOrderChild data;
+
+    /**
+     *
+     * @return
+     * The status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     *
+     * @param status
+     * The status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     *
+     * @return
+     * The msg
+     */
+    public String getMsg() {
+        return msg;
+    }
+
+    /**
+     *
+     * @param msg
+     * The msg
+     */
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    /**
+     *
+     * @return
+     * The data
+     */
+    public AddOrderChild getData() {
+        return data;
+    }
+
+    /**
+     *
+     * @param data
+     * The data
+     */
+    public void setData(AddOrderChild data) {
+        this.data = data;
+    }
+}

@@ -54,8 +54,8 @@ public class DetailFrag extends Fragment {
 
 
         ArrayList<LandingInfo> dummyValue = new ArrayList<>();
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","445", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","1", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Nasik Onion bihaggsh8t8cwtn 8 h8n twh h 8h8h h g nuh8h87 wte8 nh87y twn 8h8h87 twn8h87ynyy87ntwn887yn87yn8y87n8y7yy87n8yywtn 800kg", "Grade A Onion Sourced From Nasik.","445", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
+        dummyValue.add(new LandingInfo("Big Potato ihaggsh8t8cwtn 8 h8n twh h 8h8h h g nuh8h87 wte8 nh87y twn 8h8h87 twn8h87ynyy87ntwn887yn87yn8y87n8y7yy87n8yywtn 500kg", "Grade A Potato Sourced From India.","1", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
         dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","485", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "900 kg"));
         dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.","15", "0", R.drawable.potato, "Nasik Onion", "5cm", "Red", "A", "10 kg"));
         dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.","45", "0", R.drawable.onion, "Nasik Onion", "5cm", "Red", "A", "10 kg"));

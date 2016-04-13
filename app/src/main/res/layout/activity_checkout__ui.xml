@@ -7,13 +7,11 @@
     tools:context="groots.canbrand.com.groots.ui.Checkout_Ui">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg"
         android:orientation="vertical">
-
 
 
         <android.support.v7.widget.Toolbar
@@ -25,84 +23,86 @@
             android:contentInsetStart="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/backbtn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/back"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                />
+                <ImageView
+                    android:id="@+id/backbtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/back" />
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="CHECKOUT"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="CHECKOUT"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
 
-            <ImageView
-                android:id="@+id/makecall"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/call"
-                android:layout_marginRight="16dp"/>
+                <ImageView
+                    android:id="@+id/makecall"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/call" />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#ffffff"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shadow_1">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:background="#ffffff"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical">
 
-           <RelativeLayout
-               android:gravity="center"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent">
-               <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:gravity="center"
-                   android:layout_toRightOf="@+id/datetxt"
-                   android:text="29 March 2016" />
-
-               <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                   android:id="@+id/datetxt"
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:layout_marginLeft="2dp"
-                   android:gravity="center"
-                   android:text="Order Summary -" />
-           </RelativeLayout>
-
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/shadow_2"></View>
-        </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="match_parent"
+                android:background="@drawable/shadow_1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@+id/datetxt"
+                            android:gravity="center"
+                            android:text="29 March 2016" />
+
+                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            android:id="@+id/datetxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="2dp"
+                            android:gravity="center"
+                            android:text="Order Summary -" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/shadow_2"></View>
+                </RelativeLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -125,80 +125,85 @@
         android:orientation="vertical">
 
 
+        <View
+            android:id="@+id/viewid"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/view"></View>
 
-            <View
-                android:id="@+id/viewid"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/view"></View>
+        <LinearLayout
+            android:id="@+id/footeriner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
 
             <LinearLayout
-                android:id="@+id/footeriner"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
+                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight=".5"
+                    android:gravity="bottom"
+                    android:text="TOTAL"
+                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="12dp" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight=".5"
+                    android:gravity="top"
+                    android:orientation="horizontal">
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight=".5"
-                        android:text="TOTAL"
-                        android:textColor="@color/textPrimaryLight"
-                        android:gravity="bottom"
-                        android:textSize="12dp" />
+                        android:layout_height="match_parent"
+                        android:text="@string/indian_rupees"
+                        android:textColor="@color/textPrimaryDark"
+                        android:textSize="15sp" />
 
-                    <LinearLayout
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/txtamount_main"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight=".5"
-                        android:layout_marginTop="2dp"
-                        android:gravity="top"
-                        android:orientation="horizontal">
-
-                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/indian_rupees"
-                            android:textColor="@color/textPrimaryDark"
-                            android:textSize="15sp" />
-
-                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                            android:id="@+id/txtamount_main"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="450"
-                            android:textColor="@color/textPrimaryDark"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:text="450"
+                        android:textColor="@color/textPrimaryDark"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-
-
-                <TextView
-                    android:id="@+id/checkouticon_main"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/checkout_footer"
-                    android:layout_marginRight="7dp"
-                    android:textColor="#4C834B"
-                    android:gravity="center"
-                    android:textSize="13dp"
-                    android:text="PLACE ORDER" />
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/checkouticon_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/checkout_footer"
+                android:gravity="center"
+                android:text="PLACE ORDER"
+                android:textColor="#4C834B"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/cdcheckout"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+
+        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 
 

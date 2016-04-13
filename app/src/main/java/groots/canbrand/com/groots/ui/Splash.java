@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -56,6 +57,7 @@ import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.Header;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 
@@ -82,6 +84,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     int status;
     private int mProgress;
     boolean isLoadingDone = false;
+    SharedPreferences prefs;
 
 
 
@@ -105,6 +108,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         tintManager.setNavigationBarTintEnabled(true);
         // set the transparent color of the status bar, 20% darker
         tintManager.setTintColor(Color.parseColor("#20000000"));
+        prefs = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
 //        toolbars=(Toolbar)findViewById(R.id.toolbars);
 //        toolbars.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
@@ -124,21 +128,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         tvForgetPass=(TextView)findViewById(R.id.tvForgetPass);
         tvForgetPass.setOnClickListener(this);
 
+        Intent i=getIntent();
+        Bundle bundle=i.getExtras();
+        if(bundle!=null) {
+            moveup();
+            moveupTextField();
+            String sender = bundle.getString("sender");
 
-        AccelerateDecelerateInterpolator ACCELERATE_DECELERATE = new AccelerateDecelerateInterpolator();
-        RandomTransitionGenerator generator = new RandomTransitionGenerator(20000, ACCELERATE_DECELERATE);
-        kbv.setTransitionGenerator(generator);
-
-        alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-        alphaAnimation.setDuration(3000);
-        alphaAnimation.setStartOffset(100);
-        ivGroots.startAnimation(alphaAnimation);
-        alphaAnimation.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-                moveup();
-                moveupTextField();
-                //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
+               // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
                 kbv.setImageResource(R.drawable.bck_blur);
                 llUserName.setVisibility(View.VISIBLE);
                 llPassword.setVisibility(View.VISIBLE);
@@ -147,26 +144,57 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 tvForgetPass.setVisibility(View.VISIBLE);
                 viewUser.setVisibility(View.VISIBLE);
                 viewPass.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation arg0) {
-            }
-
-            @Override
-            public void onAnimationStart(Animation arg0) {
-            }
-        });
 
 
-        kbv.setTransitionListener(new KenBurnsView.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) { }
-            @Override
-            public void onTransitionEnd(Transition transition) { }
-        });
+
+        }
+        else {
+
+            AccelerateDecelerateInterpolator ACCELERATE_DECELERATE = new AccelerateDecelerateInterpolator();
+            RandomTransitionGenerator generator = new RandomTransitionGenerator(20000, ACCELERATE_DECELERATE);
+            kbv.setTransitionGenerator(generator);
+
+            alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+            alphaAnimation.setDuration(3000);
+            alphaAnimation.setStartOffset(100);
+            ivGroots.startAnimation(alphaAnimation);
+            alphaAnimation.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation arg0) {
+                    moveup();
+                    moveupTextField();
+                    //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
+                    kbv.setImageResource(R.drawable.bck_blur);
+                    llUserName.setVisibility(View.VISIBLE);
+                    llPassword.setVisibility(View.VISIBLE);
+                    btnSignIn.setVisibility(View.VISIBLE);
+                    ivCallLogin.setVisibility(View.VISIBLE);
+                    tvForgetPass.setVisibility(View.VISIBLE);
+                    viewUser.setVisibility(View.VISIBLE);
+                    viewPass.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation arg0) {
+                }
+
+                @Override
+                public void onAnimationStart(Animation arg0) {
+                }
+            });
 
 
+            kbv.setTransitionListener(new KenBurnsView.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                }
+            });
+
+        }
         btnSignIn.setOnClickListener(this);
         ivCallLogin.setOnClickListener(this);
     }
@@ -405,6 +433,17 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     }else if(status==1)
                     {
                         if(loginData.getData()!=null) {
+
+
+                                String authToken="";
+                            for (Header header : response.getHeaders()) {
+                                if (header.getName().equals("AUTH_TOKEN"))
+                                    authToken = header.getValue();
+                                Log.e("AuthToken",authToken);
+                                SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                                editor.putString("AuthToken",authToken);
+                                 editor.commit();
+                            }
 
                             String msg = loginData.getMsg();
                             Intent i = new Intent(Splash.this, Landing_UI.class);

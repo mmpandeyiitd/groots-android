@@ -2,6 +2,7 @@ package groots.canbrand.com.groots.interfaces;
 
 import java.util.Map;
 
+import groots.canbrand.com.groots.pojo.AddOrderParent;
 import groots.canbrand.com.groots.pojo.ForgetPwdData;
 import groots.canbrand.com.groots.pojo.LoginData;
 
@@ -31,6 +32,15 @@ public interface API_Interface {
                           @Header("APP_VERSION") String appversion,
                           @Header("CONFIG_VERSION") String config,
                           @FieldMap Map<String,String> alldata, Callback<ForgetPwdData> cb);
+
+    @FormUrlEncoded
+    @POST("/index.php/api/addorder")
+    void getAddOrderResponce(@Header("API_KEY") String apikey,
+                             @Header("APP_VERSION") String appversion,
+                             @Header("CONFIG_VERSION") String config,
+                             @Header("AUTH_TOKEN")String authtoken,
+                             @FieldMap Map<String,String> alldata, Callback<AddOrderParent> cb);
+
 
 
     @FormUrlEncoded

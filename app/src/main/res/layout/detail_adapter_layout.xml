@@ -37,66 +37,77 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="12dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="7dp"
                 android:layout_weight=".2"
                 android:orientation="horizontal">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/textItemName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Nasik Onion"
-                    android:textColor="@color/textPrimaryDark"
-                    android:textSize="18dp" />
-
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/textItemQuan"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/textPrimaryDark"
-                    android:text="10 Kg."
-                    android:textSize="18sp" />
                 <LinearLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="45dp"
-                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/indian_rupees"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/textItemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nasik Oni Chhhhh"
+                        android:textColor="@color/textPrimaryDark"
+                        android:textSize="18dp" />
+
+                 <!--   <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/textItemQuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:text="100 n janfk nngvx nkjnv nkjnk jhguj bkjnjnikvsknv Kg."
+                        android:textColor="@color/textPrimaryDark"
+                        android:textSize="18sp" />-->
 
 
+                </LinearLayout>
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/itemPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="45"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/indian_rupees"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp" />
+
+
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/itemPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="45"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="46dp"
                 android:layout_height="1dp"
+                android:layout_gravity="end"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/textPrimaryLight"
-                android:layout_gravity="end"></View>
+                android:background="@color/textPrimaryLight"></View>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginRight="12dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight=".1">
 
@@ -105,8 +116,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/textPrimaryLight"
                     android:text="Gradehgufse a hiuhyfi h "
+                    android:textColor="@color/textPrimaryLight"
                     android:textSize="12dp" />
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -123,8 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight=".1"
                 android:orientation="horizontal">
@@ -149,8 +160,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="@color/textPrimaryLight"
-                    ></View>
+                    android:background="@color/textPrimaryLight"></View>
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -173,8 +183,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="@color/textPrimaryLight"
-                    ></View>
+                    android:background="@color/textPrimaryLight"></View>
 
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -205,11 +214,11 @@
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
-                    android:textSize="11dp"
-                    android:text="SELECTED\nQUANTITY" />
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="SELECTED\nQUANTITY"
+                    android:textSize="11dp" />
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/selectedquantity"
@@ -245,22 +254,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
                     android:layout_marginTop="3dp"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/txtCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="2"
-                        android:text="100"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:maxLength="4"
-                        android:inputType="number"
                         android:background="#00000000"
+                        android:ems="2"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:text="100"
                         android:textSize="16dp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
