@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.pojo.ProductListDocData;
 
 /**
  * Created by Administrator on 04-04-2016.
@@ -21,13 +24,14 @@ import groots.canbrand.com.groots.R;
 public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         .DataObjectHolder> {
 
-    ArrayList<LandingInfo> dummyValue;
+
+    ArrayList<ProductListDocData> productListData;
     Context context;
     View view;
     int lastPosition =-1;
 
-    public Landing_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
-        this.dummyValue=dummyValue;
+    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context) {
+        this.productListData=productListData;
         this.context=context;
     }
 
@@ -83,13 +87,17 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
     @Override
     public void onBindViewHolder(Landing_Adapter.DataObjectHolder holder, int position) {
-        holder.textItemName.setText(dummyValue.get(position).getItemName());
-        holder.textItemdesc.setText(dummyValue.get(position).getItemDesc());
-        holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
-        holder.txtCount.setText(dummyValue.get(position).getItemcount());
-        holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+        holder.textItemName.setText(productListData.get(position).title);
+        holder.textItemdesc.setText(productListData.get(position).description);
+        holder.textItemPrice.setText(""+productListData.get(position).storeOfferPrice);
+        holder.txtCount.setText(""+productListData.get(position).getItemCount());
 
+      /*  Picasso.with(context).load(productListData.get(position).defaultThumbUrl)
+                .placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(holder.imgItemIcon);
 
+        Picasso.with(context).load(productListData.get(position).)) .placeholder(R.drawable.default_image)
+                .error(R.drawable.default_image).into(childViewHolder.imgItemIcon);
+*/
 
        /* if(position>4) {
 
@@ -117,7 +125,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
     @Override
     public int getItemCount() {
-        return dummyValue.size();
+        return productListData.size();
     }
 
 

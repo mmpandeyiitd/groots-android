@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.Dialog;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -65,6 +66,7 @@ public class Landing_UI extends AppCompatActivity
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
+    public static Context context;
 
 
     @Override
@@ -74,8 +76,9 @@ public class Landing_UI extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
 
-        Bundle bundle=getIntent().getExtras();
-        String userName=bundle.getString("USERNAME");
+        context=Landing_UI.this;
+       // Bundle bundle=getIntent().getExtras();
+//        String userName=bundle.getString("USERNAME");
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
@@ -122,6 +125,7 @@ public class Landing_UI extends AppCompatActivity
 
         }
 
+        productListDocDatas=new ArrayList<>();
         HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
@@ -157,7 +161,7 @@ public class Landing_UI extends AppCompatActivity
                 flag = true;
 
                 FragmentManager manager = getFragmentManager();
-                DetailFrag detailFrag = new DetailFrag();
+                DetailFrag detailFrag = new DetailFrag(productListDocDatas);
                 MainFrag mainFrag = new MainFrag();
 
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
@@ -167,7 +171,7 @@ public class Landing_UI extends AppCompatActivity
                 item.setIcon(R.drawable.list_view);
             } else {
                 FragmentManager manager = getFragmentManager();
-                MainFrag mainFrag = new MainFrag();
+                MainFrag mainFrag = new MainFrag(productListDocDatas);
                 flag = false;
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
                         .replace(R.id.frameLayoutForAllFrags, mainFrag, "loadingFragment").commit();
@@ -274,7 +278,7 @@ public class Landing_UI extends AppCompatActivity
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
 
-        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", "e675431b7d054678ab026cc18c6fc7e1",hashMap, new Callback<ProductListData>() {
+        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", "560c0be1d69a9c80df30a962c1519816",hashMap, new Callback<ProductListData>() {
 
             @Override
             public void success(ProductListData productListData, Response response) {
@@ -310,7 +314,6 @@ public class Landing_UI extends AppCompatActivity
                         FragmentManager manager = getFragmentManager();
                         manager.beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag(productListDocDatas)).commitAllowingStateLoss();
 
-
                         Toast.makeText(Landing_UI.this, msg, Toast.LENGTH_SHORT).show();
 
                     }
@@ -320,7 +323,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void failure(RetrofitError error) {
 
-                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error..."+error.toString(), Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
