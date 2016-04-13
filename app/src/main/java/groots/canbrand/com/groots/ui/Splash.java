@@ -365,6 +365,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         isLoadingDone = false;
         start(btnSignIn);
+        btnSignIn.setText("Loading..");
+
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
@@ -377,6 +379,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             public void success(LoginData loginData, Response response) {
 
                 btnSignIn.setProgress(100);
+
                 btnSignIn.setEnabled(true);
 
                 if(loginData!=null){
@@ -405,7 +408,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     }else if(status==1)
                     {
                         if(loginData.getData()!=null) {
-
+                            btnSignIn.setText("Success");
                             String msg = loginData.getMsg();
                             Intent i = new Intent(Splash.this, Landing_UI.class);
                             i.putExtra("USERNAME",loginData.getData().getName());
@@ -414,6 +417,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             Toast.makeText(Splash.this, msg, Toast.LENGTH_SHORT).show();
                         }else
                         {
+                            btnSignIn.setText("Sign In");
                             Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
@@ -436,7 +440,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             @Override
             public void failure(RetrofitError error) {
-                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error..."+error.toString(), Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

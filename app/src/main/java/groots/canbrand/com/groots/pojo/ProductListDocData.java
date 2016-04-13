@@ -164,4 +164,15 @@ public class ProductListDocData {
     @SerializedName("_version_")
     @Expose
     public long _version_;
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    private int itemCount;
+
 }

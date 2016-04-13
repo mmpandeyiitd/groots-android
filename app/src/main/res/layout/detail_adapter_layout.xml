@@ -31,7 +31,8 @@
                 <ImageView
                     android:id="@+id/iconImage"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:src="@drawable/onion"/>
             </LinearLayout>
 
             <LinearLayout
@@ -46,7 +47,7 @@
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/textItemName"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Nasik Onion"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="18dp" />
@@ -134,17 +135,19 @@
                     android:layout_height="wrap_content"
                     android:text="Diameter : "
                     android:textColor="@color/textPrimaryLight"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/itemdia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5cm"
+                    android:text="Diameter : 5cm"
                     android:textColor="@color/textPrimaryLight"
                     android:textSize="12dp" />
 
                 <View
+                    android:id="@+id/viewDiameterRgt"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -158,7 +161,8 @@
                     android:layout_height="wrap_content"
                     android:text="Color : "
                     android:textColor="@color/textPrimaryLight"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/itemcolor"
@@ -169,6 +173,7 @@
                     android:textSize="12dp" />
 
                 <View
+                    android:id="@+id/viewColorRgt"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -182,7 +187,8 @@
                     android:layout_height="wrap_content"
                     android:text="Grade : "
                     android:textColor="@color/textPrimaryLight"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/itemdgrade"
@@ -254,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
-                        android:text="100"
+                        android:text="0"
                         android:gravity="center"
                         android:maxLines="1"
                         android:maxLength="4"

@@ -197,8 +197,8 @@
             custom:pb_colorNormal="@color/colorPrimary"
             custom:pb_colorPressed="@color/colorPrimaryDark"
             custom:pb_colorProgress="@color/green_complete"
-            custom:pb_textComplete="Success"
-            custom:pb_textProgress="Loading" />
+
+             />
 
 
         <ImageView
