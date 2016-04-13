@@ -230,6 +230,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Landing_UI.this, Splash.class);
+                i.putExtra("sender","logout");
                 startActivity(i);
                 finish();
             }
