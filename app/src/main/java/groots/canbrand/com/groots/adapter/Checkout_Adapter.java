@@ -59,8 +59,6 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
             public void onClick(View view) {
                 notifyDataSetChanged();
                makeDialog(position);
-
-
             }
         });
     }
@@ -110,7 +108,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
             public void onClick(DialogInterface dialogInterface, int i) {
 
                     Log.e("Item in array",String.valueOf(position));
-                    notifyDataSetChanged();
+                  //  notifyDataSetChanged();
                     dummyValue.remove(position);
                     notifyItemRemoved(position);
                  //   notifyItemRangeChanged(position,getItemCount());
