@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -59,7 +60,6 @@ import retrofit.client.Response;
 
 public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
-
 
     boolean flag = false;
     NavigationView navigationView;
@@ -117,12 +117,9 @@ public class Landing_UI extends AppCompatActivity
         // navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-
             actionBar.setTitle("");
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-
         }
 
         productListDocDatas=new ArrayList<>();
@@ -277,8 +274,10 @@ public class Landing_UI extends AppCompatActivity
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", "560c0be1d69a9c80df30a962c1519816",hashMap, new Callback<ProductListData>() {
+        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<ProductListData>() {
 
             @Override
             public void success(ProductListData productListData, Response response) {

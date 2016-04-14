@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import groots.canbrand.com.groots.databases.DbHelper;
+import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
@@ -25,10 +27,12 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     ArrayList<ProductListDocData> productListDocDatas;
     Context context;
     int lastPosition = -1;
+    UpdateCart updateCart;
 
-    public Detail_Adapter(ArrayList<ProductListDocData> productListDocDatas, Context context) {
+    public Detail_Adapter(ArrayList<ProductListDocData> productListDocDatas, Context context, UpdateCart updateCart) {
         this.context = context;
         this.productListDocDatas = productListDocDatas;
+        this.updateCart=updateCart;
     }
 
     @Override
@@ -42,17 +46,18 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     }
 
     @Override
-    public void onBindViewHolder(Detail_Adapter.ViewHolderDetail holder, int position) {
+    public void onBindViewHolder(Detail_Adapter.ViewHolderDetail holder, final int position) {
+
+        final DbHelper dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
 
 
-        if(productListDocDatas.get(position).title!=null)
-        holder.textItemName.setText(productListDocDatas.get(position).title);
+        if(productListDocDatas.get(position).title!=null||productListDocDatas.get(position).packSize>0)
+        holder.textItemName.setText(productListDocDatas.get(position).title+" "+
+                productListDocDatas.get(position).packSize+" " +productListDocDatas.get(position).packUnit);
         else holder.textItemName.setVisibility(View.INVISIBLE);
 
-       /* if(productListDocDatas.get(position).packSize>0)
-        holder.textItemQuan.setText(productListDocDatas.get(position).packSize+" " +productListDocDatas.get(position).packUnit);
-        else holder.textItemQuan.setVisibility(View.GONE);
-*/
+
         if(productListDocDatas.get(position).storeOfferPrice>0)
         holder.itemPrice.setText(""+productListDocDatas.get(position).storeOfferPrice);
         else  holder.itemPrice.setVisibility(View.GONE);
@@ -61,9 +66,9 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
         holder.itemdesc.setText(productListDocDatas.get(position).description);
         else  holder.itemdesc.setVisibility(View.GONE);
 
-        if(productListDocDatas.get(position).packSize>0)
+       // if(productListDocDatas.get(position).packSize>0)
         holder.itemquantity.setText(productListDocDatas.get(position).packSize+" "+productListDocDatas.get(position).packUnit);
-        else holder.itemquantity.setVisibility(View.GONE);
+      //  else holder.itemquantity.setVisibility(View.GONE);
 
        if (productListDocDatas.get(position).diameter>0) {
            holder.itemdia.setText("Diameter : " + productListDocDatas.get(position).diameter);
@@ -92,16 +97,59 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
                 +" "+productListDocDatas.get(position).packUnit);
         //else  holder.selectedquantity.setVisibility(View.INVISIBLE);
 
-//        if(productListDocDatas.get(position).getImageitem()!=0)
-//        holder.iconImage.setImageResource(productListDocDatas.get(position).getImageitem());
-//        else holder.iconImage.setVisibility(View.INVISIBLE);
+
+        holder.txtCount.setTag(position);
+        holder.txtPlus.setTag(position);
+        holder.txtMinus.setTag(position);
 
 
-     /* if (position > lastPosition) {
-            holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
-            lastPosition = position;
-        }*/
+        if(productListDocDatas.get(position).getItemCount()>0) {
+            holder.txtCount.setText(productListDocDatas.get(position).getItemCount() + "");
+            dbHelper.updateProductQty( productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).subscribedProductId);
+            updateCart.updateCart();
+        }
+        else holder.txtCount.setText(""+0);
 
+
+
+        holder.txtPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int clickedPos = (int) view.getTag();
+                int previousCount = productListDocDatas.get(clickedPos).getItemCount();
+
+                previousCount++;
+
+                productListDocDatas.get(clickedPos).setItemCount(previousCount);
+
+                dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
+                        productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
+                        "abcde",productListDocDatas.get(position).getItemCount(),
+                        productListDocDatas.get(position).storeOfferPrice);
+
+                notifyDataSetChanged();
+
+            }
+        });
+
+        holder.txtMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int clickedPos = (int) view.getTag();
+                int previousCount = productListDocDatas.get(clickedPos).getItemCount();
+                if (previousCount > 0) {
+                    previousCount--;
+
+                    productListDocDatas.get(clickedPos).setItemCount(previousCount);
+                    if (previousCount == 0)
+                        dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
+                    else if(previousCount>0)
+                        dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).subscribedProductId);
+                }
+                notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -132,8 +180,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             selectedquantity = (TextView) itemView.findViewById(R.id.selectedquantity);
             iconImage = (ImageView) itemView.findViewById(R.id.iconImage);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
-            txtMinus = (ImageView) itemView.findViewById(R.id.txtMinus);
-            txtPlus = (ImageView) itemView.findViewById(R.id.txtPlus);
+            txtMinus = (ImageView) itemView.findViewById(R.id.txtMinusDetail);
+            txtPlus = (ImageView) itemView.findViewById(R.id.txtPlusDetail);
             viewDiameterRgt=itemView.findViewById(R.id.viewDiameterRgt);
             viewColorRgt=itemView.findViewById(R.id.viewColorRgt);
         }

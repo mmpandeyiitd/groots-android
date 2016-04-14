@@ -39,46 +39,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="7dp"
                 android:layout_weight=".2"
                 android:orientation="horizontal">
 
 
-          <!--      <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/textItemQuan"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_height="match_parent"
->>>>>>> ad7c6f6174aa2d093801c8311b6b761bcdf5833e
-
-                    android:orientation="horizontal">-->
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/textItemName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Nasik Oni Chhhhh"
                         android:layout_weight="1"
                         android:textColor="@color/textPrimaryDark"
                         android:textSize="18dp" />
 
-                 <!--   <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                        android:id="@+id/textItemQuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="100 n janfk nngvx nkjnv nkjnk jhguj bkjnjnikvsknv Kg."
-                        android:textColor="@color/textPrimaryDark"
-                        android:textSize="18sp" />-->
-
 
 
                 <LinearLayout
-                    android:layout_width="45dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom"
-                    android:gravity="bottom"
+                    android:gravity="bottom|center"
                     android:orientation="horizontal">
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -112,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight=".1">
 
@@ -251,7 +234,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/txtMinus"
+                        android:id="@+id/txtMinusDetail"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="2dp"
@@ -274,9 +257,7 @@
                         android:layout_height="wrap_content"
                         android:background="#00000000"
                         android:ems="2"
-
                         android:text="0"
-
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="4"
@@ -299,7 +280,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/txtPlus"
+                        android:id="@+id/txtPlusDetail"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="2dp"
