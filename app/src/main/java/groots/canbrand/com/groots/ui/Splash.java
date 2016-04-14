@@ -128,6 +128,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         tvForgetPass=(TextView)findViewById(R.id.tvForgetPass);
         tvForgetPass.setOnClickListener(this);
 
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        if(prefs.getString("AuthToken", null)!=null)
+        {
+
+        }
+
         Intent i=getIntent();
         Bundle bundle=i.getExtras();
         if(bundle!=null) {

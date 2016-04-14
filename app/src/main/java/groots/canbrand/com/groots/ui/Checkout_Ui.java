@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +39,9 @@ import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
 import groots.canbrand.com.groots.pojo.LandingInfo;
 import groots.canbrand.com.groots.utilz.Http_Urls;
+import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -67,11 +72,22 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
         Checkout_Adapter mAdapter = new Checkout_Adapter(dummyValue, this);
+
+
+        /*
+        DefaultItemAnimator defaultItemAnimator=new DefaultItemAnimator();
+        defaultItemAnimator.setRemoveDuration(1000);*/
+        SlideInLeftAnimator slideInRightAnimationAdapter=new SlideInLeftAnimator();
+        slideInRightAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        slideInRightAnimationAdapter.setRemoveDuration(1000);
+        mRecyclerView.setItemAnimator(slideInRightAnimationAdapter);
+        mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
