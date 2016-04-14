@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import groots.canbrand.com.groots.adapter.Detail_Adapter;
-import groots.canbrand.com.groots.model.LandingInfo;
+
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;

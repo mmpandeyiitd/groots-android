@@ -25,16 +25,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import groots.canbrand.com.groots.adapter.Checkout_Adapter;
-import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
+import groots.canbrand.com.groots.pojo.LandingInfo;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import retrofit.Callback;
 import retrofit.RestAdapter;

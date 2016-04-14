@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,8 +79,7 @@ public class Landing_UI extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         context=Landing_UI.this;
-       // Bundle bundle=getIntent().getExtras();
-//        String userName=bundle.getString("USERNAME");
+
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
@@ -110,9 +111,38 @@ public class Landing_UI extends AppCompatActivity
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
         RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
+
+        Bundle bundle=getIntent().getExtras();
+        if(bundle!=null) {
+            String userName = bundle.getString("USERNAME");
+            String name="";
+            if(userName.contains(" "))
+            {
+                String fname=userName.substring(0,userName.indexOf(" "));
+                String lname=userName.substring(userName.indexOf(" "),userName.length());
+                name=fname.substring(0,1).concat(lname.substring(0,1));
+
+            }
+            else
+            {
+                name=userName.substring(0,1);
+            }
+
+            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+            editor.putString("Name",name);
+            editor.putString("UserName",userName);
+            editor.commit();
+
+        }
+        TextView imageViewheader=(TextView)headerView.findViewById(R.id.imageViewheader);
+        TextView txtViewName=(TextView)headerView.findViewById(R.id.txtViewName);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+
+        imageViewheader.setText(prefs.getString("Name", null));
+        txtViewName.setText(prefs.getString("UserName", null));
 
         // navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();

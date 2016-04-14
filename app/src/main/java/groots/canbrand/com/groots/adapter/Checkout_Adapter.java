@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import groots.canbrand.com.groots.model.LandingInfo;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.pojo.LandingInfo;
 
 /**
  * Created by Administrator on 07-04-2016.

@@ -23,17 +23,19 @@
         android:orientation="horizontal">
 
     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewheader"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
         android:gravity="center"
         android:text="MB"
+        android:textSize="17dp"
         android:textColor="#0F230F"
         android:background="@drawable/drawer_header_text" />
 
     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+        android:id="@+id/txtViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
