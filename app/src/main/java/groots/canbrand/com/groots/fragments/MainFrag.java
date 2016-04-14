@@ -13,6 +13,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
 import groots.canbrand.com.groots.adapter.Landing_Adapter;
@@ -30,6 +31,7 @@ public class MainFrag extends Fragment {
     TextView txtCart_main,txtamount_main;
     ImageView checkouticon_main;
     View viewId;
+
     ArrayList<ProductListDocData> productListData;
 
     Context context;
@@ -49,6 +51,7 @@ public class MainFrag extends Fragment {
         list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
         viewId=(View)view.findViewById(R.id.viewid);
         context= Landing_UI.context;
+
 
         txtCart_main=(TextView)view.findViewById(R.id.txtCart_main);
         checkouticon_main=(ImageView)view.findViewById(R.id.checkouticon_main);

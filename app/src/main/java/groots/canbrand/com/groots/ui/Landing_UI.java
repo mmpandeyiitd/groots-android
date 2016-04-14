@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.Dialog;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,6 +70,7 @@ public class Landing_UI extends AppCompatActivity
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -94,6 +96,13 @@ public class Landing_UI extends AppCompatActivity
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("downloading ...");
+
 
 
         navOrder.setOnClickListener(this);
@@ -301,7 +310,7 @@ public class Landing_UI extends AppCompatActivity
 
     void callProductListingAPI(HashMap hashMap){
 
-
+        progressDialog.show();
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -313,7 +322,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void success(ProductListData productListData, Response response) {
 
-
+                progressDialog.dismiss();
                     int status=productListData.status;
 
                     if(status==-1){
@@ -352,6 +361,7 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
 
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
