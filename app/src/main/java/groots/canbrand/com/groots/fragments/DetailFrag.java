@@ -20,6 +20,9 @@ import java.util.ArrayList;
 
 import groots.canbrand.com.groots.adapter.Detail_Adapter;
 
+import groots.canbrand.com.groots.databases.DbHelper;
+import groots.canbrand.com.groots.interfaces.UpdateCart;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
@@ -27,16 +30,21 @@ import groots.canbrand.com.groots.ui.HidingScrollListener;
 import groots.canbrand.com.groots.ui.Landing_UI;
 
 
-public class DetailFrag extends Fragment {
+public class DetailFrag extends Fragment implements UpdateCart{
 
     TextView txtamount_detail,txtCart_detail;
     ImageView checkouticon;
-    ArrayList<ProductListDocData> productListDocDatas;
+    DbHelper dbHelper;
     Context context;
+    UpdateCart updateCart;
+
+    ArrayList<ProductListDocData> productListDocDatas;
+
 
     public DetailFrag(ArrayList<ProductListDocData> productListDocDatas){
         this.productListDocDatas=productListDocDatas;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +52,10 @@ public class DetailFrag extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         this.context= Landing_UI.context;
+        dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
+        updateCart=this;
+
         final LinearLayout listfooter=(LinearLayout)view.findViewById(R.id.listfooter);
         txtamount_detail=(TextView)view.findViewById(R.id.txtamount_detail);
         txtCart_detail=(TextView)view.findViewById(R.id.txtCart_detail);
@@ -60,11 +72,26 @@ public class DetailFrag extends Fragment {
 
 
         RecyclerView detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         detail_recycler_view.setLayoutManager(linearLayoutManager);
-        detail_recycler_view.setHasFixedSize(true);
-        Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context);
+
+        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+
+        for (int i = 0; i < productListDocDatas.size(); i++) {
+
+            for (int j = 0; j < cartClasses.size(); j++) {
+
+                if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                    productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                }
+            }
+        }
+
+        Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart);
         detail_recycler_view.setAdapter(mAdapter);
+        detail_recycler_view.setHasFixedSize(true);
+
+
         detail_recycler_view.smoothScrollToPosition(0);
 
         detail_recycler_view.setOnScrollListener(new HidingScrollListener() {
@@ -80,10 +107,30 @@ public class DetailFrag extends Fragment {
             }
         });
 
+        int itemInDb=dbHelper.getTotalRow();
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(itemInDb>0){
+            txtCart_detail.setText(""+itemInDb);
+            txtamount_detail.setText(""+priceinDb);
+        }
 
         return view;
 
     }
 
 
+    @Override
+    public void updateCart() {
+        int itemInDb=dbHelper.getTotalRow();
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(itemInDb>0){
+            txtCart_detail.setText(""+itemInDb);
+            txtamount_detail.setText(""+priceinDb);
+        }
+    }
+
+    @Override
+    public void updateTotalAmnt(int childCount) {
+
+    }
 }

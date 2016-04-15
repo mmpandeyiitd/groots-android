@@ -17,6 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
 import groots.canbrand.com.groots.adapter.Landing_Adapter;
+
+import groots.canbrand.com.groots.databases.DbHelper;
+import groots.canbrand.com.groots.interfaces.UpdateCart;
+import groots.canbrand.com.groots.model.CartClass;
+
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
@@ -24,7 +29,7 @@ import groots.canbrand.com.groots.ui.HidingScrollListener;
 import groots.canbrand.com.groots.ui.Landing_UI;
 
 
-public class MainFrag extends Fragment {
+public class MainFrag extends Fragment implements UpdateCart {
 
 
     LinearLayout list_main_footer_;
@@ -33,8 +38,10 @@ public class MainFrag extends Fragment {
     View viewId;
 
     ArrayList<ProductListDocData> productListData;
+    UpdateCart updateCart;
 
     Context context;
+    DbHelper dbHelper;
 
     public MainFrag() {
 
@@ -51,6 +58,9 @@ public class MainFrag extends Fragment {
         list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
         viewId=(View)view.findViewById(R.id.viewid);
         context= Landing_UI.context;
+        dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
+        updateCart=this;
 
 
         txtCart_main=(TextView)view.findViewById(R.id.txtCart_main);
@@ -69,7 +79,19 @@ public class MainFrag extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context);
+
+        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+
+        for (int i = 0; i < productListData.size(); i++) {
+
+            for (int j = 0; j < cartClasses.size(); j++) {
+
+                if (productListData.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                    productListData.get(i).setItemCount(cartClasses.get(j).product_qty);
+                }
+            }
+        }
+        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
@@ -87,15 +109,30 @@ public class MainFrag extends Fragment {
             }
         });
 
+        int itemInDb=dbHelper.getTotalRow();
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(itemInDb>0){
+            txtCart_main.setText(""+itemInDb);
+            txtamount_main.setText(""+priceinDb);
+        }
         return view;
     }
 
-   /* @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        return AnimationUtils.loadAnimation(getActivity(),
-                enter ? android.R.anim.fade_in : android.R.anim.fade_out);
+
+    @Override
+    public void updateCart() {
+
+        int itemInDb=dbHelper.getTotalRow();
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(itemInDb>0){
+            txtCart_main.setText(""+itemInDb);
+            txtamount_main.setText(""+priceinDb);
+        }
+
     }
-*/
 
+    @Override
+    public void updateTotalAmnt(int childCount) {
 
+    }
 }
