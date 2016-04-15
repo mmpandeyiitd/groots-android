@@ -1,6 +1,7 @@
 package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -35,7 +36,9 @@ import java.util.HashMap;
 
 import groots.canbrand.com.groots.adapter.Checkout_Adapter;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.API_Interface;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
 import groots.canbrand.com.groots.pojo.LandingInfo;
 import groots.canbrand.com.groots.utilz.Http_Urls;
@@ -51,29 +54,23 @@ import retrofit.client.Response;
 public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout list_main_footer_;
-
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout__ui);
-        ArrayList<LandingInfo> dummyValue = new ArrayList<>();
+
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
+        context=Checkout_Ui.this;
 
+        DbHelper dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
 
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45/kg", "0", R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15/kg", "0", R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45/kg", "0", R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15/kg", "0", R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45/kg", "0", R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15/kg", "0", R.drawable.potato));
-        dummyValue.add(new LandingInfo("Nasik Onion", "Grade A Onion Sourced From Nasik.", "45/kg", "0", R.drawable.onion));
-        dummyValue.add(new LandingInfo("Big Potato", "Grade A Potato Sourced From India.", "15/kg", "0", R.drawable.potato));
-
+        ArrayList<CartClass> cartClasses=dbHelper.order();
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
-        Checkout_Adapter mAdapter = new Checkout_Adapter(dummyValue, this);
-
+        Checkout_Adapter mAdapter = new Checkout_Adapter(cartClasses, this);
 
         /*
         DefaultItemAnimator defaultItemAnimator=new DefaultItemAnimator();

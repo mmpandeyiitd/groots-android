@@ -233,7 +233,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * */
 
     public  void insertCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
-                                String product_image, int product_qty, float unit_price){
+                                String product_description, String product_image, int product_qty, float unit_price){
 
         try {
 
@@ -245,6 +245,7 @@ public class DbHelper extends SQLiteOpenHelper {
             contentValues.put("base_product_id", base_product_id);
             contentValues.put("store_id", store_id);
             contentValues.put("product_name", product_name);
+            contentValues.put("product_description", product_description);
             contentValues.put("product_image", product_image);
             contentValues.put("product_qty", product_qty);
             contentValues.put("unit_price", unit_price);
@@ -398,6 +399,50 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return i;
     }
+
+
+	public  ArrayList<CartClass> order() {
+
+        ArrayList<CartClass> arrayList=new ArrayList<>();
+        CartClass cartClass;
+        String countQuery = "SELECT * FROM Cart";
+        int cnt=0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(countQuery, null);
+            cnt = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+                    cartClass = new CartClass();
+                    cartClass.subscribe_prod_id = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
+                    cartClass.base_product_id= cursor.getInt(cursor.getColumnIndexOrThrow("base_product_id"));
+                    cartClass.store_id = cursor.getInt(cursor.getColumnIndexOrThrow("store_id"));
+                    cartClass.product_name = cursor.getString(cursor.getColumnIndexOrThrow("product_name"));
+                    cartClass.product_description=cursor.getString(cursor.getColumnIndexOrThrow("product_description"));
+                    cartClass.product_image = cursor.getString(cursor.getColumnIndexOrThrow("product_image"));
+                    cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
+                    cartClass.unit_price =cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
+                    cartClass.total_unit_price=cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
+
+                    arrayList.add(cartClass);
+				}
+				while (cursor.moveToNext());
+			}
+		} catch (Exception ex) {
+            ex.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+
+			if (cursor != null)
+				cursor.close();
+		}
+
+
+		return arrayList;
+
+	}
 
 
 /*

@@ -71,15 +71,20 @@
                         android:paddingTop="3dp"
                         android:singleLine="true"
                         android:text="Nasik Onion"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:ellipsize="end"/>
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/textItemdesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
+                        android:singleLine="true"
+                        android:maxLines="1"
                         android:text="Xyz (1 Kg)"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"
+                        android:ellipsize="end"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"

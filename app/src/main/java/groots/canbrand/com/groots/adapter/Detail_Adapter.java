@@ -129,6 +129,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
 
                         dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
                                 productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
+                                productListDocDatas.get(position).description,
                                 "abcde",productListDocDatas.get(position).getItemCount(),
                                 productListDocDatas.get(position).storeOfferPrice);
 

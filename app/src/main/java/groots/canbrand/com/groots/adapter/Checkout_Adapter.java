@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.LandingInfo;
 
 /**
@@ -23,21 +24,20 @@ import groots.canbrand.com.groots.pojo.LandingInfo;
 public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
         .CartHolder>{
 
-    ArrayList<LandingInfo> dummyValue;
+    ArrayList<CartClass> cartClasses;
     Context context;
     int lastPosition=-1;
     android.os.Handler              handler=new android.os.Handler();
     Runnable                        runnable;
 
-    public Checkout_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
-        this.dummyValue=dummyValue;
+    public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context) {
+        this.cartClasses=cartClasses;
         this.context=context;
     }
 
     @Override
     public Checkout_Adapter.CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.checkout_adapter, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.checkout_adapter, parent, false);
 
         CartHolder dataObjectHolder = new CartHolder(view);
         return dataObjectHolder;
@@ -46,11 +46,11 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
     @Override
     public void onBindViewHolder(Checkout_Adapter.CartHolder holder, final int position) {
 
-        holder.textItemName.setText(dummyValue.get(position).getItemName());
-        holder.textItemdesc.setText(dummyValue.get(position).getItemDesc());
-        holder.textItemPrice.setText(dummyValue.get(position).getItemprice());
-        holder.txtCount.setText(dummyValue.get(position).getItemcount());
-        holder.imgItemIcon.setImageResource(dummyValue.get(position).getImageitem());
+        holder.textItemName.setText(cartClasses.get(position).product_name);
+        holder.textItemdesc.setText(cartClasses.get(position).product_description);
+        holder.textItemPrice.setText(""+cartClasses.get(position).total_unit_price);
+        holder.txtCount.setText(""+cartClasses.get(position).product_qty);
+       // holder.imgItemIcon.setImageResource(cartClasses.get(position).getImageitem());
 
         if (position > lastPosition) {
             holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
@@ -67,7 +67,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
 
     @Override
     public int getItemCount() {
-        return dummyValue.size();
+        return cartClasses.size();
 
     }
 
@@ -111,7 +111,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
 
                     Log.e("Item in array",String.valueOf(position));
                   //  notifyDataSetChanged();
-                    dummyValue.remove(position);
+                    cartClasses.remove(position);
                     notifyItemRemoved(position);
                  //   notifyItemRangeChanged(position,getItemCount());
 
