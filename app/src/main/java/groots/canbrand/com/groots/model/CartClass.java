@@ -9,11 +9,11 @@ import android.os.Parcelable;
 public class CartClass implements Parcelable {
 
 
-    public String product_name,product_image;
+    public String product_name,product_image, product_description;
 
     public  int subscribe_prod_id, base_product_id, store_id,  product_qty;
 
-    public float unit_price;
+    public float unit_price, total_unit_price;
 
     @Override
     public int describeContents() {
@@ -27,10 +27,11 @@ public class CartClass implements Parcelable {
         parcel.writeInt(base_product_id);
         parcel.writeInt(store_id);
         parcel.writeString(product_name);
+        parcel.writeString(product_description);
         parcel.writeString(product_image);
         parcel.writeInt(product_qty);
         parcel.writeFloat(unit_price);
-
+        parcel.writeFloat(total_unit_price);
     }
 
 
@@ -45,9 +46,11 @@ public class CartClass implements Parcelable {
             cart.base_product_id=in.readInt();
             cart.store_id=in.readInt();
             cart.product_name=in.readString();
+            cart.product_description=in.readString();
             cart.product_image=in.readString();
             cart.product_qty=in.readInt();
             cart.unit_price=in.readFloat();
+            cart.total_unit_price=in.readFloat();
 
             return cart;
 
