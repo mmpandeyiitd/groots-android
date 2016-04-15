@@ -249,13 +249,16 @@ public class DbHelper extends SQLiteOpenHelper {
             contentValues.put("product_qty", product_qty);
             contentValues.put("unit_price", unit_price);
 
+			float total_unit_price=product_qty*unit_price;
+			contentValues.put("total_unit_price", total_unit_price);
+
             String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id ;
 
             Cursor cursor = null;
             cursor = db.rawQuery(query, null);
             int count = cursor.getCount();
             if (count > 0) {
-                db.execSQL("UPDATE Cart SET product_qty= "+product_qty +" WHERE base_product_id = "+base_product_id+" AND subscribe_prod_id="+ subscribe_prod_id);
+                db.execSQL("UPDATE Cart SET product_qty= "+product_qty +", total_unit_price= "+total_unit_price+" WHERE base_product_id = "+base_product_id+" AND subscribe_prod_id="+ subscribe_prod_id);
             } else if (count == 0)
                 db.insert("Cart", null, contentValues);
 
@@ -290,11 +293,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /*update the product
 	 Qty*/
-    public void updateProductQty(int product_qty, int subscribe_prod_id){
+    public void updateProductQty(int product_qty,float unit_price, int subscribe_prod_id){
 
         try { db=openDataBase();
 
-            db.execSQL("UPDATE Cart SET product_qty= "+product_qty +" WHERE subscribe_prod_id = "+subscribe_prod_id);
+			float total_unit_price=unit_price*product_qty;
+            db.execSQL("UPDATE Cart SET product_qty= "+product_qty +", total_unit_price= "+total_unit_price+" WHERE subscribe_prod_id = "+subscribe_prod_id);
 
         } catch (Exception e)
         {
@@ -376,7 +380,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public int fetchTotalCartAmount(){
 
-        String query="SELECT sum(unit_price) from Cart";
+        String query="SELECT sum(total_unit_price) from Cart";
 
         int i=0;
         db=openDataBase();

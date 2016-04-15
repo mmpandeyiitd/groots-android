@@ -412,7 +412,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void success(LoginData loginData, Response response) {
 
-                btnSignIn.setProgress(100);
+                btnSignIn.setProgress(0);
 
                 btnSignIn.setEnabled(true);
 

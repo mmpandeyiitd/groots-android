@@ -14,6 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import groots.canbrand.com.groots.adapter.Landing_Adapter;
@@ -127,6 +128,11 @@ public class MainFrag extends Fragment implements UpdateCart {
         if(itemInDb>0){
             txtCart_main.setText(""+itemInDb);
             txtamount_main.setText(""+priceinDb);
+            ((RelativeLayout)getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.cart);
+        }else {
+            txtCart_main.setText("");
+            txtamount_main.setText("0");
+            ((RelativeLayout)getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.blank_cart);
         }
 
     }

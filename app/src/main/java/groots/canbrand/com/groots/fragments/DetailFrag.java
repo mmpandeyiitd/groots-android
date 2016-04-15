@@ -14,6 +14,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -126,6 +127,11 @@ public class DetailFrag extends Fragment implements UpdateCart{
         if(itemInDb>0){
             txtCart_detail.setText(""+itemInDb);
             txtamount_detail.setText(""+priceinDb);
+            ((RelativeLayout)getActivity().findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
+        }else {
+            txtCart_detail.setText("");
+            txtamount_detail.setText("0");
+            ((RelativeLayout)getActivity().findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.blank_cart);
         }
     }
 

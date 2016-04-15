@@ -50,6 +50,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/rlCartDetail"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -109,7 +110,7 @@
                             android:id="@+id/txtamount_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="450"
+                            android:text="0"
                             android:textColor="@color/textPrimaryDark"
                             android:textSize="15sp" />
 

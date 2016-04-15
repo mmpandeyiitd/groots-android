@@ -93,10 +93,12 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
         if (productListData.get(position).getItemCount() > 0) {
             holder.txtCount.setText("" + productListData.get(position).getItemCount());
-            dbHelper.updateProductQty( productListData.get(position).getItemCount(), productListData.get(position).subscribedProductId);
+            dbHelper.updateProductQty(productListData.get(position).getItemCount(),productListData.get(position).storeOfferPrice, productListData.get(position).subscribedProductId);
             updateCart.updateCart();
-        }else
+        }else {
             holder.txtCount.setText("0");
+            updateCart.updateCart();
+        }
 
 
         holder.txtPlus.setTag(position);
@@ -135,8 +137,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
                     productListData.get(clickedPos).setItemCount(previousCount);
                     if (previousCount == 0)
                         dbHelper.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);
-                        else if(previousCount>0)
-                        dbHelper.updateProductQty(productListData.get(position).getItemCount(), productListData.get(position).subscribedProductId);
+//                        else if(previousCount>0)
+//                        dbHelper.updateProductQty(productListData.get(position).getItemCount(), productListData.get(position).subscribedProductId);
                 }
                 notifyDataSetChanged();
             }
