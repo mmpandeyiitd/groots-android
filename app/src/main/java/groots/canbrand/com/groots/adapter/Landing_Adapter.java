@@ -61,6 +61,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     }
 
 
+
     @Override
     public Landing_Adapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);

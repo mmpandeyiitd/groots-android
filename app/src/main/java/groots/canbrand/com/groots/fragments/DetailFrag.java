@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -66,8 +67,13 @@ public class DetailFrag extends Fragment implements UpdateCart{
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(getActivity(), Checkout_Ui.class);
-                startActivity(intent);
+                int itemInCart=dbHelper.getTotalRow();
+                if(itemInCart>0) {
+                    Intent intent = new Intent(getActivity(), Checkout_Ui.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Oops! No item in cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
