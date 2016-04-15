@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -290,6 +291,19 @@ public class Landing_UI extends AppCompatActivity
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                File cache = getCacheDir();
+                File appDir = new File(cache.getParent());
+                if (appDir.exists()) {
+                    String[] children = appDir.list();
+
+                    for (String s : children) {
+
+                        File f = new File(appDir, s);
+                        if (deleteDir(f))
+                            System.out.println("delete" + f.getPath());
+                    }
+                }
                 Intent i = new Intent(Landing_UI.this, Splash.class);
                 i.putExtra("sender","logout");
                 startActivity(i);
@@ -305,7 +319,18 @@ public class Landing_UI extends AppCompatActivity
         logoutdialog.show();
     }
 
-
+    private boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
 
 
     void callProductListingAPI(HashMap hashMap){

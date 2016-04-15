@@ -26,6 +26,8 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
     ArrayList<LandingInfo> dummyValue;
     Context context;
     int lastPosition=-1;
+    android.os.Handler              handler=new android.os.Handler();
+    Runnable                        runnable;
 
     public Checkout_Adapter(ArrayList<LandingInfo> dummyValue, Context context) {
         this.dummyValue=dummyValue;
@@ -115,7 +117,6 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
 
             }
         });
-
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -123,6 +124,18 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter
             }
         });
 
+        alertDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                };
+                handler.postDelayed(runnable,1500);
+            }
+        });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
