@@ -118,6 +118,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
                 dbHelper.insertCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
                         productListData.get(position).storeId, productListData.get(position).title,
+                        productListData.get(position).description,
                         "abcde",productListData.get(position).getItemCount(),
                         productListData.get(position).storeOfferPrice);
 
