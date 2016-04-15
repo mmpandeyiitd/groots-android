@@ -95,6 +95,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
         progressMobile=(ProgressBar)findViewById(R.id.progressMobile);
+        progressMobile.setVisibility(View.INVISIBLE);
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
