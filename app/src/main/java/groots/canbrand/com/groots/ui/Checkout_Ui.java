@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,6 +40,7 @@ import groots.canbrand.com.groots.adapter.Checkout_Adapter;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.API_Interface;
+import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
 import groots.canbrand.com.groots.pojo.LandingInfo;
@@ -51,38 +54,47 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 
-public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener {
+public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener, UpdateCart {
+
 
     LinearLayout list_main_footer_;
     Context context;
+    UpdateCart updateCart;
+    DbHelper dbHelper;
+    Checkout_Adapter mAdapter;
+
+    TextView txtamount_main;
+    RecyclerView mRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout__ui);
-
-        list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
         context=Checkout_Ui.this;
-
-        DbHelper dbHelper=new DbHelper(context);
+        updateCart=this;
+        dbHelper=new DbHelper(context);
         dbHelper.createDb(false);
 
-        ArrayList<CartClass> cartClasses=dbHelper.order();
+        txtamount_main=(TextView)findViewById(R.id.txtamount_main);
+        list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
-        Checkout_Adapter mAdapter = new Checkout_Adapter(cartClasses, this);
+        mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        /*
-        DefaultItemAnimator defaultItemAnimator=new DefaultItemAnimator();
-        defaultItemAnimator.setRemoveDuration(1000);*/
         SlideInLeftAnimator slideInRightAnimationAdapter=new SlideInLeftAnimator();
         slideInRightAnimationAdapter.setInterpolator(new OvershootInterpolator());
         slideInRightAnimationAdapter.setRemoveDuration(1000);
         mRecyclerView.setItemAnimator(slideInRightAnimationAdapter);
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(mAdapter);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        ArrayList<CartClass> cartClasses=dbHelper.order();
+
+        if(cartClasses.size()>0) {
+            mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
@@ -104,6 +116,10 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 list_main_footer_.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
             }
         });
+
+
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        txtamount_main.setText(""+priceinDb);
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
         ((TextView)findViewById(R.id.checkouticon_main)).setOnClickListener(this);
@@ -210,5 +226,25 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                // Toast.makeText(Checkout_Ui.this,error.toString(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void updateCart() {
+
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(priceinDb>0) {
+            ArrayList<CartClass> cartClasses=dbHelper.order();
+           // mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
+           // mRecyclerView.setAdapter(mAdapter);
+            txtamount_main.setText("" + priceinDb);
+        } else
+            txtamount_main.setText("0");
+
+
+    }
+
+    @Override
+    public void updateTotalAmnt(int childCount) {
+
     }
 }

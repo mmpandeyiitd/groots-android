@@ -81,6 +81,7 @@ public class Landing_UI extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         context=Landing_UI.this;
+        productListDocDatas=new ArrayList<>();
 
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
@@ -160,14 +161,20 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(MainFrag.mRecyclerView!=null)
+            MainFrag.mRecyclerView.removeAllViews();
 
         productListDocDatas=new ArrayList<>();
         HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
-
     }
-
 
     @Override
     public void onBackPressed() {
