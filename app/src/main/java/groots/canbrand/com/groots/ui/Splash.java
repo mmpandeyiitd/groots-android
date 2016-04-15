@@ -28,31 +28,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import android.widget.Toast;
 
-
-import com.dd.processbutton.ProcessButton;
-import com.dd.processbutton.iml.ActionProcessButton;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.okhttp.OkHttpClient;
-
 import java.util.HashMap;
-
-
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.pojo.ForgetPwdData;
 import groots.canbrand.com.groots.pojo.LoginData;
-
 import groots.canbrand.com.groots.utilz.Http_Urls;
-import groots.canbrand.com.groots.utilz.ProgressGenerator;
-import groots.canbrand.com.groots.utilz.ProgressGenerator.OnCompleteListener;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -62,7 +53,7 @@ import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 
-public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener, OnCompleteListener{
+public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener{
 
 
 
@@ -74,8 +65,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     EditText etLogin, etPassword;
     CoordinatorLayout cdLogin, cdForgetPwd;
     TextView tvForgetPass;
+    ProgressBar progressMobile;
 
-    ActionProcessButton btnSignIn;
+    Button btnSignIn;
     String storePhoneNo="1234567899";
     View viewUser, viewPass;
     Dialog dialog;
@@ -99,9 +91,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
         //btnSignIn = (Button)findViewById(R.id.btnSignIn);
-        btnSignIn = (ActionProcessButton) findViewById(R.id.btnSignIn);
+        btnSignIn = (Button)findViewById(R.id.btnSignIn);
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
+        progressMobile=(ProgressBar)findViewById(R.id.progressMobile);
 
         // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -309,8 +302,6 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                                 btnSignIn.setEnabled(false);
 
-                                btnSignIn.setMode(ActionProcessButton.Mode.ENDLESS);
-
                                 HashMap hashMap=new HashMap();
                                 hashMap.put("email",  strEmail);
                                 hashMap.put("password", strPwd);
@@ -399,16 +390,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     }
 
 
-    @Override
-    public void onComplete() {
-
-    }
 
 
     void callLoginAPI(HashMap hashMap){
+        progressMobile.setVisibility(View.VISIBLE);
 
         isLoadingDone = false;
-        start(btnSignIn);
         btnSignIn.setText("Loading..");
 
 
@@ -422,7 +409,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void success(LoginData loginData, Response response) {
 
-                btnSignIn.setProgress(0);
+                progressMobile.setVisibility(View.INVISIBLE);
 
                 btnSignIn.setEnabled(true);
 
@@ -486,7 +473,6 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 else {
                     btnSignIn.setEnabled(true);
                     btnSignIn.setText("Sign In");
-                    btnSignIn.setProgress(100);
                     Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -497,13 +483,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             @Override
             public void failure(RetrofitError error) {
+                progressMobile.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 snackbar.show();
                 btnSignIn.setEnabled(true);
-                btnSignIn.setProgress(100);
                 btnSignIn.setText("Sign In");
             }
         });
@@ -511,6 +497,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
     void callForgetPasswordAPI(HashMap hashMap){
+
+        progressMobile.setVisibility(View.VISIBLE);
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
@@ -522,6 +510,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             public void success(ForgetPwdData forgetPwdData, Response response) {
                 if (forgetPwdData != null) {
 
+                    progressMobile.setVisibility(View.INVISIBLE);
                     status = forgetPwdData.getStatus();
 
                     if (status == -1) {
@@ -559,6 +548,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             }
             @Override
             public void failure(RetrofitError error) {
+                progressMobile.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
@@ -570,7 +560,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     }
 
 
-    public void start(final ProcessButton button) {
+   /* public void start(final ProcessButton button) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -584,6 +574,6 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 }
             }
         }, 500);
-    }
+    }*/
 
 }

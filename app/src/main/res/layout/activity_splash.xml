@@ -178,7 +178,7 @@
         </LinearLayout>
 
 
-        <com.dd.processbutton.iml.ActionProcessButton
+        <Button
             android:id="@+id/btnSignIn"
             android:layout_height="40dp"
             android:layout_width="match_parent"
@@ -189,14 +189,11 @@
             android:layout_marginRight="22dp"
             android:gravity="center"
             android:text="Sign In"
+            android:background="@color/colorPrimary"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16dp"
-            android:visibility="gone"
-            custom:pb_colorComplete="@color/colorPrimaryDark"
-            custom:pb_colorNormal="@color/colorPrimary"
-            custom:pb_colorPressed="@color/colorPrimaryDark"
-            custom:pb_colorProgress="@color/green_complete" />
+            android:visibility="gone"/>
 
         <!--android:visibility="gone"-->
         <ImageView
@@ -252,18 +249,15 @@
 
     </RelativeLayout>
 
-
-    <!--   <ProgressBar
+    <ProgressBar
            android:id="@+id/progressMobile"
            style="?android:attr/progressBarStyleHorizontal"
            android:layout_width="match_parent"
            android:progress="0"
-
            android:layout_height="match_parent"
            android:indeterminate="false"
-           android:progressDrawable="@drawable/circular_progress_bar"
            android:max="100"
-           />-->
+            android:indeterminateDrawable="@drawable/loader_0"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
