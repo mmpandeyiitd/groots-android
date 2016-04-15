@@ -126,10 +126,10 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone"
+           android:visibility="gone"
             android:weightSum="10">
 
-
+          <!--  android:visibility="gone"-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,9 +182,9 @@
             android:id="@+id/btnSignIn"
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/llPassword"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="35dp"
             android:layout_marginLeft="22dp"
             android:layout_marginRight="22dp"
             android:gravity="center"
@@ -196,11 +196,9 @@
             custom:pb_colorComplete="@color/colorPrimaryDark"
             custom:pb_colorNormal="@color/colorPrimary"
             custom:pb_colorPressed="@color/colorPrimaryDark"
-            custom:pb_colorProgress="@color/green_complete"
+            custom:pb_colorProgress="@color/green_complete" />
 
-             />
-
-
+        <!--android:visibility="gone"-->
         <ImageView
             android:id="@+id/ivCallLogin"
             android:layout_width="wrap_content"
@@ -217,10 +215,11 @@
             android:id="@+id/tvForgetPass"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
+           android:layout_below="@+id/btnSignIn"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             android:gravity="center"
             android:text="Forgot Password?"
             android:textColor="@color/textLogin"

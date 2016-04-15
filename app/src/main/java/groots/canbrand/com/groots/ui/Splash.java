@@ -86,6 +86,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     boolean isLoadingDone = false;
     SharedPreferences prefs;
 
+    android.os.Handler  handler=new android.os.Handler();
+    Runnable            runnable;
+
 
 
 
@@ -96,11 +99,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
         //btnSignIn = (Button)findViewById(R.id.btnSignIn);
-        btnSignIn=(ActionProcessButton)findViewById(R.id.btnSignIn);
+        btnSignIn = (ActionProcessButton) findViewById(R.id.btnSignIn);
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
 
-   // create our manager instance after the content view is set
+        // create our manager instance after the content view is set
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         // enable status bar tint
         tintManager.setStatusBarTintEnabled(false);
@@ -113,35 +116,43 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 //        toolbars.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
 
-
-        context=Splash.this;
-        cdLogin=(CoordinatorLayout)findViewById(R.id.cdLogin);
-        ivGroots=(ImageView)findViewById(R.id.ivGroots);
-        ivCallLogin=(ImageView)findViewById(R.id.ivCallLogin);
+        context = Splash.this;
+        cdLogin = (CoordinatorLayout) findViewById(R.id.cdLogin);
+        ivGroots = (ImageView) findViewById(R.id.ivGroots);
+        ivCallLogin = (ImageView) findViewById(R.id.ivCallLogin);
         kbv = (KenBurnsView) findViewById(R.id.image);
-        llUserName=(LinearLayout)findViewById(R.id.llUserName);
-        llPassword=(LinearLayout)findViewById(R.id.llPassword);
-        etPassword=(EditText)findViewById(R.id.etPassword);
-        etLogin=(EditText)findViewById(R.id.etLogin);
-        viewUser=findViewById(R.id.viewUser);
-        viewPass=findViewById(R.id.viewPass);
-        tvForgetPass=(TextView)findViewById(R.id.tvForgetPass);
+        llUserName = (LinearLayout) findViewById(R.id.llUserName);
+        llPassword = (LinearLayout) findViewById(R.id.llPassword);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        etLogin = (EditText) findViewById(R.id.etLogin);
+        viewUser = findViewById(R.id.viewUser);
+        viewPass = findViewById(R.id.viewPass);
+        tvForgetPass = (TextView) findViewById(R.id.tvForgetPass);
         tvForgetPass.setOnClickListener(this);
 
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        if(prefs.getString("AuthToken", null)!=null)
-        {
+        if (prefs.getString("AuthToken", null) != null & bundle==null) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(Splash.this, Landing_UI.class);
+                    startActivity(i);
+                    finish();
+                }
+            };
+            handler.postDelayed(runnable, 2200);
+        } else {
+            /*Intent i = getIntent();
+            Bundle bundle = i.getExtras();*/
+            if (bundle != null) {
+                moveup();
+                moveupTextField();
+                String sender = bundle.getString("sender");
 
-        }
-
-        Intent i=getIntent();
-        Bundle bundle=i.getExtras();
-        if(bundle!=null) {
-            moveup();
-            moveupTextField();
-            String sender = bundle.getString("sender");
-
-               // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
+                // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
                 kbv.setImageResource(R.drawable.bck_blur);
                 llUserName.setVisibility(View.VISIBLE);
                 llPassword.setVisibility(View.VISIBLE);
@@ -152,57 +163,56 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 viewPass.setVisibility(View.VISIBLE);
 
 
+            } else {
 
+                AccelerateDecelerateInterpolator ACCELERATE_DECELERATE = new AccelerateDecelerateInterpolator();
+                RandomTransitionGenerator generator = new RandomTransitionGenerator(20000, ACCELERATE_DECELERATE);
+                kbv.setTransitionGenerator(generator);
+
+                alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+                alphaAnimation.setDuration(3000);
+                alphaAnimation.setStartOffset(100);
+                ivGroots.startAnimation(alphaAnimation);
+                alphaAnimation.setAnimationListener(new AnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animation arg0) {
+                        moveup();
+                        moveupTextField();
+                        //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
+                        kbv.setImageResource(R.drawable.bck_blur);
+                        llUserName.setVisibility(View.VISIBLE);
+                        llPassword.setVisibility(View.VISIBLE);
+                        btnSignIn.setVisibility(View.VISIBLE);
+                        ivCallLogin.setVisibility(View.VISIBLE);
+                        tvForgetPass.setVisibility(View.VISIBLE);
+                        viewUser.setVisibility(View.VISIBLE);
+                        viewPass.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation arg0) {
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation arg0) {
+                    }
+                });
+
+
+                kbv.setTransitionListener(new KenBurnsView.TransitionListener() {
+                    @Override
+                    public void onTransitionStart(Transition transition) {
+                    }
+
+                    @Override
+                    public void onTransitionEnd(Transition transition) {
+                    }
+                });
+
+            }
+            btnSignIn.setOnClickListener(this);
+            ivCallLogin.setOnClickListener(this);
         }
-        else {
-
-            AccelerateDecelerateInterpolator ACCELERATE_DECELERATE = new AccelerateDecelerateInterpolator();
-            RandomTransitionGenerator generator = new RandomTransitionGenerator(20000, ACCELERATE_DECELERATE);
-            kbv.setTransitionGenerator(generator);
-
-            alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-            alphaAnimation.setDuration(3000);
-            alphaAnimation.setStartOffset(100);
-            ivGroots.startAnimation(alphaAnimation);
-            alphaAnimation.setAnimationListener(new AnimationListener() {
-                @Override
-                public void onAnimationEnd(Animation arg0) {
-                    moveup();
-                    moveupTextField();
-                    //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
-                    kbv.setImageResource(R.drawable.bck_blur);
-                    llUserName.setVisibility(View.VISIBLE);
-                    llPassword.setVisibility(View.VISIBLE);
-                    btnSignIn.setVisibility(View.VISIBLE);
-                    ivCallLogin.setVisibility(View.VISIBLE);
-                    tvForgetPass.setVisibility(View.VISIBLE);
-                    viewUser.setVisibility(View.VISIBLE);
-                    viewPass.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation arg0) {
-                }
-
-                @Override
-                public void onAnimationStart(Animation arg0) {
-                }
-            });
-
-
-            kbv.setTransitionListener(new KenBurnsView.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                }
-            });
-
-        }
-        btnSignIn.setOnClickListener(this);
-        ivCallLogin.setOnClickListener(this);
     }
 
 
