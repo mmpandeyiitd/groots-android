@@ -297,6 +297,13 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+                SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                editor.putString("Check","name");
+                editor.commit();
+
+
+
                 File cache = getCacheDir();
                 File appDir = new File(cache.getParent());
                 if (appDir.exists()) {

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
@@ -23,6 +24,7 @@ import groots.canbrand.com.groots.pojo.LandingInfo;
 /**
  * Created by Administrator on 07-04-2016.
  */
+
 public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.CartHolder>{
 
 
@@ -38,12 +40,15 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
 
     public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context, UpdateCart updateCart) {
-        this.cartClasses=cartClasses;
-        this.context=context;
-        this.updateCart=updateCart;
-        dbHelper=new DbHelper(context);
+        this.cartClasses = cartClasses;
+        this.context = context;
+        this.updateCart = updateCart;
+        dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
+
+
     }
+
 
     @Override
     public Checkout_Adapter.CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,13 +58,18 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
     }
 
     @Override
-    public void onBindViewHolder(Checkout_Adapter.CartHolder holder, final int position) {
+    public void onBindViewHolder(final Checkout_Adapter.CartHolder holder, final int position) {
 
         holder.textItemName.setText(cartClasses.get(position).product_name);
         holder.textItemdesc.setText(cartClasses.get(position).product_description);
-        holder.textItemPrice.setText(""+cartClasses.get(position).unit_price);
-        holder.txtCount.setText(""+cartClasses.get(position).product_qty);
-       // holder.imgItemIcon.setImageResource(cartClasses.get(position).getImageitem());
+
+        holder.textItemPrice.setText("" + cartClasses.get(position).unit_price);
+        holder.txtCount.setText("" + cartClasses.get(position).product_qty);
+        // holder.imgItemIcon.setImageResource(cartClasses.get(position).getImageitem());
+
+
+        // holder.imgItemIcon.setImageResource(cartClasses.get(position).getImageitem());
+
 
         if (position > lastPosition) {
             holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
@@ -75,9 +85,9 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
         if (cartClasses.get(position).product_qty > 0) {
             holder.txtCount.setText("" + cartClasses.get(position).product_qty);
-            dbHelper.updateProductQty(cartClasses.get(position).product_qty,cartClasses.get(position).unit_price, cartClasses.get(position).subscribe_prod_id);
+            dbHelper.updateProductQty(cartClasses.get(position).product_qty, cartClasses.get(position).unit_price, cartClasses.get(position).subscribe_prod_id);
             updateCart.updateCart();
-        }else {
+        } else {
             holder.txtCount.setText("0");
             updateCart.updateCart();
         }
@@ -95,14 +105,14 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
                 previousCount++;
 
-                cartClasses.get(clickedPos).product_qty=previousCount;
+                cartClasses.get(clickedPos).product_qty = previousCount;
 
                 dbHelper.insertCartData(cartClasses.get(position).subscribe_prod_id,
                         cartClasses.get(position).base_product_id,
                         cartClasses.get(position).store_id,
                         cartClasses.get(position).toString(),
                         cartClasses.get(position).product_description,
-                        "abcde",cartClasses.get(position).product_qty,
+                        "abcde", cartClasses.get(position).product_qty,
                         cartClasses.get(position).unit_price);
 
                 notifyDataSetChanged();
@@ -117,7 +127,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
                 previousCount = cartClasses.get(clickedPos).product_qty;
                 if (previousCount > 0) {
                     previousCount--;
-                    cartClasses.get(clickedPos).product_qty=previousCount;
+                    cartClasses.get(clickedPos).product_qty = previousCount;
 
 
                     if (previousCount == 0) {
@@ -144,31 +154,31 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         TextView textItemPrice;
         ImageView imgItemIcon;
         TextView txtCount;
-        ImageView imagecross,txtMinus, txtPlus;
+        ImageView imagecross, txtMinus, txtPlus;
 
         public CartHolder(View itemView) {
             super(itemView);
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
-            textItemPrice=(TextView)itemView.findViewById(R.id.textItemPrice);
-            imgItemIcon=(ImageView)itemView.findViewById(R.id.imgItemIcon);
-            txtCount=(TextView)itemView.findViewById(R.id.txtCount);
-            imagecross=(ImageView)itemView.findViewById(R.id.imagecross);
-            txtMinus=(ImageView)itemView.findViewById(R.id.txtMinus);
-            txtPlus=(ImageView)itemView.findViewById(R.id.txtPlus);
+            textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
+            imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
+            txtCount = (TextView) itemView.findViewById(R.id.txtCount);
+            imagecross = (ImageView) itemView.findViewById(R.id.imagecross);
+            txtMinus = (ImageView) itemView.findViewById(R.id.txtMinus);
+            txtPlus = (ImageView) itemView.findViewById(R.id.txtPlus);
+
         }
     }
 
     private void makeDialog(final int position) {
         notifyItemRemoved(position);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Are you sure,You wanted to make decision");
-       // notifyDataSetChanged();
+        alertDialogBuilder.setMessage("Are you sure you want to remove this item ?");
+        // notifyDataSetChanged();
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                    Log.e("Item in array",String.valueOf(position));
                 dbHelper.deleteRecords(cartClasses.get(position).subscribe_prod_id, cartClasses.get(position).base_product_id);
                 cartClasses.remove(position);
                 notifyItemRemoved(position);
@@ -179,7 +189,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(cartClasses.get(position).product_qty==0) {
+                if (cartClasses.get(position).product_qty == 0) {
                     previousCount++;
                     cartClasses.get(position).product_qty = previousCount;
                 }
@@ -196,7 +206,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
                         notifyDataSetChanged();
                     }
                 };
-                handler.postDelayed(runnable,1500);
+                handler.postDelayed(runnable, 1500);
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();

@@ -7,6 +7,7 @@
     tools:context="groots.canbrand.com.groots.ui.Checkout_Ui">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -186,7 +187,7 @@
 
 
             <TextView
-                android:id="@+id/checkouticon_main"
+                android:id="@+id/checkouticon_checkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="7dp"
@@ -197,14 +198,28 @@
                 android:textSize="13dp" />
         </LinearLayout>
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/cdcheckout"
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content">
 
-        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cdcheckout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"></android.support.design.widget.CoordinatorLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/progressCheckout"
+            style="?android:attr/versionCode"
+            android:layout_width="50dp"
+            android:progress="0"
+            android:layout_centerVertical="true"
+            android:layout_height="50dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:indeterminateDrawable="@drawable/loader_0"/>
+    </RelativeLayout>
 </RelativeLayout>

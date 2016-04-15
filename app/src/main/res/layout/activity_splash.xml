@@ -249,15 +249,17 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
     <ProgressBar
            android:id="@+id/progressMobile"
-           style="?android:attr/progressBarStyleHorizontal"
-           android:layout_width="match_parent"
-           android:progress="0"
-           android:layout_height="match_parent"
+           style="?android:attr/accessibilityFeedbackType"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
            android:indeterminate="false"
-           android:max="100"
             android:indeterminateDrawable="@drawable/loader_0"/>
-
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -25,6 +25,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,13 +61,13 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
     LinearLayout list_main_footer_;
     Context context;
-    UpdateCart updateCart;
-    DbHelper dbHelper;
     Checkout_Adapter mAdapter;
-
-    TextView txtamount_main;
     RecyclerView mRecyclerView;
-
+    ArrayList<CartClass> cartClasses;
+    DbHelper dbHelper;
+    TextView txtamount_main;
+    UpdateCart updateCart;
+    ProgressBar progressLanding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,9 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         txtamount_main=(TextView)findViewById(R.id.txtamount_main);
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
 
+        progressLanding=(ProgressBar)findViewById(R.id.progressCheckout);
+        progressLanding.setVisibility(View.GONE);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setHasFixedSize(true);
@@ -88,7 +93,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         slideInRightAnimationAdapter.setInterpolator(new OvershootInterpolator());
         slideInRightAnimationAdapter.setRemoveDuration(1000);
         mRecyclerView.setItemAnimator(slideInRightAnimationAdapter);
-        ArrayList<CartClass> cartClasses=dbHelper.order();
+        cartClasses=dbHelper.order();
 
         if(cartClasses.size()>0) {
             mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
@@ -122,7 +127,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         txtamount_main.setText(""+priceinDb);
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.checkouticon_main)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
         ((ImageView)findViewById(R.id.backbtn)).setOnClickListener(this);
     }
 
@@ -142,6 +147,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             startActivity(intent);
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -149,81 +155,109 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-      switch (view.getId())
-      {
-        case  R.id.makecall:
-            makeAcall();
-          break;
-          case R.id.checkouticon_main:
+        switch (view.getId()) {
+            case R.id.makecall:
+                makeAcall();
+                break;
+            case R.id.checkouticon_checkout:
              /* Intent intent =new Intent(Checkout_Ui.this,Thank_You_UI.class);
               startActivity(intent);
               overridePendingTransition(R.anim.from_middle, R.anim.to_middle);*/
-              callAddOrderAPI();
-              break;
-          case R.id.backbtn:
-              finish();
-              break;
-          default:
-              break;
+                if (cartClasses.size() > 0) {
+                    callAddOrderAPI();
+                } else {
+                    final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in Cart !", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                }
+                break;
+            case R.id.backbtn:
+                finish();
+                break;
+            default:
+                break;
 
-      }
+        }
     }
 
     private void callAddOrderAPI() {
+        progressLanding.bringToFront();
+        progressLanding.setVisibility(View.VISIBLE);
 
         HashMap hashmap = new HashMap();
+        float total = 0;
+        for (int count = 0; count < cartClasses.size(); count++) {
+            hashmap.put("data[product_details][" + count + "][subscribed_product_id]", cartClasses.get(count).subscribe_prod_id);
+            hashmap.put("data[product_details][" + count + "][base_product_id]", cartClasses.get(count).base_product_id);
+            hashmap.put("data[product_details][" + count + "][store_id]", cartClasses.get(count).store_id);
+            hashmap.put("data[product_details][" + count + "][store_front_id]", cartClasses.get(count).store_id);
+            hashmap.put("data[product_details][" + count + "][product_name]", cartClasses.get(count).product_name);
+            hashmap.put("data[product_details][" + count + "][product_qty]", cartClasses.get(count).product_qty);
+            hashmap.put("data[product_details][" + count + "][unit_price]", cartClasses.get(count).unit_price);
+            hashmap.put("data[product_details][" + count + "][tax]", 0);
+            total = cartClasses.get(count).total_unit_price + total;
+
+        }
+
+
         hashmap.put("data[order_prefix]", "Test");
         hashmap.put("data[order_type]", "normal_payment");
         hashmap.put("data[shipping_charges]", 22);
         hashmap.put("data[coupon_code]", "COP3258");
-        hashmap.put("data[total]", 80);
-        hashmap.put("data[total_payable_amount]", 80);
+        hashmap.put("data[total]", dbHelper.fetchTotalCartAmount());
+        hashmap.put("data[total_payable_amount]", dbHelper.fetchTotalCartAmount());
         hashmap.put("data[buyer_email]", 1);
         hashmap.put("data[discount_amt]", 0);
-        hashmap.put("data[product_details][0][subscribed_product_id]", 2);
-        hashmap.put("data[product_details][0][base_product_id]", 1);
-        hashmap.put("data[product_details][0][store_id]", 4);
-        hashmap.put("data[product_details][0][store_front_id]", 1);
-        hashmap.put("data[product_details][0][product_name]", "test1");
-        hashmap.put("data[product_details][0][product_qty]", 1);
-        hashmap.put("data[product_details][0][unit_price]", 80);
         hashmap.put("data[user_id]", 2);
         hashmap.put("data[cart_id]", 1);
         hashmap.put("data[total_shipping_charges]", 0);
         hashmap.put("data[total_tax]", 0);
 
+
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-
-        final CoordinatorLayout cdcheckout=(CoordinatorLayout)findViewById(R.id.cdcheckout);
+        final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
-        apiInterface.getAddOrderResponce("andapikey", "1.0", "1.0",AuthToken, hashmap, new Callback<AddOrderParent>() {
+
+        apiInterface.getAddOrderResponce("andapikey", "1.0", "1.0", AuthToken, hashmap, new Callback<AddOrderParent>() {
             @Override
             public void success(AddOrderParent addOrderParent, Response response) {
 
-                String status=addOrderParent.getStatus();
+                String status = addOrderParent.getStatus();
 //                String order_no=addOrderParent.getData().getOrderNo();
-              //  int order_id=addOrderParent.getData().getOrderId();
-                Toast.makeText(Checkout_Ui.this,"status "+status,Toast.LENGTH_SHORT).show();
-
-                       Intent intent =new Intent(Checkout_Ui.this,Thank_You_UI.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
+                //  int order_id=addOrderParent.getData().getOrderId();
+                if (status.equals(0)) {
+                    progressLanding.setVisibility(View.INVISIBLE);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else {
+                    progressLanding.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(Checkout_Ui.this, Thank_You_UI.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                progressLanding.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdcheckout, error.toString(), Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 snackbar.show();
-               // Toast.makeText(Checkout_Ui.this,error.toString(),Toast.LENGTH_SHORT).show();
+                // Toast.makeText(Checkout_Ui.this,error.toString(),Toast.LENGTH_SHORT).show();
             }
         });
     }
