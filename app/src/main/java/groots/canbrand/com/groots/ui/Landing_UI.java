@@ -34,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,7 @@ public class Landing_UI extends AppCompatActivity
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
-    ProgressDialog progressDialog;
+    ProgressBar progressLanding;
 
 
     @Override
@@ -79,6 +80,7 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
+        progressLanding=(ProgressBar)findViewById(R.id.progressLanding);
 
         context=Landing_UI.this;
 
@@ -97,11 +99,11 @@ public class Landing_UI extends AppCompatActivity
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
 
-        progressDialog = new ProgressDialog(this);
+       /* progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("downloading ...");
+        progressDialog.setMessage("downloading ...");*/
 
 
 
@@ -331,7 +333,8 @@ public class Landing_UI extends AppCompatActivity
 
     void callProductListingAPI(HashMap hashMap){
 
-        progressDialog.show();
+        //progressDialog.show();
+        progressLanding.setVisibility(View.VISIBLE);
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -344,8 +347,8 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void success(ProductListData productListData, Response response) {
-
-                progressDialog.dismiss();
+                progressLanding.setVisibility(View.INVISIBLE);
+              //  progressDialog.dismiss();
                     int status=productListData.status;
 
                     if(status==-1){
@@ -384,8 +387,8 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void failure(RetrofitError error) {
-                progressDialog.dismiss();
-
+                //progressDialog.dismiss();
+                progressLanding.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();

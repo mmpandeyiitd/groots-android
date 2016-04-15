@@ -8,7 +8,21 @@
     android:background="@drawable/bg"
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <ProgressBar
+        android:id="@+id/progressLanding"
+        style="?android:attr/versionCode"
+        android:layout_width="50dp"
+        android:progress="0"
+        android:layout_centerVertical="true"
+        android:layout_height="50dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:indeterminateDrawable="@drawable/loader_0"/>
+</RelativeLayout>
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cdLanding"
         android:layout_width="match_parent"
@@ -263,6 +277,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/out" />
+
 
 
             </RelativeLayout>
