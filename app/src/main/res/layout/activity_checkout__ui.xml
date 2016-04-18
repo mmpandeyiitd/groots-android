@@ -111,7 +111,22 @@
             android:id="@+id/checkout_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+            android:scrollbars="none"
+            android:visibility="visible">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/llEmptyCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/list_empty"/>
+        </LinearLayout>
 
     </LinearLayout>
 

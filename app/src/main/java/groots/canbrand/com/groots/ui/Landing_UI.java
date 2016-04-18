@@ -45,6 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.fragments.DetailFrag;
 import groots.canbrand.com.groots.fragments.MainFrag;
 
@@ -65,6 +66,7 @@ import retrofit.client.Response;
 public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
 
+
     boolean flag = false;
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
@@ -72,7 +74,7 @@ public class Landing_UI extends AppCompatActivity
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
     ProgressBar progressLanding;
-
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,21 +95,6 @@ public class Landing_UI extends AppCompatActivity
         navLogout=(RelativeLayout)findViewById(R.id.about_menu);
         navAbout=(RelativeLayout)findViewById(R.id.logout_menu);
 
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
-        navHelp = (RelativeLayout) findViewById(R.id.help_menu);
-        navContact = (RelativeLayout) findViewById(R.id.contact_menu);
-        navRate = (RelativeLayout) findViewById(R.id.rate_menu);
-        navLogout = (RelativeLayout) findViewById(R.id.about_menu);
-        navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
-
-       /* progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("downloading ...");*/
-
-
-
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
@@ -116,15 +103,30 @@ public class Landing_UI extends AppCompatActivity
         navAbout.setOnClickListener(this);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                DbHelper dbHelper=new DbHelper(context);
+                dbHelper.createDb(false);
+                int itemInCart=dbHelper.getTotalRow();
+                if(itemInCart>0){
+                    navOrder.setVisibility(View.VISIBLE);
+                }else
+                    navOrder.setVisibility(View.GONE);
+
+            }
+            };
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
         RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
+
 
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null) {
@@ -259,21 +261,29 @@ public class Landing_UI extends AppCompatActivity
     public void onClick(View view) {
 
         switch (view.getId()) {
+
             case R.id.pending_menu:
-                Toast.makeText(this, "Pending Menu Pressed", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, Checkout_Ui.class);
+                startActivity(intent);
                 break;
+
             case R.id.help_menu:
                 Toast.makeText(this, "Help Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.contact_menu:
                 Toast.makeText(this, "Contact Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.rate_menu:
                 Toast.makeText(this, "Rate Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.about_menu:
                 Toast.makeText(this, "About Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.logout_menu:
                 //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
                 logoutPopUp();
@@ -281,10 +291,10 @@ public class Landing_UI extends AppCompatActivity
             default:
                 break;
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
     }
+
 
     private void logoutPopUp() {
         final Dialog logoutdialog = new Dialog(Landing_UI.this);
@@ -317,6 +327,7 @@ public class Landing_UI extends AppCompatActivity
                     }
                 }
                 Intent i = new Intent(Landing_UI.this, Splash.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("sender","logout");
                 startActivity(i);
                 finish();
@@ -331,6 +342,7 @@ public class Landing_UI extends AppCompatActivity
         logoutdialog.show();
     }
 
+
     private boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -343,6 +355,7 @@ public class Landing_UI extends AppCompatActivity
         }
         return dir.delete();
     }
+
 
 
     void callProductListingAPI(HashMap hashMap){
@@ -393,7 +406,6 @@ public class Landing_UI extends AppCompatActivity
                         FragmentManager manager = getFragmentManager();
                         manager.beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag(productListDocDatas)).commitAllowingStateLoss();
 
-                        Toast.makeText(Landing_UI.this, msg, Toast.LENGTH_SHORT).show();
 
                     }
 

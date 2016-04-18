@@ -37,16 +37,13 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
     DbHelper                        dbHelper;
     int previousCount;
 
-
-
+    
     public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context, UpdateCart updateCart) {
         this.cartClasses = cartClasses;
         this.context = context;
         this.updateCart = updateCart;
         dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
-
-
     }
 
 
@@ -78,8 +75,9 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         holder.imagecross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notifyDataSetChanged();
+
                 makeDialog(position);
+                notifyDataSetChanged();
             }
         });
 
@@ -181,6 +179,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
                 dbHelper.deleteRecords(cartClasses.get(position).subscribe_prod_id, cartClasses.get(position).base_product_id);
                 cartClasses.remove(position);
+                updateCart.updateCart();
                 notifyItemRemoved(position);
 
 
