@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import groots.canbrand.com.groots.adapter.Landing_Adapter;
 
@@ -37,6 +39,7 @@ public class MainFrag extends Fragment implements UpdateCart {
     TextView txtCart_main,txtamount_main;
     ImageView checkouticon_main;
     View viewId;
+    public static RecyclerView mRecyclerView;
 
     ArrayList<ProductListDocData> productListData;
     UpdateCart updateCart;
@@ -63,7 +66,7 @@ public class MainFrag extends Fragment implements UpdateCart {
         dbHelper.createDb(false);
         updateCart=this;
 
-
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.my_recycler_view);
         txtCart_main=(TextView)view.findViewById(R.id.txtCart_main);
         checkouticon_main=(ImageView)view.findViewById(R.id.checkouticon_main);
         txtamount_main=(TextView)view.findViewById(R.id.txtamount_main);
@@ -71,18 +74,22 @@ public class MainFrag extends Fragment implements UpdateCart {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(getActivity(), Checkout_Ui.class);
-                startActivity(intent);
+                int itemInCart=dbHelper.getTotalRow();
+                if(itemInCart>0) {
+                    Intent intent = new Intent(getActivity(), Checkout_Ui.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Oops! No item in cart", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        RecyclerView mRecyclerView = (RecyclerView)view.findViewById(R.id.my_recycler_view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-
+        if(cartClasses!=null && cartClasses.size()>0 && productListData!=null){
         for (int i = 0; i < productListData.size(); i++) {
 
             for (int j = 0; j < cartClasses.size(); j++) {
@@ -92,8 +99,12 @@ public class MainFrag extends Fragment implements UpdateCart {
                 }
             }
         }
+        }
+
+
         Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
         mRecyclerView.setAdapter(mAdapter);
+
 
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override

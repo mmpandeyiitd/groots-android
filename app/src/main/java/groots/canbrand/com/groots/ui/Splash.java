@@ -128,7 +128,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         Bundle bundle = i.getExtras();
 
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        if (prefs.getString("AuthToken", null) != null & bundle==null) {
+        if (prefs.getString("AuthToken", null) != null & prefs.getString("Check",null)==null) {
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -139,22 +139,21 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             };
             handler.postDelayed(runnable, 2200);
         } else {
-            /*Intent i = getIntent();
-            Bundle bundle = i.getExtras();*/
             if (bundle != null) {
-                moveup();
-                moveupTextField();
-                String sender = bundle.getString("sender");
 
-                // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
-                kbv.setImageResource(R.drawable.bck_blur);
-                llUserName.setVisibility(View.VISIBLE);
-                llPassword.setVisibility(View.VISIBLE);
-                btnSignIn.setVisibility(View.VISIBLE);
-                ivCallLogin.setVisibility(View.VISIBLE);
-                tvForgetPass.setVisibility(View.VISIBLE);
-                viewUser.setVisibility(View.VISIBLE);
-                viewPass.setVisibility(View.VISIBLE);
+                    moveup();
+                    moveupTextField();
+                    String sender = bundle.getString("sender");
+
+                    // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
+                    kbv.setImageResource(R.drawable.bck_blur);
+                    llUserName.setVisibility(View.VISIBLE);
+                    llPassword.setVisibility(View.VISIBLE);
+                    btnSignIn.setVisibility(View.VISIBLE);
+                    ivCallLogin.setVisibility(View.VISIBLE);
+                    tvForgetPass.setVisibility(View.VISIBLE);
+                    viewUser.setVisibility(View.VISIBLE);
+                    viewPass.setVisibility(View.VISIBLE);
 
 
             } else {
@@ -261,56 +260,56 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
 
-                        Utilz utilz = new Utilz();
+                Utilz utilz = new Utilz();
 
-                        String strEmail = etLogin.getText().toString();
-                        String strPwd = etPassword.getText().toString();
+                String strEmail = etLogin.getText().toString();
+                String strPwd = etPassword.getText().toString();
 
-                        if (strEmail.length() <= 0) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter email", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else if (!utilz.isValidEmail1(strEmail)) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter a valid email", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else if (strPwd.length() <= 0) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else if (strPwd.length() <= 3) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password with minimum 4 character long", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else {
-                            if (!utilz.isInternetConnected(context)) {
+                if (strEmail.length() <= 0) {
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter email", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (!utilz.isValidEmail1(strEmail)) {
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter a valid email", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (strPwd.length() <= 0) {
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (strPwd.length() <= 3) {
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please enter password with minimum 4 character long", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else {
+                    if (!utilz.isInternetConnected(context)) {
 
-                                Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
-                                snackbar.setActionTextColor(Color.WHITE);
-                                View snackbarView = snackbar.getView();
-                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                snackbar.show();
+                        Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+                        snackbar.setActionTextColor(Color.WHITE);
+                        View snackbarView = snackbar.getView();
+                        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        snackbar.show();
 
-                            }  else {
+                    }  else {
 
-                                btnSignIn.setEnabled(false);
+                        btnSignIn.setEnabled(false);
 
-                                HashMap hashMap=new HashMap();
-                                hashMap.put("email",  strEmail);
-                                hashMap.put("password", strPwd);
+                        HashMap hashMap=new HashMap();
+                        hashMap.put("email",  strEmail);
+                        hashMap.put("password", strPwd);
 
-                                callLoginAPI(hashMap);
-                            }
+                        callLoginAPI(hashMap);
+                    }
 
-                        }
+                }
 
 
 
@@ -318,7 +317,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.tvForgetPass:
 
-                    showForgetPwdDialog();
+                showForgetPwdDialog();
 
                 break;
         }
@@ -336,9 +335,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 startActivity(intent);
             }
         } else {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + storePhoneNo));
-                startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + storePhoneNo));
+            startActivity(intent);
         }
 
     }
@@ -442,14 +441,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         if(loginData.getData()!=null) {
 
 
-                                String authToken="";
+                            String authToken="";
                             for (Header header : response.getHeaders()) {
                                 if (header.getName().equals("AUTH_TOKEN"))
                                     authToken = header.getValue();
                                 Log.e("AuthToken",authToken);
                                 SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
                                 editor.putString("AuthToken",authToken);
-                                 editor.commit();
+                                editor.commit();
                             }
 
                             btnSignIn.setText("Success");

@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,10 +56,13 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 
-public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener {
+public class Checkout_Ui extends AppCompatActivity implements View.OnClickListener, UpdateCart {
+
 
     LinearLayout list_main_footer_;
     Context context;
+    Checkout_Adapter mAdapter;
+    RecyclerView mRecyclerView;
     ArrayList<CartClass> cartClasses;
     DbHelper dbHelper;
     TextView txtamount_main;
@@ -68,40 +73,33 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout__ui);
-
-        list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
-        context = Checkout_Ui.this;
-        progressLanding = (ProgressBar) findViewById(R.id.progressCheckout);
-        progressLanding.setVisibility(View.GONE);
-
-        dbHelper = new DbHelper(context);
+        context=Checkout_Ui.this;
+        updateCart=this;
+        dbHelper=new DbHelper(context);
         dbHelper.createDb(false);
 
-        cartClasses = dbHelper.order();
+        txtamount_main=(TextView)findViewById(R.id.txtamount_main);
+        list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
 
+        progressLanding=(ProgressBar)findViewById(R.id.progressCheckout);
+        progressLanding.setVisibility(View.GONE);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
-        Checkout_Adapter mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
+        mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        txtamount_main = (TextView) findViewById(R.id.txtamount_main);
-        float total = 0;
-        if (cartClasses.size() > 0) {
-            for (int i = 0; i < cartClasses.size(); i++) {
-                total = total + cartClasses.get(i).unit_price;
-            }
-        }
-        txtamount_main.setText(String.valueOf(total));
-        /*
-        DefaultItemAnimator defaultItemAnimator=new DefaultItemAnimator();
-        defaultItemAnimator.setRemoveDuration(1000);*/
-        SlideInLeftAnimator slideInRightAnimationAdapter = new SlideInLeftAnimator();
+        SlideInLeftAnimator slideInRightAnimationAdapter=new SlideInLeftAnimator();
         slideInRightAnimationAdapter.setInterpolator(new OvershootInterpolator());
         slideInRightAnimationAdapter.setRemoveDuration(1000);
         mRecyclerView.setItemAnimator(slideInRightAnimationAdapter);
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(mAdapter);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        cartClasses=dbHelper.order();
+
+        if(cartClasses.size()>0) {
+            mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
@@ -124,9 +122,13 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        txtamount_main.setText(""+priceinDb);
+
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
-        ((TextView) findViewById(R.id.checkouticon_main)).setOnClickListener(this);
-        ((ImageView) findViewById(R.id.backbtn)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
+        ((ImageView)findViewById(R.id.backbtn)).setOnClickListener(this);
     }
 
     private void makeAcall() {
@@ -157,7 +159,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             case R.id.makecall:
                 makeAcall();
                 break;
-            case R.id.checkouticon_main:
+            case R.id.checkouticon_checkout:
              /* Intent intent =new Intent(Checkout_Ui.this,Thank_You_UI.class);
               startActivity(intent);
               overridePendingTransition(R.anim.from_middle, R.anim.to_middle);*/
@@ -260,5 +262,25 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+
+    @Override
+    public void updateCart() {
+
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(priceinDb>0) {
+            ArrayList<CartClass> cartClasses=dbHelper.order();
+           // mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
+           // mRecyclerView.setAdapter(mAdapter);
+            txtamount_main.setText("" + priceinDb);
+        } else
+            txtamount_main.setText("0");
+
+
+    }
+
+    @Override
+    public void updateTotalAmnt(int childCount) {
+
+    }
 
 }

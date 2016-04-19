@@ -83,6 +83,7 @@ public class Landing_UI extends AppCompatActivity
         progressLanding=(ProgressBar)findViewById(R.id.progressLanding);
 
         context=Landing_UI.this;
+        productListDocDatas=new ArrayList<>();
 
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
@@ -162,14 +163,20 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(MainFrag.mRecyclerView!=null)
+            MainFrag.mRecyclerView.removeAllViews();
 
         productListDocDatas=new ArrayList<>();
         HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -289,6 +296,13 @@ public class Landing_UI extends AppCompatActivity
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+                SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                editor.putString("Check","name");
+                editor.commit();
+
+
 
                 File cache = getCacheDir();
                 File appDir = new File(cache.getParent());
