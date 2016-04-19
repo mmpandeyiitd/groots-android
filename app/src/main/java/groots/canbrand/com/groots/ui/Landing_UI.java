@@ -45,12 +45,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.fragments.DetailFrag;
 import groots.canbrand.com.groots.fragments.MainFrag;
 
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.interfaces.API_Interface;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.LoginData;
 import groots.canbrand.com.groots.pojo.ProductListData;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
@@ -65,14 +67,16 @@ import retrofit.client.Response;
 public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
 
+
     boolean flag = false;
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
-    ProgressBar progressLanding;
-
+    RelativeLayout loadermain;
+    DrawerLayout drawer;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +84,12 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-        progressLanding=(ProgressBar)findViewById(R.id.progressLanding);
+        loadermain=(RelativeLayout) findViewById(R.id.loadermain);
 
         context=Landing_UI.this;
         productListDocDatas=new ArrayList<>();
-
+        dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
@@ -92,21 +97,6 @@ public class Landing_UI extends AppCompatActivity
         navRate=(RelativeLayout)findViewById(R.id.rate_menu);
         navLogout=(RelativeLayout)findViewById(R.id.about_menu);
         navAbout=(RelativeLayout)findViewById(R.id.logout_menu);
-
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
-        navHelp = (RelativeLayout) findViewById(R.id.help_menu);
-        navContact = (RelativeLayout) findViewById(R.id.contact_menu);
-        navRate = (RelativeLayout) findViewById(R.id.rate_menu);
-        navLogout = (RelativeLayout) findViewById(R.id.about_menu);
-        navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
-
-       /* progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("downloading ...");*/
-
-
 
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
@@ -116,15 +106,29 @@ public class Landing_UI extends AppCompatActivity
         navAbout.setOnClickListener(this);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+
+                int itemInCart=dbHelper.getTotalRow();
+                if(itemInCart>0){
+                    navOrder.setVisibility(View.VISIBLE);
+                }else
+                    navOrder.setVisibility(View.GONE);
+
+            }
+            };
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
         RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
+
 
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null) {
@@ -163,20 +167,36 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if(MainFrag.mRecyclerView!=null)
-            MainFrag.mRecyclerView.removeAllViews();
-
-        productListDocDatas=new ArrayList<>();
         HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
     }
+
+   /* @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(productListDocDatas.size()>0) {
+            ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+            if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
+                for (int i = 0; i < productListDocDatas.size(); i++) {
+
+                    for (int j = 0; j < cartClasses.size(); j++) {
+
+                        if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                            productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            HashMap hashMap = new HashMap();
+            hashMap.put("abc", "abc");
+            callProductListingAPI(hashMap);
+        }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -259,21 +279,32 @@ public class Landing_UI extends AppCompatActivity
     public void onClick(View view) {
 
         switch (view.getId()) {
+
             case R.id.pending_menu:
-                Toast.makeText(this, "Pending Menu Pressed", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, Checkout_Ui.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                drawer.closeDrawer(GravityCompat.START);
+
                 break;
+
             case R.id.help_menu:
                 Toast.makeText(this, "Help Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.contact_menu:
                 Toast.makeText(this, "Contact Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.rate_menu:
                 Toast.makeText(this, "Rate Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.about_menu:
                 Toast.makeText(this, "About Menu Pressed", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.logout_menu:
                 //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
                 logoutPopUp();
@@ -281,10 +312,10 @@ public class Landing_UI extends AppCompatActivity
             default:
                 break;
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+       // drawer.closeDrawer(GravityCompat.START);
 
     }
+
 
     private void logoutPopUp() {
         final Dialog logoutdialog = new Dialog(Landing_UI.this);
@@ -317,6 +348,7 @@ public class Landing_UI extends AppCompatActivity
                     }
                 }
                 Intent i = new Intent(Landing_UI.this, Splash.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("sender","logout");
                 startActivity(i);
                 finish();
@@ -330,6 +362,7 @@ public class Landing_UI extends AppCompatActivity
         });
         logoutdialog.show();
     }
+
 
     private boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
@@ -345,10 +378,11 @@ public class Landing_UI extends AppCompatActivity
     }
 
 
+
     void callProductListingAPI(HashMap hashMap){
 
         //progressDialog.show();
-        progressLanding.setVisibility(View.VISIBLE);
+        loadermain.setVisibility(View.VISIBLE);
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -361,7 +395,7 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void success(ProductListData productListData, Response response) {
-                progressLanding.setVisibility(View.INVISIBLE);
+                loadermain.setVisibility(View.INVISIBLE);
               //  progressDialog.dismiss();
                     int status=productListData.status;
 
@@ -393,7 +427,6 @@ public class Landing_UI extends AppCompatActivity
                         FragmentManager manager = getFragmentManager();
                         manager.beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag(productListDocDatas)).commitAllowingStateLoss();
 
-                        Toast.makeText(Landing_UI.this, msg, Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -402,7 +435,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void failure(RetrofitError error) {
                 //progressDialog.dismiss();
-                progressLanding.setVisibility(View.INVISIBLE);
+                loadermain.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();

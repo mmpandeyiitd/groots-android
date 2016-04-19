@@ -111,7 +111,22 @@
             android:id="@+id/checkout_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+            android:scrollbars="none"
+            android:visibility="visible">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/llEmptyCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/list_empty"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -208,18 +223,14 @@
         android:layout_alignParentBottom="true"></android.support.design.widget.CoordinatorLayout>
 
     <RelativeLayout
+        android:id="@+id/loaderxml"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:gravity="center">
-        <ProgressBar
-            android:id="@+id/progressCheckout"
-            style="?android:attr/versionCode"
-            android:layout_width="50dp"
-            android:progress="0"
-            android:layout_centerVertical="true"
-            android:layout_height="50dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:indeterminateDrawable="@drawable/loader_0"/>
+        <groots.canbrand.com.groots.utilz.Loader
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:id="@+id/rotate"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import groots.canbrand.com.groots.adapter.Detail_Adapter;
@@ -41,6 +42,7 @@ public class DetailFrag extends Fragment implements UpdateCart{
     UpdateCart updateCart;
 
     ArrayList<ProductListDocData> productListDocDatas;
+
 
 
     public DetailFrag(ArrayList<ProductListDocData> productListDocDatas){
@@ -144,5 +146,21 @@ public class DetailFrag extends Fragment implements UpdateCart{
     @Override
     public void updateTotalAmnt(int childCount) {
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

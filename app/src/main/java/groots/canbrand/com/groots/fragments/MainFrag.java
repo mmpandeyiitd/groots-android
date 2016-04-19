@@ -18,7 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import groots.canbrand.com.groots.adapter.Landing_Adapter;
 
 import groots.canbrand.com.groots.databases.DbHelper;
@@ -88,22 +91,6 @@ public class MainFrag extends Fragment implements UpdateCart {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-        if(cartClasses!=null && cartClasses.size()>0 && productListData!=null){
-        for (int i = 0; i < productListData.size(); i++) {
-
-            for (int j = 0; j < cartClasses.size(); j++) {
-
-                if (productListData.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
-                    productListData.get(i).setItemCount(cartClasses.get(j).product_qty);
-                }
-            }
-        }
-        }
-
-
-        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
-        mRecyclerView.setAdapter(mAdapter);
 
 
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
@@ -130,6 +117,30 @@ public class MainFrag extends Fragment implements UpdateCart {
         return view;
     }
 
+    public void onResume() {
+        super.onResume();
+
+        //    ArrayList<ProductListDocData> productListDocDatas=productListData;
+        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+        if (cartClasses != null && cartClasses.size() > 0 && productListData != null) {
+            for (int i = 0; i < productListData.size(); i++) {
+
+                for (int j = 0; j < cartClasses.size(); j++) {
+
+                    if (productListData.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                        productListData.get(i).setItemCount(cartClasses.get(j).product_qty);
+                    }else
+                        productListData.get(i).setItemCount(0);
+                }
+            }
+        }
+
+
+        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
 
     @Override
     public void updateCart() {
@@ -151,5 +162,21 @@ public class MainFrag extends Fragment implements UpdateCart {
     @Override
     public void updateTotalAmnt(int childCount) {
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

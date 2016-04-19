@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     EditText etLogin, etPassword;
     CoordinatorLayout cdLogin, cdForgetPwd;
     TextView tvForgetPass;
-    ProgressBar progressMobile;
+    RelativeLayout progressMobile;
 
     Button btnSignIn;
     String storePhoneNo="1234567899";
@@ -94,7 +95,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         btnSignIn = (Button)findViewById(R.id.btnSignIn);
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
-        progressMobile=(ProgressBar)findViewById(R.id.progressMobile);
+        progressMobile=(RelativeLayout)findViewById(R.id.progressMobile);
         progressMobile.setVisibility(View.INVISIBLE);
 
         // create our manager instance after the content view is set
@@ -396,7 +397,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         progressMobile.setVisibility(View.VISIBLE);
 
         isLoadingDone = false;
-        btnSignIn.setText("Loading..");
+      //  btnSignIn.setText("Loading..");
 
 
         RestAdapter restAdapter = new RestAdapter.Builder()
@@ -418,7 +419,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     status=loginData.getStatus();
 
                     if(status==-1){
-                        btnSignIn.setText("Sign In");
+                       // btnSignIn.setText("Sign In");
                         String msg=loginData.getMsg();
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
@@ -428,7 +429,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                     }else
                     if(status==0){
-                        btnSignIn.setText("Sign In");
+                       // btnSignIn.setText("Sign In");
                         String msg=loginData.getMsg();
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
@@ -451,7 +452,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 editor.commit();
                             }
 
-                            btnSignIn.setText("Success");
+                         //   btnSignIn.setText("Success");
 
                             String msg = loginData.getMsg();
                             Intent i = new Intent(Splash.this, Landing_UI.class);
@@ -461,7 +462,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             Toast.makeText(Splash.this, msg, Toast.LENGTH_SHORT).show();
                         }else
                         {
-                            btnSignIn.setText("Sign In");
+                        //    btnSignIn.setText("Sign In");
                             Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
@@ -472,7 +473,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 }
                 else {
                     btnSignIn.setEnabled(true);
-                    btnSignIn.setText("Sign In");
+                   // btnSignIn.setText("Sign In");
                     Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -490,7 +491,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 snackbar.show();
                 btnSignIn.setEnabled(true);
-                btnSignIn.setText("Sign In");
+              //  btnSignIn.setText("Sign In");
             }
         });
     }

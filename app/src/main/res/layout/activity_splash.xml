@@ -250,16 +250,16 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/progressMobile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:gravity="center">
-    <ProgressBar
-           android:id="@+id/progressMobile"
-           style="?android:attr/accessibilityFeedbackType"
-           android:layout_width="50dp"
-           android:layout_height="50dp"
-           android:indeterminate="false"
-            android:indeterminateDrawable="@drawable/loader_0"/>
+
+        <groots.canbrand.com.groots.utilz.Loader
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:id="@+id/rotate"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
