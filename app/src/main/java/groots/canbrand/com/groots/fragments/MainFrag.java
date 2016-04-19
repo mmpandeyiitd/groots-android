@@ -33,6 +33,7 @@ import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
 import groots.canbrand.com.groots.ui.HidingScrollListener;
 import groots.canbrand.com.groots.ui.Landing_UI;
+import groots.canbrand.com.groots.utilz.Utilz;
 
 
 public class MainFrag extends Fragment implements UpdateCart {
@@ -88,8 +89,8 @@ public class MainFrag extends Fragment implements UpdateCart {
         });
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(Utilz.count);
 
 
 
@@ -136,7 +137,7 @@ public class MainFrag extends Fragment implements UpdateCart {
         }
 
 
-        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
+        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart,1);
         mRecyclerView.setAdapter(mAdapter);
 
     }

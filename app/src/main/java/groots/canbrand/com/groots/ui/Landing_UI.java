@@ -217,25 +217,20 @@ public class Landing_UI extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.show) {
+            FragmentManager manager = getFragmentManager();
             if (flag == false) {
                 flag = true;
 
-                FragmentManager manager = getFragmentManager();
                 DetailFrag detailFrag = new DetailFrag(productListDocDatas);
-                MainFrag mainFrag = new MainFrag();
-
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
-                        .replace(R.id.frameLayoutForAllFrags, detailFrag, "loadingFragment").remove(mainFrag).commit();
-
-                // getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, detailFrag).commitAllowingStateLoss();
+                        .replace(R.id.frameLayoutForAllFrags, detailFrag, "loadingFragment").commit();
                 item.setIcon(R.drawable.list_view);
+
             } else {
-                FragmentManager manager = getFragmentManager();
+
                 MainFrag mainFrag = new MainFrag(productListDocDatas);
                 flag = false;
                 manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)

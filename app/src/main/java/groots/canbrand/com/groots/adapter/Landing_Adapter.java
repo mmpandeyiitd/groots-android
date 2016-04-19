@@ -19,6 +19,7 @@ import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.utilz.Utilz;
 
 /**
  * Created by Administrator on 04-04-2016.
@@ -32,11 +33,13 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     View view;
     int lastPosition =-1;
     UpdateCart updateCart;
+    int count=0;
 
-    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart) {
+    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart,int i) {
         this.productListData=productListData;
         this.context=context;
         this.updateCart=updateCart;
+        this.count=i;
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder
@@ -64,7 +67,13 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
     @Override
     public Landing_Adapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
+        if(count==1) {
+            view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
+        }
+        else
+        {
+            view = LayoutInflater.from(context).inflate(R.layout.detail_adapter_layout, parent, false);
+        }
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
     }
@@ -106,10 +115,12 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         holder.txtMinus.setTag(position);
         holder.txtCount.setTag(position);
 
+
         holder.txtPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Utilz.count=position;
                 int clickedPos = (int) view.getTag();
                 int previousCount = productListData.get(clickedPos).getItemCount();
 
@@ -131,6 +142,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         holder.txtMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Utilz.count=position;
                 int clickedPos = (int) view.getTag();
                 int previousCount = productListData.get(clickedPos).getItemCount();
                 if (previousCount > 0) {
