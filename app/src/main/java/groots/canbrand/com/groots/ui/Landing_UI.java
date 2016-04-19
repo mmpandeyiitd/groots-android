@@ -68,6 +68,7 @@ public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
 
 
+
     boolean flag = false;
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
@@ -77,6 +78,7 @@ public class Landing_UI extends AppCompatActivity
     ProgressBar progressLanding;
     DrawerLayout drawer;
     DbHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,16 +170,16 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        HashMap hashMap=new HashMap();
+        /*HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
-        callProductListingAPI(hashMap);
+        callProductListingAPI(hashMap);*/
     }
 
-   /* @Override
+   @Override
     protected void onResume() {
         super.onResume();
 
-        if(productListDocDatas.size()>0) {
+      /*  if(productListDocDatas.size()>0) {
             ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
             if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
                 for (int i = 0; i < productListDocDatas.size(); i++) {
@@ -187,6 +189,7 @@ public class Landing_UI extends AppCompatActivity
                         if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
                             productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                         }
+                        else productListDocDatas.get(i).setItemCount(0);
                     }
                 }
             }
@@ -195,8 +198,17 @@ public class Landing_UI extends AppCompatActivity
             HashMap hashMap = new HashMap();
             hashMap.put("abc", "abc");
             callProductListingAPI(hashMap);
-        }
-    }*/
+        }*/
+
+
+       if(MainFrag.mRecyclerView!=null)
+           MainFrag.mRecyclerView.removeAllViews();
+
+       productListDocDatas=new ArrayList<>();
+       HashMap hashMap=new HashMap();
+       hashMap.put("abc", "abc");
+       callProductListingAPI(hashMap);
+    }
 
     @Override
     public void onBackPressed() {

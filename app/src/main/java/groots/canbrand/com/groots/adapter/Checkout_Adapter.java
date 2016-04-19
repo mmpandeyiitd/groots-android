@@ -37,7 +37,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
     DbHelper                        dbHelper;
     int previousCount;
 
-    
+
     public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context, UpdateCart updateCart) {
         this.cartClasses = cartClasses;
         this.context = context;
