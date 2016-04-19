@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     EditText etLogin, etPassword;
     CoordinatorLayout cdLogin, cdForgetPwd;
     TextView tvForgetPass;
-    ProgressBar progressMobile;
+    RelativeLayout progressMobile;
 
     Button btnSignIn;
     String storePhoneNo="1234567899";
@@ -94,7 +95,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         btnSignIn = (Button)findViewById(R.id.btnSignIn);
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
-        progressMobile=(ProgressBar)findViewById(R.id.progressMobile);
+        progressMobile=(RelativeLayout)findViewById(R.id.progressMobile);
         progressMobile.setVisibility(View.INVISIBLE);
 
         // create our manager instance after the content view is set

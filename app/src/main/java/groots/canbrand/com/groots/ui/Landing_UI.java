@@ -74,7 +74,7 @@ public class Landing_UI extends AppCompatActivity
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
-    ProgressBar progressLanding;
+    RelativeLayout loadermain;
     DrawerLayout drawer;
     DbHelper dbHelper;
 
@@ -84,7 +84,7 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-        progressLanding=(ProgressBar)findViewById(R.id.progressLanding);
+        loadermain=(RelativeLayout) findViewById(R.id.loadermain);
 
         context=Landing_UI.this;
         productListDocDatas=new ArrayList<>();
@@ -382,7 +382,7 @@ public class Landing_UI extends AppCompatActivity
     void callProductListingAPI(HashMap hashMap){
 
         //progressDialog.show();
-        progressLanding.setVisibility(View.VISIBLE);
+        loadermain.setVisibility(View.VISIBLE);
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -395,7 +395,7 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void success(ProductListData productListData, Response response) {
-                progressLanding.setVisibility(View.INVISIBLE);
+                loadermain.setVisibility(View.INVISIBLE);
               //  progressDialog.dismiss();
                     int status=productListData.status;
 
@@ -435,7 +435,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void failure(RetrofitError error) {
                 //progressDialog.dismiss();
-                progressLanding.setVisibility(View.INVISIBLE);
+                loadermain.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();

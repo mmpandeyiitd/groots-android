@@ -67,7 +67,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     DbHelper dbHelper;
     TextView txtamount_main;
     UpdateCart updateCart;
-    ProgressBar progressLanding;
+    RelativeLayout loaderlayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +81,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         txtamount_main=(TextView)findViewById(R.id.txtamount_main);
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
+        loaderlayout=(RelativeLayout)findViewById(R.id.loaderxml);
 
-        progressLanding=(ProgressBar)findViewById(R.id.progressCheckout);
-        progressLanding.setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -189,8 +189,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     }
 
     private void callAddOrderAPI() {
-        progressLanding.bringToFront();
-        progressLanding.setVisibility(View.VISIBLE);
+        loaderlayout.bringToFront();
+        loaderlayout.setVisibility(View.VISIBLE);
 
         HashMap hashmap = new HashMap();
         float total = 0;
@@ -239,23 +239,24 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 String status = addOrderParent.getStatus();
 //                String order_no=addOrderParent.getData().getOrderNo();
                 //  int order_id=addOrderParent.getData().getOrderId();
-                if (status.equals(0)) {
-                    progressLanding.setVisibility(View.INVISIBLE);
+                if (status.equals("0")) {
+                    loaderlayout.setVisibility(View.INVISIBLE);
                     Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
-                }else  if (status.equals(-1)) {
-                    progressLanding.setVisibility(View.INVISIBLE);
+
+                }else  if (status.equals("-1")) {
+                    loaderlayout.setVisibility(View.INVISIBLE);
                     Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
-                }  else  if (status.equals(1))
+                }else  if (status.equals("1"))
                 {
-                    progressLanding.setVisibility(View.INVISIBLE);
+                    loaderlayout.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(Checkout_Ui.this, Thank_You_UI.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
@@ -266,7 +267,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void failure(RetrofitError error) {
-                progressLanding.setVisibility(View.INVISIBLE);
+                loaderlayout.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdcheckout, error.toString(), Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
@@ -276,6 +277,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             }
         });
     }
+
 
     @Override
     public void updateCart() {
@@ -300,4 +302,5 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     public void updateTotalAmnt(int childCount) {
 
     }
+
 }
