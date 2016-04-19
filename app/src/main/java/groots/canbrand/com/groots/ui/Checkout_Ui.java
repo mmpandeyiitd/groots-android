@@ -260,5 +260,5 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-   
+
 }
