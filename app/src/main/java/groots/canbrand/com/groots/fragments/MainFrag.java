@@ -48,7 +48,7 @@ public class MainFrag extends Fragment implements UpdateCart {
     UpdateCart updateCart;
 
     Context context;
-    DbHelper dbHelper;
+
 
     public MainFrag() {
 
@@ -60,12 +60,11 @@ public class MainFrag extends Fragment implements UpdateCart {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view =inflater.inflate(R.layout.fragment_main, container, false);
         list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
         viewId=(View)view.findViewById(R.id.viewid);
         context= Landing_UI.context;
-        dbHelper=new DbHelper(context);
+        final DbHelper dbHelper=new DbHelper(context);
         dbHelper.createDb(false);
         updateCart=this;
 
@@ -91,6 +90,22 @@ public class MainFrag extends Fragment implements UpdateCart {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+        if(cartClasses!=null && cartClasses.size()>0 && productListData!=null){
+            for (int i = 0; i < productListData.size(); i++) {
+
+                for (int j = 0; j < cartClasses.size(); j++) {
+
+                    if (productListData.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                        productListData.get(i).setItemCount(cartClasses.get(j).product_qty);
+                    }
+                }
+            }
+        }
+
+
+        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
+        mRecyclerView.setAdapter(mAdapter);
 
 
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
@@ -117,34 +132,13 @@ public class MainFrag extends Fragment implements UpdateCart {
         return view;
     }
 
-    public void onResume() {
-        super.onResume();
 
-        //    ArrayList<ProductListDocData> productListDocDatas=productListData;
-        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-        if (cartClasses != null && cartClasses.size() > 0 && productListData != null) {
-            for (int i = 0; i < productListData.size(); i++) {
-
-                for (int j = 0; j < cartClasses.size(); j++) {
-
-                    if (productListData.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
-                        productListData.get(i).setItemCount(cartClasses.get(j).product_qty);
-                    }else
-                        productListData.get(i).setItemCount(0);
-                }
-            }
-        }
-
-
-        Landing_Adapter mAdapter = new Landing_Adapter(productListData,context, updateCart);
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
 
 
     @Override
     public void updateCart() {
-
+        DbHelper dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
         int itemInDb=dbHelper.getTotalRow();
         float priceinDb=dbHelper.fetchTotalCartAmount();
         if(itemInDb>0){

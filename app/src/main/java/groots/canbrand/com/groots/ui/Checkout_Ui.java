@@ -284,7 +284,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         float priceinDb=dbHelper.fetchTotalCartAmount();
         if(priceinDb>0) {
-            ArrayList<CartClass> cartClasses=dbHelper.order();
+           // ArrayList<CartClass> cartClasses=dbHelper.order();
             mRecyclerView.setVisibility(View.VISIBLE);
             txtamount_main.setText("" + priceinDb);
             ((LinearLayout)findViewById(R.id.llEmptyCart)).setVisibility(View.GONE);
