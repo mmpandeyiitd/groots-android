@@ -52,6 +52,7 @@ import groots.canbrand.com.groots.fragments.MainFrag;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.interfaces.API_Interface;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.LoginData;
 import groots.canbrand.com.groots.pojo.ProductListData;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
@@ -75,6 +76,7 @@ public class Landing_UI extends AppCompatActivity
     public static Context context;
     ProgressBar progressLanding;
     DrawerLayout drawer;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,8 @@ public class Landing_UI extends AppCompatActivity
 
         context=Landing_UI.this;
         productListDocDatas=new ArrayList<>();
-
+        dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
         cdLanding=(CoordinatorLayout)findViewById(R.id.cdLanding);
         navOrder=(RelativeLayout)findViewById(R.id.pending_menu);
         navHelp=(RelativeLayout)findViewById(R.id.help_menu);
@@ -109,8 +112,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
 
-                DbHelper dbHelper=new DbHelper(context);
-                dbHelper.createDb(false);
+
                 int itemInCart=dbHelper.getTotalRow();
                 if(itemInCart>0){
                     navOrder.setVisibility(View.VISIBLE);
@@ -165,20 +167,36 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if(MainFrag.mRecyclerView!=null)
-            MainFrag.mRecyclerView.removeAllViews();
-
-        productListDocDatas=new ArrayList<>();
         HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
     }
+
+   /* @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(productListDocDatas.size()>0) {
+            ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+            if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
+                for (int i = 0; i < productListDocDatas.size(); i++) {
+
+                    for (int j = 0; j < cartClasses.size(); j++) {
+
+                        if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                            productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            HashMap hashMap = new HashMap();
+            hashMap.put("abc", "abc");
+            callProductListingAPI(hashMap);
+        }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -266,6 +284,9 @@ public class Landing_UI extends AppCompatActivity
 
                 Intent intent = new Intent(context, Checkout_Ui.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                drawer.closeDrawer(GravityCompat.START);
+
                 break;
 
             case R.id.help_menu:
@@ -291,7 +312,7 @@ public class Landing_UI extends AppCompatActivity
             default:
                 break;
         }
-        drawer.closeDrawer(GravityCompat.START);
+       // drawer.closeDrawer(GravityCompat.START);
 
     }
 
