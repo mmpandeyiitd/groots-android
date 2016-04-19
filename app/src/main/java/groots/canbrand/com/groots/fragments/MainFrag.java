@@ -42,9 +42,9 @@ public class MainFrag extends Fragment implements UpdateCart {
 
     ArrayList<ProductListDocData> productListData;
     UpdateCart updateCart;
-
-    Context context;
     DbHelper dbHelper;
+    Context context;
+
 
     public MainFrag() {
 
@@ -58,11 +58,11 @@ public class MainFrag extends Fragment implements UpdateCart {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        list_main_footer_ = (LinearLayout) view.findViewById(R.id.list_main_footer_);
-        viewId = (View) view.findViewById(R.id.viewid);
-        context = Landing_UI.context;
-        dbHelper = new DbHelper(context);
+        View view =inflater.inflate(R.layout.fragment_main, container, false);
+        list_main_footer_=(LinearLayout)view.findViewById(R.id.list_main_footer_);
+        viewId=(View)view.findViewById(R.id.viewid);
+        context= Landing_UI.context;
+        dbHelper=new DbHelper(context);
         dbHelper.createDb(false);
         updateCart = this;
 
@@ -87,6 +87,7 @@ public class MainFrag extends Fragment implements UpdateCart {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
 
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
@@ -140,13 +141,17 @@ public class MainFrag extends Fragment implements UpdateCart {
     @Override
     public void updateCart() {
 
-        int itemInDb = dbHelper.getTotalRow();
-        float priceinDb = dbHelper.fetchTotalCartAmount();
-        if (itemInDb > 0) {
-            txtCart_main.setText("" + itemInDb);
-            txtamount_main.setText("" + priceinDb);
-            ((RelativeLayout) getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.cart);
-        } else {
+
+
+        DbHelper dbHelper=new DbHelper(context);
+        dbHelper.createDb(false);
+        int itemInDb=dbHelper.getTotalRow();
+        float priceinDb=dbHelper.fetchTotalCartAmount();
+        if(itemInDb>0){
+            txtCart_main.setText(""+itemInDb);
+            txtamount_main.setText(""+priceinDb);
+            ((RelativeLayout)getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.cart);
+        }else {
             txtCart_main.setText("");
             txtamount_main.setText("0");
             ((RelativeLayout) getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.blank_cart);

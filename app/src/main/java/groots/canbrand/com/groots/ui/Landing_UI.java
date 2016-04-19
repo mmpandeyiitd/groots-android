@@ -56,16 +56,18 @@ public class Landing_UI extends AppCompatActivity
         implements View.OnClickListener {
 
 
+
     boolean flag = false;
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
     CoordinatorLayout cdLanding;
     ArrayList<ProductListDocData> productListDocDatas;
     public static Context context;
-    ProgressBar progressLanding;
+    RelativeLayout loadermain;
     DrawerLayout drawer;
     DbHelper dbHelper;
     SmoothActionBarDrawerToggle     mDrawerToggle;
+
 
 
     @Override
@@ -74,7 +76,8 @@ public class Landing_UI extends AppCompatActivity
         setContentView(R.layout.activity_landing__ui);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
-        progressLanding = (ProgressBar) findViewById(R.id.progressLanding);
+
+        loadermain=(RelativeLayout) findViewById(R.id.loadermain);
 
         context = Landing_UI.this;
         productListDocDatas = new ArrayList<>();
@@ -160,16 +163,16 @@ public class Landing_UI extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        HashMap hashMap = new HashMap();
+        HashMap hashMap=new HashMap();
         hashMap.put("abc", "abc");
         callProductListingAPI(hashMap);
     }
 
-   /* @Override
+   @Override
     protected void onResume() {
         super.onResume();
 
-        if(productListDocDatas.size()>0) {
+      /*  if(productListDocDatas.size()>0) {
             ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
             if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
                 for (int i = 0; i < productListDocDatas.size(); i++) {
@@ -179,6 +182,7 @@ public class Landing_UI extends AppCompatActivity
                         if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
                             productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                         }
+                        else productListDocDatas.get(i).setItemCount(0);
                     }
                 }
             }
@@ -187,8 +191,14 @@ public class Landing_UI extends AppCompatActivity
             HashMap hashMap = new HashMap();
             hashMap.put("abc", "abc");
             callProductListingAPI(hashMap);
-        }
-    }*/
+        }*/
+
+
+       if(MainFrag.mRecyclerView!=null)
+           MainFrag.mRecyclerView.removeAllViews();
+
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -421,7 +431,7 @@ public class Landing_UI extends AppCompatActivity
     void callProductListingAPI(HashMap hashMap) {
 
         //progressDialog.show();
-        progressLanding.setVisibility(View.VISIBLE);
+        loadermain.setVisibility(View.VISIBLE);
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -434,9 +444,11 @@ public class Landing_UI extends AppCompatActivity
 
             @Override
             public void success(ProductListData productListData, Response response) {
-                progressLanding.setVisibility(View.INVISIBLE);
-                //  progressDialog.dismiss();
-                int status = productListData.status;
+
+                loadermain.setVisibility(View.INVISIBLE);
+              //  progressDialog.dismiss();
+                    int status=productListData.status;
+
 
                 if (status == -1) {
 
@@ -473,7 +485,7 @@ public class Landing_UI extends AppCompatActivity
             @Override
             public void failure(RetrofitError error) {
                 //progressDialog.dismiss();
-                progressLanding.setVisibility(View.INVISIBLE);
+                loadermain.setVisibility(View.INVISIBLE);
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
