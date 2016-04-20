@@ -246,6 +246,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
+
                 }else  if (status.equals("-1")) {
                     loaderlayout.setVisibility(View.INVISIBLE);
                     Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
@@ -253,7 +254,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
-                }  else  if (status.equals("1"))
+                }else  if (status.equals("1"))
                 {
                     loaderlayout.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(Checkout_Ui.this, Thank_You_UI.class);
@@ -283,7 +284,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         float priceinDb=dbHelper.fetchTotalCartAmount();
         if(priceinDb>0) {
-            ArrayList<CartClass> cartClasses=dbHelper.order();
+           // ArrayList<CartClass> cartClasses=dbHelper.order();
             mRecyclerView.setVisibility(View.VISIBLE);
             txtamount_main.setText("" + priceinDb);
             ((LinearLayout)findViewById(R.id.llEmptyCart)).setVisibility(View.GONE);

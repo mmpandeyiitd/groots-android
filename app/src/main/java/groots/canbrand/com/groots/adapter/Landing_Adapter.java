@@ -33,13 +33,13 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     View view;
     int lastPosition =-1;
     UpdateCart updateCart;
-    int count=0;
+    int count=1;
 
-    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart,int i) {
+    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart) {
         this.productListData=productListData;
         this.context=context;
         this.updateCart=updateCart;
-        this.count=i;
+        //this.count=i;
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder
