@@ -17,6 +17,7 @@ import groots.canbrand.com.groots.interfaces.UpdateCart;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.utilz.Utilz;
 
 /**
  * Created by Administrator on 04-04-2016.
@@ -120,6 +121,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
                     @Override
                     public void onClick(View view) {
 
+                        Utilz.count=position;
                         int clickedPos = (int) view.getTag();
                         int previousCount = productListDocDatas.get(clickedPos).getItemCount();
 

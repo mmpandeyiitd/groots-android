@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 
 public class Utilz {
 
+	public static int count=0;
+
 	/*CHECKING THE INTERNET CONNECTIVITY.......................
 	 * */
 	

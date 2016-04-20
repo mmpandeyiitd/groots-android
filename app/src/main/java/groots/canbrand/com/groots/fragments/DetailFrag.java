@@ -32,6 +32,8 @@ import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.ui.Checkout_Ui;
 import groots.canbrand.com.groots.ui.HidingScrollListener;
 import groots.canbrand.com.groots.ui.Landing_UI;
+import groots.canbrand.com.groots.utilz.MyCustomLayoutManager;
+import groots.canbrand.com.groots.utilz.Utilz;
 
 
 public class DetailFrag extends Fragment implements UpdateCart{
@@ -85,10 +87,13 @@ public class DetailFrag extends Fragment implements UpdateCart{
         });
 
 
+
         detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        MyCustomLayoutManager linearLayoutManager = new MyCustomLayoutManager(getActivity());
         detail_recycler_view.setLayoutManager(linearLayoutManager);
-/*
+        detail_recycler_view.getLayoutManager();
+        detail_recycler_view.smoothScrollToPosition(Utilz.count);
+
         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
 
         for (int i = 0; i < productListDocDatas.size(); i++) {
@@ -102,11 +107,10 @@ public class DetailFrag extends Fragment implements UpdateCart{
         }
 
         Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart);
-        detail_recycler_view.setAdapter(mAdapter);*/
-        detail_recycler_view.setHasFixedSize(true);
+        detail_recycler_view.setAdapter(mAdapter);
+        //detail_recycler_view.smoothScrollToPosition(Utilz.count);
+     //   detail_recycler_view.scrollToPosition(Utilz.count);
 
-
-        detail_recycler_view.smoothScrollToPosition(0);
 
         detail_recycler_view.setOnScrollListener(new HidingScrollListener() {
             @Override
@@ -120,6 +124,7 @@ public class DetailFrag extends Fragment implements UpdateCart{
 
             }
         });
+
 
         int itemInDb=dbHelper.getTotalRow();
         float priceinDb=dbHelper.fetchTotalCartAmount();
