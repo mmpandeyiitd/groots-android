@@ -20,10 +20,10 @@
 
         <LinearLayout
             android:id="@+id/imagecross"
-            android:layout_width="56dp"
+            android:layout_width="80dp"
             android:layout_gravity="end"
             android:gravity="end"
-            android:layout_height="wrap_content">
+            android:layout_height="40dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -72,20 +72,23 @@
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/textItemName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingTop="3dp"
                         android:singleLine="true"
                         android:text="Nasik Onion"
+                        android:paddingRight="50dp"
+                        android:textColor="@color/textPrimaryDark"
                         android:textSize="16sp"
                         android:ellipsize="end"/>
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/textItemdesc"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="3dp"
+                        android:paddingRight="50dp"
                         android:singleLine="true"
                         android:maxLines="1"
                         android:text="Xyz (1 Kg)"
@@ -104,6 +107,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/indian_rupees"
+                            android:layout_marginBottom="2dp"
+                            android:layout_gravity="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15dp" />
 
@@ -114,6 +119,8 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="250"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14dp" />
 
@@ -143,7 +150,7 @@
 
                             <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                                 android:id="@+id/txtCount"
-                                android:layout_width="25dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="25dp"
                                 android:layout_marginTop="5dp"
                                 android:gravity="center"

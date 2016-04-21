@@ -23,6 +23,7 @@ import groots.canbrand.com.groots.interfaces.UpdateCart;
 
 
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.utilz.Utilz;
 
@@ -37,11 +38,17 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     Context context;
     int lastPosition = -1;
     UpdateCart updateCart;
+    DbHelper dbHelper;
+    ArrayList<CartClass> cartClasses;
+
 
     public Detail_Adapter(ArrayList<ProductListDocData> productListDocDatas, Context context, UpdateCart updateCart) {
         this.context = context;
         this.productListDocDatas = productListDocDatas;
         this.updateCart = updateCart;
+        dbHelper = new DbHelper(context);
+        dbHelper.createDb(false);
+        cartClasses=dbHelper.order();
 
     }
 
@@ -117,8 +124,13 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).storeOfferPrice, productListDocDatas.get(position).subscribedProductId);
             updateCart.updateCart();
         } else {
-            holder.txtCount.setText("" + 0);
-            updateCart.updateCart();
+
+            if(!cartClasses.contains(productListDocDatas.get(position)))
+            {
+                holder.txtCount.setText("0");
+                updateCart.updateCart();
+            }
+
         }
 
 

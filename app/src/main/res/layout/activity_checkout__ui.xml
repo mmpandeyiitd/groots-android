@@ -231,6 +231,7 @@
         <groots.canbrand.com.groots.utilz.Loader
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:elevation="10dp"
             android:id="@+id/rotate"/>
     </RelativeLayout>
 </RelativeLayout>

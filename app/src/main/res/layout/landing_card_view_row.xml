@@ -65,12 +65,13 @@
                         android:ellipsize="end"
                         android:paddingTop="3dp"
                         android:singleLine="true"
+                        android:textColor="@color/textPrimaryDark"
                         android:text="Nasik Onion"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textItemdesc"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Xyz (1 Kg)"
@@ -89,6 +90,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/indian_rupees"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15dp" />
 
@@ -98,6 +101,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:singleLine="true"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
                             android:text="250"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14dp" />

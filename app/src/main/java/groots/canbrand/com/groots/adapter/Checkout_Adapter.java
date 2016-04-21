@@ -82,6 +82,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             }
         });
 
+
         if (cartClasses.get(position).product_qty > 0) {
             holder.txtCount.setText("" + cartClasses.get(position).product_qty);
             dbHelper.updateProductQty(cartClasses.get(position).product_qty, cartClasses.get(position).unit_price, cartClasses.get(position).subscribe_prod_id);

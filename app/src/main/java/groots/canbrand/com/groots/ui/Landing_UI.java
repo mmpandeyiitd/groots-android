@@ -296,23 +296,28 @@ public class Landing_UI extends AppCompatActivity
 
             case R.id.help_menu:
                 Toast.makeText(this, "Help Menu Pressed", Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.contact_menu:
                 Toast.makeText(this, "Contact Menu Pressed", Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.rate_menu:
                 Toast.makeText(this, "Rate Menu Pressed", Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.about_menu:
                 Toast.makeText(this, "About Menu Pressed", Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.logout_menu:
                 //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
                 logoutPopUp();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.listicon:
 

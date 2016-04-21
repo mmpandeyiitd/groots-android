@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
+import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.utilz.Utilz;
 
@@ -34,11 +35,16 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     int lastPosition =-1;
     UpdateCart updateCart;
     int count=1;
+    DbHelper dbHelper;
+    ArrayList<CartClass> cartClasses;
 
     public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart) {
         this.productListData=productListData;
         this.context=context;
         this.updateCart=updateCart;
+        dbHelper = new DbHelper(context);
+        dbHelper.createDb(false);
+        cartClasses=dbHelper.order();
         //this.count=i;
     }
 
@@ -106,9 +112,15 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
             dbHelper.updateProductQty(productListData.get(position).getItemCount(),productListData.get(position).storeOfferPrice, productListData.get(position).subscribedProductId);
             updateCart.updateCart();
         }else {
-            holder.txtCount.setText("0");
-            updateCart.updateCart();
+            if(!cartClasses.contains(productListData.get(position)))
+            {
+                holder.txtCount.setText("0");
+                updateCart.updateCart();
+            }
+          /*  holder.txtCount.setText("0");
+            updateCart.updateCart();*/
         }
+
 
 
         holder.txtPlus.setTag(position);

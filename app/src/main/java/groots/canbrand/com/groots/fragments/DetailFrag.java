@@ -42,6 +42,7 @@ public class DetailFrag extends Fragment implements UpdateCart{
     DbHelper dbHelper;
     Context context;
     UpdateCart updateCart;
+    RecyclerView detail_recycler_view;
 
     ArrayList<ProductListDocData> productListDocDatas;
 
@@ -82,7 +83,7 @@ public class DetailFrag extends Fragment implements UpdateCart{
         });
 
 
-        RecyclerView detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
+        detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
         MyCustomLayoutManager linearLayoutManager = new MyCustomLayoutManager(getActivity());
         detail_recycler_view.setLayoutManager(linearLayoutManager);
         detail_recycler_view.getLayoutManager();
@@ -133,6 +134,36 @@ public class DetailFrag extends Fragment implements UpdateCart{
         return view;
 
     }
+
+
+    @Override
+    public void onResume()
+    {
+
+        super.onResume();
+        //    ArrayList<ProductListDocData> productListDocDatas=productListData;
+        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+        if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
+            for (int i = 0; i < productListDocDatas.size(); i++) {
+                for (int j = 0; j < cartClasses.size(); j++) {
+                    if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                        productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                        break;
+                    } else
+                        productListDocDatas.get(i).setItemCount(0);
+                }
+            }
+        } else if (cartClasses != null && cartClasses.size() == 0) {
+            for (int i = 0; i < productListDocDatas.size(); i++) {
+                productListDocDatas.get(i).setItemCount(0);
+            }
+        }
+        Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart);
+        detail_recycler_view.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+    }
+
 
 
     @Override
