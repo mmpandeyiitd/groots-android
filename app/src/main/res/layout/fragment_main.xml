@@ -111,6 +111,11 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/checkouticon_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -120,7 +125,7 @@
                     android:textSize="14dp" />
 
                 <ImageView
-                    android:id="@+id/checkouticon_main"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -128,6 +133,7 @@
                     android:layout_marginRight="7dp"
                     android:layout_margin="5dp"
                     android:text="Checkout" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

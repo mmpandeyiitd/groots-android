@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 import groots.canbrand.com.groots.adapter.Detail_Adapter;
 
-import groots.canbrand.com.groots.adapter.Landing_Adapter;
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.model.CartClass;
@@ -39,19 +38,15 @@ import groots.canbrand.com.groots.utilz.Utilz;
 public class DetailFrag extends Fragment implements UpdateCart{
 
     TextView txtamount_detail,txtCart_detail;
-    ImageView checkouticon;
+    LinearLayout checkouticon;
     DbHelper dbHelper;
     Context context;
     UpdateCart updateCart;
-    RecyclerView detail_recycler_view;
-
 
     ArrayList<ProductListDocData> productListDocDatas;
 
 
-    public  DetailFrag(){
 
-    }
     public DetailFrag(ArrayList<ProductListDocData> productListDocDatas){
         this.productListDocDatas=productListDocDatas;
     }
@@ -71,7 +66,7 @@ public class DetailFrag extends Fragment implements UpdateCart{
         txtamount_detail=(TextView)view.findViewById(R.id.txtamount_detail);
         txtCart_detail=(TextView)view.findViewById(R.id.txtCart_detail);
 
-        checkouticon=(ImageView)view.findViewById(R.id.checkouticon);
+        checkouticon=(LinearLayout)view.findViewById(R.id.checkouticon);
         checkouticon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,12 +82,12 @@ public class DetailFrag extends Fragment implements UpdateCart{
         });
 
 
-
-        detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
+        RecyclerView detail_recycler_view = (RecyclerView) view.findViewById(R.id.detail_recycler_view);
         MyCustomLayoutManager linearLayoutManager = new MyCustomLayoutManager(getActivity());
         detail_recycler_view.setLayoutManager(linearLayoutManager);
         detail_recycler_view.getLayoutManager();
         detail_recycler_view.smoothScrollToPosition(Utilz.count);
+
 
         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
 
@@ -108,8 +103,10 @@ public class DetailFrag extends Fragment implements UpdateCart{
 
         Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart);
         detail_recycler_view.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         //detail_recycler_view.smoothScrollToPosition(Utilz.count);
      //   detail_recycler_view.scrollToPosition(Utilz.count);
+
 
 
         detail_recycler_view.setOnScrollListener(new HidingScrollListener() {
@@ -136,32 +133,6 @@ public class DetailFrag extends Fragment implements UpdateCart{
         return view;
 
     }
-
-
-    public void onResume() {
-        super.onResume();
-        //    ArrayList<ProductListDocData> productListDocDatas=productListData;
-        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-        if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
-            for (int i = 0; i < productListDocDatas.size(); i++) {
-                for (int j = 0; j < cartClasses.size(); j++) {
-                    if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
-                        productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
-                        break;
-                    } else
-                        productListDocDatas.get(i).setItemCount(0);
-                }
-            }
-        } else if (cartClasses != null && cartClasses.size() == 0) {
-            for (int i = 0; i < productListDocDatas.size(); i++) {
-                productListDocDatas.get(i).setItemCount(0);
-            }
-        }
-        Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart);
-        detail_recycler_view.setAdapter(mAdapter);
-
-    }
-
 
 
     @Override

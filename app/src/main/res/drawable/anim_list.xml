@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:drawable="@drawable/groots_loader_1" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_2" android:duration="100"></item>
-    <item android:drawable="@drawable/groots_loader_3" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_4" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_5" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_6" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_7" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_8" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_9" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_10" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_11" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_12" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_13" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_14" android:duration="100" />
-    <item android:drawable="@drawable/groots_loader_15" android:duration="100" />
+    <item android:drawable="@drawable/leaf_1" android:duration="100" />
+    <item android:drawable="@drawable/leaf_2" android:duration="100"></item>
+    <item android:drawable="@drawable/leaf_3" android:duration="100" />
+    <item android:drawable="@drawable/leaf_4" android:duration="100" />
+    <item android:drawable="@drawable/leaf_5" android:duration="100" />
+    <item android:drawable="@drawable/leaf_6" android:duration="100" />
+    <item android:drawable="@drawable/leaf_7" android:duration="100" />
+    <item android:drawable="@drawable/leaf_8" android:duration="100" />
+    <item android:drawable="@drawable/leaf_9" android:duration="100" />
+    <item android:drawable="@drawable/leaf_10" android:duration="100" />
+    <item android:drawable="@drawable/leaf_11" android:duration="100" />
+    <item android:drawable="@drawable/leaf_12" android:duration="100" />
+    <item android:drawable="@drawable/leaf_13" android:duration="100" />
+    <item android:drawable="@drawable/leaf_14" android:duration="100" />
+    <item android:drawable="@drawable/leaf_15" android:duration="100" />
 </animation-list>

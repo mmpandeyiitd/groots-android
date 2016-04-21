@@ -31,209 +31,204 @@ import groots.canbrand.com.groots.model.CartClass;
 public class DbHelper extends SQLiteOpenHelper {
 
 
-	private String DB_FULL_PATH = "";
-	public static final String DB_NAME = "grootsdb.sqlite";
-	public static String DB_PATH;
-	public static volatile SQLiteDatabase db;
-	Context context;
+    private String DB_FULL_PATH = "";
+    public static final String DB_NAME = "grootsdb.sqlite";
+    public static String DB_PATH;
+    public static volatile SQLiteDatabase db;
+    Context context;
 
 
-	public DbHelper(Context context) {
-		super(context, DB_NAME, null, 2);
-		this.context = context;
+    public DbHelper(Context context) {
+        super(context, DB_NAME, null, 2);
+        this.context = context;
 
-		DB_PATH = "/data/data/" + this.context.getPackageName() + "/databases/";
-		DB_FULL_PATH = DB_PATH + DB_NAME;
-		Log.v("DB PATH", DB_FULL_PATH);
+        DB_PATH = "/data/data/" + this.context.getPackageName() + "/databases/";
+        DB_FULL_PATH = DB_PATH + DB_NAME;
+        Log.v("DB PATH", DB_FULL_PATH);
 
-	}
-
-
-
-	public  void deleteDb() {
-
-		db = openDataBase();
-
-		boolean boolDeleteStatus;
-		try {
-			File file = new File(DB_PATH + DB_NAME);
-			boolDeleteStatus = file.delete();
-			Log.d("Database :", "Old Data Base Deleted" + boolDeleteStatus);
-		} catch (Exception e) {
-			Log.e("Error:", e.getMessage());
-		}
-
-	}
+    }
 
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
+    public void deleteDb() {
 
-	}
+        db = openDataBase();
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        boolean boolDeleteStatus;
+        try {
+            File file = new File(DB_PATH + DB_NAME);
+            boolDeleteStatus = file.delete();
+            Log.d("Database :", "Old Data Base Deleted" + boolDeleteStatus);
+        } catch (Exception e) {
+            Log.e("Error:", e.getMessage());
+        }
 
-	}
-
-	public void createDb(boolean versionChange) {
-		boolean chkverres;
-		chkverres = checkversion();
-
-		if (!checkDb() || chkverres) {
-			// Not Exist. So we have to copy the database
-			copyDataBase();
-
-		}
-
-		db = openDataBase();
-
-	}
-
-	public boolean checkversion() {
-		String MISC_PREFS = "MiscPrefsFile";
-		String Versionname, currentVersion;
-		// Checking for database existence.
-		PackageManager manager = this.context.getPackageManager();
-		try {
-			PackageInfo info = manager.getPackageInfo(
-					this.context.getPackageName(), 0);
-			Versionname = info.versionName;
-			SharedPreferences miscPrefs = context.getSharedPreferences(
-					MISC_PREFS, Context.MODE_PRIVATE);
-			currentVersion = miscPrefs.getString("Current Version", null);
-			Log.v("getting version name", "getAppVersionToPrefs: got "
-					+ currentVersion);
-			miscPrefs.edit().putString("Current Version", Versionname).commit();
-			Log.v("settinf version name",
-					"setAppVersionToPrefs: set app version to prefs"
-							+ Versionname);
-			if (Versionname.equals(currentVersion)) {
-				return false;
-			} else {
-				return true;
-			}
-
-		} catch (NameNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return false;
-
-		}
-
-	}
-
-	public boolean checkDb() {
-		db = null;
-
-		try {
-			db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
-					SQLiteDatabase.OPEN_READWRITE
-							| SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (db != null) {
-			db.close();
-		}
-
-		return (db == null) ? false : true;
-	}
-
-	public static SQLiteDatabase openDataBase() throws SQLException {
-		try {
-			if (db == null) {
-
-				db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
-						SQLiteDatabase.OPEN_READWRITE
-								| SQLiteDatabase.CREATE_IF_NECESSARY
-								| SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-			} else if (!db.isOpen()) {
-				db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
-						SQLiteDatabase.OPEN_READWRITE
-								| SQLiteDatabase.CREATE_IF_NECESSARY
-								| SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return db;
-	}
+    }
 
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
 
-	public void copyDataBase() {
-		InputStream in;
-		OutputStream os;
-		byte arrByte[] = new byte[1024];
+    }
 
-		try {
-			in = context.getAssets().open(DB_NAME);
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-			// Making directory
-			File dbFolder = new File(DB_PATH);
-			if (!dbFolder.exists())
-				dbFolder.mkdir();
+    }
 
-			os = new FileOutputStream(DB_PATH + DB_NAME);
-			int length;
+    public void createDb(boolean versionChange) {
+        boolean chkverres;
+        chkverres = checkversion();
 
-			while ((length = in.read(arrByte)) > 0) {
-				os.write(arrByte, 0, length);
-			}
+        if (!checkDb() || chkverres) {
+            // Not Exist. So we have to copy the database
+            copyDataBase();
 
-			// Closing the streams
-			os.flush();
-			in.close();
-			os.close();
+        }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        db = openDataBase();
+
+    }
+
+    public boolean checkversion() {
+        String MISC_PREFS = "MiscPrefsFile";
+        String Versionname, currentVersion;
+        // Checking for database existence.
+        PackageManager manager = this.context.getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(
+                    this.context.getPackageName(), 0);
+            Versionname = info.versionName;
+            SharedPreferences miscPrefs = context.getSharedPreferences(
+                    MISC_PREFS, Context.MODE_PRIVATE);
+            currentVersion = miscPrefs.getString("Current Version", null);
+            Log.v("getting version name", "getAppVersionToPrefs: got "
+                    + currentVersion);
+            miscPrefs.edit().putString("Current Version", Versionname).commit();
+            Log.v("settinf version name",
+                    "setAppVersionToPrefs: set app version to prefs"
+                            + Versionname);
+            if (Versionname.equals(currentVersion)) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (NameNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return false;
+
+        }
+
+    }
+
+    public boolean checkDb() {
+        db = null;
+
+        try {
+            db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
+                    SQLiteDatabase.OPEN_READWRITE
+                            | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (db != null) {
+            db.close();
+        }
+
+        return (db == null) ? false : true;
+    }
+
+    public static SQLiteDatabase openDataBase() throws SQLException {
+        try {
+            if (db == null) {
+
+                db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
+                        SQLiteDatabase.OPEN_READWRITE
+                                | SQLiteDatabase.CREATE_IF_NECESSARY
+                                | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+            } else if (!db.isOpen()) {
+                db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,
+                        SQLiteDatabase.OPEN_READWRITE
+                                | SQLiteDatabase.CREATE_IF_NECESSARY
+                                | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return db;
+    }
 
 
+    public void copyDataBase() {
+        InputStream in;
+        OutputStream os;
+        byte arrByte[] = new byte[1024];
+
+        try {
+            in = context.getAssets().open(DB_NAME);
+
+            // Making directory
+            File dbFolder = new File(DB_PATH);
+            if (!dbFolder.exists())
+                dbFolder.mkdir();
+
+            os = new FileOutputStream(DB_PATH + DB_NAME);
+            int length;
+
+            while ((length = in.read(arrByte)) > 0) {
+                os.write(arrByte, 0, length);
+            }
+
+            // Closing the streams
+            os.flush();
+            in.close();
+            os.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	public static void copyDBToPhoneSD1() {
-		InputStream in;
-		OutputStream os;
-		byte arrByte[] = new byte[1024];
+    public static void copyDBToPhoneSD1() {
+        InputStream in;
+        OutputStream os;
+        byte arrByte[] = new byte[1024];
 
-		try {
-			in = new FileInputStream(DB_PATH + DB_NAME);
+        try {
+            in = new FileInputStream(DB_PATH + DB_NAME);
 
-			os = new FileOutputStream(Environment.getExternalStorageDirectory()
-					+ "/" + DB_NAME);
-			int length;
+            os = new FileOutputStream(Environment.getExternalStorageDirectory()
+                    + "/" + DB_NAME);
+            int length;
 
-			while ((length = in.read(arrByte)) > 0) {
-				os.write(arrByte, 0, length);
-			}
+            while ((length = in.read(arrByte)) > 0) {
+                os.write(arrByte, 0, length);
+            }
 
-			// Closing the streams
-			os.flush();
-			in.close();
-			os.close();
+            // Closing the streams
+            os.flush();
+            in.close();
+            os.close();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-
-	//...............................Product Table.............................
+    //...............................Product Table.............................
 
 	/* insert cart data
-	 * in product table
+     * in product table
 	 * */
 
-    public  void insertCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
-                                String product_description, String product_image, int product_qty, float unit_price){
+    public void insertCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
+                               String product_description, String product_image, int product_qty, float unit_price) {
 
         try {
 
@@ -241,7 +236,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
             ContentValues contentValues = new ContentValues();
 
-            contentValues.put("subscribe_prod_id",subscribe_prod_id);
+            contentValues.put("subscribe_prod_id", subscribe_prod_id);
             contentValues.put("base_product_id", base_product_id);
             contentValues.put("store_id", store_id);
             contentValues.put("product_name", product_name);
@@ -250,24 +245,23 @@ public class DbHelper extends SQLiteOpenHelper {
             contentValues.put("product_qty", product_qty);
             contentValues.put("unit_price", unit_price);
 
-			float total_unit_price=product_qty*unit_price;
-			contentValues.put("total_unit_price", total_unit_price);
+            float total_unit_price = product_qty * unit_price;
+            contentValues.put("total_unit_price", total_unit_price);
 
-            String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id ;
+            String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id;
 
             Cursor cursor = null;
             cursor = db.rawQuery(query, null);
             int count = cursor.getCount();
             if (count > 0) {
-                db.execSQL("UPDATE Cart SET product_qty= "+product_qty +", total_unit_price= "+total_unit_price+" WHERE base_product_id = "+base_product_id+" AND subscribe_prod_id="+ subscribe_prod_id);
+                db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE base_product_id = " + base_product_id + " AND subscribe_prod_id=" + subscribe_prod_id);
             } else if (count == 0)
                 db.insert("Cart", null, contentValues);
 
             copyDBToPhoneSD1();
             if (db != null)
                 db.close();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -292,17 +286,30 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void deleterec() {
+        try {
+            db = openDataBase();
+            db.execSQL("DELETE FROM CART");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+        }
+    }
+
     /*update the product
 	 Qty*/
-    public void updateProductQty(int product_qty,float unit_price, int subscribe_prod_id){
+    public void updateProductQty(int product_qty, float unit_price, int subscribe_prod_id) {
 
-        try { db=openDataBase();
+        try {
+            db = openDataBase();
 
-			float total_unit_price=unit_price*product_qty;
-            db.execSQL("UPDATE Cart SET product_qty= "+product_qty +", total_unit_price= "+total_unit_price+" WHERE subscribe_prod_id = "+subscribe_prod_id);
+            float total_unit_price = unit_price * product_qty;
+            db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -313,15 +320,15 @@ public class DbHelper extends SQLiteOpenHelper {
      /*get product count in cart data
     * */
 
-    public  ArrayList<CartClass> getProductQty() {
+    public ArrayList<CartClass> getProductQty() {
 
 
         db = openDataBase();
 
-        ArrayList<CartClass> arrayList=new ArrayList<>();
+        ArrayList<CartClass> arrayList = new ArrayList<>();
         CartClass cartClass;
         String countQuery = "SELECT * FROM Cart";
-        int cnt=0;
+        int cnt = 0;
         Cursor cursor = null;
         try {
             cursor = db.rawQuery(countQuery, null);
@@ -331,11 +338,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 do {
                     cartClass = new CartClass();
                     cartClass.subscribe_prod_id = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
-                    cartClass.product_qty= cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
+                    cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
 
                     arrayList.add(cartClass);
 
-                }while (cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
 
 
@@ -355,12 +362,12 @@ public class DbHelper extends SQLiteOpenHelper {
        /*get all row count in cart data
     * */
 
-    public  int getTotalRow() {
+    public int getTotalRow() {
 
 
         db = openDataBase();
         String countQuery = "SELECT  * FROM Cart";
-        int cnt=0;
+        int cnt = 0;
         Cursor cursor = null;
         try {
             cursor = db.rawQuery(countQuery, null);
@@ -379,34 +386,34 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public int fetchTotalCartAmount(){
+    public int fetchTotalCartAmount() {
 
-        String query="SELECT sum(total_unit_price) from Cart";
+        String query = "SELECT sum(total_unit_price) from Cart";
 
-        int i=0;
-        db=openDataBase();
+        int i = 0;
+        db = openDataBase();
 
-        Cursor cursor=null;
+        Cursor cursor = null;
 
-        try{
-            cursor=db.rawQuery(query, null);
+        try {
+            cursor = db.rawQuery(query, null);
             while ((cursor.moveToNext())) {
-                i= cursor.getInt(i);
+                i = cursor.getInt(i);
 
             }
-        }catch(Exception exception){
+        } catch (Exception exception) {
 
         }
         return i;
     }
 
 
-	public  ArrayList<CartClass> order() {
+    public ArrayList<CartClass> order() {
 
-        ArrayList<CartClass> arrayList=new ArrayList<>();
+        ArrayList<CartClass> arrayList = new ArrayList<>();
         CartClass cartClass;
         String countQuery = "SELECT * FROM Cart";
-        int cnt=0;
+        int cnt = 0;
         Cursor cursor = null;
         try {
             cursor = db.rawQuery(countQuery, null);
@@ -416,33 +423,33 @@ public class DbHelper extends SQLiteOpenHelper {
                 do {
                     cartClass = new CartClass();
                     cartClass.subscribe_prod_id = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
-                    cartClass.base_product_id= cursor.getInt(cursor.getColumnIndexOrThrow("base_product_id"));
+                    cartClass.base_product_id = cursor.getInt(cursor.getColumnIndexOrThrow("base_product_id"));
                     cartClass.store_id = cursor.getInt(cursor.getColumnIndexOrThrow("store_id"));
                     cartClass.product_name = cursor.getString(cursor.getColumnIndexOrThrow("product_name"));
-                    cartClass.product_description=cursor.getString(cursor.getColumnIndexOrThrow("product_description"));
+                    cartClass.product_description = cursor.getString(cursor.getColumnIndexOrThrow("product_description"));
                     cartClass.product_image = cursor.getString(cursor.getColumnIndexOrThrow("product_image"));
                     cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
-                    cartClass.unit_price =cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
-                    cartClass.total_unit_price=cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
+                    cartClass.unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
+                    cartClass.total_unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
 
                     arrayList.add(cartClass);
-				}
-				while (cursor.moveToNext());
-			}
-		} catch (Exception ex) {
+                }
+                while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
-		} finally {
-			if (db != null)
-				db.close();
+        } finally {
+            if (db != null)
+                db.close();
 
-			if (cursor != null)
-				cursor.close();
-		}
+            if (cursor != null)
+                cursor.close();
+        }
 
 
-		return arrayList;
+        return arrayList;
 
-	}
+    }
 
 
 /*
@@ -1500,8 +1507,6 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 */
-
-
 
 
 }

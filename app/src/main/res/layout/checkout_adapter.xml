@@ -18,12 +18,19 @@
         card_view:cardCornerRadius="2dp"
         card_view:cardUseCompatPadding="true">
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/imagecross"
+            android:layout_width="56dp"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:layout_height="wrap_content">
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:src="@drawable/cross" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

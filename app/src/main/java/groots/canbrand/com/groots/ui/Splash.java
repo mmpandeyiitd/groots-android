@@ -129,7 +129,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         Bundle bundle = i.getExtras();
 
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        if (prefs.getString("AuthToken", null) != null & prefs.getString("Check",null)==null) {
+        if (prefs.getString("AuthToken", null) != null & prefs.getString("Check",null)!=null) {
             runnable = new Runnable() {
                 @Override
                 public void run() {

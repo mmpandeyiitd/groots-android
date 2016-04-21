@@ -37,7 +37,7 @@ public class MainFrag extends Fragment implements UpdateCart {
 
     LinearLayout list_main_footer_;
     TextView txtCart_main, txtamount_main;
-    ImageView checkouticon_main;
+    LinearLayout checkouticon_main;
     View viewId;
     public static RecyclerView mRecyclerView;
 
@@ -69,7 +69,7 @@ public class MainFrag extends Fragment implements UpdateCart {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         txtCart_main = (TextView) view.findViewById(R.id.txtCart_main);
-        checkouticon_main = (ImageView) view.findViewById(R.id.checkouticon_main);
+        checkouticon_main = (LinearLayout) view.findViewById(R.id.checkouticon_main);
         txtamount_main = (TextView) view.findViewById(R.id.txtamount_main);
         checkouticon_main.setOnClickListener(new View.OnClickListener() {
             @Override

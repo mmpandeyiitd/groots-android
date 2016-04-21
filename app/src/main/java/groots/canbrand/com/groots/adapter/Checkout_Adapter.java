@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -87,7 +88,8 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             updateCart.updateCart();
         } else {
             holder.txtCount.setText("0");
-            updateCart.updateCart();
+            updateCart.updateCart
+                    ();
         }
 
         holder.txtPlus.setTag(position);
@@ -152,8 +154,8 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         TextView textItemPrice;
         ImageView imgItemIcon;
         TextView txtCount;
-        ImageView imagecross, txtMinus, txtPlus;
-
+        ImageView txtMinus, txtPlus;
+        LinearLayout imagecross;
         public CartHolder(View itemView) {
             super(itemView);
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
@@ -161,7 +163,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
             txtCount = (TextView) itemView.findViewById(R.id.txtCount);
-            imagecross = (ImageView) itemView.findViewById(R.id.imagecross);
+            imagecross = (LinearLayout)itemView.findViewById(R.id.imagecross);
             txtMinus = (ImageView) itemView.findViewById(R.id.txtMinus);
             txtPlus = (ImageView) itemView.findViewById(R.id.txtPlus);
 
