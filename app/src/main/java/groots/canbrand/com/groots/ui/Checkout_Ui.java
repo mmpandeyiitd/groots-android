@@ -269,7 +269,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             @Override
             public void failure(RetrofitError error) {
                 loaderlayout.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdcheckout, error.toString(), Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

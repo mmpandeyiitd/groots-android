@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/indian_rupees"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="19sp" />
 
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Gradehgufse a hiuhyfi h "
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diameter : "
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp"
                     android:visibility="gone" />
 
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diameter : 5cm"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
                 <View
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Color : "
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp"
                     android:visibility="gone" />
 
@@ -164,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Red"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
                 <View
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
 
@@ -208,7 +208,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textColor="@color/detailSec"
                     android:text="SELECTED\nQUANTITY"
                     android:textSize="11dp" />
 

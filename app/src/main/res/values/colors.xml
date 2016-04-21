@@ -8,6 +8,7 @@
     <color name="textPrimaryNormal">#494949</color>
     <color name="textGreen">#4C8553</color>
     <color name="textPrimaryLight">#9A9A9A</color>
+    <color name="detailSec">#2D2D2D</color>
     <color name="textLogin">#E0DBDB</color>
     <color name="textHintColor">#817C80</color>
 

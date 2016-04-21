@@ -287,10 +287,16 @@ public class Landing_UI extends AppCompatActivity
 
             case R.id.pending_menu:
 
-                Intent intent = new Intent(context, Checkout_Ui.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 drawer.closeDrawer(GravityCompat.START);
+               Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context, Checkout_Ui.class);
+                        startActivity(intent);
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable,300);
 
                 break;
 
