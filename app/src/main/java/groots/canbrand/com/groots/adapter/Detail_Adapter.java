@@ -84,6 +84,11 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
         else holder.itemdesc.setVisibility(View.GONE);
 
         // if(productListDocDatas.get(position).packSize>0)
+        if(productListDocDatas.get(position).packSize<=1)
+        {
+            holder.itemquantity.setText(" " + productListDocDatas.get(position).packUnit);
+        }
+        else
         holder.itemquantity.setText(productListDocDatas.get(position).packSize + " " + productListDocDatas.get(position).packUnit);
         //  else holder.itemquantity.setVisibility(View.GONE);
 

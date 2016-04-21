@@ -129,7 +129,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
         ((TextView)findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
-        ((ImageView)findViewById(R.id.backbtn)).setOnClickListener(this);
+        ((LinearLayout)findViewById(R.id.backbtn)).setOnClickListener(this);
     }
 
     private void makeAcall() {
@@ -242,14 +242,14 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 //  int order_id=addOrderParent.getData().getOrderId();
                 if (status.equals("0")) {
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
                 }else  if (status.equals("-1")) {
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, addOrderParent.getMsg(), Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

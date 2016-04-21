@@ -152,6 +152,18 @@ public class MainFrag extends Fragment implements UpdateCart {
         if(itemInDb>0){
             txtCart_main.setText(""+itemInDb);
             txtamount_main.setText(""+priceinDb);
+            if(txtCart_main.getText().length()==1) {
+                txtCart_main.setTextSize(11);
+            }
+            else if(txtCart_main.getText().length()==2)
+            {
+                txtCart_main.setTextSize(10);
+            }
+            else if (txtCart_main.getText().length()==3)
+            {
+                txtCart_main.setTextSize(8);
+                txtCart_main.setText("99+");
+            }
             ((RelativeLayout)getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.cart);
         }else {
             txtCart_main.setText("");

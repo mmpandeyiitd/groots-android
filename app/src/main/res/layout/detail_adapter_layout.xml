@@ -259,7 +259,10 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="4"
+                        android:cursorVisible="true"
+                        android:textCursorDrawable="@drawable/cursor_drawable"
                         android:maxLines="1"
+                        android:imeOptions="actionDone"
                         android:text="0"
                         android:textSize="16dp" />
 

@@ -6,14 +6,11 @@
     android:layout_height="match_parent"
     tools:context="groots.canbrand.com.groots.ui.Checkout_Ui">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg"
         android:orientation="vertical">
-
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbars"
@@ -26,12 +23,12 @@
             app:contentInsetStart="0dp">
 
             <LinearLayout
+                android:id="@+id/backbtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/backbtn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginLeft="16dp"

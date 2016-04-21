@@ -173,6 +173,20 @@ public class DetailFrag extends Fragment implements UpdateCart{
         if(itemInDb>0){
             txtCart_detail.setText(""+itemInDb);
             txtamount_detail.setText(""+priceinDb);
+
+            if(txtCart_detail.getText().length()==1) {
+                txtCart_detail.setTextSize(11);
+            }
+            else if(txtCart_detail.getText().length()==2)
+            {
+                txtCart_detail.setTextSize(10);
+            }
+            else if (txtCart_detail.getText().length()==3)
+            {
+                txtCart_detail.setTextSize(8);
+                txtCart_detail.setText("99+");
+            }
+
             ((RelativeLayout)getActivity().findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
         }else {
             txtCart_detail.setText("");

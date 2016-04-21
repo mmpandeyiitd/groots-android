@@ -34,7 +34,6 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
     View view;
     int lastPosition =-1;
     UpdateCart updateCart;
-    int count=1;
     DbHelper dbHelper;
     ArrayList<CartClass> cartClasses;
 
@@ -73,13 +72,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
     @Override
     public Landing_Adapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(count==1) {
-            view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
-        }
-        else
-        {
-            view = LayoutInflater.from(context).inflate(R.layout.detail_adapter_layout, parent, false);
-        }
+
+        view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
     }
@@ -92,7 +86,14 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
 
         holder.textItemName.setText(productListData.get(position).title);
         holder.textItemdesc.setText(productListData.get(position).description);
-        holder.textItemPrice.setText(""+productListData.get(position).storeOfferPrice);
+        int pack_size=productListData.get(position).packSize;
+        if(pack_size<=1) {
+            holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + productListData.get(position).packUnit);
+        }
+        else
+        {
+            holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice/pack_size + "/" + productListData.get(position).packUnit);
+        }
 
         holder.txtCount.setText(""+productListData.get(position).getItemCount());
 

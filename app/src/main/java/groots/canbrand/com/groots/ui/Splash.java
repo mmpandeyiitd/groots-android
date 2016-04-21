@@ -441,29 +441,28 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     {
                         if(loginData.getData()!=null) {
 
-
+                            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
                             String authToken="";
                             for (Header header : response.getHeaders()) {
                                 if (header.getName().equals("AUTH_TOKEN"))
                                     authToken = header.getValue();
-                                Log.e("AuthToken",authToken);
-                                SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
                                 editor.putString("AuthToken",authToken);
                                 editor.commit();
                             }
 
+                            editor.putString("Retailer_Name",loginData.getData().getRetailerName());
+                            editor.putString("UserName",loginData.getData().getName());
+                            editor.commit();
                          //   btnSignIn.setText("Success");
 
-                            String msg = loginData.getMsg();
                             Intent i = new Intent(Splash.this, Landing_UI.class);
-                            i.putExtra("USERNAME",loginData.getData().getName());
                             startActivity(i);
                             finish();
-                            Toast.makeText(Splash.this, msg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
                         }else
                         {
                         //    btnSignIn.setText("Sign In");
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -474,7 +473,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 else {
                     btnSignIn.setEnabled(true);
                    // btnSignIn.setText("Sign In");
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -485,7 +484,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void failure(RetrofitError error) {
                 progressMobile.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -500,6 +499,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     void callForgetPasswordAPI(HashMap hashMap){
 
         progressMobile.setVisibility(View.VISIBLE);
+        progressMobile.bringToFront();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
@@ -540,7 +540,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                     }
                 } else {
-                    Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -550,7 +550,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void failure(RetrofitError error) {
                 progressMobile.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Some Techincal Error...", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

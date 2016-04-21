@@ -8,11 +8,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class LoginData1 {
 
-    @SerializedName("user_id")
-    @Expose
-    private String userId;
-    @SerializedName("name")
-    @Expose
+    private String user_id;
+    private String retailer_name;
     private String name;
 
     /**
@@ -21,7 +18,7 @@ public class LoginData1 {
      * The userId
      */
     public String getUserId() {
-        return userId;
+        return user_id;
     }
 
     /**
@@ -30,7 +27,25 @@ public class LoginData1 {
      * The user_id
      */
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.user_id = userId;
+    }
+
+    /**
+     *
+     * @return
+     * The retailerName
+     */
+    public String getRetailerName() {
+        return retailer_name;
+    }
+
+    /**
+     *
+     * @param retailerName
+     * The retailer_name
+     */
+    public void setRetailerName(String retailerName) {
+        this.retailer_name = retailerName;
     }
 
     /**

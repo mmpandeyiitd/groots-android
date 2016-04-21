@@ -114,7 +114,6 @@ public class Landing_UI extends AppCompatActivity
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
 
-
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -138,10 +137,9 @@ public class Landing_UI extends AppCompatActivity
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
         RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
 
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            String userName = bundle.getString("USERNAME");
+            String userName = prefs.getString("UserName",null);
             String name = "";
             if (userName.contains(" ")) {
                 String fname = userName.substring(0, userName.indexOf(" "));
@@ -154,17 +152,16 @@ public class Landing_UI extends AppCompatActivity
 
             SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
             editor.putString("Name", name);
-            editor.putString("UserName", userName);
             editor.commit();
 
-        }
+
         TextView imageViewheader = (TextView) headerView.findViewById(R.id.imageViewheader);
         TextView txtViewName = (TextView) headerView.findViewById(R.id.txtViewName);
 
-        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
 
         imageViewheader.setText(prefs.getString("Name", null));
         txtViewName.setText(prefs.getString("UserName", null));
+        ((TextView)findViewById(R.id.tooltext)).setText(prefs.getString("Retailer_Name",null));
 
         // navigationView.setNavigationItemSelectedListener(this);
         ActionBar actionBar = getSupportActionBar();
@@ -440,7 +437,7 @@ public class Landing_UI extends AppCompatActivity
                 if (status == -1) {
 
                     String msg = productListData.msg;
-                    Snackbar snackbar = Snackbar.make(cdLanding, msg, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -449,7 +446,7 @@ public class Landing_UI extends AppCompatActivity
                 } else if (status == 0) {
 
                     String msg = productListData.msg;
-                    Snackbar snackbar = Snackbar.make(cdLanding, msg, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -457,7 +454,7 @@ public class Landing_UI extends AppCompatActivity
 
                 } else if (status == 1) {
 
-                    String msg = productListData.msg;
+                   // String msg = productListData.msg;
 
                     productListDocDatas = (ArrayList<ProductListDocData>) productListData.data.response.docs;
 

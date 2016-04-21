@@ -166,9 +166,9 @@
                     android:layout_marginTop="5dp"
                     android:background="@null"
                     android:hint="Enter Password"
-                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:text="12345678"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/textLogin"
                     android:textColorHint="@color/textHintColor"
                     android:textSize="14dp" />
