@@ -92,7 +92,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<Landing_Adapter
         }
         else
         {
-            holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice/pack_size + "/" + productListData.get(position).packUnit);
+            holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" +pack_size+ productListData.get(position).packUnit);
         }
 
         holder.txtCount.setText(""+productListData.get(position).getItemCount());

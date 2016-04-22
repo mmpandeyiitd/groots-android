@@ -39,7 +39,7 @@ public class MainFrag extends Fragment implements UpdateCart {
     TextView txtCart_main, txtamount_main;
     LinearLayout checkouticon_main;
     View viewId;
-    public static RecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;
 
     ArrayList<ProductListDocData> productListData;
     UpdateCart updateCart;

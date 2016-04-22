@@ -114,6 +114,10 @@ public class Landing_UI extends AppCompatActivity
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
 
+        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+        editor.putString("Check", "true");
+        editor.commit();
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -150,7 +154,6 @@ public class Landing_UI extends AppCompatActivity
                 name = userName.substring(0, 1);
             }
 
-            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
             editor.putString("Name", name);
             editor.commit();
 
@@ -385,7 +388,6 @@ public class Landing_UI extends AppCompatActivity
                 }
                 Intent i = new Intent(Landing_UI.this, Splash.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra("sender", "logout");
                 startActivity(i);
                 finish();
             }

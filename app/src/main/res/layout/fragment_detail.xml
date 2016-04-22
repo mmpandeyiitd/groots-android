@@ -60,17 +60,17 @@
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/txtCart_detail"
-                        android:layout_width="15dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="4dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="7dp"
                         android:gravity="center"
-                        android:text=""
-                        android:textColor="#ffffff"
-                        android:textSize="8dp" />
+                        android:text="123"
+                        android:textSize="10sp"
+                        android:textColor="#ffffff"/>
 
                 </RelativeLayout>
 

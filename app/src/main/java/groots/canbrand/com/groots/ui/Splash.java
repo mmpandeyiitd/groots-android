@@ -140,11 +140,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             };
             handler.postDelayed(runnable, 2200);
         } else {
-            if (bundle != null) {
+            if  (prefs.getString("AuthToken", null) != null & prefs.getString("Check",null)==null) {
 
                     moveup();
                     moveupTextField();
-                    String sender = bundle.getString("sender");
+              //      String sender = bundle.getString("sender");
 
                     // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
                     kbv.setImageResource(R.drawable.bck_blur);

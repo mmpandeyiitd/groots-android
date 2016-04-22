@@ -104,7 +104,6 @@
                     android:hint="Enter Email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
-                    android:text="praveen@canbrand.in"
                     android:textColor="@color/textLogin"
                     android:textColorHint="@color/textHintColor"
                     android:textSize="14dp" />
@@ -167,7 +166,6 @@
                     android:background="@null"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
-                    android:text="12345678"
                     android:imeOptions="actionDone"
                     android:textColor="@color/textLogin"
                     android:textColorHint="@color/textHintColor"
