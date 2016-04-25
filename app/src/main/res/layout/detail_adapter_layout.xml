@@ -87,7 +87,7 @@
                 android:layout_gravity="end"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/textPrimaryLight"></View>
+                android:background="#A5A5A5"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
