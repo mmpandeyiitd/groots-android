@@ -13,7 +13,7 @@ public class ForgetPwdData {
     private Integer status;
     private String msg;
     private List<Object> errors = new ArrayList<Object>();
-    private String data;
+    private ForgetPwdDataChild data;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -75,7 +75,7 @@ public class ForgetPwdData {
      * @return
      * The data
      */
-    public String getData() {
+    public ForgetPwdDataChild getData() {
         return data;
     }
 
@@ -84,7 +84,7 @@ public class ForgetPwdData {
      * @param data
      * The data
      */
-    public void setData(String data) {
+    public void setData(ForgetPwdDataChild data) {
         this.data = data;
     }
 

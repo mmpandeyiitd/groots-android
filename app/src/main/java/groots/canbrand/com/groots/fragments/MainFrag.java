@@ -66,6 +66,14 @@ public class MainFrag extends Fragment implements UpdateCart {
         dbHelper=new DbHelper(context);
         dbHelper.createDb(false);
         updateCart = this;
+        int itemInCart = dbHelper.getTotalRow();
+        if (itemInCart > 0) {
+            list_main_footer_.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            list_main_footer_.setVisibility(View.GONE);
+        }
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         txtCart_main = (TextView) view.findViewById(R.id.txtCart_main);
@@ -165,10 +173,12 @@ public class MainFrag extends Fragment implements UpdateCart {
                 txtCart_main.setText("99+");
             }
             ((RelativeLayout)getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.cart);
+            list_main_footer_.setVisibility(View.VISIBLE);
         }else {
             txtCart_main.setText("");
             txtamount_main.setText("0");
             ((RelativeLayout) getActivity().findViewById(R.id.rlCartMain)).setBackgroundResource(R.drawable.blank_cart);
+            list_main_footer_.setVisibility(View.GONE);
         }
 
     }

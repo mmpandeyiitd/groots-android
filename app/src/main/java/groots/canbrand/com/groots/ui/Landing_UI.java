@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ import groots.canbrand.com.groots.pojo.LoginData;
 import groots.canbrand.com.groots.pojo.ProductListData;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.utilz.Http_Urls;
+import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -78,7 +80,7 @@ public class Landing_UI extends AppCompatActivity
     RelativeLayout loadermain;
     DrawerLayout drawer;
     DbHelper dbHelper;
-    ImageView listicon, callicon;
+    LinearLayout listicon, callicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +91,9 @@ public class Landing_UI extends AppCompatActivity
         loadermain = (RelativeLayout) findViewById(R.id.loadermain);
         loadermain.setOnClickListener(this);
 
-        callicon = (ImageView) findViewById(R.id.callicon);
+        callicon = (LinearLayout) findViewById(R.id.callicon);
         callicon.setOnClickListener(this);
-        listicon = (ImageView) findViewById(R.id.listicon);
+        listicon = (LinearLayout) findViewById(R.id.listicon);
         listicon.setOnClickListener(this);
 
 
@@ -206,6 +208,8 @@ public class Landing_UI extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -301,23 +305,53 @@ public class Landing_UI extends AppCompatActivity
                 break;
 
             case R.id.help_menu:
-                Toast.makeText(this, "Help Menu Pressed", Toast.LENGTH_SHORT).show();
+
                 drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context, WebPage.class);
+                        startActivity(intent);
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable,300);
+
                 break;
 
             case R.id.contact_menu:
-                Toast.makeText(this, "Contact Menu Pressed", Toast.LENGTH_SHORT).show();
                 drawer.closeDrawer(GravityCompat.START);
+                makeaCall();;
                 break;
 
             case R.id.rate_menu:
-                Toast.makeText(this, "Rate Menu Pressed", Toast.LENGTH_SHORT).show();
+
                 drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context, WebPage.class);
+                        startActivity(intent);
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable,300);
+
                 break;
 
             case R.id.about_menu:
-                Toast.makeText(this, "About Menu Pressed", Toast.LENGTH_SHORT).show();
+
                 drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context, WebPage.class);
+                        startActivity(intent);
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable,300);
+
                 break;
 
             case R.id.logout_menu:
@@ -334,7 +368,7 @@ public class Landing_UI extends AppCompatActivity
                     DetailFrag detailFrag = new DetailFrag(productListDocDatas);
                     manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
                             .replace(R.id.frameLayoutForAllFrags, detailFrag, "loadingFragment").commit();
-                    listicon.setImageResource(R.drawable.list_view);
+                    ((ImageView)findViewById(R.id.listimage)).setImageResource(R.drawable.list_view);
 
                 } else {
 
@@ -343,7 +377,7 @@ public class Landing_UI extends AppCompatActivity
                     manager.beginTransaction().setCustomAnimations(R.animator.fadein, R.animator.fadeout, R.animator.fadeout, R.animator.fadein)
                             .replace(R.id.frameLayoutForAllFrags, mainFrag, "loadingFragment").commit();
                     //  getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutForAllFrags, new MainFrag()).commitAllowingStateLoss();
-                    listicon.setImageResource(R.drawable.expanded_list_view);
+                    ((ImageView)findViewById(R.id.listimage)).setImageResource(R.drawable.expanded_list_view);
                 }
                 break;
             case R.id.callicon:

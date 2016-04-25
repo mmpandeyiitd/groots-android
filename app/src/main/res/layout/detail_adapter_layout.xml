@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/indian_rupees"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="19sp" />
+                        android:textSize="19dp" />
 
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -77,7 +77,7 @@
                         android:gravity="center"
                         android:text="45"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="18dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -203,6 +203,7 @@
                 android:orientation="horizontal">
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:id="@+id/txtselectedquan"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -250,18 +251,20 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <EditText
+                    <groots.canbrand.com.groots.ui.KeyboardEditText
                         android:id="@+id/txtCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#00000000"
                         android:ems="2"
+                        android:background="@android:color/transparent"
+                        android:cursorVisible="true"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="4"
-                        android:cursorVisible="true"
+                        android:textSelectHandle="@drawable/emptyimage"
                         android:textCursorDrawable="@drawable/cursor_drawable"
                         android:maxLines="1"
+                        android:paddingBottom="5dp"
                         android:imeOptions="actionDone"
                         android:text="0"
                         android:textSize="16dp" />

@@ -44,21 +44,34 @@
                     android:layout_gravity="left"
                     android:textSize="18dp"/>
 
-                    <ImageView
+                    <LinearLayout
                         android:id="@+id/listicon"
+                        android:layout_width="56dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/listimage"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginRight="16dp"
                         android:layout_gravity="center"
                         android:src="@drawable/expanded_list_view"/>
+                    </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/callicon"
+                    android:layout_width="56dp"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
                     <ImageView
-                        android:id="@+id/callicon"
+                        android:id="@+id/callimage"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginRight="16dp"
                         android:layout_gravity="center"
                         android:src="@drawable/call"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -148,8 +161,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textColor="@color/textPrimaryLight"
-                    android:textSize="10dp"
+                    android:textSize="12dp"
+                    android:textColor="@color/detailSec"
                     android:layout_toRightOf="@+id/help"
                     android:text="HELP" />
 
@@ -182,8 +195,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="10dp"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="12dp"
+                    android:textColor="@color/detailSec"
                     android:layout_toRightOf="@+id/contact"
                     android:text="CONTACT US" />
 
@@ -216,8 +229,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="10dp"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="12dp"
+                    android:textColor="@color/detailSec"
                     android:layout_toRightOf="@+id/rate"
                     android:text="RATE US" />
 
@@ -251,7 +264,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-
                     android:src="@drawable/info" />
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoBold
@@ -260,8 +272,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="10dp"
-                    android:textColor="@color/textPrimaryLight"
+                    android:textSize="12dp"
+                    android:textColor="@color/detailSec"
                     android:layout_toRightOf="@+id/iv_about"
                     android:text="ABOUT GROOTS" />
 
@@ -285,7 +297,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textSize="10dp"
+                    android:textSize="12dp"
                     android:textColor="#FF0000"
                     android:layout_toRightOf="@+id/out"
                     android:text="LOGOUT" />

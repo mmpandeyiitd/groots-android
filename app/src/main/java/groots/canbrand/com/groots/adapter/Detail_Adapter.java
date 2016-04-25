@@ -2,6 +2,7 @@ package groots.canbrand.com.groots.adapter;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     UpdateCart updateCart;
     DbHelper dbHelper;
     ArrayList<CartClass> cartClasses;
+    boolean flag=false;
 
 
     public Detail_Adapter(ArrayList<ProductListDocData> productListDocDatas, Context context, UpdateCart updateCart) {
@@ -117,6 +119,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
         //if(productListDocDatas.get(position).getItemquantity()!=null)
         holder.selectedquantity.setText(productListDocDatas.get(position).getItemCount() * productListDocDatas.get(position).packSize
                 + " " + productListDocDatas.get(position).packUnit);
+
         //else  holder.selectedquantity.setVisibility(View.INVISIBLE);
 
 
@@ -127,6 +130,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
         if (productListDocDatas.get(position).getItemCount() > 0) {
             holder.txtCount.setText(productListDocDatas.get(position).getItemCount() + "");
             dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).storeOfferPrice, productListDocDatas.get(position).subscribedProductId);
+            holder.selectedquantity.setTextColor(Color.parseColor("#2D2D2D"));
+            holder.txtselectedquan.setTextColor(Color.parseColor("#2D2D2D"));
             updateCart.updateCart();
         } else {
 
@@ -134,6 +139,8 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             {
                 holder.txtCount.setText("0");
                 updateCart.updateCart();
+                holder.selectedquantity.setTextColor(Color.LTGRAY);
+                holder.txtselectedquan.setTextColor(Color.LTGRAY);
             }
 
         }
@@ -143,12 +150,18 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             @Override
             public void onClick(View view) {
 
-
+                if(holder.txtCount.getText().toString().trim().length()==0)
+                {
+                    holder.txtCount.setText("0");
+                }
+             //   Toast.makeText(context,holder.txtCount.getText().toString().trim(),Toast.LENGTH_SHORT).show();
                 ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 Utilz.count = position;
                 int clickedPos = (int) view.getTag();
                 //  int previousCount = productListDocDatas.get(clickedPos).getItemCount();
+                holder.selectedquantity.setTextColor(Color.parseColor("#2D2D2D"));
+                holder.txtselectedquan.setTextColor(Color.parseColor("#2D2D2D"));
                 int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
                 previousCount++;
                 productListDocDatas.get(clickedPos).setItemCount(previousCount);
@@ -170,28 +183,56 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
                 int clickedPos = (int) view.getTag();
                 ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                // int previousCount = productListDocDatas.get(clickedPos).getItemCount();
-                int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
-                if (previousCount > 0) {
-                    previousCount--;
+                if(holder.txtCount.getText().toString().trim().length()==0)
+                {
+                    holder.txtCount.setText("0");
+                    productListDocDatas.get(clickedPos).setItemCount(0);
+                    dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
+                    holder.selectedquantity.setTextColor(Color.LTGRAY);
+                    holder.txtselectedquan.setTextColor(Color.LTGRAY);
 
-                    productListDocDatas.get(clickedPos).setItemCount(previousCount);
-                    if (previousCount == 0)
-                        dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
-                    //                    else if(previousCount>0)
-                    //                        dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).subscribedProductId);
+                }
+                else
+                {// int previousCount = productListDocDatas.get(clickedPos).getItemCount();
+                    int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                    if (previousCount > 0) {
+                        previousCount--;
+
+                        productListDocDatas.get(clickedPos).setItemCount(previousCount);
+                        if (previousCount == 0) {
+                            dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
+                            holder.selectedquantity.setTextColor(Color.LTGRAY);
+                            holder.txtselectedquan.setTextColor(Color.LTGRAY);
+                        } //                    else if(previousCount>0)
+                        //                        dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).subscribedProductId);
+                    }
                 }
                 notifyDataSetChanged();
             }
         });
 
 
+      /*  holder.txtCount.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                flag=true;
+                return false;
+            }
+        });*/
+
+
+
+
         holder.txtCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-
+                    if(holder.txtCount.getText().toString().trim().length()==0)
+                    {
+                        holder.txtCount.setText("0");
+                    }
                     int clickedPos = (int) v.getTag();
                     int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
 
@@ -223,7 +264,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
     }
 
     public class ViewHolderDetail extends RecyclerView.ViewHolder {
-        TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade,
+        TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade,txtselectedquan,
                 selectedquantity;
 
         ImageView iconImage, txtMinus, txtPlus;
@@ -248,6 +289,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<Detail_Adapter
             txtPlus = (ImageView) itemView.findViewById(R.id.txtPlusDetail);
             viewDiameterRgt = itemView.findViewById(R.id.viewDiameterRgt);
             viewColorRgt = itemView.findViewById(R.id.viewColorRgt);
+            txtselectedquan= (TextView) itemView.findViewById(R.id.txtselectedquan);
         }
     }
 }

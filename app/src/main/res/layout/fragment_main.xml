@@ -19,6 +19,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="end|bottom"
         android:background="#edffffff"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -35,10 +36,8 @@
             <LinearLayout
                 android:id="@+id/footeriner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="end|bottom"
-
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -115,12 +114,14 @@
                     android:id="@+id/checkouticon_main"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
+
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:text="Checkout"
+                    android:gravity="center_vertical"
                     android:textColor="#343434"
                     android:textSize="14dp" />
 
@@ -131,7 +132,7 @@
                     android:background="@null"
                     android:src="@drawable/continu"
                     android:layout_marginRight="7dp"
-                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Checkout" />
                 </LinearLayout>
             </LinearLayout>

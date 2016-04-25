@@ -35,8 +35,13 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import groots.canbrand.com.groots.adapter.Checkout_Adapter;
 import groots.canbrand.com.groots.R;
@@ -83,6 +88,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
         loaderlayout=(RelativeLayout)findViewById(R.id.loaderxml);
         loaderlayout.setOnClickListener(this);
+
+        ((TextView)findViewById(R.id.txtdate)).setText(new SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime()));
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);

@@ -362,6 +362,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                 Utilz utilz=new Utilz();
                 String strEmail=((EditText)dialog.findViewById(R.id.etForgetPwd)).getText().toString();
+                ((EditText)dialog.findViewById(R.id.etForgetPwd)).requestFocus();
 
                 if(strEmail==null || strEmail.trim().length()<=0){
                     Snackbar snackbar = Snackbar.make(cdForgetPwd, "Please enter email", Snackbar.LENGTH_SHORT);
@@ -420,7 +421,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                     if(status==-1){
                        // btnSignIn.setText("Sign In");
-                        String msg=loginData.getMsg();
+                        String msg=loginData.getErrors().get(0).toString();
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -430,7 +431,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     }else
                     if(status==0){
                        // btnSignIn.setText("Sign In");
-                        String msg=loginData.getMsg();
+                        String msg=loginData.getErrors().get(0).toString();
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -514,8 +515,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     progressMobile.setVisibility(View.INVISIBLE);
                     status = forgetPwdData.getStatus();
 
-                    if (status == -1) {
-                        String msg = forgetPwdData.getMsg();
+                    if (status==1) {
+                        String msg = forgetPwdData.getErrors().get(0).toString();
                         Snackbar snackbar = Snackbar.make(cdForgetPwd, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -523,7 +524,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         snackbar.show();
 
                     } else if (status == 0) {
-                        String msg = forgetPwdData.getMsg();
+
+                        String msg = forgetPwdData.getErrors().get(0).toString();
                         Snackbar snackbar = Snackbar.make(cdForgetPwd, msg, Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -540,6 +542,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                     }
                 } else {
+                    Toast.makeText(Splash.this,status,Toast.LENGTH_LONG).show();
                     Snackbar snackbar = Snackbar.make(cdForgetPwd, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();

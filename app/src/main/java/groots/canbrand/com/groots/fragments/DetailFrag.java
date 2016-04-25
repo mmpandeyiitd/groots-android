@@ -1,5 +1,6 @@
 package groots.canbrand.com.groots.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -43,8 +45,8 @@ public class DetailFrag extends Fragment implements UpdateCart{
     Context context;
     UpdateCart updateCart;
     RecyclerView detail_recycler_view;
-
     ArrayList<ProductListDocData> productListDocDatas;
+    LinearLayout listfooter;
 
 
 
@@ -63,21 +65,18 @@ public class DetailFrag extends Fragment implements UpdateCart{
         dbHelper.createDb(false);
         updateCart=this;
 
-        final LinearLayout listfooter=(LinearLayout)view.findViewById(R.id.listfooter);
+        listfooter=(LinearLayout)view.findViewById(R.id.listfooter);
         txtamount_detail=(TextView)view.findViewById(R.id.txtamount_detail);
         txtCart_detail=(TextView)view.findViewById(R.id.txtCart_detail);
 
-        if(txtCart_detail.getText().length()==1) {
-            txtCart_detail.setTextSize(11);
-        }
-        else if(txtCart_detail.getText().length()==2)
+        int itemInCart=dbHelper.getTotalRow();
+        if(itemInCart>0)
         {
-            txtCart_detail.setTextSize(10);
+            listfooter.setVisibility(View.VISIBLE);
         }
-        else if (txtCart_detail.getText().length()==3)
+        else
         {
-            txtCart_detail.setTextSize(8);
-            txtCart_detail.setText("99+");
+            listfooter.setVisibility(View.GONE);
         }
 
         checkouticon=(LinearLayout)view.findViewById(R.id.checkouticon);
@@ -124,13 +123,24 @@ public class DetailFrag extends Fragment implements UpdateCart{
 
 
         detail_recycler_view.setOnScrollListener(new HidingScrollListener() {
+
+
+
             @Override
             public void onHide() {
+               /* InputMethodManager input = (InputMethodManager) getActivity()
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
+                input.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);*/
+
                 listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override
             public void onShow() {
+              /*  InputMethodManager input = (InputMethodManager) getActivity()
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
+                input.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+*/
                 listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
 
             }
@@ -154,6 +164,16 @@ public class DetailFrag extends Fragment implements UpdateCart{
     {
 
         super.onResume();
+
+        int itemInCart=dbHelper.getTotalRow();
+        if(itemInCart>0)
+        {
+            listfooter.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            listfooter.setVisibility(View.GONE);
+        }
         //    ArrayList<ProductListDocData> productListDocDatas=productListData;
         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
         if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
@@ -199,14 +219,16 @@ public class DetailFrag extends Fragment implements UpdateCart{
                 txtCart_detail.setTextSize(8);
                 txtCart_detail.setText("99+");
             }
-
+            listfooter.setVisibility(View.VISIBLE);
             ((RelativeLayout)getActivity().findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
         }else {
             txtCart_detail.setText("");
             txtamount_detail.setText("0");
             ((RelativeLayout)getActivity().findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.blank_cart);
+            listfooter.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     public void updateTotalAmnt(int childCount) {
