@@ -130,16 +130,32 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="7dp"
+                            android:orientation="vertical"
                             android:gravity="center">
 
-                            <TextView
+                            <groots.canbrand.com.groots.ui.KeyboardEditText
                                 android:id="@+id/txtCount"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent"
+                                android:cursorVisible="true"
+                                android:ems="2"
                                 android:gravity="center"
+                                android:imeOptions="actionDone"
+                                android:inputType="number"
+                                android:maxLength="3"
+                                android:maxLines="1"
                                 android:text="0"
-                                android:layout_marginRight="1dp"
-                                android:textSize="15dp" />
+                                android:layout_marginRight=".5dp"
+                                android:textCursorDrawable="@drawable/cursor_drawable"
+                                android:textSelectHandle="@drawable/emptyimage"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#DCDCDC"></View>
+
                         </LinearLayout>
 
                         <LinearLayout

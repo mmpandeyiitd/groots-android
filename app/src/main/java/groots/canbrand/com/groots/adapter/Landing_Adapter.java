@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -15,7 +18,9 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
+
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
@@ -74,7 +79,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView textItemdesc;
         TextView textItemPrice;
         ImageView imgItemIcon;
-        TextView txtCount;
+        EditText txtCount;
         ImageButton txtPlus, txtMinus;
 
         public DataObjectHolder(final View itemView) {
@@ -83,7 +88,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
-            txtCount = (TextView) itemView.findViewById(R.id.txtCount);
+            txtCount = (EditText) itemView.findViewById(R.id.txtCount);
             txtMinus = (ImageButton) itemView.findViewById(R.id.txtMinus);
             txtPlus = (ImageButton) itemView.findViewById(R.id.txtPlus);
         }
@@ -92,7 +97,6 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             view.clearAnimation();
         }
     }
-
 
 
     @Override
@@ -128,25 +132,24 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             holder.txtCount.setText("" + productListData.get(position).getItemCount());
 
-        if(!productListData.get(position).thumbUrl.equals(null)) {
+            if (!productListData.get(position).thumbUrl.equals(null)) {
            /* Picasso.with(context).load(productListData.get(position).thumbUrl.get(0))
                     .into(holder.imgItemIcon);*/
 
 
+                ImageLoader imageLoader = ImageLoader.getInstance();
 
-            ImageLoader imageLoader = ImageLoader.getInstance();
-
-            DisplayImageOptions  options = new DisplayImageOptions.Builder()
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
                     /*.showImageOnLoading(R.drawable.map_placeholder)
                     .showImageForEmptyUri(R.drawable.map_placeholder)
                     .showImageOnFail(R.drawable.map_placeholder)*/
-                    .cacheInMemory(true)
-                    .cacheOnDisk(true)
-                    .considerExifParams(true)
-                    .bitmapConfig(Bitmap.Config.RGB_565)
-                    .build();
-            imageLoader.displayImage(productListData.get(position).thumbUrl.get(0),holder.imgItemIcon,options);
-        }
+                        .cacheInMemory(true)
+                        .cacheOnDisk(true)
+                        .considerExifParams(true)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
+                imageLoader.displayImage(productListData.get(position).thumbUrl.get(0), holder.imgItemIcon, options);
+            }
 
 
       /*  Picasso.with(context).load(productListData.get(position).defaultThumbUrl)
@@ -185,7 +188,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
 
-                    if (Integer.parseInt((String) holder.txtCount.getText()) >= 999) {
+                    if (Integer.parseInt(holder.txtCount.getText().toString().trim()) >= 999) {
                         Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
@@ -228,11 +231,41 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     notifyDataSetChanged();
                 }
             });
+
+
+            holder.txtCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                        if (holder.txtCount.getText().toString().trim().length() == 0) {
+                            holder.txtCount.setText("0");
+                        }
+                        int clickedPos = (int) v.getTag();
+                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+
+                        productListData.get(clickedPos).setItemCount(previousCount);
+                        dbHelper.insertCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
+                                productListData.get(position).storeId, productListData.get(position).title,
+                                productListData.get(position).description,
+                                "abcde", productListData.get(position).getItemCount(),
+                                productListData.get(position).storeOfferPrice);
+
+                        if (previousCount == 0)
+                            dbHelper.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);
+
+                        holder.txtCount.setText(productListData.get(position).getItemCount() + "");
+                        notifyDataSetChanged();
+                        return false;
+                    }
+                    return false;
+                }
+            });
         } else if (mholder instanceof FooterViewHolder) {
             final FooterViewHolder footerHolder = (FooterViewHolder) mholder;
 
-            if(((Landing_Update)context).loadingMore==false)
-            {
+            if (((Landing_Update) context).loadingMore == false) {
                 footerHolder.tvloadmore.setVisibility(View.VISIBLE);
                 footerHolder.progressBar.setVisibility(View.GONE);
             }
@@ -261,7 +294,6 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-
     }
 
 
@@ -271,8 +303,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (show_footer) {
            /* ((FooterViewHolder) holder).clearAnimation();
             holder.itemView.clearAnimation();*/
-        }else
-        {
+        } else {
           /*  ((DataObjectHolder) holder).clearAnimation();
             holder.itemView.clearAnimation();*/
         }
@@ -311,9 +342,9 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void hideFooter() {
         show_footer = false;
     }
-    public void setShow_footer()
-    {
-    show_footer=true;
+
+    public void setShow_footer() {
+        show_footer = true;
 
     }
 

@@ -175,7 +175,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View view) {
 
-                    if (productListDocDatas.get(position).getItemCount() >= 999) {
+                    if (Integer.parseInt(holder.txtCount.getText().toString().trim()) >= 999) {
                         Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                     } else {
                         if (holder.txtCount.getText().toString().trim().length() == 0) {
