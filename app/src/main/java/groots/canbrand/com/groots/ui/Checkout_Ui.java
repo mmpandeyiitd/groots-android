@@ -19,7 +19,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -31,6 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.w3c.dom.Text;
@@ -89,7 +93,34 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         loaderlayout=(RelativeLayout)findViewById(R.id.loaderxml);
         loaderlayout.setOnClickListener(this);
 
-        ((TextView)findViewById(R.id.txtdate)).setText(new SimpleDateFormat("dd-MMM-yyyy").format(Calendar.getInstance().getTime()));
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+
+        //  ((TextView)findViewById(R.id.txtdate)).setText(new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
+
+
+        DateFormat df = new SimpleDateFormat("HHmm");
+        String date = df.format(Calendar.getInstance().getTime());
+        // ((TextView)findViewById(R.id.ordertime)).setVisibility(View.VISIBLE);
+        if((Integer.parseInt(date)>=200 ) && (900>=Integer.parseInt(date)))
+        {
+            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
+            RelativeLayout layout=(RelativeLayout)findViewById(R.id.headerdate);
+            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
+            layout.setLayoutParams(parms);
+            ((TextView)findViewById(R.id.txtdate)).setText("Order Summary - "+new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
+            ((TextView)findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
+
+        }
+        else
+        {
+            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
+            RelativeLayout layout=(RelativeLayout)findViewById(R.id.headerdate);
+            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)pixels);
+            layout.setLayoutParams(parms);
+            ((TextView)findViewById(R.id.datetxt)).setVisibility(View.GONE);
+            ((TextView)findViewById(R.id.txtdate)).setText("Order Summary - "+new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
+        }
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
@@ -118,7 +149,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+      /*  mRecyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
             public void onHide() {
                 list_main_footer_.animate().translationY(list_main_footer_.getHeight()).setInterpolator(new AccelerateInterpolator(2));
@@ -129,13 +160,14 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 list_main_footer_.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
             }
         });
-
+*/
 
         float priceinDb=dbHelper.fetchTotalCartAmount();
         txtamount_main.setText(""+priceinDb);
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
         ((TextView)findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.checkoutback)).setOnClickListener(this);
         ((LinearLayout)findViewById(R.id.backbtn)).setOnClickListener(this);
     }
 
@@ -175,6 +207,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
               startActivity(intent);
               overridePendingTransition(R.anim.from_middle, R.anim.to_middle);*/
                 if (cartClasses.size() > 0) {
+
+
                     callAddOrderAPI();
                 } else {
                     final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
@@ -190,6 +224,9 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 onBackPressed();
                 break;
 
+            case R.id.checkoutback:
+                onBackPressed();
+                break;
             default:
                 break;
 
@@ -248,21 +285,23 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 //                String order_no=addOrderParent.getData().getOrderNo();
                 //  int order_id=addOrderParent.getData().getOrderId();
                 if (status.equals("0")) {
+                    Toast.makeText(Checkout_Ui.this,addOrderParent.getMsg(),Toast.LENGTH_SHORT).show();
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
                 }else  if (status.equals("-1")) {
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
                 }  else  if (status.equals("1"))
                 {
+
                     loaderlayout.setVisibility(View.INVISIBLE);
                     dbHelper.deleterec();
                     Intent intent = new Intent(Checkout_Ui.this, Thank_You_UI.class);
@@ -281,7 +320,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 snackbar.show();
-                // Toast.makeText(Checkout_Ui.this,error.toString(),Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -292,6 +331,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         float priceinDb=dbHelper.fetchTotalCartAmount();
         if(priceinDb>0) {
+
             ArrayList<CartClass> cartClasses=dbHelper.order();
             mRecyclerView.setVisibility(View.VISIBLE);
             txtamount_main.setText("" + priceinDb);
@@ -310,5 +350,6 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     public void updateTotalAmnt(int childCount) {
 
     }
+
 
 }

@@ -12,7 +12,6 @@
         android:layout_gravity="center"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
-        android:layout_marginTop="5dp"
         android:background="#ffffff"
         android:elevation="4dp"
         card_view:cardCornerRadius="2dp"
@@ -21,15 +20,15 @@
         <LinearLayout
             android:id="@+id/imagecross"
             android:layout_width="80dp"
+            android:layout_height="40dp"
             android:layout_gravity="end"
-            android:gravity="end"
-            android:layout_height="40dp">
+            android:gravity="end">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:src="@drawable/cross" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/cross" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,8 +52,7 @@
                     android:id="@+id/imgItemIcon"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@null"
-                    android:src="@drawable/onion" />
+                    android:background="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
@@ -74,27 +72,26 @@
                         android:id="@+id/textItemName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:maxLines="1"
+                        android:paddingRight="50dp"
                         android:paddingTop="3dp"
                         android:singleLine="true"
                         android:text="Nasik Onion"
-                        android:paddingRight="50dp"
                         android:textColor="@color/textPrimaryDark"
-                        android:textSize="16sp"
-                        android:ellipsize="end"/>
+                        android:textSize="16sp" />
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                         android:id="@+id/textItemdesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:paddingRight="50dp"
                         android:singleLine="true"
-                        android:maxLines="1"
                         android:text="Xyz (1 Kg)"
-                        android:textSize="12dp"
-                        android:ellipsize="end"
-                        />
+                        android:textSize="12dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -106,9 +103,9 @@
                             android:id="@+id/textRupee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/indian_rupees"
-                            android:layout_marginBottom="2dp"
                             android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
+                            android:text="@string/indian_rupees"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15dp" />
 
@@ -116,64 +113,62 @@
                             android:id="@+id/textItemPrice"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="250"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="2dp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14dp" />
 
 
                         <LinearLayout
                             android:id="@+id/linearTxtMinus"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="bottom"
-                            android:layout_marginTop="3dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/txtMinus"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_margin="1dp"
-                                android:background="@drawable/reduce_quantity"
-                                android:gravity="center" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/reduce_quantity"
+                                android:background="@null" />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="7dp"
                             android:gravity="center">
 
                             <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                                 android:id="@+id/txtCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:text="1"
-                                android:textSize="18sp" />
+                                android:text="0"
+                                android:layout_marginRight="1dp"
+                                android:maxLength="3"
+                                android:textSize="15dp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/linearTxtPlus"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="0dp"
-                            android:layout_marginTop="3dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/txtPlus"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_margin="1dp"
-                                android:background="@drawable/add_quantity"
-                                android:gravity="center" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/add_quantity"
+                                android:background="@null"/>
                         </LinearLayout>
 
                     </LinearLayout>

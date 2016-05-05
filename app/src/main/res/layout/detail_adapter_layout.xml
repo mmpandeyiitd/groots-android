@@ -26,13 +26,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:layout_weight=".6">
 
                 <ImageView
                     android:id="@+id/iconImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/onion" />
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                   />
             </LinearLayout>
 
             <LinearLayout
@@ -40,26 +42,45 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="7dp"
-                android:layout_weight=".2"
+                android:layout_marginTop="5dp"
+                android:layout_weight=".3"
                 android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/textItemName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Nasik Oni Chhhhh"
                     android:textColor="@color/textPrimaryDark"
                     android:textSize="18dp" />
 
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/itemdesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Gradehgufse a hiuhyfi h "
+                        android:textSize="12dp" />
+                    </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:gravity="bottom|center"
+                    android:gravity="center"
+                    android:layout_marginRight="2dp"
                     android:orientation="horizontal">
 
                     <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -79,17 +100,29 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="18dp" />
                 </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
+                        android:background="#A5A5A5"></View>
+                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                        android:id="@+id/itemquantity"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="10 kg"
+                        android:layout_margin="2dp"
+                        android:textColor="@color/textPrimaryDark"
+                        android:textSize="12dp" />
+                    </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="60dp"
-                android:layout_height="1dp"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="4dp"
-                android:background="#A5A5A5"></View>
 
-            <LinearLayout
+
+          <!--  <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -97,24 +130,10 @@
                 android:layout_marginTop="4dp"
                 android:layout_weight=".1">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/itemdesc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Gradehgufse a hiuhyfi h "
-                    android:textColor="@color/detailSec"
-                    android:textSize="12dp" />
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
-                    android:id="@+id/itemquantity"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="10 kg"
-                    android:textColor="@color/textPrimaryDark"
-                    android:textSize="12dp" />
-            </LinearLayout>
+
+
+            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +149,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diameter : "
-                    android:textColor="@color/detailSec"
                     android:textSize="12dp"
                     android:visibility="gone" />
 
@@ -139,7 +157,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diameter : 5cm"
-                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
                 <View
@@ -155,7 +172,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Color : "
-                    android:textColor="@color/detailSec"
                     android:textSize="12dp"
                     android:visibility="gone" />
 
@@ -164,7 +180,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Red"
-                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
                 <View
@@ -180,7 +195,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Grade : "
-                    android:textColor="@color/textPrimaryLight"
                     android:textSize="12dp"
                     android:visibility="gone" />
 
@@ -189,7 +203,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A"
-                    android:textColor="@color/detailSec"
                     android:textSize="12dp" />
 
 
@@ -209,8 +222,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:textColor="@color/detailSec"
                     android:text="SELECTED\nQUANTITY"
+                    android:textColor="@color/detailSec"
                     android:textSize="11dp" />
 
                 <groots.canbrand.com.groots.utilz.TextViewLatoRegular
@@ -223,51 +236,50 @@
                     android:gravity="center_vertical"
                     android:text="130 kg"
                     android:textColor="@color/textPrimaryDark"
-                    android:textSize="23dp" />
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:id="@+id/linearTxtMinus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center">
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_marginTop="2dp">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/txtMinusDetail"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/reduce_quantity"
-                        android:gravity="center"
-                        android:paddingBottom="5dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/reduce_quantity"
+                        android:paddingTop="3dp"
+                        android:background="@null" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="7dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <groots.canbrand.com.groots.ui.KeyboardEditText
                         android:id="@+id/txtCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="2"
                         android:background="@android:color/transparent"
                         android:cursorVisible="true"
+                        android:ems="2"
                         android:gravity="center"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:textSelectHandle="@drawable/emptyimage"
-                        android:textCursorDrawable="@drawable/cursor_drawable"
-                        android:maxLines="1"
-                        android:paddingBottom="5dp"
                         android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
                         android:text="0"
-                        android:textSize="16dp" />
+                        android:layout_marginRight=".5dp"
+                        android:textCursorDrawable="@drawable/cursor_drawable"
+                        android:textSelectHandle="@drawable/emptyimage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -277,21 +289,18 @@
 
                 <LinearLayout
                     android:id="@+id/linearTxtPlus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginTop="2dp">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/txtPlusDetail"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/add_quantity"
-                        android:gravity="center"
-                        android:paddingBottom="5dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/add_quantity"
+                        android:paddingTop="3dp"
+                        android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>

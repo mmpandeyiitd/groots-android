@@ -19,14 +19,10 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.Landing_UI"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".ui.Thank_You_UI"
             android:screenOrientation="portrait"
@@ -35,9 +31,18 @@
             android:name=".ui.Checkout_Ui"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
-        <activity android:name=".ui.WebPage"
+        <activity
+            android:name=".ui.WebPage"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Base"></activity>
+            android:theme="@style/AppTheme.Base" />
+
+
+        <activity
+            android:name=".ui.Landing_Update"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
     </application>
 
 </manifest>
