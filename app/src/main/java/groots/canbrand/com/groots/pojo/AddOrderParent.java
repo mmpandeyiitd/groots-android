@@ -3,6 +3,9 @@ package groots.canbrand.com.groots.pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 13-04-2016.
  */
@@ -17,6 +20,8 @@ public class AddOrderParent {
     @SerializedName("data")
     @Expose
     private AddOrderChild data;
+
+    private List<Object> errors = new ArrayList<Object>();
 
     /**
      *
@@ -71,4 +76,18 @@ public class AddOrderParent {
     public void setData(AddOrderChild data) {
         this.data = data;
     }
+
+    public List<Object> getErrors() {
+        return errors;
+    }
+
+    /**
+     *
+     * @param errors
+     * The errors
+     */
+    public void setErrors(List<Object> errors) {
+        this.errors = errors;
+    }
+
 }

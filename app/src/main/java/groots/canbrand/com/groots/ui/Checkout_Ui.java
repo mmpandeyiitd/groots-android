@@ -1,7 +1,10 @@
 package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,9 +25,13 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,12 +39,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,8 +58,10 @@ import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
+import groots.canbrand.com.groots.pojo.DateTimePojo;
 import groots.canbrand.com.groots.pojo.LandingInfo;
 import groots.canbrand.com.groots.utilz.Http_Urls;
+import groots.canbrand.com.groots.utilz.Utilz;
 import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
@@ -77,50 +83,44 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     TextView txtamount_main;
     UpdateCart updateCart;
     RelativeLayout loaderlayout;
+    String data, textcomment, date;
+    Dialog dialog;
+    Utilz util;
+    CoordinatorLayout cdcheckout;
+    Calendar newCalendar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout__ui);
-        context=Checkout_Ui.this;
-        updateCart=this;
-        dbHelper=new DbHelper(context);
+        context = Checkout_Ui.this;
+        updateCart = this;
+        dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
+        newCalendar = Calendar.getInstance();
 
-        txtamount_main=(TextView)findViewById(R.id.txtamount_main);
+        txtamount_main = (TextView) findViewById(R.id.txtamount_main);
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
-        loaderlayout=(RelativeLayout)findViewById(R.id.loaderxml);
+        loaderlayout = (RelativeLayout) findViewById(R.id.loaderxml);
         loaderlayout.setOnClickListener(this);
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
 
         //  ((TextView)findViewById(R.id.txtdate)).setText(new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
+            util=new Utilz();
+       /* calling date time Api.........................*/
+        cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
+        if (!util.isInternetConnected(Checkout_Ui.this)) {
+            Snackbar snackbar = Snackbar.make(cdcheckout, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+        } else
+            CallDateTimeApi();
 
-
-        DateFormat df = new SimpleDateFormat("HHmm");
-        String date = df.format(Calendar.getInstance().getTime());
-        // ((TextView)findViewById(R.id.ordertime)).setVisibility(View.VISIBLE);
-        if((Integer.parseInt(date)>=200 ) && (900>=Integer.parseInt(date)))
-        {
-            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
-            RelativeLayout layout=(RelativeLayout)findViewById(R.id.headerdate);
-            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
-            layout.setLayoutParams(parms);
-            ((TextView)findViewById(R.id.txtdate)).setText("Order Summary - "+new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
-            ((TextView)findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
-
-        }
-        else
-        {
-            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
-            RelativeLayout layout=(RelativeLayout)findViewById(R.id.headerdate);
-            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)pixels);
-            layout.setLayoutParams(parms);
-            ((TextView)findViewById(R.id.datetxt)).setVisibility(View.GONE);
-            ((TextView)findViewById(R.id.txtdate)).setText("Order Summary - "+new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime()));
-        }
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.checkout_recycle);
@@ -128,13 +128,13 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        SlideInLeftAnimator slideInRightAnimationAdapter=new SlideInLeftAnimator();
+        SlideInLeftAnimator slideInRightAnimationAdapter = new SlideInLeftAnimator();
         slideInRightAnimationAdapter.setInterpolator(new OvershootInterpolator());
         slideInRightAnimationAdapter.setRemoveDuration(1000);
         mRecyclerView.setItemAnimator(slideInRightAnimationAdapter);
-        cartClasses=dbHelper.order();
+        cartClasses = dbHelper.order();
 
-        if(cartClasses.size()>0) {
+        if (cartClasses.size() > 0) {
             mAdapter = new Checkout_Adapter(cartClasses, this, updateCart);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
@@ -149,36 +149,153 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-      /*  mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                list_main_footer_.animate().translationY(list_main_footer_.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-            }
 
-            @Override
-            public void onShow() {
-                list_main_footer_.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-            }
-        });
-*/
 
-        float priceinDb=dbHelper.fetchTotalCartAmount();
-        txtamount_main.setText(""+priceinDb);
+        float priceinDb = dbHelper.fetchTotalCartAmount();
+        txtamount_main.setText("" + priceinDb);
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.checkoutback)).setOnClickListener(this);
-        ((LinearLayout)findViewById(R.id.backbtn)).setOnClickListener(this);
+        ((TextView) findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
+        ((TextView) findViewById(R.id.checkoutback)).setOnClickListener(this);
+        ((LinearLayout) findViewById(R.id.backbtn)).setOnClickListener(this);
     }
 
-    private void makeAcall() {
+    private void CallDateTimeApi() {
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+        apiInterface.getTime("andapikey", "1.0", "1.0", AuthToken, new Callback<DateTimePojo>() {
+            @Override
+            public void success(DateTimePojo dateTimePojo, Response response) {
+
+                int status = dateTimePojo.getStatus();
+//
+                if (status == 0) {
+                    //   Toast.makeText(Checkout_Ui.this, addOrderParent.getMsg(), Toast.LENGTH_SHORT).show();
+                   /* loaderlayout.setVisibility(View.INVISIBLE);*/
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (status == -1) {
+                    loaderlayout.setVisibility(View.INVISIBLE);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (status == 1) {
+                    date = dateTimePojo.getData().getCurrentDateTime();
+                    //  Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
+                    try {
+                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                        Date d1 = formatter.parse(date.substring(11).trim());
+                        Date d2 = formatter.parse("00:00:00");
+                        Date d3 = formatter.parse("02:00:00");
+
+                      //  Log.e("Incoming date",date.substring(0,10));.
+
+
+
+                            final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+                        if (d1.before(d3) & d1.after(d2)) {
+
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
+                            RelativeLayout layout = (RelativeLayout) findViewById(R.id.headerdate);
+                            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
+                            layout.setLayoutParams(parms);
+                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
+                            ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
+                            ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
+                            data = dateFormatter.parse(date.substring(0,10).trim()).toString();
+                        } else {
+
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
+                            RelativeLayout layout = (RelativeLayout) findViewById(R.id.headerdate);
+                            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
+                            layout.setLayoutParams(parms);
+                            ((TextView) findViewById(R.id.datetxt)).setVisibility(View.GONE);
+                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + (date.substring(0,10).trim()));
+
+
+                            newCalendar.setTime(dateFormatter.parse(date.substring(0,10).trim()));
+                            newCalendar.add(Calendar.DATE, 1);
+                            ((TextView) dialog.findViewById(R.id.datetxtd)).setText(dateFormatter.format(newCalendar.getTime()).toString());
+                            data = dateFormatter.format(newCalendar.getTime());
+
+                        }
+                    } catch (Exception e) {
+//                        Log.e("Exception is ",e.getCause().toString());
+                    }
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                loaderlayout.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdcheckout, "Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+        });
+    }
+
+
+    private class ShowDialog extends Dialog {
+
+
+        public ShowDialog(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+            setContentView(R.layout.phone_dialog);
+            ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    makeAcall("+91-11-3958-9893");
+                    dismiss();
+                }
+            });
+            ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    makeAcall("+91-11-3958-8984");
+                    dismiss();
+                }
+            });
+        }
+    }
+
+
+    private void makeAcall(String phn) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (ActivityCompat.checkSelfPermission(Checkout_Ui.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 9);
             } else {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + "9999999999"));
+                intent.setData(Uri.parse("tel:" + phn));
                 startActivity(intent);
             }
         } else {
@@ -199,7 +316,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
 
             case R.id.makecall:
-                makeAcall();
+                ShowDialog showdialog = new ShowDialog(this);
+                showdialog.show();
                 break;
 
             case R.id.checkouticon_checkout:
@@ -208,8 +326,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
               overridePendingTransition(R.anim.from_middle, R.anim.to_middle);*/
                 if (cartClasses.size() > 0) {
 
+                    makedialogfrag();
 
-                    callAddOrderAPI();
                 } else {
                     final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
                     Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in Cart !", Snackbar.LENGTH_SHORT);
@@ -231,12 +349,14 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 break;
 
         }
+
     }
 
-    private void callAddOrderAPI() {
+
+    private void callAddOrderAPI(String comment, String d) {
         loaderlayout.bringToFront();
         loaderlayout.setVisibility(View.VISIBLE);
-
+        dialog.dismiss();
         HashMap hashmap = new HashMap();
         float total = 0;
         for (int count = 0; count < cartClasses.size(); count++) {
@@ -252,23 +372,25 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         }
 
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
 
-        hashmap.put("data[order_prefix]", "Test");
+        hashmap.put("data[order_prefix]", "GRT");
         hashmap.put("data[order_type]", "normal_payment");
-        hashmap.put("data[shipping_charges]", 22);
-        hashmap.put("data[coupon_code]", "COP3258");
+        hashmap.put("data[shipping_charges]", 0);
+        hashmap.put("data[coupon_code]", "");
         hashmap.put("data[total]", dbHelper.fetchTotalCartAmount());
         hashmap.put("data[total_payable_amount]", dbHelper.fetchTotalCartAmount());
         hashmap.put("data[buyer_email]", 1);
         hashmap.put("data[discount_amt]", 0);
-        hashmap.put("data[user_id]", 2);
+        hashmap.put("data[user_id]", prefs.getString("User_Id", null));
         hashmap.put("data[cart_id]", 1);
         hashmap.put("data[total_shipping_charges]", 0);
         hashmap.put("data[total_tax]", 0);
+        hashmap.put("data[comment]", comment);
+        hashmap.put("data[delivery_date]", d);
 
 
-        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        String AuthToken = prefs.getString("AuthToken", null);
 
         final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
 
@@ -282,25 +404,33 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             public void success(AddOrderParent addOrderParent, Response response) {
 
                 String status = addOrderParent.getStatus();
+
 //                String order_no=addOrderParent.getData().getOrderNo();
                 //  int order_id=addOrderParent.getData().getOrderId();
                 if (status.equals("0")) {
-                    Toast.makeText(Checkout_Ui.this,addOrderParent.getMsg(),Toast.LENGTH_SHORT).show();
+
+
+
+
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                     String msg = (String) addOrderParent.getErrors().get(0);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, msg, Snackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    TextView tv = (TextView) (snackbar.getView()).findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setText(msg);
+                    tv.setLines(3);
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (status.equals("-1")) {
+                    loaderlayout.setVisibility(View.INVISIBLE);
+                    String msg = (String) addOrderParent.getErrors().get(0);
+                    Snackbar snackbar = Snackbar.make(cdcheckout,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
-                }else  if (status.equals("-1")) {
-                    loaderlayout.setVisibility(View.INVISIBLE);
-                    Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                }  else  if (status.equals("1"))
-                {
+                } else if (status.equals("1")) {
 
                     loaderlayout.setVisibility(View.INVISIBLE);
                     dbHelper.deleterec();
@@ -315,7 +445,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             @Override
             public void failure(RetrofitError error) {
                 loaderlayout.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdcheckout,"Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdcheckout, "Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -329,25 +459,202 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     @Override
     public void updateCart() {
 
-        float priceinDb=dbHelper.fetchTotalCartAmount();
-        if(priceinDb>0) {
+        float priceinDb = dbHelper.fetchTotalCartAmount();
+        if (priceinDb > 0) {
 
-            ArrayList<CartClass> cartClasses=dbHelper.order();
+            ArrayList<CartClass> cartClasses = dbHelper.order();
             mRecyclerView.setVisibility(View.VISIBLE);
             txtamount_main.setText("" + priceinDb);
-            ((LinearLayout)findViewById(R.id.llEmptyCart)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.list_main_footer_)).setVisibility(View.VISIBLE);
+            ((LinearLayout) findViewById(R.id.llEmptyCart)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.list_main_footer_)).setVisibility(View.VISIBLE);
         } else {
             txtamount_main.setText("0");
-            ((LinearLayout)findViewById(R.id.llEmptyCart)).setVisibility(View.VISIBLE);
+            ((LinearLayout) findViewById(R.id.llEmptyCart)).setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.list_main_footer_)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.list_main_footer_)).setVisibility(View.GONE);
         }
 
     }
 
     @Override
     public void updateTotalAmnt(int childCount) {
+
+    }
+
+    private void makedialogfrag() {
+
+        if (!util.isInternetConnected(Checkout_Ui.this)) {
+            Snackbar snackbar = Snackbar.make(cdcheckout, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+        } else
+            CallDateTimeApi();
+       // Toast.makeText(this,date.substring(0,4).trim()+date.substring(5,7).trim()+date.substring(8,10).trim(),Toast.LENGTH_LONG).show();
+
+        dialog = new Dialog(Checkout_Ui.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.datepickerdialog);
+        dialog.setCancelable(true);
+
+        final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+
+       //  ImageButton btnclik = (ImageButton) dialog.findViewById(R.id.btnclik);
+        final CoordinatorLayout cdDatePicker = (CoordinatorLayout) dialog.findViewById(R.id.cdDatePicker);
+
+        final EditText commentbox = (EditText) dialog.findViewById(R.id.commentbox);
+        TextView textdone = (TextView) dialog.findViewById(R.id.textdone);
+        TextView textcancel = (TextView) dialog.findViewById(R.id.textcancel);
+        final TextView txtdate = ((TextView) dialog.findViewById(R.id.datetxtd));
+
+
+        try {
+
+            Date d1 = formatter.parse(date.substring(11).trim());
+            Date d2 = formatter.parse("00:00:00");
+            Date d3 = formatter.parse("02:00:00");
+
+
+            if (d1.before(d3) & d1.after(d2)) {
+
+
+                newCalendar.setTime(dateFormatter.parse(date.substring(0, 10).trim()));
+            }
+            else
+            {
+                newCalendar.add(Calendar.DATE, 1);
+                newCalendar.setTime(dateFormatter.parse(date.substring(0, 10).trim()));
+            }
+        }catch (Exception e)
+        {
+
+        }
+
+
+
+        ((LinearLayout) dialog.findViewById(R.id.main_layout)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                try {
+
+
+                    DatePickerDialog fromDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    //    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);;
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                            try {
+
+                                if(Integer.parseInt(date.substring(0,4).trim())>year||Integer.parseInt(date.substring(5,7).trim())>dayOfMonth||Integer.parseInt(date.substring(8,10).trim())>monthOfYear)
+                                {
+                                    return;
+                                }
+                                else {
+                                    newCalendar.set(year, monthOfYear, dayOfMonth);
+                                    data = dateFormatter.format(newCalendar.getTime());
+                                    txtdate.setText(dateFormatter.format(newCalendar.getTime()));
+                                }
+                            }
+                            catch(Exception e)
+                            {
+
+                            }
+
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                    fromDatePickerDialog.getDatePicker().setMinDate(newCalendar.getTimeInMillis());
+
+                fromDatePickerDialog.show();
+                }catch(Exception e)
+                {
+
+                }
+            }
+        });
+
+        dialog.show();
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                textcomment = null;
+                data = null;
+            }
+        });
+        textcancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        textdone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (data == null) {
+                    Snackbar snackbar = Snackbar.make(cdDatePicker, "Please choose your delivery date.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else {
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                    SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                    try {
+                        Date date1 = dateformatter.parse(date.substring(0, 10).trim());
+                        Date date2 = dateformatter.parse(data);
+                        if (date2.before(date1)) {
+                            Snackbar snackbar = Snackbar.make(cdDatePicker, "Please choose a valid date.", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (date1.equals(date2)) {
+
+                            Date d1 = formatter.parse(date.substring(11).trim());
+                            Date d2 = formatter.parse("00:00:00");
+                            Date d3 = formatter.parse("02:00:00");
+                            if (d1.before(d3) & d1.after(d2)) {
+                                if (!util.isInternetConnected(Checkout_Ui.this)) {
+                                    Snackbar snackbar = Snackbar.make(cdDatePicker, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
+                                    snackbar.setActionTextColor(Color.WHITE);
+                                    View snackbarView = snackbar.getView();
+                                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                    snackbar.show();}
+                                else {
+                                    dialog.dismiss();
+                                    callAddOrderAPI(commentbox.getText().toString(), data);
+                                }
+
+                                //   Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Snackbar snackbar = Snackbar.make(cdDatePicker, "Please enter valid date", Snackbar.LENGTH_SHORT);
+                                snackbar.setActionTextColor(Color.WHITE);
+                                View snackbarView = snackbar.getView();
+                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                snackbar.show();
+                            }
+
+                        } else if (!util.isInternetConnected(Checkout_Ui.this)) {
+                            Snackbar snackbar = Snackbar.make(cdcheckout, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else {
+                            callAddOrderAPI(commentbox.getText().toString(), data);
+                        }
+                    } catch (Exception e) {
+                        //  Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
     }
 

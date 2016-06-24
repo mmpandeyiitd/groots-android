@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.databases.DbHelper;
@@ -59,6 +61,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         this.updateCart = updateCart;
         dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
+        Collections.reverse(cartClasses);
 
     }
 
@@ -76,7 +79,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         holder.textItemName.setText(cartClasses.get(position).product_name);
         holder.textItemdesc.setText(cartClasses.get(position).product_description);
 
-        holder.textItemPrice.setText("" + cartClasses.get(position).unit_price);
+        holder.textItemPrice.setText("" + cartClasses.get(position).unit_price+"/"+cartClasses.get(position).packSize+cartClasses.get(position).packUnit);
         holder.txtCount.setText("" + cartClasses.get(position).product_qty);
         // holder.imgItemIcon.setImageResource(cartClasses.get(position).getImageitem());
         if(!cartClasses.get(position).product_image.equals(null)) {
@@ -85,14 +88,20 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             imageLoader.displayImage(cartClasses.get(position).product_image,holder.imgItemIcon,options);
         }
 
-       // Toast.makeText(context,cartClasses.get(position).product_image,Toast.LENGTH_SHORT).show();
-        /* holder.imgItemIcon.setImageResource(cartClasses.get(position).product_image);*/
 
+        if(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
+            holder.selectedquan.setText(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)/1000.00+"K"+
+                    cartClasses.get(position).packUnit);
+        }else
+        {
 
-        if (position > lastPosition) {
+            holder.selectedquan.setText(String.valueOf(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit));
+        }
+
+      /*  if (position > lastPosition) {
             holder.itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
             lastPosition = position;
-        }
+        }*/
         holder.imagecross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,13 +139,21 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
                     cartClasses.get(clickedPos).product_qty = previousCount;
 
+                    if(previousCount * Integer.parseInt(cartClasses.get(position).packSize)>=1000) {
+                       holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+cartClasses.get(position).packUnit);
+                    }else
+                    {
+                        holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+
+                    }
+
                     dbHelper.insertCartData(cartClasses.get(position).subscribe_prod_id,
                             cartClasses.get(position).base_product_id,
                             cartClasses.get(position).store_id,
                             cartClasses.get(position).toString(),
                             cartClasses.get(position).product_description,
                             "abcde", cartClasses.get(position).product_qty,
-                            cartClasses.get(position).unit_price);
+                            cartClasses.get(position).unit_price,cartClasses.get(position).packSize,cartClasses.get(position).packUnit);
 
                     notifyDataSetChanged();
 
@@ -148,6 +165,14 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             @Override
             public void onClick(View view) {
                 int clickedPos = (int) view.getTag();
+
+                if(previousCount * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
+                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+
+                            cartClasses.get(position).packUnit);
+                }else
+                {
+                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+                }
                 previousCount = cartClasses.get(clickedPos).product_qty;
                 if (previousCount > 0) {
                     previousCount--;
@@ -173,7 +198,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
     public class CartHolder extends RecyclerView.ViewHolder {
 
-        TextView textItemName;
+        TextView textItemName,selectedquan;
         TextView textItemdesc;
         TextView textItemPrice;
         ImageView imgItemIcon;
@@ -190,6 +215,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             imagecross = (LinearLayout)itemView.findViewById(R.id.imagecross);
             txtMinus = (ImageButton) itemView.findViewById(R.id.txtMinus);
             txtPlus = (ImageButton) itemView.findViewById(R.id.txtPlus);
+            selectedquan=(TextView)itemView.findViewById(R.id.selectedquan);
 
         }
     }

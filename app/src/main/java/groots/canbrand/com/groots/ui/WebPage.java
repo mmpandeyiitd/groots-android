@@ -34,7 +34,13 @@ public class WebPage extends AppCompatActivity {
             }
         });
             webView.setWebViewClient(new WebViewClient());
-            webView.loadUrl("http://www.google.com");
+
+        if(bundle.getString("Name").equals("About Groots"))
+        {
+            webView.loadUrl("file:///android_asset/grootsweb.html");
+        }
+        else
+            webView.loadUrl("http://gogroots.com/#about");
 
 
 

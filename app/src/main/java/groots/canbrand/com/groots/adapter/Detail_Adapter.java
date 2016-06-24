@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,15 +40,15 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     ArrayList<ProductListDocData> productListDocDatas;
     Context context;
-    int lastPosition = -1;
+    /*int lastPosition = -1;*/
     UpdateCart updateCart;
     DbHelper dbHelper;
     ArrayList<CartClass> cartClasses;
-    boolean flag = false;
+  /*  boolean flag = false;*/
     public static final int TYPE_ITEM = 1;
     public static final int TYPE_FOOTER = 2;
     boolean show_footer;
-    View view;
+
 
     ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -76,30 +77,31 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.detail_adapter_layout, parent, false);
-            ViewHolderDetail dataObjectHolder = new ViewHolderDetail(view);
-            return dataObjectHolder;
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_adapter_layout, parent, false);
+          //  ViewHolderDetail dataObjectHolder = new ViewHolderDetail(view);
+            return new ViewHolderDetail(view);
         }
-        if (viewType == TYPE_FOOTER) {
+        else if (viewType == TYPE_FOOTER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pregress_bar, parent, false);
             return new FooterViewHolder(v);
         }
-        return null;
+       return null;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder mholder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder mholder, final int position) {
 
         if (mholder instanceof ViewHolderDetail) {
             final ViewHolderDetail holder = (ViewHolderDetail) mholder;
-            final DbHelper dbHelper = new DbHelper(context);
-            dbHelper.createDb(false);
+          /*  final DbHelper dbHelper = new DbHelper(context);
+            dbHelper.createDb(false);*/
+
 
 
             if (productListDocDatas.get(position).title != null || productListDocDatas.get(position).packSize > 0)
                 holder.textItemName.setText(productListDocDatas.get(position).title + " " +
                         productListDocDatas.get(position).packSize + " " + productListDocDatas.get(position).packUnit);
-            else holder.textItemName.setVisibility(View.INVISIBLE);
+            else holder.textItemName.setVisibility(View.GONE);
 
 
             if (productListDocDatas.get(position).storeOfferPrice > 0)
@@ -112,48 +114,85 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             // if(productListDocDatas.get(position).packSize>0)
             if (productListDocDatas.get(position).packSize <= 1) {
-                holder.itemquantity.setText(" " + productListDocDatas.get(position).packUnit);
+                holder.itemquantity.setText(productListDocDatas.get(position).packUnit);
             } else
-                holder.itemquantity.setText(productListDocDatas.get(position).packSize + " " + productListDocDatas.get(position).packUnit);
+                holder.itemquantity.setText(productListDocDatas.get(position).packSize+productListDocDatas.get(position).packUnit);
             //  else holder.itemquantity.setVisibility(View.GONE);
+                if(!productListDocDatas.get(position).diameter.equals("")) {
+                    holder.itemdia.setVisibility(View.VISIBLE);
+                    holder.itemdia.setText("Diameter : " + productListDocDatas.get(position).diameter);
+                }
+                else {
+                        holder.itemdia.setVisibility(View.GONE);
+                    }
 
-            if (productListDocDatas.get(position).diameter > 0) {
-                holder.itemdia.setText("Diameter : " + productListDocDatas.get(position).diameter);
-                holder.viewDiameterRgt.setVisibility(View.VISIBLE);
-            } else {
-                holder.itemdia.setVisibility(View.GONE);
-                holder.viewDiameterRgt.setVisibility(View.GONE);
-            }
+            if (!productListDocDatas.get(position).color.equals("")) {
+                holder.itemcolor.setVisibility(View.VISIBLE);
 
-            if (productListDocDatas.get(position).color.length() > 0) {
                 holder.itemcolor.setText("Color : " + productListDocDatas.get(position).color);
-            } else {
+                if(productListDocDatas.get(position).diameter.length()>0 || productListDocDatas.get(position).color.length()>0) {
+                    holder.viewColorRgt.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    holder.viewColorRgt.setVisibility(View.GONE);
+                }
+            } else
+            {
                 holder.itemcolor.setVisibility(View.GONE);
+                holder.viewColorRgt.setVisibility(View.GONE);
             }
 
             if (productListDocDatas.get(position).grade.length() > 0) {
                 holder.itemdgrade.setText("Grade : " + productListDocDatas.get(position).grade);
-                holder.viewColorRgt.setVisibility(View.VISIBLE);
+                holder.itemdgrade.setVisibility(View.VISIBLE);
+                if(productListDocDatas.get(position).grade.length() > 0 &(productListDocDatas.get(position).diameter.length()>0 || productListDocDatas.get(position).color.length()>0 ) ) {
+                    holder.viewgrade.setVisibility(View.VISIBLE);
+                }else
+                {
+                    holder.viewgrade.setVisibility(View.GONE);
+                }
             } else {
                 holder.itemdgrade.setVisibility(View.GONE);
-                holder.viewColorRgt.setVisibility(View.GONE);
+                holder.viewgrade.setVisibility(View.GONE);
+              //  holder.viewColorRgt.setVisibility(View.GONE);
+            }
+            if (productListDocDatas.get(position).length> 0) {
+                holder.itemdia.setVisibility(View.VISIBLE);
+                holder.itemdia.setText("Length : " + productListDocDatas.get(position).length+productListDocDatas.get(position).length_unit);
+
+            } else if(productListDocDatas.get(position).length> 0 & productListDocDatas.get(position).diameter.length()>0) {
+                holder.itemdia.setVisibility(View.GONE);
+              //  holder.viewlen.setVisibility(View.GONE);
             }
 
             //if(productListDocDatas.get(position).getItemquantity()!=null)
-            holder.selectedquantity.setText(productListDocDatas.get(position).getItemCount() * productListDocDatas.get(position).packSize
-                    + " " + productListDocDatas.get(position).packUnit);
+            if(productListDocDatas.get(position).getItemCount() * productListDocDatas.get(position).packSize>=1000) {
+                holder.selectedquantity.setText(productListDocDatas.get(position).getItemCount() *(float)productListDocDatas.get(position).packSize/1000+"K"+
+                           productListDocDatas.get(position).packUnit);
+            }else
+            {
+                holder.selectedquantity.setText(productListDocDatas.get(position).getItemCount() * productListDocDatas.get(position).packSize+
+                        " " + productListDocDatas.get(position).packUnit);
+            }
 
             //else  holder.selectedquantity.setVisibility(View.INVISIBLE);
-            if(productListDocDatas.get(position).mediaUrl.size()>=1) {
+            if(productListDocDatas.get(position).thumbUrl.size()>1) {
               //  Toast.makeText(context,productListDocDatas.get(position).mediaUrl.get(0),Toast.LENGTH_SHORT);
-                imageLoader.displayImage(productListDocDatas.get(position).mediaUrl.get(0),holder.iconImage,options);
+                imageLoader.displayImage(productListDocDatas.get(position).thumbUrl.get(1),holder.iconImage,options);
             }
+            else
+            {
+                imageLoader.displayImage(productListDocDatas.get(position).thumbUrl.get(0),holder.iconImage,options);
+            }
+
 
             holder.txtCount.setTag(position);
             holder.txtPlus.setTag(position);
             holder.txtMinus.setTag(position);
 
             if (productListDocDatas.get(position).getItemCount() > 0) {
+
                 holder.txtCount.setText(productListDocDatas.get(position).getItemCount() + "");
                 dbHelper.updateProductQty(productListDocDatas.get(position).getItemCount(), productListDocDatas.get(position).storeOfferPrice, productListDocDatas.get(position).subscribedProductId);
                 holder.selectedquantity.setTextColor(Color.parseColor("#2D2D2D"));
@@ -182,7 +221,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             holder.txtCount.setText("0");
                         }
                         //   Toast.makeText(context,holder.txtCount.getText().toString().trim(),Toast.LENGTH_SHORT).show();
-                        ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
+                       // ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                         Utilz.count = position;
                         int clickedPos = (int) view.getTag();
@@ -193,22 +232,22 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         previousCount++;
                         productListDocDatas.get(clickedPos).setItemCount(previousCount);
 
-                        if (productListDocDatas.get(position).mediaUrl.size() >= 1) {
+                        if (productListDocDatas.get(position).thumbUrl.size()>1) {
 
 
                             dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
                                     productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
                                     productListDocDatas.get(position).description,
-                                    productListDocDatas.get(position).mediaUrl.get(0), productListDocDatas.get(position).getItemCount(),
-                                    productListDocDatas.get(position).storeOfferPrice);
+                                    productListDocDatas.get(position).thumbUrl.get(1), productListDocDatas.get(position).getItemCount(),
+                                    productListDocDatas.get(position).storeOfferPrice,productListDocDatas.get(position).packSize.toString(),productListDocDatas.get(position).packUnit);
 
                         } else {
 
                             dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
                                     productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
                                     productListDocDatas.get(position).description,
-                                    "http://admin.groots.dev.canbrand.in/noimage.jpg", productListDocDatas.get(position).getItemCount(),
-                                    productListDocDatas.get(position).storeOfferPrice);
+                                    productListDocDatas.get(position).thumbUrl.get(0), productListDocDatas.get(position).getItemCount(),
+                                    productListDocDatas.get(position).storeOfferPrice,productListDocDatas.get(position).packSize.toString(),productListDocDatas.get(position).packUnit);
                         }
 
                         notifyDataSetChanged();
@@ -271,12 +310,22 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
 
                         productListDocDatas.get(clickedPos).setItemCount(previousCount);
-                        dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
-                                productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
-                                productListDocDatas.get(position).description,
-                                "abcde", productListDocDatas.get(position).getItemCount(),
-                                productListDocDatas.get(position).storeOfferPrice);
+                        if (productListDocDatas.get(position).thumbUrl.size()>1) {
 
+                            dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
+                                    productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
+                                    productListDocDatas.get(position).description,
+                                    productListDocDatas.get(position).thumbUrl.get(1), productListDocDatas.get(position).getItemCount(),
+                                    productListDocDatas.get(position).storeOfferPrice, productListDocDatas.get(position).packSize.toString(), productListDocDatas.get(position).packUnit);
+                        }
+                        else
+                        {
+                            dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
+                                    productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
+                                    productListDocDatas.get(position).description,
+                                    productListDocDatas.get(position).thumbUrl.get(0), productListDocDatas.get(position).getItemCount(),
+                                    productListDocDatas.get(position).storeOfferPrice, productListDocDatas.get(position).packSize.toString(), productListDocDatas.get(position).packUnit);
+                        }
                         if (previousCount == 0)
                             dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
 
@@ -288,6 +337,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 }
             });
+            return;
         } else if (mholder instanceof FooterViewHolder) {
             final FooterViewHolder footerHolder = (FooterViewHolder) mholder;
 
@@ -353,12 +403,12 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class ViewHolderDetail extends RecyclerView.ViewHolder {
         TextView textItemName, textItemQuan, itemPrice, itemdesc, itemquantity, itemdia, itemcolor, itemdgrade, txtselectedquan,
-                selectedquantity;
+                selectedquantity,itemlength;
 
         ImageView iconImage;
-         ImageButton txtMinus, txtPlus;
+        ImageButton txtMinus, txtPlus;
         EditText txtCount;
-        View viewColorRgt, viewDiameterRgt;
+        View viewColorRgt,viewlen,viewgrade;
 
         public ViewHolderDetail(View itemView) {
             super(itemView);
@@ -376,9 +426,12 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
             txtMinus = (ImageButton) itemView.findViewById(R.id.txtMinusDetail);
             txtPlus = (ImageButton) itemView.findViewById(R.id.txtPlusDetail);
-            viewDiameterRgt = itemView.findViewById(R.id.viewDiameterRgt);
+            viewgrade=itemView.findViewById(R.id.viewgrade);
             viewColorRgt = itemView.findViewById(R.id.viewColorRgt);
             txtselectedquan = (TextView) itemView.findViewById(R.id.txtselectedquan);
+          //  itemlength=(TextView)itemView.findViewById(R.id.itemlength);
+          //  viewlen=itemView.findViewById(R.id.viewlen);
+
         }
     }
 }

@@ -94,7 +94,7 @@
                     android:textColor="@color/textLogin"
                     android:textSize="14dp" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/etLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

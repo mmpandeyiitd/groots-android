@@ -16,12 +16,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -51,7 +53,6 @@ import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.ProductListData;
 import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.canbrand.com.groots.utilz.Http_Urls;
-import groots.canbrand.com.groots.utilz.MyCustomLayoutManager;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -63,6 +64,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
     boolean flag = true;
+    public boolean backflag = false;
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
     CoordinatorLayout cdLanding;
@@ -79,6 +81,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public boolean loadingMore = true;
     TextView txtamount_detail, txtCart_detail;
     LinearLayout checkouticon;
+    ImageView callimage;
+    Utilz utilz;
+    LinearLayout listfooter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,23 +100,45 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         callicon.setOnClickListener(this);
         listicon = (LinearLayout) findViewById(R.id.listicon);
         listicon.setOnClickListener(this);
+        callimage = (ImageView) findViewById(R.id.callimage);
 
         updateCart = this;
         context = Landing_Update.this;
 
+      /*  ..........................UIL Integration.......................................*/
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
 
+
+
+        /*.................................RecyclerView.........................*/
         detail_recycler_view = (RecyclerView) findViewById(R.id.detail_recycler_view);
         detail_recycler_view.setHasFixedSize(true);
+        detail_recycler_view.setNestedScrollingEnabled(false);
         linearLayoutManager = new LinearLayoutManager(context);
 
-        callProductListingAPI(offsetValue);
+
+
+       /* .................Product API.................*/
+        cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
+        utilz = new Utilz();
+        if (!utilz.isInternetConnected(context)) {
+            Snackbar snackbar = Snackbar.make(cdLanding, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+
+
+        } else
+            callProductListingAPI(offsetValue);
+
+
+     /*   .................DataBase Implementation.......................*/
 
         dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
 
-        cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
@@ -128,6 +156,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
         editor.commit();
+
+       /* ...............................Navigation Drawer........................................*/
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -150,7 +180,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_landing__ui);
-        RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
+        // RelativeLayout rl_header = (RelativeLayout) headerView.findViewById(R.id.parentlayout);
 
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
 
@@ -159,21 +189,22 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         if (userName.contains(" ")) {
             String fname = userName.substring(0, userName.indexOf(" "));
             String lname = userName.substring(userName.indexOf(" "), userName.length());
-            name = fname.substring(0, 1).concat(lname.substring(0, 1));
+            name = fname.substring(0,1) + lname.substring(1,2);
 
         } else {
-            name = userName.substring(0, 1);
+            name = userName.substring(0,1);
         }
-        editor.putString("Name", name);
+        editor.putString("Name", name.toUpperCase().trim());
         editor.commit();
 
         TextView imageViewheader = (TextView) headerView.findViewById(R.id.imageViewheader);
         TextView txtViewName = (TextView) headerView.findViewById(R.id.txtViewName);
         imageViewheader.setText(prefs.getString("Name", null));
-        txtViewName.setText(prefs.getString("UserName", null));
+        txtViewName.setText(prefs.getString("UserName", null).substring(0, 1).toUpperCase() + prefs.getString("UserName", null).substring(1));
         ((TextView) findViewById(R.id.tooltext)).setText(prefs.getString("Retailer_Name", null));
 
         // navigationView.setNavigationItemSelectedListener(this);
+       /* .....................ToolBar/ActionBar..............................*/
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("");
@@ -184,7 +215,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         txtamount_detail = (TextView) findViewById(R.id.txtamount_detail);
         txtCart_detail = (TextView) findViewById(R.id.txtCart_detail);
-        final LinearLayout listfooter = (LinearLayout) findViewById(R.id.listfooter);
+        listfooter = (LinearLayout) findViewById(R.id.listfooter);
        /* int itemInCart = dbHelper.getTotalRow();
         if (itemInCart > 0) {
             listfooter.setVisibility(View.VISIBLE);
@@ -220,12 +251,16 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+
+
         detail_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                Utilz.count = layoutManager.findFirstCompletelyVisibleItemPosition();
+             /*   Log.e("count", String.valueOf(offsetValue));*/
                 if (loadingMore) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                     //position starts at 0
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == layoutManager.getItemCount() - 1) {
                         callProductListingAPI(offsetValue);
@@ -238,25 +273,23 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void callProductListingAPI(int offset) {
+    private void callProductListingAPI(final int offset) {
+
+       /* Log.e("data",String.valueOf(offset));*/
+        offsetValue = offset;
 
         HashMap hashMap = new HashMap();
 
-        hashMap.put("abc", "abc");
-        hashMap.put("limit", 20);
+        hashMap.put("limit", 10);
         hashMap.put("page", offset);
-
+        hashMap.put("sort[title]","asc");
 
         Log.e("Sending Data", hashMap.toString());
 
         if (offset == 1) {
             loadermain.setVisibility(View.VISIBLE);
             //loadermainfooter.setVisibility(View.INVISIBLE);
-        } else {
-
-
         }
-
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(Http_Urls.sBaseUrl)
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -270,13 +303,14 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             @Override
             public void success(ProductListData productListData, Response response) {
                 loadermain.setVisibility(View.INVISIBLE);
+
                 //  progressDialog.dismiss();
                 int status = productListData.status;
 
                 if (status == -1) {
 
-                    String msg = productListData.msg;
-                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                     String msg = productListData.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -284,22 +318,35 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                 } else if (status == 0) {
 
-                    String msg = productListData.msg;
-                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    String msg = productListData.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
 
+                    if (offsetValue == 2) {
+                        ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.VISIBLE);
+                        detail_recycler_view.setVisibility(View.GONE);
+                        // ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.GONE);
+
+                    }
+
+
+
                 } else if (status == 1) {
 
-                    final LinearLayout listfooter = (LinearLayout) findViewById(R.id.listfooter);
-                int itemInCart = dbHelper.getTotalRow();
-                if (itemInCart > 0) {
-                 listfooter.setVisibility(View.VISIBLE);
-                 } else {
-                 listfooter.setVisibility(View.GONE);
-                }
+                    backflag = false;
+                    ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.GONE);
+                    detail_recycler_view.setVisibility(View.VISIBLE);
+                    int itemInCart = dbHelper.getTotalRow();
+                    if (itemInCart > 0) {
+                        listfooter.setVisibility(View.VISIBLE);
+                    } else {
+                        listfooter.setVisibility(View.GONE);
+                    }
+
+                    //  Log.e("incoming data",productListData.data.response.docs.toString());
              /*       ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
 
                     for (int i = 0; i < productListDocDatas.size(); i++) {
@@ -307,21 +354,32 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                         for (int j = 0; j < cartClasses.size(); j++) {
 
                             if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+
                                 productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                             }
                         }
                     }*/
+                    //  Log.e("incoming data",productListData.data.response.docs.toString());
 
-                    //productListDocDatas = (ArrayList<ProductListDocData>) productListData.data.response.docs;
-                    //  productListDocDatas.add((ProductListDocData) productListData.data.response.docs);
                     if (productListData.data.response.docs.size() == 0) {
+
+                        if (offsetValue == 2) {
+                            ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.VISIBLE);
+                            detail_recycler_view.setVisibility(View.GONE);
+                            // ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.GONE);
+
+                        }
                         loadingMore = false;
+                    } else {
+                        ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.GONE);
+                        detail_recycler_view.setVisibility(View.VISIBLE);
+
                     }
 
                     if (productListDocDatas.size() == 0)
                         productListDocDatas = (ArrayList<ProductListDocData>) productListData.data.response.docs;
                     else {
-                        Utilz.count=productListDocDatas.size();
+                        Utilz.count = productListDocDatas.size();
                         for (int i = 0; i < productListData.data.response.docs.size(); i++) {
                             productListDocDatas.add(productListData.data.response.docs.get(i));
                         }
@@ -354,14 +412,15 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                     } else {
                         detail_recycler_view.setHasFixedSize(true);
-                        detail_recycler_view.setLayoutManager(new MyCustomLayoutManager(context));
+                        detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
+                        detail_recycler_view.setNestedScrollingEnabled(false);
                         detail_recycler_view.setAdapter(new Detail_Adapter(productListDocDatas, context, updateCart, true));
                         detail_recycler_view.scrollToPosition(Utilz.count);
                     }
 
 
                 }
-                offsetValue++;
+
 
             }
 
@@ -370,7 +429,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             public void failure(RetrofitError error) {
 
                 loadermain.setVisibility(View.INVISIBLE);
+
                 Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                  Log.e("Error", String.valueOf(error.getCause()));
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -378,6 +439,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+
+        offsetValue++;
+     //   Log.e("No of Page ", String.valueOf(offsetValue));
     }
 
 
@@ -397,7 +461,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void makeaCall() {
+    private void makeaCall(String phn) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -405,12 +469,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 9);
             } else {
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + "9999999999"));
+                intent.setData(Uri.parse("tel:" + phn));
                 startActivity(intent);
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:" + "9999999999"));
+            intent.setData(Uri.parse("tel:" + phn));
             startActivity(intent);
         }
 
@@ -419,8 +483,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-
+        ShowDialog showdialog = new ShowDialog(this);
         switch (view.getId()) {
+
 
             case R.id.pending_menu:
 
@@ -444,9 +509,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
 
-                        Intent intent = new Intent(context, WebPage.class);
-                        intent.putExtra("Name","Help");
-                        startActivity(intent);
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+                                Uri.fromParts("mailto", "letstalk@gogroots.com", null));
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT,
+                                "Please Share your thoughts...");
+                        startActivity(Intent
+                                .createChooser(emailIntent, "Send email..."));
                     }
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
@@ -455,7 +523,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
             case R.id.contact_menu:
                 drawer.closeDrawer(GravityCompat.START);
-                makeaCall();
+
+                showdialog.show();
 
                 break;
 
@@ -467,7 +536,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     public void run() {
 
                         Intent intent = new Intent(context, WebPage.class);
-                        intent.putExtra("Name","Rate");
+                        intent.putExtra("Name", "Rate");
                         startActivity(intent);
                     }
                 };
@@ -483,7 +552,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     public void run() {
 
                         Intent intent = new Intent(context, WebPage.class);
-                        intent.putExtra("Name","About");
+                        intent.putExtra("Name", "About Groots");
                         startActivity(intent);
                     }
                 };
@@ -504,9 +573,17 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Landing_Update.this);
                     detail_recycler_view.setLayoutManager(linearLayoutManager);
 
-                    Landing_Adapter mAdapter = new Landing_Adapter(productListDocDatas, context, updateCart, true);
-                    detail_recycler_view.setAdapter(mAdapter);
+                    //  Landing_Adapter mAdapter = ;
+                    detail_recycler_view.setAdapter(new Landing_Adapter(productListDocDatas, context, updateCart, true));
                     detail_recycler_view.scrollToPosition(Utilz.count);
+                    callimage.setImageResource(R.drawable.refresh);
+                   // Log.e("Offset Value",String.valueOf(productListDocDatas.size())+String.valueOf(offsetValue)+String.valueOf(loadingMore));
+                    if(offsetValue==3 && loadingMore==false & productListDocDatas.size()<5)
+                    {
+                        Log.e("Offset Value in inner",String.valueOf(offsetValue));
+                        listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+
+                    }
                     //  mAdapter.hideFooter();
                     // mAdapter.notifyDataSetChanged();
                     ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.expanded_list_view);
@@ -514,18 +591,44 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 } else {
                     flag = false;
 
-
-                    detail_recycler_view.setLayoutManager(new MyCustomLayoutManager(Landing_Update.this));
+                    detail_recycler_view.setLayoutManager(new LinearLayoutManager(Landing_Update.this));
                     detail_recycler_view.smoothScrollToPosition(Utilz.count);
-                    Detail_Adapter mAdapter = new Detail_Adapter(productListDocDatas, context, updateCart, true);
-                    detail_recycler_view.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+                    detail_recycler_view.setNestedScrollingEnabled(false);
+                    // Detail_Adapter mAdapter = ;
+                    detail_recycler_view.setAdapter(new Detail_Adapter(productListDocDatas, context, updateCart, true));
+                    //  mAdapter.notifyDataSetChanged();
+                    callimage.setImageResource(R.drawable.call);
                     detail_recycler_view.scrollToPosition(Utilz.count);
                     ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.list_view);
                 }
                 break;
+
             case R.id.callicon:
-                makeaCall();
+                if (flag == true) {
+
+                    if (!utilz.isInternetConnected(context)) {
+                        Snackbar snackbar = Snackbar.make(cdLanding, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+                        snackbar.setActionTextColor(Color.WHITE);
+                        View snackbarView = snackbar.getView();
+                        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        snackbar.show();
+
+                    } else {
+
+                        detail_recycler_view.setAdapter(null);
+                        productListDocDatas.clear();
+                        Utilz.count = 0;
+                        offsetValue = 1;
+                        callProductListingAPI(offsetValue);
+                        loadingMore = true;
+                    }
+
+                    //  detail_recycler_view.scrollToPosition(0);
+
+                } else {
+
+                    showdialog.show();
+                }
                 break;
             default:
                 break;
@@ -547,15 +650,15 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             public void onClick(View view) {
 
 
-
                 SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
                 editor.putString("Check", null);
                 editor.commit();
 
-                Utilz.count=0;
-                File cache = getCacheDir();
-                File appDir = new File(cache.getParent());
-                if (appDir.exists()) {
+                Utilz.count = 0;
+                // File cache = getCacheDir();
+                dbHelper.deleterec();
+                // File appDir = new File(cache.getParent());
+              /*  if (appDir.exists()) {
                     String[] children = appDir.list();
 
                     for (String s : children) {
@@ -564,7 +667,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                         if (deleteDir(f))
                             System.out.println("delete" + f.getPath());
                     }
-                }
+                }*/
                 Intent i = new Intent(Landing_Update.this, Splash.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
@@ -599,8 +702,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         int itemInDb = dbHelper.getTotalRow();
         float priceinDb = dbHelper.fetchTotalCartAmount();
+
+        // Log.e("Incoming price",String.valueOf(dbHelper.fetchTotalCartAmount()));
         if (itemInDb > 0) {
-            ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.VISIBLE);
+            listfooter.setVisibility(View.VISIBLE);
             txtCart_detail.setText("" + itemInDb);
             txtamount_detail.setText("" + priceinDb);
 
@@ -615,7 +720,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
             ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
         } else {
-            ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.INVISIBLE);
+
+            listfooter.setVisibility(View.INVISIBLE);
             txtCart_detail.setText("");
             txtamount_detail.setText("0");
             ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.blank_cart);
@@ -626,6 +732,29 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public void updateTotalAmnt(int childCount) {
 
     }
+
+    public void resumeAPI() {
+
+        if (!utilz.isInternetConnected(context)) {
+            Snackbar snackbar = Snackbar.make(cdLanding, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+
+        } else if (productListDocDatas.size() > 0) {
+
+            detail_recycler_view.setAdapter(null);
+            productListDocDatas.clear();
+            Utilz.count = 0;
+            offsetValue = 1;
+            callProductListingAPI(offsetValue);
+            loadingMore = true;
+
+          //  Log.e("Duplicate data Firing", "Resume API");
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -647,16 +776,48 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 productListDocDatas.get(i).setItemCount(0);
             }
         }
-        if (flag == true) {
+        if (flag == true & backflag == false & productListDocDatas.size() != 0) {
             Landing_Adapter mAdapter = new Landing_Adapter(productListDocDatas, context, updateCart, true);
             detail_recycler_view.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
-        } else if (flag == false) {
+        } else if (flag == false & backflag == false & productListDocDatas.size() != 0) {
             Detail_Adapter detailAdapter = new Detail_Adapter(productListDocDatas, context, updateCart, true);
-            detail_recycler_view.setLayoutManager(new MyCustomLayoutManager(context));
+            detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
+            detail_recycler_view.setNestedScrollingEnabled(false);
             detail_recycler_view.setAdapter(detailAdapter);
-            detailAdapter.notifyDataSetChanged();
+            //  detailAdapter.notifyDataSetChanged();
         }
     }
 
+    private class ShowDialog extends Dialog {
+
+
+        public ShowDialog(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+            setContentView(R.layout.phone_dialog);
+            ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    makeaCall("+91-11-3958-9893");
+                    dismiss();
+                }
+            });
+            ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    makeaCall("+91-11-3958-8984");
+                    dismiss();
+                }
+            });
+        }
+        }
 }

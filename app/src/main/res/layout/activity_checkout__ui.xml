@@ -99,8 +99,7 @@
                             android:id="@+id/txtdate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Order Summary -29 March 2016" />
+                            android:gravity="center" />
 
                        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
                             android:id="@+id/datetxt"
@@ -112,8 +111,7 @@
                            android:layout_marginRight="2dp"
                            android:layout_marginLeft="2dp"
                            android:layout_marginTop="2dp"
-                            android:layout_alignParentBottom="true"
-                            android:text="bjhbjbujh" />
+                            android:layout_alignParentBottom="true"/>
                     </LinearLayout>
 
                     <View
@@ -258,7 +256,8 @@
         android:id="@+id/cdcheckout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"></android.support.design.widget.CoordinatorLayout>
+        android:layout_alignParentBottom="true">
+    </android.support.design.widget.CoordinatorLayout>
 
    <RelativeLayout
         android:id="@+id/loaderxml"

@@ -5,7 +5,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
@@ -16,6 +15,40 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.LandingUI">
+
+        <RelativeLayout
+            android:id="@+id/blank_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/notfound" />
+
+            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="7dp"
+                android:text="Sorry! nothing found. "
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+        <!--
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center_vertical|center_horizontal"/>-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbars"
@@ -71,12 +104,13 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/call" />
+                        android:src="@drawable/refresh" />
                 </LinearLayout>
 
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -93,12 +127,12 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fadeScrollbars="true"
-                    android:scrollbars="none" />
+                    android:layout_height="match_parent" />
 
 
             </LinearLayout>
+
+
             <!--  ....................Footer.........................-->
 
 
@@ -229,6 +263,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
+
             </LinearLayout>
 
 
@@ -491,10 +526,12 @@
 
             </RelativeLayout>
 
+
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
+
 
 

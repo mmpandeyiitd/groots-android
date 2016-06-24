@@ -25,7 +25,7 @@ import java.util.HashMap;
 import groots.canbrand.com.groots.model.CartClass;
 
 /**
- * Created by surabhi
+ * Created by Administrator
  */
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -36,6 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static String DB_PATH;
     public static volatile SQLiteDatabase db;
     Context context;
+    public int count = 0;
 
 
     public DbHelper(Context context) {
@@ -219,8 +220,93 @@ public class DbHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+/*.............................Mail List.............................................*/
+
+    public void insertMailData(String mail)
+    {
+        try
+        {
+           db=openDataBase();
+            ContentValues contentValues=new ContentValues();
+            contentValues.put("mailid",mail);
+            Cursor cursor=null;
+            String query = "select * from Maillist";
+            cursor = db.rawQuery(query, null);
+            int count = cursor.getCount();
+            /*if (count > 0) {
+                db.execSQL("UPDATE Maillist SET mailid= "+mail);
+            }*/ /*else if (count == 0)*/
+                db.insert("Maillist", null, contentValues);
 
 
+            copyDBToPhoneSD1();
+            if (db != null)
+                db.close();
+        }catch (Exception e)
+        {
+            Log.e("Exception ",e.toString());
+        }
+    }
+
+   /* ................................ReadData for AutoSuggestion..................................*/
+
+    public ArrayList<String> getMaillist()
+    {
+        db = openDataBase();
+
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        String countQuery = "SELECT * FROM Maillist";
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(countQuery, null);
+            count = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("mailid")));
+
+                } while (cursor.moveToNext());
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return arrayList;
+    }
+ /*   .................................Total Count of Autosuggestion..............................*/
+
+    public int getTotalmail() {
+
+
+        db = openDataBase();
+        String countQuery = "SELECT  * FROM Maillist";
+        int cnt = 0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(countQuery, null);
+            cnt = cursor.getCount();
+            cursor.close();
+        } catch (Exception ex) {
+
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return cnt;
+    }
     //...............................Product Table.............................
 
 	/* insert cart data
@@ -228,7 +314,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * */
 
     public void insertCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
-                               String product_description, String product_image, int product_qty, float unit_price) {
+                               String product_description, String product_image, int product_qty, float unit_price,String pack_size,String packUnit) {
 
         try {
 
@@ -244,8 +330,12 @@ public class DbHelper extends SQLiteOpenHelper {
             contentValues.put("product_image", product_image);
             contentValues.put("product_qty", product_qty);
             contentValues.put("unit_price", unit_price);
+            contentValues.put("pack_size",pack_size);
+            contentValues.put("pack_unit",packUnit);
 
             float total_unit_price = product_qty * unit_price;
+            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+           // Log.e("Value at db",String.valueOf(product_qty)+unit_price+"tprice"+total_unit_price);
             contentValues.put("total_unit_price", total_unit_price);
 
             String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id;
@@ -306,7 +396,9 @@ public class DbHelper extends SQLiteOpenHelper {
         try {
             db = openDataBase();
 
-            float total_unit_price = unit_price * product_qty;
+            float total_unit_price =(float) unit_price * product_qty;
+            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+         //   Log.e("Total Price",String.valueOf(total_unit_price));
             db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
 
         } catch (Exception e) {
@@ -386,19 +478,18 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public int fetchTotalCartAmount() {
+    public float fetchTotalCartAmount() {
 
         String query = "SELECT sum(total_unit_price) from Cart";
 
-        int i = 0;
+        float i = 0;
         db = openDataBase();
-
         Cursor cursor = null;
 
         try {
             cursor = db.rawQuery(query, null);
             while ((cursor.moveToNext())) {
-                i = cursor.getInt(i);
+                i = cursor.getFloat((int) i);
 
             }
         } catch (Exception exception) {
@@ -431,6 +522,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
                     cartClass.unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
                     cartClass.total_unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
+                    cartClass.packUnit=cursor.getString(cursor.getColumnIndex("pack_unit"));
+                    cartClass.packSize=cursor.getString(cursor.getColumnIndex("pack_size"));
 
                     arrayList.add(cartClass);
                 }

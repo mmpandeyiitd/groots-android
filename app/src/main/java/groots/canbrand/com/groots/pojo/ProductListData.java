@@ -19,7 +19,7 @@ public class ProductListData {
     public String msg;
     @SerializedName("errors")
     @Expose
-    public List<List<Object>> errors = new ArrayList<List<Object>>();
+    public List<String> errors = new ArrayList<String>();
     @SerializedName("data")
     @Expose
     public ProductListData1 data;

@@ -125,7 +125,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.textItemdesc.setText(productListData.get(position).description);
             int pack_size = productListData.get(position).packSize;
             if (pack_size <= 1) {
-                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + productListData.get(position).packUnit);
+                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" +pack_size+ productListData.get(position).packUnit);
             } else {
                 holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
             }
@@ -140,6 +140,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ImageLoader imageLoader = ImageLoader.getInstance();
 
                 DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .showImageOnLoading(R.drawable.noimage)
+                        .showImageOnFail(R.drawable.noimage)
                     /*.showImageOnLoading(R.drawable.map_placeholder)
                     .showImageForEmptyUri(R.drawable.map_placeholder)
                     .showImageOnFail(R.drawable.map_placeholder)*/
@@ -200,11 +202,12 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                         productListData.get(clickedPos).setItemCount(previousCount);
 
+
                         dbHelper.insertCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
                                 productListData.get(position).storeId, productListData.get(position).title,
                                 productListData.get(position).description,
                                 productListData.get(position).thumbUrl.get(0), productListData.get(position).getItemCount(),
-                                productListData.get(position).storeOfferPrice);
+                                productListData.get(position).storeOfferPrice,productListData.get(position).packSize.toString(),productListData.get(position).packUnit);
 
                         notifyDataSetChanged();
 
@@ -249,8 +252,8 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         dbHelper.insertCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
                                 productListData.get(position).storeId, productListData.get(position).title,
                                 productListData.get(position).description,
-                                "abcde", productListData.get(position).getItemCount(),
-                                productListData.get(position).storeOfferPrice);
+                                productListData.get(position).thumbUrl.get(0), productListData.get(position).getItemCount(),
+                                productListData.get(position).storeOfferPrice, productListData.get(position).packSize.toString(),productListData.get(position).packUnit);
 
                         if (previousCount == 0)
                             dbHelper.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);

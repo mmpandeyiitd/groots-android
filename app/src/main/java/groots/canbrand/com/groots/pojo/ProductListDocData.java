@@ -11,9 +11,14 @@ import java.util.List;
  */
 public class ProductListDocData {
 
+
+
     @SerializedName("subscribed_product_id")
     @Expose
     public Integer subscribedProductId;
+    @SerializedName("length_unit")
+    @Expose
+    public String length_unit;
     @SerializedName("id")
     @Expose
     public String id;
@@ -23,12 +28,12 @@ public class ProductListDocData {
     @SerializedName("store_id")
     @Expose
     public Integer storeId;
-    @SerializedName("store_price")
+   /* @SerializedName("store_price")
     @Expose
-    public Integer storePrice;
+    public double storePrice;*/
     @SerializedName("store_offer_price")
     @Expose
-    public Integer storeOfferPrice;
+    public float storeOfferPrice;
     @SerializedName("subscribed_shipping_charges")
     @Expose
     public Integer subscribedShippingCharges;
@@ -39,8 +44,11 @@ public class ProductListDocData {
     @Expose
     public Integer weight;
     @SerializedName("length")
+   /* @Expose
+    public String length_unit;
+    @SerializedName("length_unit")*/
     @Expose
-    public Integer length;
+    public Float length;
     @SerializedName("width")
     @Expose
     public Integer width;
@@ -49,7 +57,7 @@ public class ProductListDocData {
     public Integer height;
     @SerializedName("diameter")
     @Expose
-    public Integer diameter;
+    public String diameter;
     @SerializedName("grade")
     @Expose
     public String grade;
