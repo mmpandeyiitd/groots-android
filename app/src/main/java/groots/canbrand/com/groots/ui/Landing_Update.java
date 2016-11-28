@@ -2,6 +2,7 @@ package groots.canbrand.com.groots.ui;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +14,10 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +41,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.adapter.Detail_Adapter;
@@ -50,8 +54,10 @@ import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.model.CartClass;
-import groots.canbrand.com.groots.pojo.ProductListData;
-import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.pojo.HttpResponse;
+import groots.canbrand.com.groots.pojo.Order;
+import groots.canbrand.com.groots.pojo.OrderItem;
+import groots.canbrand.com.groots.pojo.Product;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -60,15 +66,20 @@ import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 
+import static groots.canbrand.com.groots.ui.historyList.position;
+
 public class Landing_Update extends AppCompatActivity implements View.OnClickListener, UpdateCart {
 
 
+    Order order;
+    List<OrderItem> orderItems;
+    Product item;
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis;
     CoordinatorLayout cdLanding;
-    ArrayList<ProductListDocData> productListDocDatas = new ArrayList<>();
+    ArrayList<Product> productListDocDatas = new ArrayList<>();
     Context context;
     RelativeLayout loadermain;
     DrawerLayout drawer;
@@ -85,11 +96,24 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     Utilz utilz;
     LinearLayout listfooter;
 
+    /*int i,j ;
+    Double a[];
+    int b[];
+    int arr[];
+    int x;*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing__update);
+
+
+
+
+
+
+//        Log.v("HashMapTest",bpIdQuantityMap.get());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
@@ -142,6 +166,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
@@ -149,6 +174,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
@@ -215,7 +241,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         txtamount_detail = (TextView) findViewById(R.id.txtamount_detail);
         txtCart_detail = (TextView) findViewById(R.id.txtCart_detail);
-        listfooter = (LinearLayout) findViewById(R.id.listfooter);
+        listfooter  = (LinearLayout) findViewById(R.id.listfooter);
        /* int itemInCart = dbHelper.getTotalRow();
         if (itemInCart > 0) {
             listfooter.setVisibility(View.VISIBLE);
@@ -298,18 +324,18 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<ProductListData>() {
+        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<HttpResponse<Product>>() {
 
             @Override
-            public void success(ProductListData productListData, Response response) {
+            public void success(HttpResponse httpResponse, Response response) {
                 loadermain.setVisibility(View.INVISIBLE);
 
                 //  progressDialog.dismiss();
-                int status = productListData.status;
+                int status = httpResponse.status;
 
                 if (status == -1) {
 
-                     String msg = productListData.errors.get(0).toString();
+                     String msg = httpResponse.errors.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -318,7 +344,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                 } else if (status == 0) {
 
-                    String msg = productListData.errors.get(0).toString();
+                    String msg = httpResponse.errors.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -361,7 +387,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     }*/
                     //  Log.e("incoming data",productListData.data.response.docs.toString());
 
-                    if (productListData.data.response.docs.size() == 0) {
+                    if (httpResponse.data.responseData.docs.size() == 0) {
 
                         if (offsetValue == 2) {
                             ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.VISIBLE);
@@ -377,11 +403,11 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     }
 
                     if (productListDocDatas.size() == 0)
-                        productListDocDatas = (ArrayList<ProductListDocData>) productListData.data.response.docs;
+                        productListDocDatas = (ArrayList<Product>) httpResponse.data.responseData.docs;
                     else {
                         Utilz.count = productListDocDatas.size();
-                        for (int i = 0; i < productListData.data.response.docs.size(); i++) {
-                            productListDocDatas.add(productListData.data.response.docs.get(i));
+                        for (int i = 0; i < httpResponse.data.responseData.docs.size(); i++) {
+                            productListDocDatas.add((Product)httpResponse.data.responseData.docs.get(i));
                         }
                     }
 
@@ -389,7 +415,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     if (flag == true) {
 
                         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-                        if (cartClasses != null && cartClasses.size() > 0 && productListData != null) {
+                        if (cartClasses != null && cartClasses.size() > 0 && httpResponse != null) {
                             for (int i = 0; i < productListDocDatas.size(); i++) {
                                 for (int j = 0; j < cartClasses.size(); j++) {
                                     if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
@@ -534,10 +560,26 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 runnable = new Runnable() {
                     @Override
                     public void run() {
+                        if (utilz.isInternetConnected(context)) {
+                            Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
 
-                        Intent intent = new Intent(context, WebPage.class);
-                        intent.putExtra("Name", "Rate");
-                        startActivity(intent);
+
+                            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                            // To count with Play market backstack, After pressing back button,
+                            // to taken back to our application, we need to add following flags to intent.
+                            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                                    Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET |
+                                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                            try {
+                                startActivity(goToMarket);
+                            } catch (ActivityNotFoundException e) {
+                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=groots.canbrand.com.groots\n" +
+                                                "https://goo.gl/7eJwzP" + context.getPackageName())));
+                            }
+                        } else
+                            Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show();
+
                     }
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
@@ -559,6 +601,23 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 new android.os.Handler().postDelayed(runnable, 300);
 
                 break;
+            case R.id.orderHis_menu:
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context,History.class);
+                        intent.putExtra("Name","Order History");
+                        startActivity(intent);
+                    }
+                };
+
+
+            new android.os.Handler().postDelayed(runnable, 300);
+                break;
+
+
 
             case R.id.logout_menu:
                 //  Toast.makeText(this,"Logout Menu Pressed",Toast.LENGTH_SHORT).show();
@@ -758,8 +817,68 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onResume() {
-        super.onResume();  // Always call the superclass method first
+        super.onResume();
+        // Always call the superclass method first
         //    ArrayList<ProductListDocData> productListDocDatas=productListData;
+       /* Intent intent = getIntent();
+
+        HashMap<Integer, Double> bpIdQuantityMap = (HashMap<Integer, Double>) intent.getSerializableExtra("map");
+
+
+
+        if (bpIdQuantityMap != null & productListDocDatas.size() > 0 ){
+
+
+
+
+
+
+            //ArrayList<Product> productListUpdated = new ArrayList<>();
+
+
+            for (j=0;j<=productListDocDatas.size();j++) {
+
+
+
+                a[j] = bpIdQuantityMap.get(productListDocDatas.get(j).subscribedProductId);
+
+
+                for ( Integer key : bpIdQuantityMap.keySet() ) {
+                    for (x=0;x<=bpIdQuantityMap.size();x++) {
+                        arr[x] = key;
+                    }
+                }
+
+
+
+                b[j] =a[j].intValue();
+                for(x=0;x<=bpIdQuantityMap.size();x++) {
+
+                    if (productListDocDatas.get(j).subscribedProductId == arr[x]) {
+                        productListDocDatas.get(j).setItemCount(b[j]);
+                    }
+                }
+                //productListDocDatas.setItemCount().
+            }
+
+
+            dbHelper.insertCartData(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId,
+                    productListDocDatas.get(position).storeId, productListDocDatas.get(position).title,
+                    productListDocDatas.get(position).description,
+                    productListDocDatas.get(position).thumbUrl.get(0), productListDocDatas.get(position).getItemCount(),
+                    productListDocDatas.get(position).storeOfferPrice,productListDocDatas.get(position).packSize.toString(),productListDocDatas.get(position).packUnit);
+
+
+
+
+        }*/
+
+
+
+
+
+
+
         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
         if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
             for (int i = 0; i < productListDocDatas.size(); i++) {
@@ -819,5 +938,5 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 }
             });
         }
-        }
+    }
 }

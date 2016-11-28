@@ -28,7 +28,7 @@ import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.model.CartClass;
-import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.pojo.Product;
 import groots.canbrand.com.groots.ui.Landing_Update;
 import groots.canbrand.com.groots.utilz.Utilz;
 
@@ -38,7 +38,7 @@ import groots.canbrand.com.groots.utilz.Utilz;
 public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    ArrayList<ProductListDocData> productListDocDatas;
+    ArrayList<Product> productListDocDatas;
     Context context;
     /*int lastPosition = -1;*/
     UpdateCart updateCart;
@@ -62,7 +62,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             .build();
 
 
-    public Detail_Adapter(ArrayList<ProductListDocData> productListDocDatas, Context context, UpdateCart updateCart,boolean flag) {
+    public Detail_Adapter(ArrayList<Product> productListDocDatas, Context context, UpdateCart updateCart,boolean flag) {
         this.context = context;
         this.productListDocDatas = productListDocDatas;
         this.updateCart = updateCart;

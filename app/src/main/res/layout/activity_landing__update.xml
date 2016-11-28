@@ -295,7 +295,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
                 <groots.canbrand.com.groots.utilz.Loader
                     android:id="@+id/rotatefooter"
@@ -461,6 +464,36 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/view"></View>
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/orderHis_menu"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <ImageView
+                    android:id="@+id/orderHis"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/orderhis" />
+                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/orderHis"
+                    android:text="ORDER HISTORY"
+                    android:textColor="@color/detailSec"
+                    android:textSize="12dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/view"></View>
             </RelativeLayout>
 
             <RelativeLayout

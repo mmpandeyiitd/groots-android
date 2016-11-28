@@ -252,14 +252,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/cdcheckout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true">
-    </android.support.design.widget.CoordinatorLayout>
-
-   <RelativeLayout
+    <RelativeLayout
         android:id="@+id/loaderxml"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -271,4 +264,15 @@
             android:elevation="10dp"
             android:id="@+id/rotate"/>
     </RelativeLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cdcheckout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/loaderxml"
+        android:layout_toEndOf="@+id/loaderxml"
+        android:layout_marginLeft="51dp"
+        android:layout_marginStart="51dp">
+    </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

@@ -25,7 +25,7 @@ import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.model.CartClass;
-import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.pojo.Product;
 import groots.canbrand.com.groots.ui.Landing_Update;
 import groots.canbrand.com.groots.utilz.Utilz;
 
@@ -35,7 +35,7 @@ import groots.canbrand.com.groots.utilz.Utilz;
 public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    ArrayList<ProductListDocData> productListData;
+    ArrayList<Product> productListData;
     Context context;
     View view;
     int lastPosition = -1;
@@ -46,7 +46,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int TYPE_FOOTER = 2;
     boolean show_footer;
 
-    public Landing_Adapter(ArrayList<ProductListDocData> productListData, Context context, UpdateCart updateCart, boolean f) {
+    public Landing_Adapter(ArrayList<Product> productListData, Context context, UpdateCart updateCart, boolean f) {
         this.productListData = productListData;
         this.context = context;
         this.updateCart = updateCart;
@@ -133,7 +133,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.txtCount.setText("" + productListData.get(position).getItemCount());
 
             if (!productListData.get(position).thumbUrl.equals(null)) {
-           /* Picasso.with(context).load(productListData.get(position).thumbUrl.get(0))
+           /* Picasso.with(context).load(orderItems.get(position).thumbUrl.get(0))
                     .into(holder.imgItemIcon);*/
 
 
@@ -154,10 +154,10 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
 
-      /*  Picasso.with(context).load(productListData.get(position).defaultThumbUrl)
+      /*  Picasso.with(context).load(orderItems.get(position).defaultThumbUrl)
                 .placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(holder.imgItemIcon);
 
-        Picasso.with(context).load(productListData.get(position).)) .placeholder(R.drawable.default_image)
+        Picasso.with(context).load(orderItems.get(position).)) .placeholder(R.drawable.default_image)
                 .error(R.drawable.default_image).into(childViewHolder.imgItemIcon);
 */
           /*  if (position > lastPosition) {
@@ -229,7 +229,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         if (previousCount == 0)
                             dbHelper.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);
 //                        else if(previousCount>0)
-//                        dbHelper.updateProductQty(productListData.get(position).getItemCount(), productListData.get(position).subscribedProductId);
+//                        dbHelper.updateProductQty(orderItems.get(position).getItemCount(), orderItems.get(position).subscribedProductId);
                     }
                     notifyDataSetChanged();
                 }
