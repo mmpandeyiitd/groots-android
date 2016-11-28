@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import groots.canbrand.com.groots.model.CartClass;
+import groots.canbrand.com.groots.model.UpdateCartClass;
 
 /**
  * Created by Administrator
@@ -409,6 +410,12 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
+
+
+
+
+
+
      /*get product count in cart data
     * */
 
@@ -543,6 +550,17 @@ public class DbHelper extends SQLiteOpenHelper {
         return arrayList;
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

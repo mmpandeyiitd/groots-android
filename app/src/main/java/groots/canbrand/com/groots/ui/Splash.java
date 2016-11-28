@@ -43,13 +43,19 @@ import com.flaviofaria.kenburnsview.Transition;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.databases.DbHelper;
 import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.pojo.ForgetPwdData;
+import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.LoginData;
+import groots.canbrand.com.groots.pojo.OrderFeedback;
+import groots.canbrand.com.groots.pojo.Product;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -63,13 +69,15 @@ import retrofit.client.Response;
 public class Splash extends AppCompatActivity implements AnimationListener, OnClickListener {
 
     ImageView ivGroots, ivCallLogin;
+    ArrayList<OrderFeedback> orderFeedback = new ArrayList<>();
     AlphaAnimation alphaAnimation;
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
     LinearLayout llUserName, llPassword;
     EditText etPassword;
+    CoordinatorLayout cdLanding;
     AutoCompleteTextView etLogin;
-    CoordinatorLayout cdLogin, cdForgetPwd;
+    CoordinatorLayout cdLogin, cdForgetPwd ,feedbackfail;
     TextView tvForgetPass;
     RelativeLayout progressMobile;
     DbHelper dbHelper;
@@ -115,6 +123,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         context = Splash.this;
         cdLogin = (CoordinatorLayout) findViewById(R.id.cdLogin);
+        //feedbackfail = (CoordinatorLayout) findViewById(feedbackfail);
         ivGroots = (ImageView) findViewById(R.id.ivGroots);
         ivCallLogin = (ImageView) findViewById(R.id.ivCallLogin);
         kbv = (KenBurnsView) findViewById(R.id.image);
@@ -151,9 +160,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(Splash.this, Landing_Update.class);
+                    //HashMap hashMap = new HashMap();
+                   // hashMap.put();
+                    callfeedbackresponseAPI();
+                    /*Intent i = new Intent(Splash.this, Landing_Update.class);
                     startActivity(i);
-                    finish();
+                    finish();*/
                 }
             };
             handler.postDelayed(runnable, 2200);
@@ -274,10 +286,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             case R.id.ivCallLogin:
 
-                ShowDialog showdialog = new ShowDialog(this);
-                showdialog.show();
+              //  ShowDialog showdialog = new ShowDialog(this);
+               // showdialog.show();
 
-                // makeCall();
+                 makeCall("+91-11-3958-9895");
                 break;
 
             case R.id.btnSignIn:
@@ -412,6 +424,118 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     }
 
 
+    void callfeedbackresponseAPI(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getcheckfeedbackresponse("andapikey", "1.0", "1.0", AuthToken, new Callback<HttpResponse<OrderFeedback>>(){
+            @Override
+               public void success ( HttpResponse httpResponse , Response response ){
+
+
+               int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+
+                    if (orderFeedback.size() == 0) {
+                        orderFeedback = (ArrayList<OrderFeedback>) httpResponse.data.responseData.docs;
+                    }
+
+                          boolean Status = orderFeedback.get(0).feedbackStatus;
+                          String O_id = orderFeedback.get(0).orderId;
+                          String datee = orderFeedback.get(0).deliveryDate.substring(0,11);
+
+                    if (Status == true){
+                       //String orderId =
+                        //orderfeedback.orderId;
+                        Intent i = new Intent(Splash.this, RateUs.class);
+                        i.putExtra("ID",O_id);
+                        i.putExtra("date",datee);
+                        startActivity(i);
+                        finish();
+
+                    }
+                    else {
+
+
+                        Intent i = new Intent(Splash.this, Landing_Update.class);
+                        startActivity(i);
+                        finish();
+                    }
+
+                   // if (httpResponse.data.responseData.docs.size() != 0 ){
+
+
+
+                    //}
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+        });
+
+
+
+
+
+    }
+
+
     void callLoginAPI(HashMap hashMap) {
         progressMobile.setVisibility(View.VISIBLE);
 
@@ -473,9 +597,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             editor.commit();
                             //   btnSignIn.setText("Success");
 
-                            Intent i = new Intent(Splash.this, Landing_Update.class);
+                            //HashMap hashMap = new HashMap();
+                            //hashMap.put("email", strEmail);
+
+                            callfeedbackresponseAPI();
+
+                            /*Intent i = new Intent(Splash.this, Landing_Update.class);
                             startActivity(i);
-                            finish();
+                            finish();*/
                             // Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
                         } else {
                             //    btnSignIn.setText("Sign In");

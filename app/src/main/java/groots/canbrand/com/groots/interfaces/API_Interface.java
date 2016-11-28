@@ -1,22 +1,26 @@
 package groots.canbrand.com.groots.interfaces;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import groots.canbrand.com.groots.pojo.AddOrderParent;
-import groots.canbrand.com.groots.pojo.DateTimeChild;
 import groots.canbrand.com.groots.pojo.DateTimePojo;
 import groots.canbrand.com.groots.pojo.ForgetPwdData;
+import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.LoginData;
 
-import groots.canbrand.com.groots.pojo.ProductListData;
+import groots.canbrand.com.groots.pojo.HttpResponse;
+import groots.canbrand.com.groots.pojo.Order;
+import groots.canbrand.com.groots.pojo.OrderFeedback;
+import groots.canbrand.com.groots.pojo.OrderItem;
+import groots.canbrand.com.groots.pojo.Product;
+//import groots.canbrand.com.groots.pojo.ProductListDocData;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
-import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 
 /**
@@ -54,7 +58,36 @@ public interface API_Interface {
                               @Header("APP_VERSION") String appversion,
                               @Header("CONFIG_VERSION") String config,
                               @Header("AUTH_TOKEN") String auth,
-                              @FieldMap Map<String,String> alldata, Callback<ProductListData> cb);
+                              @FieldMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
+
+
+    @GET("/index.php/api/orders")
+    void getorderListingResponse(@Header("API_KEY") String apikey,
+                                 @Header("APP_VERSION") String appversion,
+                                 @Header("CONFIG_VERSION") String config,
+                                 @Header("AUTH_TOKEN") String auth,
+                                 @QueryMap Map<String,String> alldata, Callback<HttpResponse<Order>> cb);
+
+    //@FormUrlEncoded
+    @GET("/index.php/api/orderdetails")
+    void getorderitemListingResponse(@Header("API_KEY") String apikey,
+                                 @Header("APP_VERSION") String appversion,
+                                 @Header("CONFIG_VERSION") String config,
+                                 @Header("AUTH_TOKEN") String auth,
+                                 @QueryMap Map<String,String> alldata, Callback<HttpResponse<Order>> cb);
+
+
+    @GET("/index.php/api/checkFeedback")
+    void getcheckfeedbackresponse(@Header("API_KEY") String apikey,
+                                     @Header("APP_VERSION") String appversion,
+                                     @Header("CONFIG_VERSION") String config,
+                                     @Header("AUTH_TOKEN") String auth,
+                                     Callback<HttpResponse<OrderFeedback>> cb);
+
+
+
+
+
 
   /*  @GET("/index.php/api/serverDatetime")
     void getTime(@Header("API_KEY") String apikey,

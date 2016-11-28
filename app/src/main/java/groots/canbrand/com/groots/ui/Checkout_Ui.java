@@ -255,7 +255,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    private class ShowDialog extends Dialog {
+    public class ShowDialog extends Dialog {
 
 
         public ShowDialog(Context context) {

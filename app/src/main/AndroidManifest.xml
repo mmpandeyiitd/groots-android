@@ -36,10 +36,46 @@
             android:name=".ui.WebPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
+        <activity
+            android:name=".ui.historyList"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base" />
 
 
         <activity
             android:name=".ui.Landing_Update"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.History"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.UpdateOrder"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+
+
+        <activity
+            android:name=".ui.Checkout_Update_Order_Ui"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+             />
+
+        <activity
+            android:name=".ui.RateUs"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.feedback"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />

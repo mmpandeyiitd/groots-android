@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbars"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/header_green_texture"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        >
+
+
+
+        <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+            android:id="@+id/headername"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="85dp"
+            android:gravity="center_vertical"
+
+            android:text="GIVE YOUR FEEDBACK"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+        <LinearLayout
+            android:id="@+id/callicon"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/makecall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="0dp"
+
+                android:src="@drawable/call"
+                android:background="@null"/>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_height="110dp"
+        android:layout_width="match_parent"
+        android:background="@color/detailSec"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:text ="What went wrong? \n "
+            android:gravity="center_horizontal"
+
+            android:textColor="@color/drawer_header"
+            android:textSize="25dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textStyle="italic"
+            android:text = "Please share your feedback with us."
+            android:gravity="center_horizontal"
+
+            android:textColor="@color/drawer_header"
+            android:textSize="18dp"
+            />
+
+
+    </LinearLayout>
+
+
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Late Delivery"
+        android:textSize="20dp"
+        android:buttonTint="@color/drawer_header"
+        android:textColorHighlight="@color/detailSec"
+        android:textColor="@color/drawer_header"
+        android:id="@+id/late_delivery"/>
+
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText1" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Delivery Boy Behaviour"
+        android:textSize="20dp"
+        android:buttonTint="@color/drawer_header"
+        android:textColor="@color/drawer_header"
+        android:id="@+id/delivery_boy_behave"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+
+        android:id="@+id/editText2" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Incomplete Order"
+        android:buttonTint="@color/drawer_header"
+        android:textSize="20dp"
+        android:textColor="@color/drawer_header"
+        android:id="@+id/incomplete_order"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+
+        android:id="@+id/editText3" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Product Quality"
+        android:buttonTint="@color/drawer_header"
+        android:textSize="20dp"
+        android:textColor="@color/drawer_header"
+        android:id="@+id/quality_product"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+
+        android:id="@+id/editText4" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Pricing"
+        android:buttonTint="@color/drawer_header"
+        android:textSize="20dp"
+        android:textColor="@color/drawer_header"
+        android:id="@+id/pricing"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:inputType="textMultiLine"
+
+        android:id="@+id/editText5" />
+
+
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Other"
+
+        android:textSize="20dp"
+        android:textColor="@color/drawer_header"
+        android:buttonTint="@color/drawer_header"
+        android:id="@+id/other"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+
+        android:id="@+id/comment" />
+
+
+
+
+    <Button
+        android:text="SUBMIT"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/feedback_submit_btn" />
+
+
+
+</LinearLayout>
