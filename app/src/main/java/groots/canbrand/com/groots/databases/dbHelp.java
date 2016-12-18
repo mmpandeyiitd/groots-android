@@ -414,7 +414,7 @@ public class dbHelp extends SQLiteOpenHelper {
         }
     }
 
-    public void deleterec() {
+    public static void deleterec() {
         try {
             db = openDataBase();
             db.execSQL("DELETE FROM UPDATECART");

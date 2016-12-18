@@ -20,7 +20,11 @@ public class Thank_You_UI extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+
+                Intent intent = new Intent(Thank_You_UI.this,Landing_Update.class);
+                startActivity(intent);
+
+              //  onBackPressed();
                 finish();
             }
         });

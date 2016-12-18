@@ -22,6 +22,14 @@ public class Order {
     @Expose
     public String id;*/
 
+
+
+
+    @SerializedName("invoiceNo")
+    @Expose
+    public String invoiceNo;
+
+
     @SerializedName("deliveryDate")
     @Expose
     public String deliveryDate;
@@ -58,6 +66,7 @@ public class Order {
     @Expose
     public  List<OrderFeedback> orderFeedbacks ;
 
+    public Payment payment;
 
     public void setItemCount(int itemCount) {
         this.itemCount = itemCount;

@@ -33,6 +33,13 @@ public class Utilz {
 			return flag;
 		//}
 	}
+
+
+	public boolean isValidMobile(String phone)
+	{
+		boolean flagg =  android.util.Patterns.PHONE.matcher(phone).matches();
+		return flagg;
+	}
 	
 	/*
 	 * PASSWORD DECRYPT BY USING MD5..................

@@ -25,7 +25,7 @@
               android:layout_gravity="center"
               android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-              android:orientation="horizontal">
+              android:orientation="vertical">
 
                         <LinearLayout
                               android:layout_width="match_parent"
@@ -130,7 +130,7 @@ android:layout_weight="1"                                        android:gravity
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:text="Id"
-                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginLeft="5dp"
                                         android:layout_weight="1"
                                         android:textAllCaps="true"/>
 
@@ -139,10 +139,10 @@ android:layout_weight="1"                                        android:gravity
                                         android:layout_height="match_parent"
                                         android:layout_marginRight="5dp"
                                         android:layout_weight="1"
-                                        android:gravity="left"
+                                        android:gravity="right|bottom"
                                         android:textStyle="bold"
                                         android:id="@+id/trans_no_id"
-                                        android:textSize="13dp"
+                                        android:textSize="10dp"
                                         android:text="1234567890GMOIHDN"/>
 
 
@@ -244,7 +244,6 @@ android:layout_weight="1"                                        android:gravity
                                     android:layout_width="match_parent"
                                     android:layout_height="20dp"
                                     android:gravity="left"
-                                    android:id="@+id/total_id"
                                     android:layout_weight="1"
                                     android:layout_marginTop="0dp"
                                     android:orientation="horizontal">
@@ -311,7 +310,7 @@ android:layout_weight="1"                                        android:gravity
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:text="ONLINE TRANSFER"
-                                        android:textSize="13dp"
+                                        android:textSize="11dp"
                                         android:layout_weight="1"
                                         android:gravity="right"
                                         android:textStyle="bold"
@@ -335,7 +334,7 @@ android:layout_weight="1"                                        android:gravity
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:gravity="right"
-                                        android:layout_marginLeft="140dp"
+                                        android:layout_marginLeft="100dp"
                                         android:layout_weight="1"
                                         android:text="Cheque Status-"
                                         android:id="@+id/cheq_stat_id"/>

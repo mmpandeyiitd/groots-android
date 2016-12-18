@@ -52,6 +52,7 @@ import java.util.Map;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.adapter.historyList_Adapter;
 import groots.canbrand.com.groots.databases.DbHelper;
+import groots.canbrand.com.groots.databases.dbHelp;
 import groots.canbrand.com.groots.interfaces.API_Interface;
 import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.pojo.HttpResponse;
@@ -678,7 +679,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 break;
 
 
-
+           // int itemInDb = dbHelp.getTotalRow();
 
             case R.id.updateicon_checkout:
 
@@ -718,6 +719,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                          @Override
                          public void run() {
 
+
+
+
                              Intent intent = new Intent(context, UpdateOrder.class);
 
 
@@ -725,6 +729,8 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
                              intent.putExtra("map",bpIdQuantityMap);
+
+
 
                              //intent.putExtra("Name", "About Groots");
                              startActivity(intent);

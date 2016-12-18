@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.content.ActivityNotFoundException;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import groots.canbrand.com.groots.interfaces.UpdateCart;
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.Order;
+import groots.canbrand.com.groots.pojo.Payment;
 import groots.canbrand.com.groots.pojo.Product;
 import groots.canbrand.com.groots.ui.History;
 import groots.canbrand.com.groots.ui.Landing_Update;
@@ -45,7 +47,7 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
     ArrayList<Order> historyListData;
     Context context;
-    View view;
+    View view = null;
     int lastPosition = -1;
     UpdateCart updateCart;
     DbHelper dbHelper;
@@ -88,6 +90,11 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
         TextView textRupee;
         TextView textItemPric;
         TextView status;
+        LinearLayout first_half_order,second_half_payment,chequeStatus;
+
+
+        TextView inv_no_id,trans_no_id,paid_amount_id,mode_payment_id,cheque_status_id;
+
        // TextView o_i ;
         //ImageView imgItemIcon;
         //EditText txtCount;
@@ -99,6 +106,17 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
             textRupee = (TextView) itemView.findViewById(R.id.textRupee);
             textItemPric = (TextView) itemView.findViewById(R.id.textItemPric);
             status = (TextView) itemView.findViewById(R.id.stat);
+            first_half_order = (LinearLayout) itemView.findViewById(R.id.first_half_id);
+            second_half_payment =(LinearLayout) itemView.findViewById(R.id.second_half_id);
+            chequeStatus =(LinearLayout) itemView.findViewById(R.id.chequeStatus);
+            chequeStatus.setVisibility(View.GONE);
+
+            inv_no_id = (TextView) itemView.findViewById(R.id.inv_no_id);
+            trans_no_id =(TextView) itemView.findViewById(R.id.trans_no_id);
+            paid_amount_id = (TextView) itemView.findViewById(R.id.paid_amount_id);
+            mode_payment_id = (TextView) itemView.findViewById(R.id.mode_payment_id);
+            cheque_status_id = (TextView) itemView.findViewById(R.id.cheque_status_id);
+
            // o_i = (TextView) itemView.findViewById(R.id.o_i);
             //imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
             //txtCount = (EditText) itemView.findViewById(R.id.txtCount);
@@ -114,14 +132,19 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+view = null;
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.history_card_view, parent, false);
+
+            //view = null;
+            view = LayoutInflater.from(context).inflate(R.layout.history_test_card_view, parent, false);
             History_Adapter.DataObjectHolder dataObjectHolder = new History_Adapter.DataObjectHolder(view);
             return dataObjectHolder;
         }
+
+
         if (viewType == TYPE_FOOTER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pregress_bar, parent, false);
+            View v = null ;
+             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pregress_bar, parent, false);
             return new FooterViewHolder(v);
         }
         return null;
@@ -134,11 +157,104 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
             final DataObjectHolder holder = (DataObjectHolder) mholder;
             final DbHelper dbHelper = new DbHelper(context);
             dbHelper.createDb(false);
-            //int i=0;
 
-            holder.date_id.setText(historyListData.get(position).deliveryDate.substring(0,11));
-            holder.textItemPric.setText(historyListData.get(position).totalPayableAmount.toString());
-            holder.status.setText(historyListData.get(position).Status);
+
+
+
+
+
+            //int i=0;
+         if (historyListData.get(position).invoiceNo == null){
+             holder.date_id.setText(historyListData.get(position).payment.paymentDate);
+         }
+            else {
+             holder.date_id.setText(historyListData.get(position).deliveryDate.substring(0, 10));
+         }
+
+            if (historyListData.get(position).invoiceNo == null){
+                holder.textItemPric.setText("--");
+                holder.status.setText("--");
+                holder.inv_no_id.setText("--");
+
+            }
+            else{
+
+
+
+                holder.status.setText(historyListData.get(position).Status);
+
+                if (historyListData.get(position).Status .equals("Cancelled") ){
+                    holder.textItemPric.setText("0.00");
+                }else{
+
+                    holder.textItemPric.setText(historyListData.get(position).totalPayableAmount.toString());
+                }
+
+                holder.inv_no_id.setText(historyListData.get(position).invoiceNo);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+            if (historyListData.get(position).payment == null ) {
+             holder.trans_no_id.setText("--");
+
+
+                holder.paid_amount_id.setText("--");
+
+                holder.mode_payment_id.setText("--");
+                holder.chequeStatus.setVisibility(View.GONE);
+                //holder.cheque_status_id.setText("NULL");
+
+
+            }
+            else {
+                holder.trans_no_id.setText(historyListData.get(position).payment.refNo);
+                holder.chequeStatus.setVisibility(View.GONE);
+
+
+                holder.paid_amount_id.setText(historyListData.get(position).payment.amountPaid.toString());
+
+
+                holder.mode_payment_id.setText(historyListData.get(position).payment.modeofPayment);
+
+                if (historyListData.get(position).payment.modeofPayment .equals("Cheque") ) {
+
+
+                    holder.chequeStatus.setVisibility(View.VISIBLE);
+                    holder.cheque_status_id.setVisibility(View.VISIBLE);
+
+                    //  System.out.println(historyListData.get(position).payment.chequeStatus);
+
+
+                    holder.cheque_status_id.setText(historyListData.get(position).payment.chequeStatus);
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+            //Payment payment = new Payment();
+
+
+
+
            //String o_I = holder.o_I.getText(historyListData.get(text).orderId);
 
             //holder.textItemdesc.setText(orderItems.get(position).description);
@@ -176,29 +292,17 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
 
 
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            /*holder.date_id.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
                     //String o_I = historyListData.get(position).orderId;
+                    Intent intent = new Intent(context, historyList.class);
 
 
-                    String or_id = historyListData.get(position).orderId.toString();
-                    String total = holder.textItemPric.getText().toString();
-                    String datee = historyListData.get(position).deliveryDate.substring(0,10);
-                    String Stat = historyListData.get(position).Status;
-                        Intent intent = new Intent(context, historyList.class);
 
-
-                        intent.putExtra("OrderId", or_id);
-                    intent.putExtra("totalpayableamount",total);
-                    intent.putExtra("datee",datee);
-                    intent.putExtra("Status",Stat);
-
-                        context.startActivity(intent);
-
+                    context.startActivity(intent);
 
 
 
@@ -207,7 +311,48 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
 
-            });
+            });*/
+
+
+            if (historyListData.get(position).invoiceNo != null) {
+
+
+
+
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        //String o_I = historyListData.get(position).orderId;
+
+
+                        String or_id = historyListData.get(position).orderId.toString();
+                        String total = holder.textItemPric.getText().toString();
+                        String datee = historyListData.get(position).deliveryDate.substring(0, 10);
+                        String Stat = historyListData.get(position).Status;
+                        Intent intent = new Intent(context, historyList.class);
+
+
+                        intent.putExtra("OrderId", or_id);
+                        intent.putExtra("totalpayableamount", total);
+                        intent.putExtra("datee", datee);
+                        intent.putExtra("Status", Stat);
+
+                        context.startActivity(intent);
+
+
+                    }
+
+                });
+            }
+            else {
+                holder.itemView.setOnClickListener(null);
+
+            }
+
+
 
 
         }

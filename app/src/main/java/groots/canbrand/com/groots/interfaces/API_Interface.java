@@ -9,11 +9,13 @@ import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.LoginData;
 
 import groots.canbrand.com.groots.pojo.HttpResponse;
-import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.OrderFeedback;
-import groots.canbrand.com.groots.pojo.OrderItem;
 import groots.canbrand.com.groots.pojo.Product;
 //import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.canbrand.com.groots.pojo.SubmitFeedback;
+import groots.canbrand.com.groots.pojo.signUpResponse;
+import groots.canbrand.com.groots.pojo.user_profile;
+import groots.canbrand.com.groots.pojo.user_profile;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
@@ -68,6 +70,11 @@ public interface API_Interface {
                                  @Header("AUTH_TOKEN") String auth,
                                  @QueryMap Map<String,String> alldata, Callback<HttpResponse<Order>> cb);
 
+
+
+
+
+
     //@FormUrlEncoded
     @GET("/index.php/api/orderdetails")
     void getorderitemListingResponse(@Header("API_KEY") String apikey,
@@ -84,7 +91,30 @@ public interface API_Interface {
                                      @Header("AUTH_TOKEN") String auth,
                                      Callback<HttpResponse<OrderFeedback>> cb);
 
+    @FormUrlEncoded
+    @POST("/index.php/api/submitFeedback")
+    void getsubmitfeedbackresponse(@Header("API_KEY") String apikey,
+                          @Header("APP_VERSION") String appversion,
+                          @Header("CONFIG_VERSION") String config,
+                                   @Header("AUTH_TOKEN")String authtoken,
+                          @FieldMap Map<String,String> alldata, Callback<HttpResponse<SubmitFeedback>> cb);
 
+
+    @FormUrlEncoded
+    @POST("/index.php/api/signUp")
+    void getsignupresponse(@Header("API_KEY") String apikey,
+                                   @Header("APP_VERSION") String appversion,
+                                   @Header("CONFIG_VERSION") String config,
+
+                                   @FieldMap Map<String,String> alldata, Callback<HttpResponse<signUpResponse>> cb);
+
+
+    @GET("/index.php/api/user_profile")
+    void getretailerdetailsresponse(@Header("API_KEY") String apikey,
+                                  @Header("APP_VERSION") String appversion,
+                                  @Header("CONFIG_VERSION") String config,
+                                  @Header("AUTH_TOKEN") String auth,
+                                  Callback<HttpResponse<user_profile>> cb);
 
 
 

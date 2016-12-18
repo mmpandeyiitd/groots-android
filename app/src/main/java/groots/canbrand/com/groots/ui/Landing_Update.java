@@ -77,7 +77,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder;
     CoordinatorLayout cdLanding;
     ArrayList<Product> productListDocDatas = new ArrayList<>();
     Context context;
@@ -108,6 +108,16 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing__update);
 
+        cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
+
+         Intent inten = getIntent();
+
+
+          String message = inten.getStringExtra("message");
+
+
+
+
 
 
 
@@ -129,6 +139,41 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         updateCart = this;
         context = Landing_Update.this;
 
+
+        if (message != null) {
+
+            if (message.equals("four")) {
+
+
+
+
+
+
+
+
+                Snackbar snackbar = Snackbar.make(cdLanding, "Our customer support team is looking into the matter to address your grievances.We look forward to serve you better.", Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            } else if (message.equals("five")) {
+
+
+                Snackbar snackbar = Snackbar.make(cdLanding, "Thanks for the feedback. We look forward to serve you again.", Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+        }
+
+
+
+
       /*  ..........................UIL Integration.......................................*/
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -144,7 +189,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
        /* .................Product API.................*/
-        cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
+
         utilz = new Utilz();
         if (!utilz.isInternetConnected(context)) {
             Snackbar snackbar = Snackbar.make(cdLanding, "Please check the internet connection", Snackbar.LENGTH_SHORT);
@@ -170,6 +215,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
+        navaddOrder = (RelativeLayout)findViewById(R.id.addOrder_menu);
+        navaddOrder.setVisibility(View.GONE);
 
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
@@ -297,6 +344,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
     }
+
+
+
+
 
 
     private void callProductListingAPI(final int offset) {
@@ -479,9 +530,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+           /* SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
             editor.putString("Check", "name");
-            editor.commit();
+            editor.commit();*/
             super.onBackPressed();
         }
     }

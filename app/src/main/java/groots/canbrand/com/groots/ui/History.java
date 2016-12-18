@@ -53,6 +53,9 @@ import groots.canbrand.com.groots.model.CartClass;
 import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.Order;
+import groots.canbrand.com.groots.pojo.OrderFeedback;
+import groots.canbrand.com.groots.pojo.user_profile;
+import groots.canbrand.com.groots.pojo.user_profile;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -70,6 +73,10 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
+
+    ArrayList<user_profile> retailerdetails = new ArrayList<>();
+
+
     RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout,navHome ;
     CoordinatorLayout cdLanding;
     ArrayList<Order> historyListDocDatas = new ArrayList<Order>();
@@ -77,6 +84,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     RelativeLayout loadermain;
     DrawerLayout drawer;
     DbHelper dbHelper;
+    TextView client_name_id,sales_name_id,/*collection_name_id*/daily_date_id,outstanding_rupees_id;
     LinearLayout listicon, callicon;
     int offsetValue = 0;
     RecyclerView detail_recycler_view;
@@ -99,6 +107,19 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         setSupportActionBar(toolbar);
         loadermain = (RelativeLayout) findViewById(R.id.loadermain);
         loadermain.setOnClickListener(this);
+
+
+        client_name_id = (TextView) findViewById(R.id.client_name_id);
+        sales_name_id = (TextView) findViewById(R.id.sales_name_id);
+        //collection_name_id = (TextView) findViewById(R.id.collection_name_id);
+        daily_date_id = (TextView) findViewById(R.id.daily_date_id);
+        outstanding_rupees_id = (TextView) findViewById(R.id.outstanding_rupees_id);
+
+
+        callretailerdetailsAPI();
+
+
+
         context = History.this;
 
 
@@ -131,6 +152,13 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
         dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
+
+
+
+
+
+
+
 
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
@@ -671,13 +699,145 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
 
 
+
+
+
+    void callretailerdetailsAPI(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getretailerdetailsresponse("andapikey", "1.0", "1.0", AuthToken, new Callback<HttpResponse<user_profile>>(){
+            @Override
+            public void success ( HttpResponse httpResponse , Response response ){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+
+                    if (retailerdetails.size() == 0) {
+                        retailerdetails = (ArrayList<user_profile>) httpResponse.data.responseData.docs;
+                    }
+
+
+
+                    String retailerName = retailerdetails.get(0).retailerName;
+                    String salesRepName = retailerdetails.get(0).salesRepName;
+                    String outstandingDate = retailerdetails.get(0).outstandingDate;
+                    //String collectionRepName = retailerdetails.get(0).collectionRepName;
+                    Double outstandingAmount = retailerdetails.get(0).outstandingAmount;
+
+
+
+
+                    client_name_id.setText(retailerName);
+
+
+                    sales_name_id.setText(salesRepName);
+                    //collection_name_id.setText(collectionRepName);
+                    daily_date_id.setText(outstandingDate);
+                    outstanding_rupees_id.setText(outstandingAmount.toString());
+
+
+                   /* if (Status == true){
+                        //String orderId =
+                        //orderfeedback.orderId;
+                        Intent i = new Intent(Splash.this, RateUs.class);
+                        i.putExtra("ID",O_id);
+                        i.putExtra("date",datee);
+                        startActivity(i);
+                        finish();
+
+                    }
+                    else {
+
+
+                        Intent i = new Intent(Splash.this, Landing_Update.class);
+                        startActivity(i);
+                        finish();
+                    }*/
+
+                    // if (httpResponse.data.responseData.docs.size() != 0 ){
+
+
+
+                    //}
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+        });
+
+
+
+
+
+    }
+
+
+
     @Override
     public void onResume() {
         super.onResume();
 
 
 
-        if (flag == true & backflag == false & historyListDocDatas.size() != 0) {
+        /*if (flag == true & backflag == false & historyListDocDatas.size() != 0) {
             History_Adapter mAdapter = new History_Adapter(historyListDocDatas, context, updateCart, true);
             detail_recycler_view.setAdapter(mAdapter);
             detail_recycler_view.setNestedScrollingEnabled(false);
@@ -688,7 +848,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
             detail_recycler_view.setNestedScrollingEnabled(false);
             //detail_recycler_view.setAdapter(detailAdapter);
             //  detailAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
 
 

@@ -89,6 +89,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db = openDataBase();
 
+        try{
+            db.execSQL("CREATE TABLE if not exists Cart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR);");
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public boolean checkversion() {

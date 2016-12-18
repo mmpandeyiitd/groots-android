@@ -78,7 +78,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     CoordinatorLayout cdLanding;
     AutoCompleteTextView etLogin;
     CoordinatorLayout cdLogin, cdForgetPwd ,feedbackfail;
-    TextView tvForgetPass;
+    TextView tvForgetPass , tvSignUp;
     RelativeLayout progressMobile;
     DbHelper dbHelper;
     Button btnSignIn;
@@ -99,6 +99,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        Intent inte = getIntent();
+
+
+       String msg =  inte.getStringExtra("messge");
+
+
+
 
 
         //btnSignIn = (Button)findViewById(R.id.btnSignIn);
@@ -133,11 +141,38 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         etLogin = (AutoCompleteTextView) findViewById(R.id.etLogin);
         viewUser = findViewById(R.id.viewUser);
         viewPass = findViewById(R.id.viewPass);
-        tvForgetPass = (TextView) findViewById(R.id.tvForgetPass);
+        tvForgetPass = (TextView) findViewById(R.id.tvForgetPas);
         tvForgetPass.setOnClickListener(this);
+        tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvSignUp.setOnClickListener(this);
 
         dbHelper = new DbHelper(context);
         dbHelper.createDb(false);
+
+
+
+        if (msg != null )
+        {
+            if (msg .equals("show")){
+                Snackbar snackbar = Snackbar.make(cdLogin, "Your data has been submitted successfully. We will get back to you in next 24 hours.", Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
 
         etLogin.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -183,6 +218,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 btnSignIn.setVisibility(View.VISIBLE);
                 ivCallLogin.setVisibility(View.VISIBLE);
                 tvForgetPass.setVisibility(View.VISIBLE);
+                tvSignUp.setVisibility(View.VISIBLE);
                 viewUser.setVisibility(View.VISIBLE);
                 viewPass.setVisibility(View.VISIBLE);
 
@@ -210,6 +246,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         btnSignIn.setVisibility(View.VISIBLE);
                         ivCallLogin.setVisibility(View.VISIBLE);
                         tvForgetPass.setVisibility(View.VISIBLE);
+                        tvSignUp.setVisibility(View.VISIBLE);
                         viewUser.setVisibility(View.VISIBLE);
                         viewPass.setVisibility(View.VISIBLE);
                     }
@@ -262,6 +299,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         llPassword.startAnimation(animationmovebt);
         btnSignIn.startAnimation(animationmovebt);
         tvForgetPass.startAnimation(animationmovebt);
+        tvSignUp.startAnimation(animationmovebt);
         viewUser.startAnimation(animationmovebt);
         viewPass.startAnimation(animationmovebt);
     }
@@ -297,63 +335,147 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                 Utilz utilz = new Utilz();
 
-                String strEmail = etLogin.getText().toString();
+
                 String strPwd = etPassword.getText().toString();
 
-                if (strEmail.length() <= 0) {
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                } else if (!utilz.isValidEmail1(strEmail)) {
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide a valid email id", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                } else if (strPwd.length() <= 0) {
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your password", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                } else if (strPwd.length() <= 3) {
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Password must be at least 4 characters.", Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-                } else {
-                    if (!utilz.isInternetConnected(context)) {
+                if (etLogin.getText().toString().length() > 0 ) {
 
-                        Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(Color.WHITE);
-                        View snackbarView = snackbar.getView();
-                        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                        snackbar.show();
 
-                    } else {
+                    /*if (etLogin.getText().toString().matches("[+0-9]+")) {
 
-                        btnSignIn.setEnabled(false);
-                        dbHelper.insertMailData(strEmail);
-                        HashMap hashMap = new HashMap();
-                        hashMap.put("email", strEmail);
-                        hashMap.put("password", strPwd);
+                        String strContact = etLogin.getText().toString();
 
-                        callLoginAPI(hashMap);
+
+                        if (strContact.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your contact no", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (!utilz.isValidMobile(strContact)) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide a valid contact ", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your password", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 3) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Password must be at least 4 characters.", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else {
+                            if (!utilz.isInternetConnected(context)) {
+
+                                Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+                                snackbar.setActionTextColor(Color.WHITE);
+                                View snackbarView = snackbar.getView();
+                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                snackbar.show();
+
+                            } else {
+
+                                btnSignIn.setEnabled(false);
+                                dbHelper.insertMailData(strContact);
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("email", strContact);
+                                hashMap.put("password", strPwd);
+
+                                callLoginAPI(hashMap);
+                            }
+
+                        }
+
+
+                    } else {*/
+
+                        String strEmail = etLogin.getText().toString();
+
+                        if (strEmail.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (!utilz.isValidEmail1(strEmail)) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide a valid email id", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 0) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your password", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else if (strPwd.length() <= 3) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Password must be at least 4 characters.", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();
+                        } else {
+                            if (!utilz.isInternetConnected(context)) {
+
+                                Snackbar snackbar = Snackbar.make(cdLogin, "Please check the internet connection", Snackbar.LENGTH_SHORT);
+                                snackbar.setActionTextColor(Color.WHITE);
+                                View snackbarView = snackbar.getView();
+                                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                snackbar.show();
+
+                            } else {
+
+                                btnSignIn.setEnabled(false);
+                                dbHelper.insertMailData(strEmail);
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("email", strEmail);
+                                hashMap.put("password", strPwd);
+
+                                callLoginAPI(hashMap);
+                            }
+
+                       // }
+
+
                     }
-
                 }
+                else {
+
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id ", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                }
+
+
+
+
 
 
                 break;
 
-            case R.id.tvForgetPass:
+            case R.id.tvForgetPas:
 
                 showForgetPwdDialog();
 
                 break;
+
+
+            case R.id.tvSignUp:
+                Intent i = new Intent (Splash.this , signUpPage.class);
+
+                startActivity(i);
+
+
+
         }
     }
 
@@ -468,7 +590,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                           boolean Status = orderFeedback.get(0).feedbackStatus;
                           String O_id = orderFeedback.get(0).orderId;
-                          String datee = orderFeedback.get(0).deliveryDate.substring(0,11);
+                          String datee = orderFeedback.get(0).deliveryDate;
 
                     if (Status == true){
                        //String orderId =
@@ -594,7 +716,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             editor.putString("Retailer_Name", loginData.getData().getRetailerName());
                             editor.putString("UserName", loginData.getData().getName());
                             editor.putString("User_Id", loginData.getData().getUserId());
+                            editor.putString("Check", "name");
+
                             editor.commit();
+
+
+
                             //   btnSignIn.setText("Success");
 
                             //HashMap hashMap = new HashMap();
@@ -605,7 +732,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             /*Intent i = new Intent(Splash.this, Landing_Update.class);
                             startActivity(i);
                             finish();*/
-                            // Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
+                             Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
                         } else {
                             //    btnSignIn.setText("Sign In");
                             Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);

@@ -82,7 +82,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder;
     CoordinatorLayout cdLanding;
     ArrayList<Product> productListDocDatas = new ArrayList<>();
     Context context;
@@ -179,6 +179,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
+        navaddOrder = (RelativeLayout)findViewById(R.id.addOrder_menu);
 
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
@@ -187,6 +188,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
+        navaddOrder.setOnClickListener(this);
 
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
@@ -503,6 +505,8 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
                                 productListDocDatas.get(i).setItemCount(a.intValue());
 
+                                dbHelp.deleterec();
+
 
                                 dbHelp.insertUpdateCartData(productListDocDatas.get(i).subscribedProductId, productListDocDatas.get(i).baseProductId,
                                         productListDocDatas.get(i).storeId, productListDocDatas.get(i).title,
@@ -658,6 +662,34 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
                 break;
 
+
+            case R.id.addOrder_menu:
+
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(context,Landing_Update.class);
+                        //intent.putExtra("Name","Order History");
+                        startActivity(intent);
+                        finish();
+                    }
+                };
+
+
+                new android.os.Handler().postDelayed(runnable, 300);
+                break;
+
+
+
+
+
+
+
+
+
             case R.id.rate_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -714,6 +746,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(context,History.class);
                         intent.putExtra("Name","Order History");
                         startActivity(intent);
+
                     }
                 };
 
