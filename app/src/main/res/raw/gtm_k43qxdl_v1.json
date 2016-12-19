@@ -1,0 +1,121 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2016-12-19 11:22:11",
+    "containerVersion": {
+        "path": "accounts/985518867/containers/6149640/versions/1",
+        "accountId": "985518867",
+        "containerId": "6149640",
+        "containerVersionId": "1",
+        "name": "2016-12-19-SNAPSHOT-1",
+        "notes": "first version",
+        "container": {
+            "path": "accounts/985518867/containers/6149640",
+            "accountId": "985518867",
+            "containerId": "6149640",
+            "name": "GoGroots Android",
+            "publicId": "GTM-K43QXDL",
+            "usageContext": [
+                "ANDROID"
+            ],
+            "fingerprint": "1482133997718",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/985518867/containers/6149640/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "tagId": "1",
+                "name": "app views",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_APPVIEW"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "collectAdid",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-89168953-1"
+                    }
+                ],
+                "fingerprint": "1482134186561",
+                "firingTriggerId": [
+                    "2"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "triggerId": "2",
+                "name": "open screen trigger",
+                "type": "ALWAYS",
+                "filter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "openScreen"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1482133997718"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "EVENT",
+                "name": "Event"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_ID",
+                "name": "App ID"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_NAME",
+                "name": "App Name"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_VERSION_CODE",
+                "name": "App Version Code"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_VERSION_NAME",
+                "name": "App Version Name"
+            }
+        ],
+        "fingerprint": "1482145478479",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/985518867/containers/6149640/versions/1?apiLink=version"
+    }
+}

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +17,7 @@ import groots.canbrand.com.groots.ui.Landing_Update;
 /**
  * Created by Administrator on 01-06-2016.
  */
-public class Applicationclass extends Application {
+public class Applicationclass extends MultiDexApplication {
 
     private Timer mActivityTransitionTimer;
     private TimerTask mActivityTransitionTimerTask;
