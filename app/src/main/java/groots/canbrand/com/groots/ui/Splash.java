@@ -104,6 +104,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     private static final long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 2000;
     private static final String CONTAINER_ID = "GTM-K43QXDL";
     private static final String  screenName = "splash";
+    private TagManager tagManager;
 
 
     @Override
@@ -114,7 +115,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         // google tag manage invocation code
 
-        TagManager tagManager = TagManager.getInstance(this);
+        tagManager = TagManager.getInstance(this);
 
 
 
@@ -136,7 +137,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 ContainerHolderSingleton.setContainerHolder(containerHolder);
                 Container container = containerHolder.getContainer();
                 if (!containerHolder.getStatus().isSuccess()) {
-                    Log.e("CuteAnimals", "failure loading container");
+                    Log.e("Groots-Analytics", "failure loading container");
                     //displayErrorToUser(R.string.load_error);
                     return;
                 }
@@ -323,11 +324,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             ivCallLogin.setOnClickListener(this);
         }
 
-        //TagManagerEvent.pushOpenScreenEvent(context, screenName);
+       TagManagerEvent.pushOpenScreenEvent(context, screenName);
         tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
 
         tagManager.getInstance(this).getDataLayer().push("abc", "gogroots");
-        Object test3 = tagManager.getInstance(this).getDataLayer().get("abc");
+        //.Object test3 = tagManager.getInstance(this).getDataLayer().get("abc");
     }
 
 
@@ -712,6 +713,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
     void callLoginAPI(HashMap hashMap) {
+        TagManagerEvent.pushOpenScreenEvent(context, screenName);
+        tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
+
+        tagManager.getInstance(this).getDataLayer().push("abc", "gogroots");
+
         progressMobile.setVisibility(View.VISIBLE);
 
         isLoadingDone = false;

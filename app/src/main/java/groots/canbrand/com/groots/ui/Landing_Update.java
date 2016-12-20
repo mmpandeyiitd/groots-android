@@ -126,8 +126,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
 
-        String value = container.getString("abc");
-        //container.
+
+
+
 
 
          Intent inten = getIntent();
@@ -361,10 +362,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        //TagManagerEvent.pushOpenScreenEvent(context, screenName);
-        //tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+
 
     }
 
