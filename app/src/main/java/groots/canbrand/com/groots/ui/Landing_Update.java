@@ -36,6 +36,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
@@ -58,7 +62,9 @@ import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.OrderItem;
 import groots.canbrand.com.groots.pojo.Product;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
+import groots.canbrand.com.groots.utilz.TagManagerEvent;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -95,6 +101,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     ImageView callimage;
     Utilz utilz;
     LinearLayout listfooter;
+    private static final String  screenName = "product-list";
+    private ContainerHolder containerHolder;
+    private Container container;
+    private DataLayer dataLayer;
 
     /*int i,j ;
     Double a[];
@@ -110,10 +120,19 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
 
+
+
+
+        containerHolder = ContainerHolderSingleton.getContainerHolder();
+        container = containerHolder.getContainer();
+
+        String value = container.getString("abc");
+        //container.
+
+
          Intent inten = getIntent();
 
-
-          String message = inten.getStringExtra("message");
+        String message = inten.getStringExtra("message");
 
 
 
@@ -342,6 +361,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        //TagManagerEvent.pushOpenScreenEvent(context, screenName);
+        //tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
+        dataLayer = TagManager.getInstance(this).getDataLayer();
+        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
 
     }
 

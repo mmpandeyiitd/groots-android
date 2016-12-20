@@ -1,0 +1,56 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2016-12-18 12:29:46",
+    "containerVersion": {
+        "path": "accounts/985518867/containers/6149640/versions/0",
+        "accountId": "985518867",
+        "containerId": "6149640",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/985518867/containers/6149640",
+            "accountId": "985518867",
+            "containerId": "6149640",
+            "name": "GoGroots Android",
+            "publicId": "GTM-K43QXDL",
+            "usageContext": [
+                "ANDROID"
+            ],
+            "fingerprint": "1482063592226",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/985518867/containers/6149640/workspaces?apiLink=container"
+        },
+        "builtInVariable": [
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "EVENT",
+                "name": "Event"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_ID",
+                "name": "App ID"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_NAME",
+                "name": "App Name"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_VERSION_CODE",
+                "name": "App Version Code"
+            },
+            {
+                "accountId": "985518867",
+                "containerId": "6149640",
+                "type": "APP_VERSION_NAME",
+                "name": "App Version Name"
+            }
+        ],
+        "fingerprint": "0",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/985518867/containers/6149640/versions/0?apiLink=version"
+    }
+}

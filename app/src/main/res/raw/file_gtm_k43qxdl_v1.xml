@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<exportFormatVersion>2</exportFormatVersion>
+	<exportTime>2016-12-19 11:22:11</exportTime>
+	<containerVersion>
+		<path>accounts/985518867/containers/6149640/versions/1</path>
+		<accountId>985518867</accountId>
+		<containerId>6149640</containerId>
+		<containerVersionId>1</containerVersionId>
+		<name>2016-12-19-SNAPSHOT-1</name>
+		<notes>first version</notes>
+		<container>
+			<path>accounts/985518867/containers/6149640</path>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<name>GoGroots Android</name>
+			<publicId>GTM-K43QXDL</publicId>
+			<usageContext>ANDROID</usageContext>
+			<fingerprint>1482133997718</fingerprint>
+			<tagManagerUrl>https://tagmanager.google.com/#/container/accounts/985518867/containers/6149640/workspaces?apiLink=container</tagManagerUrl>
+		</container>
+		<tag>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<tagId>1</tagId>
+			<name>app views</name>
+			<type>ua</type>
+			<parameter>
+				<type>TEMPLATE</type>
+				<key>trackType</key>
+				<value>TRACK_APPVIEW</value>
+			</parameter>
+			<parameter>
+				<type>BOOLEAN</type>
+				<key>collectAdid</key>
+				<value>false</value>
+			</parameter>
+			<parameter>
+				<type>BOOLEAN</type>
+				<key>enableEcommerce</key>
+				<value>false</value>
+			</parameter>
+			<parameter>
+				<type>TEMPLATE</type>
+				<key>trackingId</key>
+				<value>UA-89168953-1</value>
+			</parameter>
+			<fingerprint>1482134186561</fingerprint>
+			<firingTriggerId>2</firingTriggerId>
+			<tagFiringOption>ONCE_PER_EVENT</tagFiringOption>
+		</tag>
+		<trigger>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<triggerId>2</triggerId>
+			<name>open screen trigger</name>
+			<type>ALWAYS</type>
+			<filter>
+				<type>EQUALS</type>
+				<parameter>
+					<type>TEMPLATE</type>
+					<key>arg0</key>
+					<value>{{Event}}</value>
+				</parameter>
+				<parameter>
+					<type>TEMPLATE</type>
+					<key>arg1</key>
+					<value>openScreen</value>
+				</parameter>
+			</filter>
+			<fingerprint>1482133997718</fingerprint>
+		</trigger>
+		<builtInVariable>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<type>EVENT</type>
+			<name>Event</name>
+		</builtInVariable>
+		<builtInVariable>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<type>APP_ID</type>
+			<name>App ID</name>
+		</builtInVariable>
+		<builtInVariable>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<type>APP_NAME</type>
+			<name>App Name</name>
+		</builtInVariable>
+		<builtInVariable>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<type>APP_VERSION_CODE</type>
+			<name>App Version Code</name>
+		</builtInVariable>
+		<builtInVariable>
+			<accountId>985518867</accountId>
+			<containerId>6149640</containerId>
+			<type>APP_VERSION_NAME</type>
+			<name>App Version Name</name>
+		</builtInVariable>
+		<fingerprint>1482145478479</fingerprint>
+		<tagManagerUrl>https://tagmanager.google.com/#/versions/accounts/985518867/containers/6149640/versions/1?apiLink=version</tagManagerUrl>
+	</containerVersion>
+</root>

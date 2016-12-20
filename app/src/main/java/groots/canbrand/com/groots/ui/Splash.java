@@ -40,6 +40,12 @@ import android.widget.Toast;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -47,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import groots.canbrand.com.groots.R;
 import groots.canbrand.com.groots.databases.DbHelper;
@@ -56,7 +63,9 @@ import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.LoginData;
 import groots.canbrand.com.groots.pojo.OrderFeedback;
 import groots.canbrand.com.groots.pojo.Product;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
+import groots.canbrand.com.groots.utilz.TagManagerEvent;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -92,6 +101,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
     android.os.Handler handler = new android.os.Handler();
     Runnable runnable;
+    private static final long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 2000;
+    private static final String CONTAINER_ID = "GTM-K43QXDL";
+    private static final String  screenName = "splash";
 
 
     @Override
@@ -99,6 +111,41 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // google tag manage invocation code
+
+        TagManager tagManager = TagManager.getInstance(this);
+
+
+
+        // Modify the log level of the logger to print out not only
+        // warning and error messages, but also verbose, debug, info messages.
+        tagManager.setVerboseLoggingEnabled(true);
+
+        PendingResult<ContainerHolder> pending =
+                tagManager.loadContainerPreferNonDefault(CONTAINER_ID,
+                        R.raw.file_gtm_k43qxdl_v1);
+
+        // The onResult method will be called as soon as one of the following happens:
+        //     1. a saved container is loaded
+        //     2. if there is no saved container, a network container is loaded
+        //     3. the 2-second timeout occurs
+        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+            @Override
+            public void onResult(ContainerHolder containerHolder) {
+                ContainerHolderSingleton.setContainerHolder(containerHolder);
+                Container container = containerHolder.getContainer();
+                if (!containerHolder.getStatus().isSuccess()) {
+                    Log.e("CuteAnimals", "failure loading container");
+                    //displayErrorToUser(R.string.load_error);
+                    return;
+                }
+                ContainerLoadedCallback.registerCallbacksForContainer(container);
+                containerHolder.setContainerAvailableListener(new ContainerLoadedCallback());
+                //startMainActivity();
+            }
+        }, TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS, TimeUnit.MILLISECONDS);
+
 
         Intent inte = getIntent();
 
@@ -275,6 +322,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             btnSignIn.setOnClickListener(this);
             ivCallLogin.setOnClickListener(this);
         }
+
+        //TagManagerEvent.pushOpenScreenEvent(context, screenName);
+        tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
+
+        tagManager.getInstance(this).getDataLayer().push("abc", "gogroots");
+        Object test3 = tagManager.getInstance(this).getDataLayer().get("abc");
     }
 
 
@@ -883,6 +936,47 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             }
         }, 500);
     }*/
+    }
+
+
+    private static class ContainerLoadedCallback implements ContainerHolder.ContainerAvailableListener {
+        @Override
+        public void onContainerAvailable(ContainerHolder containerHolder, String containerVersion) {
+            // We load each container when it becomes available.
+            Container container = containerHolder.getContainer();
+            registerCallbacksForContainer(container);
+        }
+
+        public static void registerCallbacksForContainer(Container container) {
+            // Register two custom function call macros to the container.
+            container.registerFunctionCallMacroCallback("increment", new CustomMacroCallback());
+            container.registerFunctionCallMacroCallback("mod", new CustomMacroCallback());
+            // Register a custom function call tag to the container.
+            container.registerFunctionCallTagCallback("custom_tag", new CustomTagCallback());
+        }
+    }
+
+    private static class CustomMacroCallback implements Container.FunctionCallMacroCallback {
+        private int numCalls;
+
+        @Override
+        public Object getValue(String name, Map<String, Object> parameters) {
+            if ("increment".equals(name)) {
+                return ++numCalls;
+            } else if ("mod".equals(name)) {
+                return (Long) parameters.get("key1") % Integer.valueOf((String) parameters.get("key2"));
+            } else {
+                throw new IllegalArgumentException("Custom macro name: " + name + " is not supported.");
+            }
+        }
+    }
+
+    private static class CustomTagCallback implements Container.FunctionCallTagCallback {
+        @Override
+        public void execute(String tagName, Map<String, Object> parameters) {
+            // The code for firing this custom tag.
+            Log.i("CuteAnimals", "Custom function call tag :" + tagName + " is fired.");
+        }
     }
 
 }
