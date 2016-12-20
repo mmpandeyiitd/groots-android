@@ -79,6 +79,21 @@
                     android:textSize="18dp" />
 
 
+               <!-- <LinearLayout
+                    android:id="@+id/search_icon"
+                    android:layout_width="46dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/search_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="0dp"
+                        android:src="@drawable/places_ic_search" />
+                </LinearLayout>-->
+
 
                 <LinearLayout
                     android:id="@+id/callicon"

@@ -9,9 +9,7 @@ import com.google.android.gms.tagmanager.ContainerHolder;
 public class ContainerHolderSingleton {
     private static ContainerHolder containerHolder;
 
-    /**
-     * Utility class; don't instantiate.
-     */
+
     private ContainerHolderSingleton() {
     }
 
@@ -22,5 +20,4 @@ public class ContainerHolderSingleton {
     public static void setContainerHolder(ContainerHolder c) {
         containerHolder = c;
     }
-
 }
