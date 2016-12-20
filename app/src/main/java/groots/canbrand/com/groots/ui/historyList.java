@@ -34,6 +34,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
@@ -59,6 +63,7 @@ import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.OrderItem;
 import groots.canbrand.com.groots.pojo.Product;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -98,13 +103,20 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     Utilz utilz;
     LinearLayout listfooter;
     HashMap<Integer,Double> bpIdQuantityMap = new HashMap<Integer,Double>();
+    private static final String  screenName = "order-update-view";
+    private ContainerHolder containerHolder;
+    private Container container;
+    private DataLayer dataLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_list);
 
-
+        containerHolder = ContainerHolderSingleton.getContainerHolder();
+        container = containerHolder.getContainer();
+        dataLayer = TagManager.getInstance(this).getDataLayer();
+        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
         //this.order = orders.get(0);
 //        this.orderItems = this.order.orderItems;
 

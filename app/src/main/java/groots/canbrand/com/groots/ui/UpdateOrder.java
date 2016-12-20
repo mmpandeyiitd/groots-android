@@ -41,6 +41,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
@@ -63,6 +67,7 @@ import groots.canbrand.com.groots.pojo.HttpResponse;
 import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.OrderItem;
 import groots.canbrand.com.groots.pojo.Product;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -106,6 +111,10 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     int b[];
     int arr[];
     int x;
+    private static final String  screenName = "order-update";
+    private ContainerHolder containerHolder;
+    private Container container;
+    private DataLayer dataLayer;
 
 
     @Override
@@ -114,6 +123,10 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_landing__update);
 
 
+        containerHolder = ContainerHolderSingleton.getContainerHolder();
+        container = containerHolder.getContainer();
+        dataLayer = TagManager.getInstance(this).getDataLayer();
+        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
 
 
 

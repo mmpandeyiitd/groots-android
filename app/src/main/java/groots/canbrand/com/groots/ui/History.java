@@ -34,6 +34,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
@@ -56,6 +60,7 @@ import groots.canbrand.com.groots.pojo.Order;
 import groots.canbrand.com.groots.pojo.OrderFeedback;
 import groots.canbrand.com.groots.pojo.user_profile;
 import groots.canbrand.com.groots.pojo.user_profile;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -96,6 +101,10 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     ImageView callimage;
     Utilz utilz;
     LinearLayout listfooter;
+    private static final String  screenName = "order-history";
+    private ContainerHolder containerHolder;
+    private Container container;
+    private DataLayer dataLayer;
 
 
     @Override
@@ -121,6 +130,11 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
 
         context = History.this;
+
+        containerHolder = ContainerHolderSingleton.getContainerHolder();
+        container = containerHolder.getContainer();
+        dataLayer = TagManager.getInstance(this).getDataLayer();
+        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
 
 
         /*  ..........................UIL Integration.......................................*/

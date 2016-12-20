@@ -45,6 +45,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
@@ -68,6 +72,7 @@ import groots.canbrand.com.groots.model.UpdateCartClass;
 import groots.canbrand.com.groots.pojo.AddOrderParent;
 import groots.canbrand.com.groots.pojo.DateTimePojo;
 import groots.canbrand.com.groots.pojo.LandingInfo;
+import groots.canbrand.com.groots.utilz.ContainerHolderSingleton;
 import groots.canbrand.com.groots.utilz.Http_Urls;
 import groots.canbrand.com.groots.utilz.Utilz;
 import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
@@ -96,6 +101,10 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     Utilz util;
     CoordinatorLayout cdcheckout;
     Calendar newCalendar;
+    private static final String  screenName = "order-update-checkout";
+    private ContainerHolder containerHolder;
+    private Container container;
+    private DataLayer dataLayer;
 
 
     @Override
@@ -103,6 +112,12 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout_update_order_ui);
         context = Checkout_Update_Order_Ui.this;
+
+        containerHolder = ContainerHolderSingleton.getContainerHolder();
+        container = containerHolder.getContainer();
+        dataLayer = TagManager.getInstance(this).getDataLayer();
+        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+
         updateCart = this;
         dbHelp = new dbHelp(context);
         dbHelp.createDb(false);

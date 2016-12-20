@@ -132,7 +132,7 @@
                     android:layout_height="25dp"
                     android:id="@+id/client_name_id"
 
-                    android:text="client"
+                    android:text=""
                     android:textSize="20dp"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -164,7 +164,7 @@
                         android:id="@+id/sales_name_id"
                         android:textAllCaps="true"
                         android:gravity="left"
-                        android:text="Gogroots"
+                        android:text=""
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/textGreen"
                         android:textStyle="bold"
@@ -261,7 +261,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="2000000"
+                        android:text=""
                         android:textSize="11dp"
                         android:textStyle="bold"
                         android:gravity="right"
