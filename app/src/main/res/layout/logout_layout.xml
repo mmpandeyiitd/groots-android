@@ -42,7 +42,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorPrimary"></View>
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+            <groots.app.com.groots.utilz.TextViewLatoRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"

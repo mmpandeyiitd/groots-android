@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/toolbar_color"
-    tools:context="groots.canbrand.com.groots.ui.Thank_You_UI">
+    tools:context="groots.app.com.groots.ui.Thank_You_UI">
 
     <ImageView
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                         android:layout_marginBottom="20dp"
                         android:src="@drawable/thank_you_check" />
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoLight
+                    <groots.app.com.groots.utilz.TextViewLatoLight
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -55,7 +55,7 @@
                         android:textColor="#ffffff"
                         android:textSize="25sp" />
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoLight
+                    <groots.app.com.groots.utilz.TextViewLatoLight
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -85,7 +85,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/bg" />
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.app.com.groots.utilz.TextViewLatoRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"

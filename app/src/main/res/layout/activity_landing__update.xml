@@ -30,7 +30,7 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/notfound" />
 
-            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+            <groots.app.com.groots.utilz.TextViewLatoRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img"
@@ -66,7 +66,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                <groots.app.com.groots.utilz.TextViewLatoRegular
                     android:id="@+id/tooltext"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -174,7 +174,7 @@
                             android:background="@drawable/cart">
 
 
-                            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            <groots.app.com.groots.utilz.TextViewLatoRegular
                                 android:id="@+id/txtCart_detail"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -198,7 +198,7 @@
                             android:gravity="center_vertical"
                             android:orientation="vertical">
 
-                            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            <groots.app.com.groots.utilz.TextViewLatoRegular
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight=".5"
@@ -214,7 +214,7 @@
                                 android:layout_weight=".5"
                                 android:orientation="horizontal">
 
-                                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                                <groots.app.com.groots.utilz.TextViewLatoRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_marginTop=".5dp"
@@ -222,7 +222,7 @@
                                     android:textColor="@color/textPrimaryDark"
                                     android:textSize="17dp" />
 
-                                <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                                <groots.app.com.groots.utilz.TextViewLatoRegular
                                     android:id="@+id/txtamount_detail"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -242,7 +242,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                            <groots.app.com.groots.utilz.TextViewLatoRegular
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="1dp"
@@ -278,7 +278,7 @@
             android:gravity="center"
             android:visibility="gone">
 
-            <groots.canbrand.com.groots.utilz.Loader
+            <groots.app.com.groots.utilz.Loader
                 android:id="@+id/rotate"
                 android:layout_width="56dp"
                 android:layout_height="56dp" />
@@ -300,7 +300,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <groots.canbrand.com.groots.utilz.Loader
+                <groots.app.com.groots.utilz.Loader
                     android:id="@+id/rotatefooter"
                     android:layout_width="56dp"
                     android:layout_height="56dp" />
@@ -341,7 +341,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -375,7 +375,7 @@
                 android:layout_height="60dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -409,7 +409,7 @@
                 android:layout_height="60dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -450,7 +450,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/addorder" />
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -475,7 +475,7 @@
                 android:layout_height="60dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -515,7 +515,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/orderhis" />
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -548,7 +548,7 @@
                     android:layout_marginLeft="16dp"
                     android:src="@drawable/info" />
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -572,7 +572,7 @@
                 android:layout_height="60dp">
 
 
-                <groots.canbrand.com.groots.utilz.TextViewLatoBold
+                <groots.app.com.groots.utilz.TextViewLatoBold
                     android:id="@+id/txtcontact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

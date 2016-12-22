@@ -56,14 +56,14 @@
                     android:layout_weight=".5"
                     android:orientation="horizontal">
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    <groots.app.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Ordering Support :"
                         android:textSize="14dp" />
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    <groots.app.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -83,14 +83,14 @@
                     android:layout_weight=".5"
                     android:orientation="horizontal">
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    <groots.app.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Customer Support: "
                         android:textSize="14dp"/>
 
-                    <groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    <groots.app.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
