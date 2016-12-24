@@ -391,13 +391,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 if (etLogin.getText().toString().length() > 0 ) {
 
 
-                    /*if (etLogin.getText().toString().matches("[+0-9]+")) {
+                    if (etLogin.getText().toString().matches("[+0-9]+")) {
 
                         String strContact = etLogin.getText().toString();
 
 
-                        if (strContact.length() <= 0) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your contact no", Snackbar.LENGTH_SHORT);
+                        if (!((strContact.length()) == 10)) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide 10 digit contact no", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -434,7 +434,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 btnSignIn.setEnabled(false);
                                 dbHelper.insertMailData(strContact);
                                 HashMap hashMap = new HashMap();
-                                hashMap.put("email", strContact);
+                                hashMap.put("contact", strContact);
                                 hashMap.put("password", strPwd);
 
                                 callLoginAPI(hashMap);
@@ -443,7 +443,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         }
 
 
-                    } else {*/
+                    } else {
 
                         String strEmail = etLogin.getText().toString();
 
@@ -491,14 +491,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 callLoginAPI(hashMap);
                             }
 
-                       // }
+                        }
 
 
                     }
                 }
                 else {
 
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id ", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id or contact no", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

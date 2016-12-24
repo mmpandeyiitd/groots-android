@@ -37,6 +37,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     ArrayList<Product> productListData;
     Context context;
     View view;
+
     int lastPosition = -1;
     UpdateCart updateCart;
     DbHelper dbHelper;
@@ -77,6 +78,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView textItemName;
         TextView textItemdesc;
         TextView textItemPrice;
+        TextView textRup;
         ImageView imgItemIcon;
         EditText txtCount;
         ImageButton txtPlus, txtMinus;
@@ -86,6 +88,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textItemName = (TextView) itemView.findViewById(R.id.textItemName);
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
+            textRup = (TextView) itemView.findViewById(R.id.textRupee);
             imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
             txtMinus = (ImageButton) itemView.findViewById(R.id.txtMinus);
@@ -123,13 +126,26 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.textItemName.setText(productListData.get(position).title);
             holder.textItemdesc.setText(productListData.get(position).description);
             int pack_size = productListData.get(position).packSize;
-            if (pack_size <= 1) {
-                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" +pack_size+ productListData.get(position).packUnit);
-            } else {
-                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
-            }
+            if (productListData.get(position).outOfStock == true ){
 
+
+                 holder.textRup.setVisibility(View.GONE);
+                holder.textItemPrice.setText("Out of Stock");
+
+            }
+            else {
+
+                if (pack_size <= 1) {
+                    holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
+                } else {
+                    holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
+                }
+            }
             holder.txtCount.setText("" + productListData.get(position).getItemCount());
+
+
+
+
 
             if (!productListData.get(position).thumbUrl.equals(null)) {
            /* Picasso.with(context).load(orderItems.get(position).thumbUrl.get(0))

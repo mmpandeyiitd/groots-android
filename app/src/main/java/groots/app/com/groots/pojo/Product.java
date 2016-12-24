@@ -31,6 +31,11 @@ public class Product {
    /* @SerializedName("store_price")
     @Expose
     public double storePrice;*/
+
+    @SerializedName("out_of_stock")
+    @Expose
+    public boolean outOfStock;
+
     @SerializedName("store_offer_price")
     @Expose
     public float storeOfferPrice;

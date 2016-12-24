@@ -99,7 +99,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="EMAIL"
+                    android:text="EMAIL/MOBILE"
                     android:textColor="@color/textLogin"
                     android:textSize="14dp" />
 
@@ -110,7 +110,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="Enter Email"
+                    android:hint="Email or Mobile(10 digits)"
                     android:fontFamily="sans-serif"
                     android:paddingBottom="8dp"
                     android:imeOptions="actionNext"
