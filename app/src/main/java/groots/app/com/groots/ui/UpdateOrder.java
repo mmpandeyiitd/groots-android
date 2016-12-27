@@ -499,7 +499,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                         Intent intent = getIntent();
 
                         HashMap<Integer, Double> bpIdQuantityMap = (HashMap<Integer, Double>) intent.getSerializableExtra("map");
-
+                        dbHelp.deleterec();
                         // int y;
 
                         for (i=0;i<productListDocDatas.size();i++){
@@ -513,7 +513,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
                                 productListDocDatas.get(i).setItemCount(a.intValue());
 
-                                dbHelp.deleterec();
+                               // dbHelp.deleterec();
 
 
                                 dbHelp.insertUpdateCartData(productListDocDatas.get(i).subscribedProductId, productListDocDatas.get(i).baseProductId,

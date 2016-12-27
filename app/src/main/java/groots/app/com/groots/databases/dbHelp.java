@@ -374,17 +374,19 @@ public class dbHelp extends SQLiteOpenHelper {
             // Log.e("Value at db",String.valueOf(product_qty)+unit_price+"tprice"+total_unit_price);
             contentValues.put("total_unit_price", total_unit_price);
 
-            String query = "select * from UpdateCart where  subscribe_prod_id = " + subscribe_prod_id;
+           // String query = "select * from UpdateCart where  subscribe_prod_id = " + subscribe_prod_id;
+            String Query = "insert into UpdateCart (subscribe_prod_id,base_product_id ,store_id ,product_name ,product_description ,product_image ,product_qty ,unit_price ,total_unit_price ,pack_unit, pack_size) values"+
+                    "("+"'"+subscribe_prod_id+"'"+","+"'"+base_product_id+"'"+","+"'"+store_id+"'"+","+"'"+product_name.toString()+"'"+","+"'"+product_description.toString()+"'"+","+"'"+product_image.toString()+"'"+","+"'"+product_qty+"'"+","+"'"+unit_price+"'"+","+"'"+total_unit_price+"'"+","+"'"+packUnit.toString()+"'"+","+"'"+pack_size.toString()+"'"+")" ;
+         System.out.println(Query);
 
-            Cursor cursor = null;
-            cursor = db.rawQuery(query, null);
-            int count = cursor.getCount();
-            if (count > 0) {
-                db.execSQL("UPDATE UpdateCart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE base_product_id = " + base_product_id + " AND subscribe_prod_id=" + subscribe_prod_id);
-            } else if (count == 0)
-                db.insert("UpdateCart", null, contentValues);
 
-            copyDBToPhoneSD1();
+
+           /* Cursor cursor = null;
+            cursor = db.rawQuery(Query, null);
+            int count = cursor.getCount();*/
+            db.execSQL(Query);
+
+            //copyDBToPhoneSD1();
             if (db != null)
                 db.close();
         } catch (Exception e) {
