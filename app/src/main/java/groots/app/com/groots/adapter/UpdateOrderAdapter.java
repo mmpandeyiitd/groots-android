@@ -7,7 +7,10 @@ package groots.app.com.groots.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.UpdateCart;
@@ -39,7 +43,7 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     ArrayList<Product> productListData;
     Context context;
-    View view;
+    View view = null;
     int lastPosition = -1;
     UpdateCart updateCart;
     dbHelp dbHelp;
@@ -81,6 +85,7 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView textItemdesc;
         TextView textItemPrice;
         ImageView imgItemIcon;
+        TextView textRup;
         EditText txtCount;
         ImageButton txtPlus, txtMinus;
 
@@ -90,6 +95,7 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             imgItemIcon = (ImageView) itemView.findViewById(R.id.imgItemIcon);
+            textRup = (TextView) itemView.findViewById(R.id.textRupee);
             txtCount = (EditText) itemView.findViewById(R.id.txtCount);
             txtMinus = (ImageButton) itemView.findViewById(R.id.txtMinus);
             txtPlus = (ImageButton) itemView.findViewById(R.id.txtPlus);
@@ -126,12 +132,25 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.textItemName.setText(productListData.get(position).title);
             holder.textItemdesc.setText(productListData.get(position).description);
             int pack_size = productListData.get(position).packSize;
-            if (pack_size <= 1) {
-                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" +pack_size+ productListData.get(position).packUnit);
-            } else {
-                holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
-            }
 
+            if (productListData.get(position).outOfStock == true ){
+
+
+                holder.textRup.setVisibility(View.GONE);
+                holder.textItemPrice.setText("Out of Stock");
+               /* holder.txtPlus.setEnabled(false);
+                holder.txtMinus.setEnabled(false);
+                holder.txtCount.setEnabled(false);*/
+
+            }
+           else {
+
+                if (pack_size <= 1) {
+                    holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
+                } else {
+                    holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);
+                }
+           }
             holder.txtCount.setText("" + productListData.get(position).getItemCount());
 
             if (!productListData.get(position).thumbUrl.equals(null)) {
@@ -169,11 +188,28 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             //  holder.itemView.clearAnimation();
 
+
+           /* if (productListData.get(position).getItemCount() == null){
+
+            }*/
+
             if (productListData.get(position).getItemCount() > 0) {
-                holder.txtCount.setText("" + productListData.get(position).getItemCount());
-                dbHelp.updateProductQty(productListData.get(position).getItemCount(), productListData.get(position).storeOfferPrice, productListData.get(position).subscribedProductId);
-                updateCart.updateCart();
-            } else {
+
+                    holder.txtCount.setText("" + productListData.get(position).getItemCount());
+                    dbHelp.updateProductQty(productListData.get(position).getItemCount(), productListData.get(position).storeOfferPrice, productListData.get(position).subscribedProductId);
+                    updateCart.updateCart();
+
+
+
+
+
+
+            }
+
+
+
+
+            else {
                 if (!cartClasses.contains(productListData.get(position))) {
                     holder.txtCount.setText("0");
                     updateCart.updateCart();
@@ -192,17 +228,19 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 @Override
                 public void onClick(View view) {
 
-                    if (Integer.parseInt(holder.txtCount.getText().toString().trim()) >= 999) {
+                    if (Double.parseDouble(holder.txtCount.getText().toString().trim()) >= 999.0) {
                         Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         Utilz.count = position;
                         int clickedPos = (int) view.getTag();
-                        int previousCount = productListData.get(clickedPos).getItemCount();
+                        Double previousCount = productListData.get(clickedPos).getItemCount();
 
                         previousCount++;
 
                         productListData.get(clickedPos).setItemCount(previousCount);
+                       /* HashMap hash = new HashMap();
+                        hash.put("what","update");*/
 
 
                         dbHelp.insertUpdateCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
@@ -223,17 +261,41 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     Utilz.count = position;
                     int clickedPos = (int) view.getTag();
-                    int previousCount = productListData.get(clickedPos).getItemCount();
+                    Double previousCount = productListData.get(clickedPos).getItemCount();
                     if (previousCount > 0) {
                         previousCount--;
 
                         productListData.get(clickedPos).setItemCount(previousCount);
+
+                       /* HashMap hash = new HashMap();
+                        hash.put("what","update");*/
+
+    try {
+        dbHelp.insertUpdateCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
+                productListData.get(position).storeId, productListData.get(position).title,
+                productListData.get(position).description,
+                productListData.get(position).thumbUrl.get(0), productListData.get(position).getItemCount(),
+                productListData.get(position).storeOfferPrice, productListData.get(position).packSize.toString(), productListData.get(position).packUnit);
+    }
+    catch (Exception e){
+        /*Snackbar snackbar = Snackbar.make(view, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+
+        snackbar.setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show()*/;
+
+
+    }
                         if (previousCount == 0)
                             dbHelp.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);
+
+
+                        notifyDataSetChanged();
 //                        else if(previousCount>0)
 //                        dbHelper.updateProductQty(orderItems.get(position).getItemCount(), orderItems.get(position).subscribedProductId);
                     }
-                    notifyDataSetChanged();
+
                 }
             });
 
@@ -248,9 +310,14 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             holder.txtCount.setText("0");
                         }
                         int clickedPos = (int) v.getTag();
-                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                        Double previousCount = Double.parseDouble(holder.txtCount.getText().toString().trim());
 
                         productListData.get(clickedPos).setItemCount(previousCount);
+
+                       /* HashMap hash = new HashMap();
+                        hash.put("what","update");*/
+
+
                         dbHelp.insertUpdateCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
                                 productListData.get(position).storeId, productListData.get(position).title,
                                 productListData.get(position).description,

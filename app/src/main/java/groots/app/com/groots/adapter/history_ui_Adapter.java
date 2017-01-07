@@ -39,7 +39,7 @@ public class history_ui_Adapter extends RecyclerView.Adapter<history_ui_Adapter.
     Runnable                        runnable;
     UpdateCart                      updateCart;
     DbHelper                        dbHelper;
-    int previousCount;
+    Double previousCount;
 
 
 
@@ -59,7 +59,7 @@ public class history_ui_Adapter extends RecyclerView.Adapter<history_ui_Adapter.
         this.cartClasses = cartClasses;
         this.context = context;
         this.updateCart = updateCart;
-        dbHelper = new DbHelper(context);
+        dbHelper =DbHelper.getInstance(context);
         dbHelper.createDb(false);
         Collections.reverse(cartClasses);
 
@@ -91,13 +91,13 @@ public class history_ui_Adapter extends RecyclerView.Adapter<history_ui_Adapter.
         }
 
 
-        if(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
-            holder.selectedquan.setText(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)/1000.00+"K"+
+        if(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)>=1000) {
+            holder.selectedquan.setText(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)/1000.00+"K"+
                     cartClasses.get(position).packUnit);
         }else
         {
 
-            holder.selectedquan.setText(String.valueOf(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit));
+            holder.selectedquan.setText(String.valueOf(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit));
         }
 
       /*  if (position > lastPosition) {
@@ -135,17 +135,17 @@ public class history_ui_Adapter extends RecyclerView.Adapter<history_ui_Adapter.
                     Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                 } else {
                     int clickedPos = (int) view.getTag();
-                    int previousCount = cartClasses.get(clickedPos).product_qty;
+                    Double previousCount = cartClasses.get(clickedPos).product_qty;
 
                     previousCount++;
 
                     cartClasses.get(clickedPos).product_qty = previousCount;
 
                     if(previousCount * Integer.parseInt(cartClasses.get(position).packSize)>=1000) {
-                        holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+cartClasses.get(position).packUnit);
+                        holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)/1000+"K"+cartClasses.get(position).packUnit);
                     }else
                     {
-                        holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+                        holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
 
                     }
 
@@ -168,12 +168,12 @@ public class history_ui_Adapter extends RecyclerView.Adapter<history_ui_Adapter.
             public void onClick(View view) {
                 int clickedPos = (int) view.getTag();
 
-                if(previousCount * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
-                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+
+                if(previousCount * Double.parseDouble(cartClasses.get(position).packSize)>=1000) {
+                    holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)/1000+"K"+
                             cartClasses.get(position).packUnit);
                 }else
                 {
-                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+                    holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
                 }
                 previousCount = cartClasses.get(clickedPos).product_qty;
                 if (previousCount > 0) {

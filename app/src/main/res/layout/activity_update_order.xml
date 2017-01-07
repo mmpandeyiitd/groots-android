@@ -73,7 +73,7 @@
                     android:layout_gravity="left"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="nofilter,SDA Market"
+                    android:text="Update Order"
                     android:textColor="@color/white"
                     android:textSize="18dp" />
 
@@ -204,6 +204,7 @@
                                 android:layout_weight=".5"
                                 android:gravity="bottom"
                                 android:text="TOTAL"
+
                                 android:textColor="@color/textPrimaryLight"
                                 android:textSize="12dp" />
 
@@ -212,12 +213,13 @@
                                 android:layout_height="0dp"
                                 android:layout_marginTop="2dp"
                                 android:layout_weight=".5"
+
                                 android:orientation="horizontal">
 
                                 <groots.app.com.groots.utilz.TextViewLatoRegular
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop=".5dp"
+
                                     android:text="@string/indian_rupees"
                                     android:textColor="@color/textPrimaryDark"
                                     android:textSize="17dp" />
@@ -227,9 +229,38 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginTop="2dp"
+
+
                                     android:text="0"
                                     android:textColor="@color/textPrimaryDark"
                                     android:textSize="15dp" />
+                                <!--<groots.app.com.groots.utilz.TextViewLatoRegular
+                                    android:id="@+id/plus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:text=" + "
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="15dp" />
+
+
+                                <groots.app.com.groots.utilz.TextViewLatoRegular
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    android:text="@string/indian_rupees"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="17dp" />
+                                <groots.app.com.groots.utilz.TextViewLatoRegular
+                                    android:id="@+id/shipping_amount"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:maxLines="1"
+                                    android:singleLine="true"
+                                    android:text="0324"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="15dp" />-->
 
                             </LinearLayout>
 

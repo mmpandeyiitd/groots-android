@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tagmanager.Container;
 import com.google.android.gms.tagmanager.ContainerHolder;
@@ -62,6 +63,7 @@ import groots.app.com.groots.interfaces.UpdateCart;
 import groots.app.com.groots.model.UpdateCartClass;
 import groots.app.com.groots.pojo.AddOrderParent;
 import groots.app.com.groots.pojo.DateTimePojo;
+import groots.app.com.groots.pojo.UpdateOrderParent;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
@@ -82,6 +84,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     ArrayList<UpdateCartClass> cartClasses;
     dbHelp dbHelp;
     TextView txtamount_main;
+    String datee;
     UpdateCart updateCart;
     RelativeLayout loaderlayout;
     String data, textcomment, date;
@@ -101,10 +104,21 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         setContentView(R.layout.activity_checkout_update_order_ui);
         context = Checkout_Update_Order_Ui.this;
 
+
+        Intent intent = getIntent();
+        String dt = intent.getStringExtra("datee");
+        ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + dt.substring(0,10).trim());
+
+
+
+
+
+
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
 
         updateCart = this;
         dbHelp = new dbHelp(context);
@@ -182,7 +196,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getTime("andapikey", "1.0", "1.0", AuthToken, new Callback<DateTimePojo>() {
+        apiInterface.getTime(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<DateTimePojo>() {
             @Override
             public void success(DateTimePojo dateTimePojo, Response response) {
 
@@ -206,7 +220,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                 } else if (status == 1) {
                     date = dateTimePojo.getData().getCurrentDateTime();
                     //  Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
-                    try {
+                   /* try {
                         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
                         Date d1 = formatter.parse(date.substring(11).trim());
                         Date d2 = formatter.parse("00:00:00");
@@ -225,8 +239,8 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                             RelativeLayout layout = (RelativeLayout) findViewById(R.id.headerdate);
                             RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
                             layout.setLayoutParams(parms);
-                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
-                            ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
+
+                           // ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
                             ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
                             data = dateFormatter.parse(date.substring(0,10).trim()).toString();
                         } else {
@@ -236,7 +250,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                             RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
                             layout.setLayoutParams(parms);
                             ((TextView) findViewById(R.id.datetxt)).setVisibility(View.GONE);
-                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + (date.substring(0,10).trim()));
+                            //((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + (date.substring(0,10).trim()));
 
 
                             newCalendar.setTime(dateFormatter.parse(date.substring(0,10).trim()));
@@ -247,7 +261,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                         }
                     } catch (Exception e) {
 //                        Log.e("Exception is ",e.getCause().toString());
-                    }
+                    }*/
                 }
 
             }
@@ -291,7 +305,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-8984");
+                    makeAcall("+91-11-3958-9892");
                     dismiss();
                 }
             });
@@ -318,7 +332,15 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
     @Override
     public void onBackPressed() {
+
+
+       /* startActivity(new Intent(Checkout_Update_Order_Ui.this , UpdateOrder.class));
+        finish();*/
+        updateCart.updateCart();
         super.onBackPressed();
+
+      //  updateCart.updateCart();
+
     }
 
     @Override
@@ -350,6 +372,9 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                 break;
 
             case R.id.backbtn:
+                 /* Intent inte = new Intent(Checkout_Update_Order_Ui.this , UpdateOrder.class);
+                startActivity(inte);
+                finish();*/
 
 
                 onBackPressed();
@@ -367,13 +392,26 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     }
 
 
-    private void callAddOrderAPI(String comment, String d) {
+
+
+    public void callUpdateOrderAPI(String comment, String d) {
+
+        Intent intent = getIntent();
+        String orderI = intent.getStringExtra("orderId");
+
+
+
+
+        int orderId = Integer.parseInt(orderI);
+
+
         loaderlayout.bringToFront();
         loaderlayout.setVisibility(View.VISIBLE);
         dialog.dismiss();
         HashMap hashmap = new HashMap();
-        float total = 0;
+        Double total = 0.00;
         for (int count = 0; count < cartClasses.size(); count++) {
+           // hashmap.put("data[product_details][" + count + "][order_id]" , orderId );
             hashmap.put("data[product_details][" + count + "][subscribed_product_id]", cartClasses.get(count).subscribe_prod_id);
             hashmap.put("data[product_details][" + count + "][base_product_id]", cartClasses.get(count).base_product_id);
             hashmap.put("data[product_details][" + count + "][store_id]", cartClasses.get(count).store_id);
@@ -382,6 +420,8 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
             hashmap.put("data[product_details][" + count + "][product_qty]", cartClasses.get(count).product_qty);
             hashmap.put("data[product_details][" + count + "][unit_price]", cartClasses.get(count).unit_price);
             hashmap.put("data[product_details][" + count + "][tax]", 0);
+            Double item_price =  cartClasses.get(count).product_qty * cartClasses.get(count).unit_price ;
+            hashmap.put("data[product_details][" + count + "][price]", item_price);
             total = cartClasses.get(count).total_unit_price + total;
 
         }
@@ -389,20 +429,21 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        hashmap.put("data[order_prefix]", "GRT");
+        /*hashmap.put("data[order_prefix]", "GRT");
         hashmap.put("data[order_type]", "normal_payment");
         hashmap.put("data[shipping_charges]", 0);
-        hashmap.put("data[coupon_code]", "");
+        hashmap.put("data[coupon_code]", "");*/
         hashmap.put("data[total]", dbHelp.fetchTotalUpdateCartAmount());
         hashmap.put("data[total_payable_amount]", dbHelp.fetchTotalUpdateCartAmount());
-        hashmap.put("data[buyer_email]", 1);
+       /* hashmap.put("data[buyer_email]", 1);
         hashmap.put("data[discount_amt]", 0);
         hashmap.put("data[user_id]", prefs.getString("User_Id", null));
         hashmap.put("data[cart_id]", 1);
         hashmap.put("data[total_shipping_charges]", 0);
-        hashmap.put("data[total_tax]", 0);
+        hashmap.put("data[total_tax]", 0);*/
         hashmap.put("data[comment]", comment);
         hashmap.put("data[delivery_date]", d);
+        hashmap.put("data[order_id]",orderId);
 
 
 
@@ -413,11 +454,11 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
-        apiInterface.getAddOrderResponce("andapikey", "1.0", "1.0", AuthToken, hashmap, new Callback<AddOrderParent>() {
+        apiInterface.getUpdateOrderResponce(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashmap, new Callback<UpdateOrderParent>() {
             @Override
-            public void success(AddOrderParent addOrderParent, Response response) {
+            public void success(UpdateOrderParent updateOrderParent, Response response) {
 
-                String status = addOrderParent.getStatus();
+                String status = updateOrderParent.getStatus();
 
 //                String order_no=addOrderParent.getData().getOrderNo();
                 //  int order_id=addOrderParent.getData().getOrderId();
@@ -427,18 +468,18 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
 
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    String msg = (String) addOrderParent.getErrors().get(0);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, msg, Snackbar.LENGTH_LONG);
+                    //String msg = (String) updateOrderParent.error.get(0);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "something went wrong", Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     TextView tv = (TextView) (snackbar.getView()).findViewById(android.support.design.R.id.snackbar_text);
-                    tv.setText(msg);
+                    //tv.setText(msg);
                     tv.setLines(3);
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
                 } else if (status.equals("-1")) {
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    String msg = (String) addOrderParent.getErrors().get(0);
+                    String msg = (String) updateOrderParent.getErrors().get(0);
                     Snackbar snackbar = Snackbar.make(cdcheckout,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -524,9 +565,22 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         final TextView txtdate = ((TextView) dialog.findViewById(R.id.datetxtd));
 
 
+
+        Intent intent = getIntent();
+        String dt = intent.getStringExtra("datee");
+
+        txtdate.setText(dt.substring(0,10).trim());
+         data = dt.substring(0,10).trim();
+        datee = date.substring(0,10).trim();
+
+
+
+
         try {
 
-            Date d1 = formatter.parse(date.substring(11).trim());
+            newCalendar.setTime(dateFormatter.parse(dt.substring(0, 10).trim()));
+
+           /* Date d1 = formatter.parse(date.substring(11).trim());
             Date d2 = formatter.parse("00:00:00");
             Date d3 = formatter.parse("02:00:00");
 
@@ -540,7 +594,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
             {
                 newCalendar.add(Calendar.DATE, 1);
                 newCalendar.setTime(dateFormatter.parse(date.substring(0, 10).trim()));
-            }
+            }*/
         }catch (Exception e)
         {
 
@@ -552,7 +606,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
             @Override
             public void onClick(View view) {
 
-                try {
+               /* try {
 
 
                     DatePickerDialog fromDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
@@ -586,7 +640,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                 }catch(Exception e)
                 {
 
-                }
+                }*/
             }
         });
 
@@ -620,51 +674,27 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
                     SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
 
                     try {
-                        Date date1 = dateformatter.parse(date.substring(0, 10).trim());
-                        Date date2 = dateformatter.parse(data);
-                        if (date2.before(date1)) {
-                            Snackbar snackbar = Snackbar.make(cdDatePicker, "Please choose a valid date.", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else if (date1.equals(date2)) {
+                        if (datee.equals(data)) {
 
-                            Date d1 = formatter.parse(date.substring(11).trim());
-                            Date d2 = formatter.parse("00:00:00");
-                            Date d3 = formatter.parse("02:00:00");
-                            if (d1.before(d3) & d1.after(d2)) {
-                                if (!util.isInternetConnected(Checkout_Update_Order_Ui.this)) {
-                                    Snackbar snackbar = Snackbar.make(cdDatePicker, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
-                                    snackbar.setActionTextColor(Color.WHITE);
-                                    View snackbarView = snackbar.getView();
-                                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                    snackbar.show();}
-                                else {
-                                    dialog.dismiss();
-                                    callAddOrderAPI(commentbox.getText().toString(), data);
-                                }
 
-                                //   Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Snackbar snackbar = Snackbar.make(cdDatePicker, "Please enter valid date", Snackbar.LENGTH_SHORT);
+                            if (!util.isInternetConnected(Checkout_Update_Order_Ui.this)) {
+                                Snackbar snackbar = Snackbar.make(cdcheckout, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
                                 snackbar.setActionTextColor(Color.WHITE);
                                 View snackbarView = snackbar.getView();
                                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                 snackbar.show();
-                            }
+                            } else {
+                            /*System.out.println(data);
+                            System.out.println(commentbox.getText().toString());*/
+                                callUpdateOrderAPI(commentbox.getText().toString(), data);
 
-                        } else if (!util.isInternetConnected(Checkout_Update_Order_Ui.this)) {
-                            Snackbar snackbar = Snackbar.make(cdcheckout, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
-                            snackbar.setActionTextColor(Color.WHITE);
-                            View snackbarView = snackbar.getView();
-                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                            snackbar.show();
-                        } else {
-                            callAddOrderAPI(commentbox.getText().toString(), data);
+
+                            }
                         }
                     } catch (Exception e) {
-                        //  Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+
+                         e.printStackTrace();
+                         // Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

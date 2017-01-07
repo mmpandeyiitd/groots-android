@@ -36,7 +36,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     ArrayList<Product> productListData;
     Context context;
-    View view;
+    View view = null;
 
     int lastPosition = -1;
     UpdateCart updateCart;
@@ -50,7 +50,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.productListData = productListData;
         this.context = context;
         this.updateCart = updateCart;
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
         cartClasses = dbHelper.order();
         this.show_footer = f;
@@ -103,14 +103,15 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+view = null;
         if (viewType == TYPE_ITEM) {
             view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
             DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
             return dataObjectHolder;
         }
         if (viewType == TYPE_FOOTER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pregress_bar, parent, false);
+            View v = null;
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pregress_bar, parent, false);
             return new FooterViewHolder(v);
         }
         return null;
@@ -120,7 +121,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder mholder, final int position) {
         if (mholder instanceof DataObjectHolder) {
             final DataObjectHolder holder = (DataObjectHolder) mholder;
-            final DbHelper dbHelper = new DbHelper(context);
+            final DbHelper dbHelper = DbHelper.getInstance(context);
             dbHelper.createDb(false);
 
             holder.textItemName.setText(productListData.get(position).title);
@@ -131,6 +132,9 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                  holder.textRup.setVisibility(View.GONE);
                 holder.textItemPrice.setText("Out of Stock");
+                /*holder.txtPlus.setEnabled(false);
+                holder.txtMinus.setEnabled(false);
+                holder.txtCount.setEnabled(false);*/
 
             }
             else {
@@ -189,7 +193,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 if (!cartClasses.contains(productListData.get(position))) {
                     holder.txtCount.setText("0");
-                    updateCart.updateCart();
+                  updateCart.updateCart();
                 }
           /*  holder.txtCount.setText("0");
             updateCart.updateCart();*/
@@ -205,13 +209,13 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
 
-                    if (Integer.parseInt(holder.txtCount.getText().toString().trim()) >= 999) {
+                    if (Double.parseDouble(holder.txtCount.getText().toString().trim()) >= 999.0) {
                         Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         Utilz.count = position;
                         int clickedPos = (int) view.getTag();
-                        int previousCount = productListData.get(clickedPos).getItemCount();
+                        Double previousCount = productListData.get(clickedPos).getItemCount();
 
                         previousCount++;
 
@@ -236,7 +240,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     Utilz.count = position;
                     int clickedPos = (int) view.getTag();
-                    int previousCount = productListData.get(clickedPos).getItemCount();
+                    Double previousCount = productListData.get(clickedPos).getItemCount();
                     if (previousCount > 0) {
                         previousCount--;
 
@@ -261,7 +265,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             holder.txtCount.setText("0");
                         }
                         int clickedPos = (int) v.getTag();
-                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                        Double previousCount = Double.parseDouble(holder.txtCount.getText().toString().trim());
 
                         productListData.get(clickedPos).setItemCount(previousCount);
                         dbHelper.insertCartData(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId,
@@ -273,7 +277,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         if (previousCount == 0)
                             dbHelper.deleteRecords(productListData.get(position).subscribedProductId, productListData.get(position).baseProductId);
 
-                        holder.txtCount.setText(productListData.get(position).getItemCount() + "");
+                        holder.txtCount.setText(productListData.get(position).getItemCount() + " ");
                         notifyDataSetChanged();
                         return false;
                     }

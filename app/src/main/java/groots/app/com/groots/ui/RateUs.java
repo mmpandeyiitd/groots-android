@@ -41,6 +41,7 @@ import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.SubmitFeedback;
 import groots.app.com.groots.utilz.Http_Urls;
+import groots.app.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -654,7 +655,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-8984");
+                    makeAcall("+91-11-3958-9892");
                     dismiss();
                 }
             });
@@ -720,7 +721,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
     private void fivestar_popup(){
         final Dialog fivestar = new Dialog(RateUs.this);
         fivestar.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        fivestar.setContentView(R.layout.five_star_layout);
+        fivestar.setContentView(R.layout.cancel_order_dialog);
         fivestar.setCancelable(true);
         TextView start_app = (TextView) fivestar.findViewById(R.id.start_app);
         //TextView cancel = (TextView) logoutdialog.findViewById(R.id.cancel);
@@ -780,7 +781,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
         String AuthToken = prefs.getString("AuthToken", null);
 
 
-        apiInterface.getsubmitfeedbackresponse("andapikey", "1.0", "1.0",AuthToken, hashMap, new Callback<HttpResponse<SubmitFeedback>>() {
+        apiInterface.getsubmitfeedbackresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version,AuthToken, hashMap, new Callback<HttpResponse<SubmitFeedback>>() {
             @Override
             public void success(HttpResponse httpResponse, Response response) {
 

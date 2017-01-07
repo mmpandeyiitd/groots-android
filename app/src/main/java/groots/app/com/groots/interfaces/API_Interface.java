@@ -13,14 +13,18 @@ import groots.app.com.groots.pojo.OrderFeedback;
 import groots.app.com.groots.pojo.Product;
 //import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.app.com.groots.pojo.SubmitFeedback;
+import groots.app.com.groots.pojo.UpdateOrderParent;
 import groots.app.com.groots.pojo.signUpResponse;
+import groots.app.com.groots.pojo.updateAppResponsePojo;
 import groots.app.com.groots.pojo.user_profile;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.PATCH;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.QueryMap;
 
 
@@ -52,6 +56,15 @@ public interface API_Interface {
                              @FieldMap Map<String,String> alldata, Callback<AddOrderParent> cb);
 
 
+    @FormUrlEncoded
+    @POST("/index.php/api/updateOrder")
+    void getUpdateOrderResponce(@Header("API_KEY") String apikey,
+                             @Header("APP_VERSION") String appversion,
+                             @Header("CONFIG_VERSION") String config,
+                             @Header("AUTH_TOKEN")String authtoken,
+                             @FieldMap Map<String,String> alldata, Callback<UpdateOrderParent> cb);
+
+
 
     @FormUrlEncoded
     @POST("/index.php/api/productlist")
@@ -68,6 +81,26 @@ public interface API_Interface {
                                  @Header("CONFIG_VERSION") String config,
                                  @Header("AUTH_TOKEN") String auth,
                                  @QueryMap Map<String,String> alldata, Callback<HttpResponse<Order>> cb);
+
+
+
+
+    @GET("/index.php/api/search")
+    void getsearchlistingresponse(@Header("API_KEY") String apikey,
+                                 @Header("APP_VERSION") String appversion,
+                                 @Header("CONFIG_VERSION") String config,
+                                 @Header("AUTH_TOKEN") String auth,
+                                 @QueryMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
+
+
+
+
+    @GET("/index.php/api/allproducts")
+    void getallproductslistingresponse(@Header("API_KEY") String apikey,
+                                  @Header("APP_VERSION") String appversion,
+                                  @Header("CONFIG_VERSION") String config,
+                                  @Header("AUTH_TOKEN") String auth,
+                                  @QueryMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
 
 
 
@@ -114,6 +147,23 @@ public interface API_Interface {
                                   @Header("CONFIG_VERSION") String config,
                                   @Header("AUTH_TOKEN") String auth,
                                   Callback<HttpResponse<user_profile>> cb);
+
+    @FormUrlEncoded
+    @POST("/index.php/api/partialUpdateOrder")
+    void getpatchorderresponse(@Header("API_KEY") String apikey,
+                               @Header("APP_VERSION") String appversion,
+                               @Header("CONFIG_VERSION") String config,
+                               @Header("AUTH_TOKEN") String auth,
+                               @FieldMap Map<String,String> alldata , Callback<HttpResponse> cb);
+
+
+    @GET("/index.php/api/checkAppUpdate")
+    void getappupdateresponse(@Header("API_KEY") String apikey,
+                              @Header("APP_VERSION") String appversion,
+                              @Header("CONFIG_VERSION") String config,
+                              @Header("AUTH_TOKEN") String auth,
+                              Callback<HttpResponse<updateAppResponsePojo>> cb);
+
 
 
 

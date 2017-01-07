@@ -9,6 +9,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class user_profile {
 
+
+    @SerializedName("minOrderPrice")
+    @Expose
+    public Double minOrderPrice;
+
+    @SerializedName("shippingCharge")
+    @Expose
+    public Double shippingCharge;
+
     @SerializedName("retailerName")
     @Expose
     public String retailerName;

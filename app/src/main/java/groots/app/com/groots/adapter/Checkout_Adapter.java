@@ -39,7 +39,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
     Runnable                        runnable;
     UpdateCart                      updateCart;
     DbHelper                        dbHelper;
-    int previousCount;
+    Double previousCount;
 
     ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -57,7 +57,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         this.cartClasses = cartClasses;
         this.context = context;
         this.updateCart = updateCart;
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
         Collections.reverse(cartClasses);
 
@@ -87,13 +87,13 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         }
 
 
-        if(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
-            holder.selectedquan.setText(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)/1000.00+"K"+
+        if(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)>=1000) {
+            holder.selectedquan.setText(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)/1000.00+"K"+
                     cartClasses.get(position).packUnit);
         }else
         {
 
-            holder.selectedquan.setText(String.valueOf(cartClasses.get(position).product_qty * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit));
+            holder.selectedquan.setText(String.valueOf(cartClasses.get(position).product_qty * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit));
         }
 
       /*  if (position > lastPosition) {
@@ -113,10 +113,10 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
         if (cartClasses.get(position).product_qty > 0) {
             holder.txtCount.setText("" + cartClasses.get(position).product_qty);
             dbHelper.updateProductQty(cartClasses.get(position).product_qty, cartClasses.get(position).unit_price, cartClasses.get(position).subscribe_prod_id);
-            updateCart.updateCart();
+           updateCart.updateCart();
         } else {
             holder.txtCount.setText("0");
-            updateCart.updateCart();
+           updateCart.updateCart();
         }
 
         holder.txtPlus.setTag(position);
@@ -131,17 +131,17 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
                     Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                 } else {
                     int clickedPos = (int) view.getTag();
-                    int previousCount = cartClasses.get(clickedPos).product_qty;
+                    Double previousCount = cartClasses.get(clickedPos).product_qty;
 
                     previousCount++;
 
                     cartClasses.get(clickedPos).product_qty = previousCount;
 
                     if(previousCount * Integer.parseInt(cartClasses.get(position).packSize)>=1000) {
-                       holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+cartClasses.get(position).packUnit);
+                       holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)/1000+"K"+cartClasses.get(position).packUnit);
                     }else
                     {
-                        holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+                        holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
 
                     }
 
@@ -164,12 +164,15 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             public void onClick(View view) {
                 int clickedPos = (int) view.getTag();
 
-                if(previousCount * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
-                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+
+               // Double previousCount = productListData.get(clickedPos).getItemCount();
+                Double previousCount = cartClasses.get(clickedPos).product_qty;
+
+                if(previousCount * Double.parseDouble(cartClasses.get(position).packSize)>=1000) {
+                    holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)/1000+"K"+
                             cartClasses.get(position).packUnit);
                 }else
                 {
-                    holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
+                    holder.selectedquan.setText( previousCount * Double.parseDouble(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
                 }
                 previousCount = cartClasses.get(clickedPos).product_qty;
                 if (previousCount > 0) {

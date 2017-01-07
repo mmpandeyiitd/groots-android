@@ -59,6 +59,7 @@ import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.pojo.OrderItem;
 import groots.app.com.groots.pojo.Product;
+import groots.app.com.groots.pojo.user_profile;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
@@ -76,12 +77,14 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     Product item;
     boolean flag = true;
     public boolean backflag = false;
+    ArrayList<user_profile> retailerdetails = new ArrayList<>();
     NavigationView navigationView;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder;
     CoordinatorLayout cdLanding;
     ArrayList<Product> productListDocDatas = new ArrayList<>();
     Context context;
     RelativeLayout loadermain;
+    String shippingAmount;
     DrawerLayout drawer;
     DbHelper dbHelper;
     LinearLayout listicon, callicon;
@@ -90,7 +93,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     UpdateCart updateCart;
     LinearLayoutManager linearLayoutManager;
     public boolean loadingMore = true;
-    TextView txtamount_detail, txtCart_detail;
+    TextView txtamount_detail, txtCart_detail,shipping_amount;
     LinearLayout checkouticon;
     ImageView callimage;
     Utilz utilz;
@@ -119,6 +122,11 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
+
+
+      //  callretailerdetailsAPI();
+
+
 
 
 
@@ -152,6 +160,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         updateCart = this;
         context = Landing_Update.this;
+
+
+
+
 
 
         if (message != null) {
@@ -219,7 +231,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
      /*   .................DataBase Implementation.......................*/
 
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
 
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
@@ -301,6 +313,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
         txtamount_detail = (TextView) findViewById(R.id.txtamount_detail);
+       // shipping_amount = (TextView) findViewById(R.id.shipping_amount);
         txtCart_detail = (TextView) findViewById(R.id.txtCart_detail);
         listfooter  = (LinearLayout) findViewById(R.id.listfooter);
        /* int itemInCart = dbHelper.getTotalRow();
@@ -318,6 +331,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 int itemInCart = dbHelper.getTotalRow();
                 if (itemInCart > 0) {
                     Intent intent = new Intent(Landing_Update.this, Checkout_Ui.class);
+                   // intent.putExtra("shipping",shippingAmount);
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, "Oops! No item in cart", Toast.LENGTH_SHORT).show();
@@ -358,6 +372,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
 
 
     }
@@ -392,7 +407,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<HttpResponse<Product>>() {
+        apiInterface.getproductListingResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashMap, new Callback<HttpResponse<Product>>() {
 
             @Override
             public void success(HttpResponse httpResponse, Response response) {
@@ -490,12 +505,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                                         productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                                         break;
                                     } else
-                                        productListDocDatas.get(i).setItemCount(0);
+                                        productListDocDatas.get(i).setItemCount(0.0);
                                 }
                             }
                         } else if (cartClasses != null && cartClasses.size() == 0) {
                             for (int i = 0; i < productListDocDatas.size(); i++) {
-                                productListDocDatas.get(i).setItemCount(0);
+                                productListDocDatas.get(i).setItemCount(0.0);
                             }
                         }
                         detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
@@ -955,12 +970,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                         productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                         break;
                     } else
-                        productListDocDatas.get(i).setItemCount(0);
+                        productListDocDatas.get(i).setItemCount(0.0);
                 }
             }
         } else if (cartClasses != null && cartClasses.size() == 0) {
             for (int i = 0; i < productListDocDatas.size(); i++) {
-                productListDocDatas.get(i).setItemCount(0);
+                productListDocDatas.get(i).setItemCount(0.0);
             }
         }
         if (flag == true & backflag == false & productListDocDatas.size() != 0) {
@@ -1001,10 +1016,169 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-8984");
+                    makeaCall("+91-11-3958-9892");
                     dismiss();
                 }
             });
         }
     }
+
+
+    /*void callretailerdetailsAPI(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getretailerdetailsresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<HttpResponse<user_profile>>(){
+            @Override
+            public void success ( HttpResponse httpResponse , Response response ){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+
+                    if (retailerdetails.size() == 0) {
+                        retailerdetails = (ArrayList<user_profile>) httpResponse.data.responseData.docs;
+                    }
+
+
+
+                   *//* String retailerName = retailerdetails.get(0).retailerName;
+                    String salesRepName = retailerdetails.get(0).salesRepName;
+                    String outstandingDate = retailerdetails.get(0).outstandingDate;*//*
+                    //String collectionRepName = retailerdetails.get(0).collectionRepName;
+                   // Double outstandingAmount = retailerdetails.get(0).outstandingAmount;
+                   // Double shippingCharge = retailerdetails.get(0).shippingCharge;
+                    Double min_order_price;
+                    if (retailerdetails.get(0).minOrderPrice == null){
+                        min_order_price = 0.0;
+
+                    }
+                    else
+                    {
+                        min_order_price = retailerdetails.get(0).minOrderPrice;
+                    }
+
+
+
+
+
+
+
+                    Double shippingcharge;
+                    if (retailerdetails.get(0).shippingCharge == null){
+                         shippingcharge = 0.0 ;
+                    }
+                    else {
+                         shippingcharge = retailerdetails.get(0).shippingCharge;
+
+                    }
+
+                   //Double shipping_amount = retailerdetails.get(0).shippingCharge;
+
+
+                    shipping_amount.setText(shippingcharge.toString());
+
+
+                     shippingAmount = shippingcharge.toString();
+
+
+
+
+
+
+
+                   *//* if (Status == true){
+                        //String orderId =
+                        //orderfeedback.orderId;
+                        Intent i = new Intent(Splash.this, RateUs.class);
+                        i.putExtra("ID",O_id);
+                        i.putExtra("date",datee);
+                        startActivity(i);
+                        finish();
+
+                    }
+                    else {
+
+
+                        Intent i = new Intent(Splash.this, Landing_Update.class);
+                        startActivity(i);
+                        finish();
+                    }*//*
+
+                    // if (httpResponse.data.responseData.docs.size() != 0 ){
+
+
+
+                    //}
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+        });
+
+
+
+
+
+    }*/
+
+
+
+
 }
