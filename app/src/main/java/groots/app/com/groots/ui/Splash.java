@@ -59,6 +59,7 @@ import groots.app.com.groots.pojo.ForgetPwdData;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.LoginData;
 import groots.app.com.groots.pojo.OrderFeedback;
+import groots.app.com.groots.pojo.updateAppResponsePojo;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.TagManagerEvent;
@@ -75,7 +76,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
     ImageView ivGroots, ivCallLogin;
     ArrayList<OrderFeedback> orderFeedback = new ArrayList<>();
+    ArrayList<updateAppResponsePojo> updateappResponsePojos = new ArrayList<>();
     AlphaAnimation alphaAnimation;
+    //updateAppResponsePojo updateappResponsePojo;
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
     LinearLayout llUserName, llPassword;
@@ -190,7 +193,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         tvSignUp.setOnClickListener(this);
 
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
 
 
@@ -241,7 +244,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 public void run() {
                     //HashMap hashMap = new HashMap();
                    // hashMap.put();
-                    callfeedbackresponseAPI();
+
+                   callupdateappAPI();
+                   // callfeedbackresponseAPI();
                     /*Intent i = new Intent(Splash.this, Landing_Update.class);
                     startActivity(i);
                     finish();*/
@@ -391,13 +396,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 if (etLogin.getText().toString().length() > 0 ) {
 
 
-                    /*if (etLogin.getText().toString().matches("[+0-9]+")) {
+                    if (etLogin.getText().toString().matches("[+0-9]+")) {
 
                         String strContact = etLogin.getText().toString();
 
 
-                        if (strContact.length() <= 0) {
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your contact no", Snackbar.LENGTH_SHORT);
+                        if (!((strContact.length()) == 10)) {
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Please provide 10 digit contact no", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -434,7 +439,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 btnSignIn.setEnabled(false);
                                 dbHelper.insertMailData(strContact);
                                 HashMap hashMap = new HashMap();
-                                hashMap.put("email", strContact);
+                                hashMap.put("contact", strContact);
                                 hashMap.put("password", strPwd);
 
                                 callLoginAPI(hashMap);
@@ -443,7 +448,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         }
 
 
-                    } else {*/
+                    } else {
 
                         String strEmail = etLogin.getText().toString();
 
@@ -491,14 +496,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                 callLoginAPI(hashMap);
                             }
 
-                       // }
+                        }
 
 
                     }
                 }
                 else {
 
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id ", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Please provide your email id or contact no", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -604,7 +609,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
-        apiInterface.getcheckfeedbackresponse("andapikey", "1.0", "1.0", AuthToken, new Callback<HttpResponse<OrderFeedback>>(){
+        apiInterface.getcheckfeedbackresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<HttpResponse<OrderFeedback>>(){
             @Override
                public void success ( HttpResponse httpResponse , Response response ){
 
@@ -708,6 +713,193 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     }
 
 
+    void callupdateappAPI(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+       apiInterface.getappupdateresponse(Utilz.apikey,Utilz.app_version,Utilz.config_version,AuthToken,new Callback<HttpResponse<updateAppResponsePojo>>(){
+          @Override
+           public void success(HttpResponse httpResponse , Response response){
+
+
+              int status = httpResponse.status;
+              if (status == -1){
+                  Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                  snackbar.setActionTextColor(Color.WHITE);
+                  View snackbarView = snackbar.getView();
+                  snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                  snackbar.show();
+
+
+              }
+              else if (status == 0){
+
+                  Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                  snackbar.setActionTextColor(Color.WHITE);
+                  View snackbarView = snackbar.getView();
+                  snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                  snackbar.show();
+
+
+
+
+              }
+              else if (status == 1){
+
+                  if (updateappResponsePojos.size() == 0){
+
+                      updateappResponsePojos = (ArrayList<updateAppResponsePojo>)  httpResponse.data.responseData.docs;
+                  }
+
+                boolean requestForceUpdate = updateappResponsePojos.get(0).forceUpdate;
+                  boolean requestRecUpdate = updateappResponsePojos.get(0).recommendedUpdate;
+
+
+
+                  if (requestForceUpdate == true  ){
+
+                      final String appLink = updateappResponsePojos.get(0).appLink;
+
+                       dialog = new Dialog(Splash.this);
+                      dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                      dialog.setCancelable(true);
+
+
+                      dialog.setContentView(R.layout.force_update_dialog);
+
+
+
+                      dialog.show();
+
+                      TextView force_update_yes = (TextView) dialog.findViewById(R.id.force_update_yes);
+                      TextView force_update_quit = (TextView) dialog.findViewById(R.id.force_update_quit);
+
+                      force_update_yes.setOnClickListener(new OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              dialog.dismiss();
+                              Uri uri = Uri.parse(appLink);
+                              Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                              startActivity(intent);
+                          }
+                      });
+
+                      force_update_quit.setOnClickListener(new OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              dialog.dismiss();
+                              /*Intent intent = new Intent(Intent.ACTION_MAIN);
+                              intent.addCategory(Intent.CATEGORY_HOME);
+                              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                              startActivity(intent);*/
+                              AppExit();
+
+
+
+                             /* finish();
+                              System.exit(0);*/
+
+                          }
+                      });
+
+
+
+
+
+
+                  }
+                  else if (requestForceUpdate == false && requestRecUpdate == true ){
+
+                      final String appLink = updateappResponsePojos.get(0).appLink;
+
+
+                      dialog = new Dialog(Splash.this);
+                      dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                      dialog.setContentView(R.layout.recomm_update_dialog);
+
+                      dialog.setCancelable(true);
+                       dialog.show();
+
+                      TextView rec_update_yes = (TextView) dialog.findViewById(R.id.rec_update_yes);
+                      TextView rec_update_quit = (TextView) dialog.findViewById(R.id.rec_update_quit);
+
+
+                      rec_update_yes.setOnClickListener(new OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              dialog.dismiss();
+
+                              Uri uri = Uri.parse(appLink);
+                              Intent intent = new Intent(Intent.ACTION_VIEW ,uri);
+                              startActivity(intent);
+
+
+                          }
+                      });
+
+                      rec_update_quit.setOnClickListener(new OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              dialog.dismiss();
+                              callfeedbackresponseAPI();
+
+                          }
+                      });
+
+
+
+
+
+                  }
+
+                  else if (requestForceUpdate == false && requestRecUpdate == false ){
+
+
+                      callfeedbackresponseAPI();
+
+
+
+                  }
+
+
+
+
+
+
+
+
+              }
+
+           }
+
+           @Override
+           public void failure (RetrofitError error){
+
+               Snackbar snackbar = Snackbar.make(cdLogin, "Oops! .Please try again later !...", Snackbar.LENGTH_SHORT);
+               snackbar.setActionTextColor(Color.WHITE);
+               View snackbarView = snackbar.getView();
+               snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+               snackbar.show();
+
+
+
+           }
+
+       });
+
+
+
+
+    }
+
+
     void callLoginAPI(HashMap hashMap) {
         TagManagerEvent.pushOpenScreenEvent(context, screenName);
         tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
@@ -726,7 +918,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
 
-        apiInterface.getloginResponse("andapikey", "1.0", "1.0", hashMap, new Callback<LoginData>() {
+        apiInterface.getloginResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, hashMap, new Callback<LoginData>() {
             @Override
             public void success(LoginData loginData, Response response) {
 
@@ -782,11 +974,15 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             //HashMap hashMap = new HashMap();
                             //hashMap.put("email", strEmail);
 
-                            callfeedbackresponseAPI();
+
+                           callupdateappAPI();
+
+                           // callfeedbackresponseAPI();
 
                             /*Intent i = new Intent(Splash.this, Landing_Update.class);
                             startActivity(i);
                             finish();*/
+
                              Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
                         } else {
                             //    btnSignIn.setText("Sign In");
@@ -833,7 +1029,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
-        apiInterface.getForgetPwdResponse("andapikey", "1.0", "1.0", hashMap, new Callback<ForgetPwdData>() {
+        apiInterface.getForgetPwdResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, hashMap, new Callback<ForgetPwdData>() {
             @Override
             public void success(ForgetPwdData forgetPwdData, Response response) {
                 if (forgetPwdData != null) {
@@ -915,7 +1111,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeCall("+91-11-3958-8984");
+                    makeCall("+91-11-3958-9892");
                     dismiss();
                 }
             });
@@ -938,6 +1134,20 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             }
         }, 500);
     }*/
+    }
+
+
+    public void AppExit()
+    {
+
+        this.finish();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
+
     }
 
 

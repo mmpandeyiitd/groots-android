@@ -28,6 +28,7 @@ import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.SubmitFeedback;
 import groots.app.com.groots.utilz.Http_Urls;
+import groots.app.com.groots.utilz.Utilz;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -305,7 +306,7 @@ public class feedback extends AppCompatActivity {
             String AuthToken = prefs.getString("AuthToken", null);
 
 
-            apiInterface.getsubmitfeedbackresponse("andapikey", "1.0", "1.0",AuthToken, hashMap, new Callback<HttpResponse<SubmitFeedback>>() {
+            apiInterface.getsubmitfeedbackresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version,AuthToken, hashMap, new Callback<HttpResponse<SubmitFeedback>>() {
                 @Override
                 public void success(HttpResponse httpResponse, Response response) {
 

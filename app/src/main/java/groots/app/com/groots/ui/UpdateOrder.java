@@ -55,10 +55,12 @@ import java.util.List;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.adapter.Detail_Adapter;
+import groots.app.com.groots.adapter.Landing_Adapter;
 import groots.app.com.groots.adapter.UpdateOrderAdapter;
 import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.interfaces.UpdateCart;
+import groots.app.com.groots.model.CartClass;
 import groots.app.com.groots.model.UpdateCartClass;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.Order;
@@ -122,6 +124,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         container = containerHolder.getContainer();
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
 
 
 
@@ -140,7 +143,8 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         callicon = (LinearLayout) findViewById(R.id.callicon);
         callicon.setOnClickListener(this);
         listicon = (LinearLayout) findViewById(R.id.listicon);
-        listicon.setOnClickListener(this);
+        listicon.setVisibility(View.GONE);
+        //listicon.setOnClickListener(this);
         callimage = (ImageView) findViewById(R.id.callimage);
 
         updateCart = this;
@@ -246,7 +250,8 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         TextView txtViewName = (TextView) headerView.findViewById(R.id.txtViewName);
         imageViewheader.setText(prefs.getString("Name", null));
         txtViewName.setText(prefs.getString("UserName", null).substring(0, 1).toUpperCase() + prefs.getString("UserName", null).substring(1));
-        ((TextView) findViewById(R.id.tooltext)).setText(prefs.getString("Retailer_Name", null));
+        //((TextView) findViewById(R.id.tooltext)).setText(prefs.getString("Retailer_Name", null));
+        ((TextView) findViewById(R.id.tooltext)).setText("Update Order");
 
         // navigationView.setNavigationItemSelectedListener(this);
        /* .....................ToolBar/ActionBar..............................*/
@@ -274,8 +279,17 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             public void onClick(View view) {
 
                 int itemInCart = dbHelp.getTotalRow();
+
+
+                Intent inten = getIntent();
+                String dat = inten.getStringExtra("datee");
+               String o_id =  inten.getStringExtra("orderId");
+
+
                 if (itemInCart > 0) {
                     Intent intent = new Intent(UpdateOrder.this, Checkout_Update_Order_Ui.class);
+                    intent.putExtra("orderId",o_id);
+                    intent.putExtra("datee",dat);
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, "Oops! No item in cart", Toast.LENGTH_SHORT).show();
@@ -343,7 +357,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getproductListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<HttpResponse<Product>>() {
+        apiInterface.getproductListingResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashMap, new Callback<HttpResponse<Product>>() {
 
             @Override
             public void success(HttpResponse httpResponse, Response response) {
@@ -499,31 +513,37 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                         Intent intent = getIntent();
 
                         HashMap<Integer, Double> bpIdQuantityMap = (HashMap<Integer, Double>) intent.getSerializableExtra("map");
-
+                        //dbHelp.deleterec();
                         // int y;
-
-                        for (i=0;i<productListDocDatas.size();i++){
-
-
-                            if ( bpIdQuantityMap.keySet().contains(productListDocDatas.get(i).subscribedProductId)){
-
-                                Double a = bpIdQuantityMap.get(productListDocDatas.get(i).subscribedProductId);
-                                ///   y = a.intValue();
+                        if (bpIdQuantityMap != null) {
+                            for (i = 0; i < productListDocDatas.size(); i++) {
 
 
-                                productListDocDatas.get(i).setItemCount(a.intValue());
+                                if (bpIdQuantityMap.keySet().contains(productListDocDatas.get(i).subscribedProductId)) {
 
-                                dbHelp.deleterec();
+                                    Double a = bpIdQuantityMap.get(productListDocDatas.get(i).subscribedProductId);
+                                    ///   y = a.intValue();
 
 
-                                dbHelp.insertUpdateCartData(productListDocDatas.get(i).subscribedProductId, productListDocDatas.get(i).baseProductId,
-                                        productListDocDatas.get(i).storeId, productListDocDatas.get(i).title,
-                                        productListDocDatas.get(i).description,
-                                        productListDocDatas.get(i).thumbUrl.get(0), productListDocDatas.get(i).getItemCount(),
-                                        productListDocDatas.get(i).storeOfferPrice,productListDocDatas.get(i).packSize.toString(),productListDocDatas.get(i).packUnit);
+                                    productListDocDatas.get(i).setItemCount(a);
+
+                                                       /* HashMap hash = new HashMap();
+                                                        hash.put("what","insert");
+
+                                                       // dbHelp.deleterec();
+
+
+                                                        dbHelp.insertUpdateCartData(hash,productListDocDatas.get(i).subscribedProductId, productListDocDatas.get(i).baseProductId,
+                                                                productListDocDatas.get(i).storeId, productListDocDatas.get(i).title,
+                                                                productListDocDatas.get(i).description,
+                                                                productListDocDatas.get(i).thumbUrl.get(0), productListDocDatas.get(i).getItemCount(),
+                                                                productListDocDatas.get(i).storeOfferPrice,productListDocDatas.get(i).packSize.toString(),productListDocDatas.get(i).packUnit);
+
+                                              */
+                                }
+
 
                             }
-
 
                         }
 
@@ -553,11 +573,11 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                         detail_recycler_view.scrollToPosition(Utilz.count);
 
                     } else {
-                        detail_recycler_view.setHasFixedSize(true);
+                       /* detail_recycler_view.setHasFixedSize(true);
                         detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
                         detail_recycler_view.setNestedScrollingEnabled(false);
                         detail_recycler_view.setAdapter(new Detail_Adapter(productListDocDatas, context, updateCart, true));
-                        detail_recycler_view.scrollToPosition(Utilz.count);
+                        detail_recycler_view.scrollToPosition(Utilz.count);*/
                     }
 
 
@@ -601,6 +621,47 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             super.onBackPressed();
         }
     }
+   // @Override
+   /* public void OnResume(){
+        super.onResume();
+
+        ArrayList<UpdateCartClass> cartClasses = dbHelp.getupdateProductQty();
+        if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
+            for (int i = 0; i < productListDocDatas.size(); i++) {
+                for (int j = 0; j < cartClasses.size(); j++) {
+                    if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                        productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                        break;
+                    } else
+                        productListDocDatas.get(i).setItemCount(0.0);
+                }
+            }
+        } else if (cartClasses != null && cartClasses.size() == 0) {
+            for (int i = 0; i < productListDocDatas.size(); i++) {
+                productListDocDatas.get(i).setItemCount(0.0);
+            }
+        }
+        if (flag == true & backflag == false & productListDocDatas.size() != 0) {
+            UpdateOrderAdapter mAdapter = new UpdateOrderAdapter(productListDocDatas, context, updateCart, true);
+            detail_recycler_view.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        } else if (flag == false & backflag == false & productListDocDatas.size() != 0) {
+            Detail_Adapter detailAdapter = new Detail_Adapter(productListDocDatas, context, updateCart, true);
+            detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
+            detail_recycler_view.setNestedScrollingEnabled(false);
+            detail_recycler_view.setAdapter(detailAdapter);
+            //  detailAdapter.notifyDataSetChanged();
+        }
+
+
+
+
+
+
+
+    }
+*/
+
 
 
     private void makeaCall(String phn) {
@@ -769,7 +830,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                 logoutPopUp();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.listicon:
+            /*case R.id.listicon:
 
                 if (flag == false) {
                     flag = true;
@@ -805,7 +866,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                     detail_recycler_view.scrollToPosition(Utilz.count);
                     ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.list_view);
                 }
-                break;
+                break;*/
 
             case R.id.callicon:
                 if (flag == true) {
@@ -974,19 +1035,19 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
 
         ArrayList<UpdateCartClass> cartClasses = dbHelp.getupdateProductQty();
-        /*if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
+        if (cartClasses != null && cartClasses.size() > 0 && productListDocDatas != null) {
             for (int i = 0; i < productListDocDatas.size(); i++) {
                 for (int j = 0; j < cartClasses.size(); j++) {
                     if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
                         productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                         break;
                     } else
-                        productListDocDatas.get(i).setItemCount(0);
+                        productListDocDatas.get(i).setItemCount(0.0);
                 }
             }
         } else if (cartClasses != null && cartClasses.size() == 0) {
             for (int i = 0; i < productListDocDatas.size(); i++) {
-                productListDocDatas.get(i).setItemCount(0);
+                productListDocDatas.get(i).setItemCount(0.0);
             }
         }
         if (flag == true & backflag == false & productListDocDatas.size() != 0) {
@@ -999,7 +1060,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             detail_recycler_view.setNestedScrollingEnabled(false);
             detail_recycler_view.setAdapter(detailAdapter);
             //  detailAdapter.notifyDataSetChanged();
-        }*/
+        }
     }
 
     private class ShowDialog extends Dialog {
@@ -1027,7 +1088,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-8984");
+                    makeaCall("+91-11-3958-9892");
                     dismiss();
                 }
             });

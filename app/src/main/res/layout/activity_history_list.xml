@@ -411,6 +411,18 @@ tools:context="groots.app.com.groots.ui.webpage">
 
                 </LinearLayout>
 
+
+                <TextView
+                    android:id="@+id/cancelicon_checkout"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/checkout_footer"
+                    android:gravity="center"
+                    android:text="CANCEL ORDER"
+                    android:textColor="#4C834B"
+                    android:textSize="10dp" />
+
                 <TextView
                     android:id="@+id/updateicon_checkout"
                     android:layout_width="100dp"

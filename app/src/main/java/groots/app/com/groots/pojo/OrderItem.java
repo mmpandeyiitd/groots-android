@@ -20,6 +20,14 @@ public class OrderItem {
     @Expose
     public Double deliveredQty;
 
+    @SerializedName("baseProductId")
+    @Expose
+    public Integer baseProductId;
+
+    @SerializedName("unitPrice")
+    @Expose
+    public Double unitPrice;
+
 
 
     //@SerializedName("productQty")

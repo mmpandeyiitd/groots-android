@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.databases.dbHelp;
@@ -45,7 +46,7 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
     Runnable                        runnable;
     UpdateCart                      updateCart;
     dbHelp dbHelp;
-    int previousCount;
+    Double previousCount;
 
     ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -137,7 +138,7 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
                     Toast.makeText(context, "Sorry, you can't add more these item.", Toast.LENGTH_SHORT).show();
                 } else {
                     int clickedPos = (int) view.getTag();
-                    int previousCount = cartClasses.get(clickedPos).product_qty;
+                    Double previousCount = cartClasses.get(clickedPos).product_qty;
 
                     previousCount++;
 
@@ -150,6 +151,9 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
                         holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)+cartClasses.get(position).packUnit);
 
                     }
+
+                   /* HashMap hash = new HashMap();
+                    hash.put("what","update");*/
 
                     dbHelp.insertUpdateCartData(cartClasses.get(position).subscribe_prod_id,
                             cartClasses.get(position).base_product_id,
@@ -169,8 +173,9 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
             @Override
             public void onClick(View view) {
                 int clickedPos = (int) view.getTag();
+                Double previousCount = cartClasses.get(clickedPos).product_qty;
 
-                if(previousCount * Float.parseFloat(cartClasses.get(position).packSize)>=1000) {
+                if(previousCount * Double.parseDouble(cartClasses.get(position).packSize)>=1000) {
                     holder.selectedquan.setText( previousCount * Float.parseFloat(cartClasses.get(position).packSize)/1000+"K"+
                             cartClasses.get(position).packUnit);
                 }else

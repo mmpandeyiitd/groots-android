@@ -45,7 +45,7 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
         this.historyListData = historyListData;
         this.context = context;
         this.updateCart = updateCart;
-        dbHelper = new DbHelper(context);
+        dbHelper =  DbHelper.getInstance(context);
         dbHelper.createDb(false);
         cartClasses = dbHelper.order();
         this.show_footer = f;
@@ -139,7 +139,7 @@ view = null;
     public void onBindViewHolder(RecyclerView.ViewHolder mholder, final int position) {
         if (mholder instanceof DataObjectHolder) {
             final DataObjectHolder holder = (DataObjectHolder) mholder;
-            final DbHelper dbHelper = new DbHelper(context);
+            final DbHelper dbHelper = DbHelper.getInstance(context);
             dbHelper.createDb(false);
 
 

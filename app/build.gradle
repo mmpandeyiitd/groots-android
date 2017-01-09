@@ -9,16 +9,36 @@ android {
         applicationId "groots.app.com.groots"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.2"
-          multiDexEnabled true
+        versionCode 3
+        versionName "1.3"
+        multiDexEnabled true
+
+       /* buildConfigField("String","apikey","andapikey")
+        buildConfigField("String","app_version","1.3")
+        buildConfigField("String","config_version","1.0")
+*/
     }
     dexOptions {
         incremental true
         javaMaxHeapSize "2g"
     }
     buildTypes {
+
+        debug{
+
+           // it.buildConfigField("String","apikey","andapikey")
+            buildConfigField "String","APP_VERSION","\"1.3\""
+            buildConfigField "String","CONFIG_VERSION","\"1.0\""
+            buildConfigField "String","APIKEY", "\"andapikey\""
+
+
+
+        }
+
         release {
+            buildConfigField "String","APP_VERSION","\"1.3\""
+            buildConfigField "String","CONFIG_VERSION","\"1.0\""
+            buildConfigField "String","APIKEY", "\"andapikey\""
 
             //minifyEnabled true
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -46,6 +47,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,8 +55,10 @@ import java.util.List;
 import groots.app.com.groots.R;
 import groots.app.com.groots.adapter.historyList_Adapter;
 import groots.app.com.groots.databases.DbHelper;
+import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.interfaces.UpdateCart;
+import groots.app.com.groots.pojo.DateTimePojo;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.pojo.OrderItem;
@@ -73,6 +77,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
     Order order;
     List<OrderItem> orderItems;
+
     Product item;
 
     boolean flag = true;
@@ -81,10 +86,17 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome;
     CoordinatorLayout cdLanding;
     ArrayList<Order> productListDocDatas = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
     Context context;
     RelativeLayout loadermain;
     DrawerLayout drawer;
+    String date;
     DbHelper dbHelper;
+    TextView cancel_yes ,cancel_no;
+    dbHelp dbHelp;
+    String add;
+    Utilz util;
+    Dialog dialog;
     LinearLayout listicon, callicon;
     int offsetValue = 0;
     int or_id;
@@ -93,7 +105,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     UpdateCart updateCart;
     LinearLayoutManager linearLayoutManager;
     public boolean loadingMore = true;
-    TextView txtamount_detail, txtCart_detail , updateicon_checkout , total_amount;
+    TextView txtamount_detail, txtCart_detail , updateicon_checkout ,cancelbutton, total_amount;
     LinearLayout checkouticon , navback;
     ImageView callimage;
     Utilz utilz;
@@ -104,6 +116,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     private Container container;
     private DataLayer dataLayer;
 
+
+    int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +128,8 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         container = containerHolder.getContainer();
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
+
         //this.order = orders.get(0);
 //        this.orderItems = this.order.orderItems;
 
@@ -132,33 +149,30 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         setSupportActionBar(toolbar);
         loadermain = (RelativeLayout) findViewById(R.id.loadermain);
         loadermain.setOnClickListener(this);
+        cancelbutton = (TextView) findViewById(R.id.cancelicon_checkout);
+        cancelbutton.setOnClickListener(this);
+        cancelbutton.setVisibility(View.INVISIBLE);
         updateicon_checkout = (TextView) findViewById(R.id.updateicon_checkout);
         updateicon_checkout.setOnClickListener(this);
         updateicon_checkout.setVisibility(View.INVISIBLE);
 
 
 
-        String dlvrDate = intent.getStringExtra("datee");
-        String status = intent.getStringExtra("Status");
-        //Date today = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date_today = new Date();
-        String str_today = dateFormat.format(date_today);
-        Date delv_date = null;
-        try{
-            delv_date =   dateFormat.parse(dlvrDate);
-        }
-        catch (java.text.ParseException e){
-            System.out.println("exception in formattind deliver date");
-        }
-        // new Date(dlvrDate);
 
-        //Integer i = date_today.compareTo(delv_date);
 
-        if (delv_date != null && ( date_today.compareTo(delv_date) < 0 ) && (status.equals("Pending"))) {
 
-            updateicon_checkout.setVisibility(View.VISIBLE);
-        }
+        add = "same activity";
+            CallDateTimeApi( add );
+
+
+
+
+
+
+
+
+
+
 
        TextView total_amount = (TextView) findViewById(R.id.total_amount);
         total_amount.setText(t_am);
@@ -198,9 +212,11 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
             callProductListingAPI(offsetValue);
 
 
-        dbHelper = new DbHelper(context);
+        dbHelper =  DbHelper.getInstance(context);
         dbHelper.createDb(false);
 
+        dbHelp = new dbHelp(context);
+        dbHelp.createDb(false);
 
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
@@ -326,6 +342,42 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+
+      /*  String dlvrDate = intent.getStringExtra("datee");
+        String status = intent.getStringExtra("Status");
+        //Date today = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+       // Date date_today = new Date();
+        Date dt = Calendar.getInstance().getTime();
+
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.HOUR, 23);
+       Date d_t = c.getTime();
+
+
+
+        String str_today = dateFormat.format(d_t);
+        Date delv_date = null;
+        Date date_today = null;
+        try{
+            delv_date =   dateFormat.parse(dlvrDate);
+            date_today = dateFormat.parse(str_today);
+        }
+        catch (java.text.ParseException e){
+            System.out.println("exception in formattind deliver date");
+        }*/
+        // new Date(dlvrDate);
+
+        //Integer i = date_today.compareTo(delv_date);
+
+
+
+
+
+
+
     }
 
 
@@ -363,7 +415,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getorderitemListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap, new Callback<HttpResponse<Order>>() {
+        apiInterface.getorderitemListingResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashMap, new Callback<HttpResponse<Order>>() {
 
             @Override
             public void success(HttpResponse httpResponse, Response response) {
@@ -445,7 +497,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                         Order order = productListDocDatas.get(0);
                         List<OrderItem> orderItems = order.orderItems;
                         for(OrderItem item:orderItems ){
-                            bpIdQuantityMap.put(item.subscribedProductId, item.productQty);
+                            bpIdQuantityMap.put(item.subscribedProductId, item.productQty );
                         }
                     }
 
@@ -462,6 +514,22 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
                     if (flag == true) {
+
+
+
+                        //HashMap<Integer, Double> bpIdQuantityMap = (HashMap<Integer, Double>) intent.getSerializableExtra("map");
+
+
+
+
+
+
+
+
+
+
+
+
 
                         /*ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
                         if (cartClasses != null && cartClasses.size() > 0 && httpResponse != null) {
@@ -560,6 +628,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
 
+
+
+
     @Override
     public void onClick(View view) {
 
@@ -567,6 +638,25 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
         historyList.ShowDialog showdialog = new historyList.ShowDialog(this);
         switch (view.getId()) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -687,87 +777,67 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 break;
 
 
+
+           /* case R.id.cancelicon_checkout:
+
+                final String o_id = intent.getStringExtra("OrderId");
+                HashMap hashmap = new HashMap();
+                hashmap.put("orderId" , o_id );
+
+                History.callHistoryListingAPI(hashmap );*/
+
+
+
+
+
+
+
+
            // int itemInDb = dbHelp.getTotalRow();
 
             case R.id.updateicon_checkout:
 
 
-                String dlvrDate = intent.getStringExtra("datee");
-                String status = intent.getStringExtra("Status");
-                //Date today = Calendar.getInstance().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date_today = new Date();
-                String str_today = dateFormat.format(date_today);
-                Date delv_date = null;
-                try{
-                    delv_date =   dateFormat.parse(dlvrDate);
-                }
-                catch (java.text.ParseException e){
-                    System.out.println("exception in formattind deliver date");
-                }
-                // new Date(dlvrDate);
-
-                //Integer i = date_today.compareTo(delv_date);
-
-                if (delv_date != null && ( date_today.compareTo(delv_date) < 0 ) && (status.equals("Pending"))) {
-
-
-
-
-//                  Double Quan = bpIdQuantityMap.get(orderItems.get(position).subscribedProductId);
-
-                   //Integer  a = bpIdQuantityMap.get(orderItems.get(position).productQty);
-
-
-                   // int s_id = orderItems.get(position).product.subscribedProductId;
-                    //      double quan = orderItems.get(position).productQty;
-
-                    updateicon_checkout.setVisibility(View.VISIBLE);
-                     runnable = new Runnable() {
-                         @Override
-                         public void run() {
-
-
-
-
-                             Intent intent = new Intent(context, UpdateOrder.class);
 
 
 
 
 
-                             intent.putExtra("map",bpIdQuantityMap);
+                 add = "new activity";
+                CallDateTimeApi(add);
 
 
+                String datee = date ;
+              //  System.out.println(date);
 
-                             //intent.putExtra("Name", "About Groots");
-                             startActivity(intent);
-                         }
-                     };
-
-                     new android.os.Handler().postDelayed(runnable, 300);
-                 }
+                //String str_today = dateFormat.format(date_today);
 
                 break;
 
 
-            /*case R.id.backbtn:
+            case R.id.cancelicon_checkout:
 
                 runnable = new Runnable() {
                     @Override
                     public void run() {
 
-                           onResume();
-                        Intent intent = new Intent(context, History.class);
 
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        //intent.putExtra("Name", "About Groots");
-                        startActivity(intent);
+
+
+                        canceldialog();
+
+
+
+
+
+
+
+
                     }
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
-                break;*/
+                break;
 
 
 
@@ -940,6 +1010,99 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
     }
 
+
+
+    //@Override
+    private void callcancelorderAPI(HashMap hashmap)
+    {
+       /* RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl ).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+       API_Interface apiInterface = restAdapter.create(API_Interface.class);*/
+
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+        apiInterface.getpatchorderresponse(Utilz.apikey , Utilz.app_version,Utilz.config_version,AuthToken,hashmap,new Callback<HttpResponse>(){
+
+            @Override
+            public void success (HttpResponse httpResponse ,Response response ){
+               int status =  httpResponse.status;
+                if (status == -1){
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if(status == 0){
+
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if(status == 1)  {
+
+                    dialog.dismiss();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                //loaderlayout.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLanding, " Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+
+    });
+
+
+
+    }
+
+
+
+
+
+
     public void resumeAPI() {
 
         if (!utilz.isInternetConnected(context)) {
@@ -1022,12 +1185,409 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-8984");
+                    makeaCall("+91-11-3958-9892");
                     dismiss();
                 }
             });
         }
     }
+
+
+
+    void canceldialog(){
+
+        dialog = new Dialog(historyList.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.cancel_order_dialog);
+
+        TextView cancel_yes =  (TextView) dialog.findViewById(R.id.cancel_yes);
+        //cancel_yes.setOnClickListener(this);
+        TextView cancel_no = (TextView) dialog.findViewById(R.id.cancel_no);
+
+
+        dialog.setCancelable(true);
+
+
+
+
+
+
+       dialog.show();
+
+
+
+
+
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });
+
+
+
+
+
+
+        cancel_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = getIntent();
+
+                final String o_i = intent.getStringExtra("OrderId");
+                //String order_i;
+                HashMap hashmap = new HashMap();
+                hashmap.put("orderId",o_i);
+
+
+                callcancelorderAPI(hashmap);
+                dialog.dismiss();
+                Toast.makeText(historyList.this,"Your order has been cancelled successfully.", Toast.LENGTH_SHORT).show();
+                Intent inten = new Intent(historyList.this, History.class);
+                inten.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //inten.putExtra("show cancel snackbar","yes");
+                startActivity(inten);
+
+
+
+
+                // callcancelorderAPI();
+
+            }
+        });
+
+
+        cancel_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+    }
+
+
+
+
+    private void CallDateTimeApi(final String add) {
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+        apiInterface.getTime(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<DateTimePojo>() {
+            @Override
+            public void success(DateTimePojo dateTimePojo, Response response) {
+
+                int status = dateTimePojo.getStatus();
+//
+                if (status == 0) {
+                    //   Toast.makeText(Checkout_Ui.this, addOrderParent.getMsg(), Toast.LENGTH_SHORT).show();
+                   /* loaderlayout.setVisibility(View.INVISIBLE);*/
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (status == -1) {
+                    //loaderlayout.setVisibility(View.INVISIBLE);
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+                } else if (status == 1) {
+                    date = dateTimePojo.getData().getCurrentDateTime();
+
+
+                    if (add == "same activity") {
+
+                        Intent intent = getIntent();
+
+                        final String o_i = intent.getStringExtra("OrderId");
+
+
+                        String dlvrDate = intent.getStringExtra("datee");
+                        String statu = intent.getStringExtra("Status");
+                        //Date today = Calendar.getInstance().getTime();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date delv_date = null;
+                        Date date_today = null;
+                        try {
+                            delv_date = dateFormat.parse(dlvrDate);
+                            date_today = dateFormat.parse(date);
+                        } catch (java.text.ParseException e) {
+                            System.out.println("exception in formatting deliver date");
+                        }
+
+
+                        if (delv_date != null && (date_today.compareTo(delv_date) == 0) && (statu.equals("Pending"))) {
+
+                            updateicon_checkout.setVisibility(View.VISIBLE);
+                        }
+                        if (delv_date != null && (date_today.compareTo(delv_date) == 0 ) && (statu.equals("Pending"))){
+                            cancelbutton.setVisibility(View.VISIBLE);
+                        }
+
+
+
+                    }
+                    else if (add == "new activity"){
+
+Intent inten = getIntent();
+
+                        final String o_i = inten.getStringExtra("OrderId");
+
+                        String dlvrDate = inten.getStringExtra("datee");
+                        String stat = inten.getStringExtra("Status");
+                        //Date today = Calendar.getInstance().getTime();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date delv_date = null;
+                        Date date_today = null;
+                        try{
+                            delv_date =   dateFormat.parse(dlvrDate);
+                            date_today = dateFormat.parse(date);
+                        }
+                        catch (java.text.ParseException e){
+                            System.out.println("exception in formatting deliver date");
+                        }
+
+
+
+
+
+
+
+
+                        // dbHelp.deleterec();
+
+                        // int y;
+
+
+                        List<OrderItem> orderItems = productListDocDatas.get(i).orderItems;
+
+                    /*if ( bpIdQuantityMap.keySet().contains(orderItems.get(i).product.subscribedProductId)) {
+
+                        Double a = bpIdQuantityMap.get(orderItems.get(i).product.subscribedProductId);
+                        ///   y = a.intValue();
+
+
+                        productListDocDatas.get(i).setItemCount(a.intValue());*/
+
+
+
+
+                        dbHelp.deleterec();
+
+                        for (int j = 0; j < orderItems.size(); j++) {
+
+                           /* HashMap hash = new HashMap();
+                            hash.put("what", "insert");*/
+                            if (orderItems.get(j).baseProductId == null){
+                                orderItems.get(j).baseProductId = 0 ;
+                            }
+                            if (orderItems.get(j).product.storeId == null){
+                                orderItems.get(j).product.storeId = 0;
+
+                            }
+                            if (orderItems.get(j).product.description == null){
+                                orderItems.get(j).product.description = "null";
+                            }
+
+
+                            dbHelp.insertUpdateCartData( orderItems.get(j).subscribedProductId,orderItems.get(j).baseProductId ,
+                                    orderItems.get(j).product.storeId, orderItems.get(j).product.title,
+                                    orderItems.get(j).product.description,
+                                    orderItems.get(j).product.thumbUrl.get(0), orderItems.get(j).productQty,
+                                    orderItems.get(j).unitPrice, orderItems.get(j).product.packSize.toString(), orderItems.get(j).product.packUnit);
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // new Date(dlvrDate);
+
+                        //Integer i = date_today.compareTo(delv_date);
+
+                        if (delv_date != null && ( date_today.compareTo(delv_date) == 0 ) && (stat.equals("Pending"))) {
+
+
+
+
+//                  Double Quan = bpIdQuantityMap.get(orderItems.get(position).subscribedProductId);
+
+                            //Integer  a = bpIdQuantityMap.get(orderItems.get(position).productQty);
+
+
+                            // int s_id = orderItems.get(position).product.subscribedProductId;
+                            //      double quan = orderItems.get(position).productQty;
+
+                            updateicon_checkout.setVisibility(View.VISIBLE);
+
+
+                                  /* updateicon_checkout.setOnClickListener(new View.OnClickListener() {
+                                                                              @Override
+                                                                              public void onClick(View view) {*/
+
+
+                            Intent intent = new Intent(context, UpdateOrder.class);
+
+
+                            intent.putExtra("map", bpIdQuantityMap);
+                            intent.putExtra("orderId", o_i);
+                            intent.putExtra("datee",date);
+
+
+                                                                                  //intent.putExtra("Name", "About Groots");
+                                                                                  startActivity(intent);
+                                                                         /*     }
+                                                                          });*/
+
+
+
+                           //     }
+
+
+                            //new android.os.Handler().postDelayed(runnable, 300);
+                        }
+
+
+
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
+                   // ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
+                    //  ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
+
+
+
+                    // String dat = date.substring(0,11);
+
+
+                   /* try {
+                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss ");
+                        Date d = f.parse(date);
+                        DateFormat dat = new SimpleDateFormat("yyyy/MM/dd");
+                        DateFormat time = new SimpleDateFormat("hh:mm:ss");
+                        System.out.println("Date: " + dat.format(d));
+                        System.out.println("Time: " + time.format(d));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }*/
+
+
+
+
+
+                    //  Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
+                    /*try {
+                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                        Date d1 = formatter.parse(date.substring(11).trim());
+                        Date d2 = formatter.parse("00:00:00");
+                        Date d3 = formatter.parse("02:00:00");
+
+                      //  Log.e("Incoming date",date.substring(0,10));.
+
+
+
+                            final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+                        if (d1.before(d3) & d1.after(d2)) {
+
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics());
+                            RelativeLayout layout = (RelativeLayout) findViewById(R.id.headerdate);
+                            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
+                            layout.setLayoutParams(parms);
+                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
+                           // ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
+                            ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
+                            data = dateFormatter.parse(date.substring(0,10).trim()).toString();
+                        } else {
+
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
+                            RelativeLayout layout = (RelativeLayout) findViewById(R.id.headerdate);
+                            RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
+                            layout.setLayoutParams(parms);
+                            ((TextView) findViewById(R.id.datetxt)).setVisibility(View.GONE);
+                            ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + (date.substring(0,10).trim()));
+
+
+                            newCalendar.setTime(dateFormatter.parse(date.substring(0,10).trim()));
+                            newCalendar.add(Calendar.DATE, 1);
+                            ((TextView) dialog.findViewById(R.id.datetxtd)).setText(dateFormatter.format(newCalendar.getTime()).toString());
+                            data = dateFormatter.format(newCalendar.getTime());
+
+                        }
+                    } catch (Exception e) {
+                       // Log.e("Exception is ",e.getCause().toString());
+                    }*/
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                //loaderlayout.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
 
 
 }

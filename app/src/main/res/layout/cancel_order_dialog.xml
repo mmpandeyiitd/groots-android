@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="160dp"
     android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="160dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -30,42 +30,79 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="THANK YOU !"
+                    android:text=""
                     android:textColor="@color/colorPrimary"
                     android:textSize="20dp" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <View
+           <!-- <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"></View>
+                android:background="@color/colorPrimary"></View>-->
 
             <groots.app.com.groots.utilz.TextViewLatoRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="We will look forward to\n serve you again."
+                android:text="Are you sure you \n want to cancel the order."
                 android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/start_app"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+
+            <TextView
+                android:id="@+id/cancel_yes"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/logoutbutton"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Go to Home"
+                android:text="Confirm"
                 android:textColor="#ffffff"
                 android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/cancel_no"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/logoutbutton"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Go Back"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
 
+
+
     </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/canceldialog"
+        android:layout_alignParentBottom="true"></android.support.design.widget.CoordinatorLayout>
+
+
+
 </RelativeLayout>

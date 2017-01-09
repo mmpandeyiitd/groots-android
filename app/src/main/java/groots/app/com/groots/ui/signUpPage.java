@@ -202,7 +202,7 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
         String AuthToken = prefs.getString("AuthToken", null);*/
 
 
-        apiInterface.getsignupresponse("andapikey", "1.0", "1.0", hashMap, new Callback<HttpResponse<signUpResponse>>() {
+        apiInterface.getsignupresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, hashMap, new Callback<HttpResponse<signUpResponse>>() {
             @Override
             public void success(HttpResponse httpResponse, Response response) {
 

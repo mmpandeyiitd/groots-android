@@ -21,10 +21,12 @@ public class Thank_You_UI extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(Thank_You_UI.this,Landing_Update.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
               //  onBackPressed();
                 finish();
+
             }
         });
     }

@@ -12,9 +12,9 @@ public class UpdateCartClass implements Parcelable {
 
     public String product_name,product_image, product_description,packUnit,packSize;
 
-    public  int subscribe_prod_id, base_product_id, store_id,  product_qty;
+    public  int subscribe_prod_id, base_product_id, store_id;
 
-    public float unit_price, total_unit_price;
+    public Double unit_price, total_unit_price ,product_qty;
 
     @Override
     public int describeContents() {
@@ -30,9 +30,9 @@ public class UpdateCartClass implements Parcelable {
         parcel.writeString(product_name);
         parcel.writeString(product_description);
         parcel.writeString(product_image);
-        parcel.writeInt(product_qty);
-        parcel.writeFloat(unit_price);
-        parcel.writeFloat(total_unit_price);
+        parcel.writeDouble(product_qty);
+        parcel.writeDouble(unit_price);
+        parcel.writeDouble(total_unit_price);
         parcel.writeString(packUnit);
         parcel.writeString(packSize);
     }
@@ -51,9 +51,9 @@ public class UpdateCartClass implements Parcelable {
             cart.product_name=in.readString();
             cart.product_description=in.readString();
             cart.product_image=in.readString();
-            cart.product_qty=in.readInt();
-            cart.unit_price=in.readFloat();
-            cart.total_unit_price=in.readFloat();
+            cart.product_qty=in.readDouble();
+            cart.unit_price=in.readDouble();
+            cart.total_unit_price=in.readDouble();
             cart.packUnit=in.readString();
             cart.packSize=in.readString();
 

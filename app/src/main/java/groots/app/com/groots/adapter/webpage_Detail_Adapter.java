@@ -64,7 +64,7 @@ public class webpage_Detail_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.context = context;
         this.productListDocDatas = productListDocDatas;
         this.updateCart = updateCart;
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
         cartClasses = dbHelper.order();
         this.show_footer=flag;
@@ -226,7 +226,7 @@ public class webpage_Detail_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                         //  int previousCount = productListDocDatas.get(clickedPos).getItemCount();
                         holder.selectedquantity.setTextColor(Color.parseColor("#2D2D2D"));
                         holder.txtselectedquan.setTextColor(Color.parseColor("#2D2D2D"));
-                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                        Double previousCount = Double.parseDouble(holder.txtCount.getText().toString().trim());
                         previousCount++;
                         productListDocDatas.get(clickedPos).setItemCount(previousCount);
 
@@ -262,13 +262,13 @@ public class webpage_Detail_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     if (holder.txtCount.getText().toString().trim().length() == 0) {
                         holder.txtCount.setText("0");
-                        productListDocDatas.get(clickedPos).setItemCount(0);
+                        productListDocDatas.get(clickedPos).setItemCount(0.0);
                         dbHelper.deleteRecords(productListDocDatas.get(position).subscribedProductId, productListDocDatas.get(position).baseProductId);
                         holder.selectedquantity.setTextColor(Color.LTGRAY);
                         holder.txtselectedquan.setTextColor(Color.LTGRAY);
 
                     } else {// int previousCount = productListDocDatas.get(clickedPos).getItemCount();
-                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                        Double previousCount = Double.parseDouble(holder.txtCount.getText().toString().trim());
                         if (previousCount > 0) {
                             previousCount--;
 
@@ -305,7 +305,7 @@ public class webpage_Detail_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                             holder.txtCount.setText("0");
                         }
                         int clickedPos = (int) v.getTag();
-                        int previousCount = Integer.parseInt(holder.txtCount.getText().toString().trim());
+                        Double previousCount = Double.parseDouble(holder.txtCount.getText().toString().trim());
 
                         productListDocDatas.get(clickedPos).setItemCount(previousCount);
                         if (productListDocDatas.get(position).thumbUrl.size()>1) {

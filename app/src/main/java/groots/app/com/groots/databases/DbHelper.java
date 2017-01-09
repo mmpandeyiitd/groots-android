@@ -29,22 +29,39 @@ import groots.app.com.groots.model.CartClass;
 
 public class DbHelper extends SQLiteOpenHelper {
 
+    private static DbHelper mInstance = null;
 
-    private String DB_FULL_PATH = "";
-    public static final String DB_NAME = "grootsdb.sqlite";
-    public static String DB_PATH;
+    /*private static final String DATABASE_NAME = "databaseName";
+    private static final String DATABASE_TABLE = "tableName";
+    private static final int DATABASE_VERSION = 1;*/
+
+    //private static final String DB_FULL_PATH = "";
+    private static final String DB_NAME = "grootsdb.sqlite";
+    private static  String DB_PATH;
     public static volatile SQLiteDatabase db;
-    Context context;
+    private Context context;
     public int count = 0;
 
+    public static DbHelper getInstance(Context ctx) {
+        /**
+         * use the application context as suggested by CommonsWare.
+         * this will ensure that you dont accidentally leak an Activitys
+         * context (see this article for more information:
+         * http://android-developers.blogspot.nl/2009/01/avoiding-memory-leaks.html)
+         */
+        if (mInstance == null) {
+            mInstance = new DbHelper(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
 
-    public DbHelper(Context context) {
+    private DbHelper(Context context) {
         super(context, DB_NAME, null, 2);
         this.context = context;
 
         DB_PATH = "/data/data/" + this.context.getPackageName() + "/databases/";
-        DB_FULL_PATH = DB_PATH + DB_NAME;
-        Log.v("DB PATH", DB_FULL_PATH);
+        //DB_FULL_PATH = DB_PATH + DB_NAME;
+        //Log.v("DB PATH", DB_FULL_PATH);
 
     }
 
@@ -60,6 +77,12 @@ public class DbHelper extends SQLiteOpenHelper {
             Log.d("Database :", "Old Data Base Deleted" + boolDeleteStatus);
         } catch (Exception e) {
             Log.e("Error:", e.getMessage());
+        }
+        finally {
+            if (db != null)
+                db.close();
+
+
         }
 
     }
@@ -93,6 +116,12 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            if (db != null)
+                db.close();
+
+
         }
 
 
@@ -323,8 +352,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * */
 
     public void insertCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
-                               String product_description, String product_image, int product_qty, float unit_price,String pack_size,String packUnit) {
-
+                               String product_description, String product_image, Double product_qty, Double unit_price,String pack_size,String packUnit) {
+        Cursor cursor = null;
         try {
 
             db = openDataBase();
@@ -342,14 +371,14 @@ public class DbHelper extends SQLiteOpenHelper {
             contentValues.put("pack_size",pack_size);
             contentValues.put("pack_unit",packUnit);
 
-            float total_unit_price = product_qty * unit_price;
-            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+            Double total_unit_price = product_qty * unit_price;
+            total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
            // Log.e("Value at db",String.valueOf(product_qty)+unit_price+"tprice"+total_unit_price);
             contentValues.put("total_unit_price", total_unit_price);
 
             String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id;
 
-            Cursor cursor = null;
+
             cursor = db.rawQuery(query, null);
             int count = cursor.getCount();
             if (count > 0) {
@@ -357,11 +386,18 @@ public class DbHelper extends SQLiteOpenHelper {
             } else if (count == 0)
                 db.insert("Cart", null, contentValues);
 
+
+
             copyDBToPhoneSD1();
-            if (db != null)
-                db.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            if (db != null)
+                db.close();
+
+            /*if (cursor != null)
+                cursor.close();*/
         }
     }
 
@@ -400,20 +436,24 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /*update the product
 	 Qty*/
-    public void updateProductQty(int product_qty, float unit_price, int subscribe_prod_id) {
+    public void updateProductQty(Double product_qty, Double unit_price, int subscribe_prod_id) {
 
         try {
             db = openDataBase();
 
-            float total_unit_price =(float) unit_price * product_qty;
-            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+            Double total_unit_price =(Double) unit_price * product_qty;
+            total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
          //   Log.e("Total Price",String.valueOf(total_unit_price));
-            db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
-
+            db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + ",unit_price= " + unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
+            copyDBToPhoneSD1();
         } catch (Exception e) {
             e.printStackTrace();
 
+        }finally {
+            if (db != null)
+                db.close();
         }
+
 
     }
 
@@ -445,7 +485,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 do {
                     cartClass = new CartClass();
                     cartClass.subscribe_prod_id = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
-                    cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
+                    cartClass.product_qty = cursor.getDouble(cursor.getColumnIndexOrThrow("product_qty"));
 
                     arrayList.add(cartClass);
 
@@ -510,6 +550,15 @@ public class DbHelper extends SQLiteOpenHelper {
         } catch (Exception exception) {
 
         }
+        finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+
+
         return i;
     }
 
@@ -520,6 +569,7 @@ public class DbHelper extends SQLiteOpenHelper {
         CartClass cartClass;
         String countQuery = "SELECT * FROM Cart";
         int cnt = 0;
+        db = openDataBase();
         Cursor cursor = null;
         try {
             cursor = db.rawQuery(countQuery, null);
@@ -534,9 +584,9 @@ public class DbHelper extends SQLiteOpenHelper {
                     cartClass.product_name = cursor.getString(cursor.getColumnIndexOrThrow("product_name"));
                     cartClass.product_description = cursor.getString(cursor.getColumnIndexOrThrow("product_description"));
                     cartClass.product_image = cursor.getString(cursor.getColumnIndexOrThrow("product_image"));
-                    cartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
-                    cartClass.unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
-                    cartClass.total_unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
+                    cartClass.product_qty = cursor.getDouble(cursor.getColumnIndexOrThrow("product_qty"));
+                    cartClass.unit_price = cursor.getDouble(cursor.getColumnIndexOrThrow("unit_price"));
+                    cartClass.total_unit_price = cursor.getDouble(cursor.getColumnIndexOrThrow("total_unit_price"));
                     cartClass.packUnit=cursor.getString(cursor.getColumnIndex("pack_unit"));
                     cartClass.packSize=cursor.getString(cursor.getColumnIndex("pack_size"));
 

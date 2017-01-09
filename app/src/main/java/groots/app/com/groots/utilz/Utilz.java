@@ -2,10 +2,19 @@ package groots.app.com.groots.utilz;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.support.design.BuildConfig;
+
+import static groots.app.com.groots.BuildConfig.APIKEY;
+import static groots.app.com.groots.BuildConfig.APP_VERSION;
+import static groots.app.com.groots.BuildConfig.CONFIG_VERSION;
 
 public class Utilz {
 
 	public static int count=0;
+	public static String app_version = APP_VERSION;
+	public static String config_version = CONFIG_VERSION;
+	public static String apikey =  APIKEY ;
+	//"andapikey";
 
 
 

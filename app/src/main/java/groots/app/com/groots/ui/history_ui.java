@@ -88,7 +88,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_update_order);
         context = history_ui.this;
         updateCart = this;
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
         newCalendar = Calendar.getInstance();
 
@@ -165,7 +165,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getTime("andapikey", "1.0", "1.0", AuthToken, new Callback<DateTimePojo>() {
+        apiInterface.getTime(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<DateTimePojo>() {
             @Override
             public void success(DateTimePojo dateTimePojo, Response response) {
 
@@ -273,7 +273,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-8984");
+                    makeAcall("+91-11-3958-9892");
                     dismiss();
                 }
             });
@@ -350,7 +350,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
         loaderlayout.setVisibility(View.VISIBLE);
         dialog.dismiss();
         HashMap hashmap = new HashMap();
-        float total = 0;
+        Double total = 0.0;
         for (int count = 0; count < cartClasses.size(); count++) {
             hashmap.put("data[product_details][" + count + "][subscribed_product_id]", cartClasses.get(count).subscribe_prod_id);
             hashmap.put("data[product_details][" + count + "][base_product_id]", cartClasses.get(count).base_product_id);
@@ -391,7 +391,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
-        apiInterface.getAddOrderResponce("andapikey", "1.0", "1.0", AuthToken, hashmap, new Callback<AddOrderParent>() {
+        apiInterface.getAddOrderResponce(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashmap, new Callback<AddOrderParent>() {
             @Override
             public void success(AddOrderParent addOrderParent, Response response) {
 

@@ -106,6 +106,19 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+
+       /* Intent intent = getIntent();
+        String get = intent.getStringExtra("show cancel snackbar");
+        if (get.equals("yes")){
+            Snackbar snackbar = Snackbar.make(cdLanding, "Your order has been successfully cancelled.", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+        }*/
+
+
         //setContentView(R.layout.history_card_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbars);
         setSupportActionBar(toolbar);
@@ -130,6 +143,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         container = containerHolder.getContainer();
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
 
 
         /*  ..........................UIL Integration.......................................*/
@@ -159,7 +173,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
     /*   .................DataBase Implementation.......................*/
 
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
 
 
@@ -292,7 +306,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
     }
 
-    private void callHistoryListingAPI(final int offset) {
+    public void callHistoryListingAPI(final int offset) {
 
        /* Log.e("data",String.valueOf(offset));*/
         offsetValue = offset;
@@ -319,7 +333,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getorderListingResponse("andapikey", "1.0", "1.0", AuthToken, hashMap , new Callback<HttpResponse<Order>>() {
+        apiInterface.getorderListingResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashMap , new Callback<HttpResponse<Order>>() {
 
             @Override
             public void success(HttpResponse httpResponse, Response response) {
@@ -719,7 +733,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
-        apiInterface.getretailerdetailsresponse("andapikey", "1.0", "1.0", AuthToken, new Callback<HttpResponse<user_profile>>(){
+        apiInterface.getretailerdetailsresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<HttpResponse<user_profile>>(){
             @Override
             public void success ( HttpResponse httpResponse , Response response ){
 
@@ -888,7 +902,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-8984");
+                    makeaCall("+91-11-3958-9892");
                     dismiss();
                 }
             });

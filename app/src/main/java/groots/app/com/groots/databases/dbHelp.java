@@ -15,8 +15,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import groots.app.com.groots.R;
+import groots.app.com.groots.interfaces.UpdateCart;
 import groots.app.com.groots.model.UpdateCartClass;
 
 /**
@@ -350,7 +356,7 @@ public class dbHelp extends SQLiteOpenHelper {
 	 * */
 
     public void insertUpdateCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
-                               String product_description, String product_image, int product_qty, float unit_price,String pack_size,String packUnit) {
+                                     String product_description, String product_image, Double product_qty, Double unit_price, String pack_size, String packUnit) {
 
         try {
 
@@ -369,26 +375,76 @@ public class dbHelp extends SQLiteOpenHelper {
             contentValues.put("pack_size",pack_size);
             contentValues.put("pack_unit",packUnit);
 
-            float total_unit_price = product_qty * unit_price;
-            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+            Double total_unit_price = product_qty * unit_price;
+            total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
             // Log.e("Value at db",String.valueOf(product_qty)+unit_price+"tprice"+total_unit_price);
             contentValues.put("total_unit_price", total_unit_price);
 
-            String query = "select * from UpdateCart where  subscribe_prod_id = " + subscribe_prod_id;
+
+
+          //String hashm =  (String)hash.get("what");
+
+            String que = "select * from UpdateCart where  subscribe_prod_id = " + subscribe_prod_id;
 
             Cursor cursor = null;
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(que, null);
             int count = cursor.getCount();
-            if (count > 0) {
-                db.execSQL("UPDATE UpdateCart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE base_product_id = " + base_product_id + " AND subscribe_prod_id=" + subscribe_prod_id);
-            } else if (count == 0)
-                db.insert("UpdateCart", null, contentValues);
+
+
+
+            /*if (hashm == "insert") {
+
+                // String query = "select * from UpdateCart where  subscribe_prod_id = " + subscribe_prod_id;
+                String Query = "insert into UpdateCart (subscribe_prod_id,base_product_id ,store_id ,product_name ,product_description ,product_image ,product_qty ,unit_price ,total_unit_price ,pack_unit, pack_size) values" +
+                        "(" + "'" + subscribe_prod_id + "'" + "," + "'" + base_product_id + "'" + "," + "'" + store_id + "'" + "," + "'" + product_name.toString() + "'" + "," + "'" + product_description.toString() + "'" + "," + "'" + product_image.toString() + "'" + "," + "'" + product_qty + "'" + "," + "'" + unit_price + "'" + "," + "'" + total_unit_price + "'" + "," + "'" + packUnit.toString() + "'" + "," + "'" + pack_size.toString() + "'" + ")";
+                System.out.println(Query);
+                db.execSQL(Query);
+
+            }*/
+
+
+                if (count == 0){
+
+
+
+                    String Query = "insert into UpdateCart (subscribe_prod_id,base_product_id ,store_id ,product_name ,product_description ,product_image ,product_qty ,unit_price ,total_unit_price ,pack_unit, pack_size) values" +
+                            "(" + "'" + subscribe_prod_id + "'" + "," + "'" + base_product_id + "'" + "," + "'" + store_id + "'" + "," + "'" + product_name.toString() + "'" + "," + "'" + product_description.toString() + "'" + "," + "'" + product_image.toString() + "'" + "," + "'" + product_qty + "'" + "," + "'" + unit_price + "'" + "," + "'" + total_unit_price + "'" + "," + "'" + packUnit.toString() + "'" + "," + "'" + pack_size.toString() + "'" + ")";
+                    System.out.println(Query);
+                    db.execSQL(Query);
+
+
+
+
+
+
+                }
+                else if (count == 1) {
+
+                    if (product_qty == 0.0){
+                        String Query = "delete from UpdateCart where subscribe_prod_id =" + subscribe_prod_id ;
+                        db.execSQL(Query);
+                    }
+                    else if (product_qty > 0.0) {
+
+                        String updatequery = "update UpdateCart set product_qty" + "=" + "'" + product_qty + "'," + "total_unit_price" + "=" + "'" + total_unit_price + "'," + "unit_price" + "=" + "'" + unit_price + "pack_unit" + "=" + "'" + packUnit + "pack_size" + "=" + "'" + pack_size.toString() + "where subscribe_product_id" + "=" + "'" + subscribe_prod_id + "'";
+                        System.out.println(updatequery);
+                        db.execSQL(updatequery);
+                    }
+                }
+
+
+
+
+           /* Cursor cursor = null;
+            cursor = db.rawQuery(Query, null);
+            int count = cursor.getCount();*/
+
 
             copyDBToPhoneSD1();
             if (db != null)
                 db.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("Error", e.toString());
         }
     }
 
@@ -427,16 +483,16 @@ public class dbHelp extends SQLiteOpenHelper {
 
     /*update the product
 	 Qty*/
-    public void updateProductQty(int product_qty, float unit_price, int subscribe_prod_id) {
+    public void updateProductQty(Double product_qty, Double unit_price, int subscribe_prod_id) {
 
         try {
             db = openDataBase();
 
-            float total_unit_price =(float) unit_price * product_qty;
-            total_unit_price = (float) (Math.round(total_unit_price*100)/100.0d);
+            Double total_unit_price =(Double) unit_price * product_qty;
+            total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
             //   Log.e("Total Price",String.valueOf(total_unit_price));
             db.execSQL("UPDATE UpdateCart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
-
+            copyDBToPhoneSD1();
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -466,12 +522,13 @@ public class dbHelp extends SQLiteOpenHelper {
                 do {
                     updateCartClass = new UpdateCartClass();
                     updateCartClass.subscribe_prod_id = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
-                    updateCartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
+                    updateCartClass.product_qty = cursor.getDouble(cursor.getColumnIndexOrThrow("product_qty"));
 
                     arrayList.add(updateCartClass);
 
                 } while (cursor.moveToNext());
             }
+          //  copyDBToPhoneSD1();
 
 
         } catch (Exception ex) {
@@ -569,9 +626,9 @@ public class dbHelp extends SQLiteOpenHelper {
                     updateCartClass.product_name = cursor.getString(cursor.getColumnIndexOrThrow("product_name"));
                     updateCartClass.product_description = cursor.getString(cursor.getColumnIndexOrThrow("product_description"));
                     updateCartClass.product_image = cursor.getString(cursor.getColumnIndexOrThrow("product_image"));
-                    updateCartClass.product_qty = cursor.getInt(cursor.getColumnIndexOrThrow("product_qty"));
-                    updateCartClass.unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("unit_price"));
-                    updateCartClass.total_unit_price = cursor.getFloat(cursor.getColumnIndexOrThrow("total_unit_price"));
+                    updateCartClass.product_qty = cursor.getDouble(cursor.getColumnIndexOrThrow("product_qty"));
+                    updateCartClass.unit_price = cursor.getDouble(cursor.getColumnIndexOrThrow("unit_price"));
+                    updateCartClass.total_unit_price = cursor.getDouble(cursor.getColumnIndexOrThrow("total_unit_price"));
                     updateCartClass.packUnit=cursor.getString(cursor.getColumnIndex("pack_unit"));
                     updateCartClass.packSize=cursor.getString(cursor.getColumnIndex("pack_size"));
 

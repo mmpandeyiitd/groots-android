@@ -31,9 +31,14 @@ public class Product {
    /* @SerializedName("store_price")
     @Expose
     public double storePrice;*/
+
+    @SerializedName("out_of_stock")
+    @Expose
+    public boolean outOfStock;
+
     @SerializedName("store_offer_price")
     @Expose
-    public float storeOfferPrice;
+    public Double storeOfferPrice;
     @SerializedName("subscribed_shipping_charges")
     @Expose
     public Integer subscribedShippingCharges;
@@ -176,14 +181,14 @@ public class Product {
     @Expose
     public long _version_;
 
-    public int getItemCount() {
+    public Double getItemCount() {
         return itemCount;
     }
 
-    public void setItemCount(int itemCount) {
+    public void setItemCount(Double itemCount) {
         this.itemCount = itemCount;
     }
 
-    private int itemCount;
+    private Double itemCount = 0.0;
 
 }

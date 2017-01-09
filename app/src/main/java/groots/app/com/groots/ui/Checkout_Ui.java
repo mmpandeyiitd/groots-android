@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tagmanager.Container;
 import com.google.android.gms.tagmanager.ContainerHolder;
@@ -41,6 +43,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,10 +78,10 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     RecyclerView mRecyclerView;
     ArrayList<CartClass> cartClasses;
     DbHelper dbHelper;
-    TextView txtamount_main;
+    TextView txtamount_main , shipping_amount;
     UpdateCart updateCart;
     RelativeLayout loaderlayout;
-    String data, textcomment, date;
+    String data, textcomment, date,datee;
     Dialog dialog;
     Utilz util;
     CoordinatorLayout cdcheckout;
@@ -95,11 +98,17 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_checkout__ui);
         context = Checkout_Ui.this;
         updateCart = this;
-        dbHelper = new DbHelper(context);
+        dbHelper =  DbHelper.getInstance(context);
         dbHelper.createDb(false);
         newCalendar = Calendar.getInstance();
 
+
+        //Intent intent = getIntent();
+      // String shippingAmount =  intent.getStringExtra("shipping");
+
         txtamount_main = (TextView) findViewById(R.id.txtamount_main);
+       // shipping_amount = (TextView) findViewById(R.id.shipping_amount);
+        //shipping_amount.setText(shippingAmount);
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
         loaderlayout = (RelativeLayout) findViewById(R.id.loaderxml);
         loaderlayout.setOnClickListener(this);
@@ -119,6 +128,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             snackbar.show();
         } else
             CallDateTimeApi();
+       // ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
 
 
 
@@ -162,6 +172,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         container = containerHolder.getContainer();
         dataLayer = TagManager.getInstance(this).getDataLayer();
         dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
+        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
+
     }
 
     private void CallDateTimeApi() {
@@ -174,8 +186,10 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
+       // Utilz utilz;
 
-        apiInterface.getTime("andapikey", "1.0", "1.0", AuthToken, new Callback<DateTimePojo>() {
+
+        apiInterface.getTime( Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<DateTimePojo>() {
             @Override
             public void success(DateTimePojo dateTimePojo, Response response) {
 
@@ -198,8 +212,33 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                     snackbar.show();
                 } else if (status == 1) {
                     date = dateTimePojo.getData().getCurrentDateTime();
+
+
+                    ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
+                  //  ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
+
+
+
+                  // String dat = date.substring(0,11);
+
+
+                   /* try {
+                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss ");
+                        Date d = f.parse(date);
+                        DateFormat dat = new SimpleDateFormat("yyyy/MM/dd");
+                        DateFormat time = new SimpleDateFormat("hh:mm:ss");
+                        System.out.println("Date: " + dat.format(d));
+                        System.out.println("Time: " + time.format(d));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }*/
+
+
+
+
+
                     //  Toast.makeText(context, date, Toast.LENGTH_SHORT).show();
-                    try {
+                    /*try {
                         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
                         Date d1 = formatter.parse(date.substring(11).trim());
                         Date d2 = formatter.parse("00:00:00");
@@ -219,7 +258,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                             RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pixels);
                             layout.setLayoutParams(parms);
                             ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
-                            ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
+                           // ((TextView) findViewById(R.id.datetxt)).setText("(Orders placed between 2AM to 9AM might not be processed)");
                             ((TextView)dialog.findViewById(R.id.datetxtd)).setText(date.substring(0,10).trim());
                             data = dateFormatter.parse(date.substring(0,10).trim()).toString();
                         } else {
@@ -239,8 +278,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
                         }
                     } catch (Exception e) {
-//                        Log.e("Exception is ",e.getCause().toString());
-                    }
+                       // Log.e("Exception is ",e.getCause().toString());
+                    }*/
                 }
 
             }
@@ -284,7 +323,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-8984");
+                    makeAcall("+91-11-3958-9892");
                     dismiss();
                 }
             });
@@ -362,7 +401,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         loaderlayout.setVisibility(View.VISIBLE);
         dialog.dismiss();
         HashMap hashmap = new HashMap();
-        float total = 0;
+        Double total = 0.0;
         for (int count = 0; count < cartClasses.size(); count++) {
             hashmap.put("data[product_details][" + count + "][subscribed_product_id]", cartClasses.get(count).subscribe_prod_id);
             hashmap.put("data[product_details][" + count + "][base_product_id]", cartClasses.get(count).base_product_id);
@@ -403,7 +442,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
 
-        apiInterface.getAddOrderResponce("andapikey", "1.0", "1.0", AuthToken, hashmap, new Callback<AddOrderParent>() {
+        apiInterface.getAddOrderResponce(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hashmap, new Callback<AddOrderParent>() {
             @Override
             public void success(AddOrderParent addOrderParent, Response response) {
 
@@ -459,7 +498,6 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-
     @Override
     public void updateCart() {
 
@@ -495,6 +533,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             snackbar.show();
         } else
             CallDateTimeApi();
+
+        //((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + date.substring(0,10).trim());
        // Toast.makeText(this,date.substring(0,4).trim()+date.substring(5,7).trim()+date.substring(8,10).trim(),Toast.LENGTH_LONG).show();
 
         dialog = new Dialog(Checkout_Ui.this);
@@ -513,10 +553,49 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
         TextView textcancel = (TextView) dialog.findViewById(R.id.textcancel);
         final TextView txtdate = ((TextView) dialog.findViewById(R.id.datetxtd));
 
+        txtdate.setText(date.substring(0,10).trim());
+        datee = date.substring(0,10).trim();
+
+
+
+
+
+
+/*
+try {
+
+    Date datee = dateFormatter.format(date);
+
+    System.out.println(datee);
+
+}
+catch(Exception e){
+
+        }
+*/
+
+
+
+
+       /* Calendar c = Calendar.getInstance();
+        c.setTime(date);*/
+       // LocalDateTime.from(datee.toInstant()).plusDays(1);
+
+       /* Calendar new = Calendar.getInstance();
+        new.setTime(datee);
+        new.add(Calendar.DATE, 1);
+        data = new.getTime();*/
+
+       /* DateTime date = new DateTime(datee);
+        DateTime dtPlusOne = dtOrg.plusDays(1);*/
+
 
         try {
 
-            Date d1 = formatter.parse(date.substring(11).trim());
+
+            newCalendar.setTime(dateFormatter.parse(date.substring(0, 10).trim()));
+
+           /* Date d1 = formatter.parse(date.substring(11).trim());
             Date d2 = formatter.parse("00:00:00");
             Date d3 = formatter.parse("02:00:00");
 
@@ -530,7 +609,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             {
                 newCalendar.add(Calendar.DATE, 1);
                 newCalendar.setTime(dateFormatter.parse(date.substring(0, 10).trim()));
-            }
+            }*/
         }catch (Exception e)
         {
 
@@ -542,31 +621,40 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View view) {
 
-                try {
+                /*try {
 
 
                     DatePickerDialog fromDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+
+
+
+
                     //    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);;
 
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                   *//* public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+
+
+
 
 
                             try {
 
-                                if(Integer.parseInt(date.substring(0,4).trim())>year||Integer.parseInt(date.substring(5,7).trim())>dayOfMonth||Integer.parseInt(date.substring(8,10).trim())>monthOfYear)
+                               *//**//* if(Integer.parseInt(date.substring(0,4).trim())>year||Integer.parseInt(date.substring(5,7).trim())>dayOfMonth||Integer.parseInt(date.substring(8,10).trim())>monthOfYear)
                                 {
                                     return;
                                 }
-                                else {
-                                    newCalendar.set(year, monthOfYear, dayOfMonth);
+                                else {*//**//*
+                                    newCalendar.set(year, monthOfYear, dayOfMonth );
                                     data = dateFormatter.format(newCalendar.getTime());
                                     txtdate.setText(dateFormatter.format(newCalendar.getTime()));
-                                }
+                                //}
                             }
                             catch(Exception e)
                             {
 
-                            }
+                            }*//*
 
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -576,7 +664,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                 }catch(Exception e)
                 {
 
-                }
+                }*/
             }
         });
 
@@ -586,7 +674,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 textcomment = null;
-                data = null;
+                datee = null;
             }
         });
         textcancel.setOnClickListener(new View.OnClickListener() {
@@ -599,7 +687,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View view) {
 
-                if (data == null) {
+                if (datee == null) {
                     Snackbar snackbar = Snackbar.make(cdDatePicker, "Please choose your delivery date.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -610,7 +698,22 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                     SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
 
                     try {
-                        Date date1 = dateformatter.parse(date.substring(0, 10).trim());
+
+                        if (!util.isInternetConnected(Checkout_Ui.this)) {
+                            Snackbar snackbar = Snackbar.make(cdDatePicker, "Please check the internet connection.", Snackbar.LENGTH_SHORT);
+                            snackbar.setActionTextColor(Color.WHITE);
+                            View snackbarView = snackbar.getView();
+                            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snackbar.show();}
+                        else {
+                            dialog.dismiss();
+                            callAddOrderAPI(commentbox.getText().toString(), datee);
+                        }
+
+
+
+
+                       /* Date date1 = dateformatter.parse(date);
                         Date date2 = dateformatter.parse(data);
                         if (date2.before(date1)) {
                             Snackbar snackbar = Snackbar.make(cdDatePicker, "Please choose a valid date.", Snackbar.LENGTH_SHORT);
@@ -652,9 +755,9 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
                             snackbar.show();
                         } else {
                             callAddOrderAPI(commentbox.getText().toString(), data);
-                        }
+                        }*/
                     } catch (Exception e) {
-                        //  Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                         //Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
