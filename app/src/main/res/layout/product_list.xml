@@ -157,7 +157,7 @@
 
 
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:id="@+id/search_icon"
                         android:layout_width="50dp"
                         android:layout_marginRight="10dp"
@@ -171,8 +171,9 @@
                             android:layout_height="23dp"
                             android:layout_gravity="right|center"
                             android:layout_marginRight="0dp"
-                            android:src="@drawable/newest_search" />
-                    </LinearLayout>
+                            android:src="@drawable/newest_search"
+                            />
+                    </LinearLayout>-->
 
 
 
