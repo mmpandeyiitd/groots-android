@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "350101958134",
+    "project_id": "firebase-groots"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350101958134:android:2536cf9215eb7d3e",
+        "android_client_info": {
+          "package_name": "groots.app.com.groots"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbhbfmmMIPN3xFj9jFZqDap4SOion5ecM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-89168953-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
