@@ -35,6 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.tagmanager.Container;
 import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.DataLayer;
@@ -60,6 +62,8 @@ import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.pojo.OrderItem;
 import groots.app.com.groots.pojo.Product;
 import groots.app.com.groots.pojo.user_profile;
+import groots.app.com.groots.utilz.Analytics;
+import groots.app.com.groots.utilz.Applicationclass;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
@@ -102,6 +106,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     private ContainerHolder containerHolder;
     private Container container;
     private DataLayer dataLayer;
+    Applicationclass application;
 
     /*int i,j ;
     Double a[];
@@ -117,7 +122,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
 
-
+        // analytics
+        application = (Applicationclass) getApplication();
+        Analytics.sendScreenName(screenName, application);
 
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
@@ -370,9 +377,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        dataLayer = TagManager.getInstance(this).getDataLayer();
-        dataLayer.push(DataLayer.mapOf("event", "openScreen", "screenName", screenName));
-        dataLayer.push(DataLayer.mapOf("event", "screenVisible", "screenName", screenName));
+
 
 
     }

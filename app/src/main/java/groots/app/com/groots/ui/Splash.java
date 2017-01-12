@@ -33,11 +33,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import groots.app.com.groots.utilz.Constants;
 
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
 import com.flaviofaria.kenburnsview.Transition;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.Container;
@@ -60,6 +63,8 @@ import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.LoginData;
 import groots.app.com.groots.pojo.OrderFeedback;
 import groots.app.com.groots.pojo.updateAppResponsePojo;
+import groots.app.com.groots.utilz.Analytics;
+import groots.app.com.groots.utilz.Applicationclass;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.TagManagerEvent;
@@ -100,10 +105,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
     android.os.Handler handler = new android.os.Handler();
     Runnable runnable;
-    private static final long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 2000;
+    private static final long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 4000;
     private static final String CONTAINER_ID = "GTM-K43QXDL";
     private static final String  screenName = "splash";
     private TagManager tagManager;
+    private Tracker mTracker;
+    Applicationclass application;
+
 
 
     @Override
@@ -111,6 +119,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // analytics
+        application = (Applicationclass) getApplication();
+        //Analytics.sendScreenName(screenName, application);
+
+
+
+
 
         // google tag manage invocation code
 
@@ -124,7 +140,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         PendingResult<ContainerHolder> pending =
                 tagManager.loadContainerPreferNonDefault(CONTAINER_ID,
-                        R.raw.file_gtm_k43qxdl_v1);
+                        R.raw.gtm_k43qxdl_v6);
 
         // The onResult method will be called as soon as one of the following happens:
         //     1. a saved container is loaded
@@ -326,9 +342,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         }
 
        TagManagerEvent.pushOpenScreenEvent(context, screenName);
-        tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
+        //tagManager.getInstance(this).getDataLayer().pushEvent("openScreen", DataLayer.mapOf("screenName", screenName));
 
-        tagManager.getInstance(this).getDataLayer().push("abc", "gogroots");
+        //tagManager.getInstance(this).getDataLayer().push("abc", "gogroots");
         //.Object test3 = tagManager.getInstance(this).getDataLayer().get("abc");
     }
 
@@ -381,13 +397,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
               //  ShowDialog showdialog = new ShowDialog(this);
                // showdialog.show();
-
+                //Analytics.sendEvent(Constants.SplashCategory, "Call", application);
                  makeCall("+91-11-3958-9895");
                 break;
 
             case R.id.btnSignIn:
 
-
+                //Analytics.sendEvent(Constants.SplashCategory, "SignIn", application);
                 Utilz utilz = new Utilz();
 
 
@@ -518,13 +534,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 break;
 
             case R.id.tvForgetPas:
-
+                //Analytics.sendEvent(Constants.SplashCategory, "ForgetPwdDialog", application);
                 showForgetPwdDialog();
 
                 break;
 
 
             case R.id.tvSignUp:
+                //Analytics.sendEvent(Constants.SplashCategory, "SignUp", application);
                 Intent i = new Intent (Splash.this , signUpPage.class);
 
                 startActivity(i);
@@ -570,7 +587,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
             @Override
             public void onClick(View v) {
-
+                //Analytics.sendEvent(Constants.SplashCategory, "ForgetPwdSubmit", application);
                 Utilz utilz = new Utilz();
                 String strEmail = ((EditText) dialog.findViewById(R.id.etForgetPwd)).getText().toString();
                 ((EditText) dialog.findViewById(R.id.etForgetPwd)).requestFocus();

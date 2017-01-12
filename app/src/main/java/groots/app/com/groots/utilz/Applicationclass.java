@@ -1,9 +1,13 @@
 package groots.app.com.groots.utilz;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
-import android.support.multidex.MultiDexApplication;
+
 import android.util.Log;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,18 +17,22 @@ import groots.app.com.groots.ui.Landing_Update;
 /**
  * Created by Administrator on 01-06-2016.
  */
-public class Applicationclass extends MultiDexApplication {
+public class Applicationclass extends Application {
 
     private Timer mActivityTransitionTimer;
     private TimerTask mActivityTransitionTimerTask;
     public boolean wasInBackground;
     private final long MAX_ACTIVITY_TRANSITION_TIME_MS = 670;
+    private static GoogleAnalytics sAnalytics;
+    private static Tracker sTracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
         TypefaceUtil.overrideFont(getApplicationContext(),"SERIF"); // font from assets: "assets/fonts/Roboto-Regular.ttf
         registerActivityLifecycleCallbacks(new MyActivityLifecycleCallbacks());
+        sAnalytics = GoogleAnalytics.getInstance(this);
+        sAnalytics.setLocalDispatchPeriod(1);
     }
 
     public void startActivityTransitionTimer() {
@@ -109,5 +117,14 @@ public class Applicationclass extends MultiDexApplication {
         public void onActivityDestroyed(Activity activity) {
 
         }
+    }
+    synchronized public Tracker getDefaultTracker() {
+        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+        if (sTracker == null) {
+            //sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+            sTracker = sAnalytics.newTracker("UA-89168953-1");
+        }
+
+        return sTracker;
     }
 }
