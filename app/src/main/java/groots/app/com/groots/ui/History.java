@@ -77,9 +77,10 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     ArrayList<user_profile> retailerdetails = new ArrayList<>();
 
 
-    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout,navHome ;
+    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout,navHome,navAllProducts ;
     CoordinatorLayout cdLanding;
     ArrayList<Order> historyListDocDatas = new ArrayList<Order>();
+    String cust_support_no, order_support_no;
     Context context;
     RelativeLayout loadermain;
     DrawerLayout drawer;
@@ -191,6 +192,8 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
         //navforward = (RelativeLayout) findViewById(R.id.forward);
+        navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
+        navAllProducts.setOnClickListener(this);
 
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
@@ -204,6 +207,11 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
         editor.commit();
+
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
 
 
         /* ...............................Navigation Drawer........................................*/
@@ -360,12 +368,12 @@ public class History extends AppCompatActivity implements View.OnClickListener  
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
 
-                    if (offsetValue == 10) {
+                   /* if (offsetValue == 10) {
                         ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.VISIBLE);
                         detail_recycler_view.setVisibility(View.GONE);
                         // ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.GONE);
 
-                    }
+                    }*/
 
 
 
@@ -409,6 +417,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
                         }
 
                     }
+
 
                     /*if (historyListDocDatas.size() == 0){
                         historyListDocDatas = (ArrayList<Order>) httpResponse.data.responseData.docs;
@@ -511,6 +520,21 @@ public class History extends AppCompatActivity implements View.OnClickListener  
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
+                break;
+
+
+            case R.id.allproducts_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent inten = new Intent(context , UnmappedProducts.class);
+                        startActivity(inten);
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable , 300);
                 break;
 
             case R.id.help_menu:
@@ -891,18 +915,20 @@ public class History extends AppCompatActivity implements View.OnClickListener  
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeaCall("+91-11-3958-9893");
+                    makeaCall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-9892");
+                    makeaCall(cust_support_no);
                     dismiss();
                 }
             });

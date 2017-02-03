@@ -47,7 +47,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,13 +59,16 @@ import java.util.Locale;
 
 import groots.app.com.groots.adapter.Checkout_Update_Order_Adapter;
 import groots.app.com.groots.R;
+import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.interfaces.UpdateCart;
 import groots.app.com.groots.model.UpdateCartClass;
 import groots.app.com.groots.pojo.AddOrderParent;
 import groots.app.com.groots.pojo.DateTimePojo;
+import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.UpdateOrderParent;
+import groots.app.com.groots.pojo.user_profile;
 import groots.app.com.groots.utilz.ContainerHolderSingleton;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
@@ -81,7 +86,18 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     Context context;
     Checkout_Update_Order_Adapter mAdapter;
     RecyclerView mRecyclerView;
+    //Double shippingcharge;
+    DbHelper dbHelper;
+    Double shippingCharges , total_am;
+
+    ArrayList<user_profile> retailerdetails = new ArrayList<>();
+    String shippingAmount,minOrderPrice;
+    Float min_orderprice;
+    String cust_support_no, order_support_no;
     ArrayList<UpdateCartClass> cartClasses;
+    TextView shipping_amount;
+    TextView subtxtamount_main, shippingtxtamount_main;
+
     dbHelp dbHelp;
     TextView txtamount_main;
     String datee;
@@ -90,6 +106,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     String data, textcomment, date;
     Dialog dialog;
     Utilz util;
+    DecimalFormat df;
     CoordinatorLayout cdcheckout;
     Calendar newCalendar;
     private static final String  screenName = "order-update-checkout";
@@ -105,9 +122,36 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         context = Checkout_Update_Order_Ui.this;
 
 
+
+
+        shippingtxtamount_main = (TextView) findViewById(R.id.shippingtxtamount_main);
+        subtxtamount_main = (TextView) findViewById(R.id.subtxtamount_main);
+
+        df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+
+
+        dbHelper = DbHelper.getInstance(context);
+        dbHelper.createDb(false);
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
+
+
+
+
         Intent intent = getIntent();
         String dt = intent.getStringExtra("datee");
+        String ship = intent.getStringExtra("shipping");
+         shippingCharges = Double.parseDouble(ship);
+
         ((TextView) findViewById(R.id.txtdate)).setText("Order Summary - " + dt.substring(0,10).trim());
+
+
+
+        callretailerdetailsAPI();
 
 
 
@@ -129,6 +173,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         list_main_footer_ = (LinearLayout) findViewById(R.id.list_main_footer_);
         loaderlayout = (RelativeLayout) findViewById(R.id.loaderxml);
         loaderlayout.setOnClickListener(this);
+       // shipping_amount = (TextView) findViewById(R.id.shipping_amount);
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -160,7 +205,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         cartClasses = dbHelp.updateorder();
 
         if (cartClasses.size() > 0) {
-            mAdapter = new Checkout_Update_Order_Adapter(cartClasses, this, updateCart);
+            mAdapter = new Checkout_Update_Order_Adapter(cartClasses, this, updateCart ,shippingCharges);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }
@@ -177,7 +222,20 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
 
         float priceinDb = dbHelp.fetchTotalUpdateCartAmount();
-        txtamount_main.setText("" + priceinDb);
+        total_am = priceinDb + shippingCharges;
+
+        txtamount_main.setText("" + df.format(total_am));
+        subtxtamount_main.setText("" + priceinDb);
+
+        /*if (Float.compare(priceinDb ,min_orderprice ) > 0){
+
+
+            shipping_amount.setText(shippingcharge.toString());
+
+
+
+        }
+*/
 
         ((ImageView) findViewById(R.id.makecall)).setOnClickListener(this);
         ((TextView) findViewById(R.id.checkouticon_checkout)).setOnClickListener(this);
@@ -294,18 +352,20 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeAcall("+91-11-3958-9893");
+                    makeAcall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-9892");
+                    makeAcall(cust_support_no);
                     dismiss();
                 }
             });
@@ -334,9 +394,12 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     public void onBackPressed() {
 
 
+
        /* startActivity(new Intent(Checkout_Update_Order_Ui.this , UpdateOrder.class));
         finish();*/
         updateCart.updateCart();
+
+        dbHelper.deleteOrderHeadData();
         super.onBackPressed();
 
       //  updateCart.updateCart();
@@ -429,12 +492,12 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        /*hashmap.put("data[order_prefix]", "GRT");
-        hashmap.put("data[order_type]", "normal_payment");
-        hashmap.put("data[shipping_charges]", 0);
-        hashmap.put("data[coupon_code]", "");*/
+       // hashmap.put("data[order_prefix]", "GRT");
+       // hashmap.put("data[order_type]", "normal_payment");
+        hashmap.put("data[shipping_charges]",shippingCharges);
+       // hashmap.put("data[coupon_code]", "");
         hashmap.put("data[total]", dbHelp.fetchTotalUpdateCartAmount());
-        hashmap.put("data[total_payable_amount]", dbHelp.fetchTotalUpdateCartAmount());
+        hashmap.put("data[total_payable_amount]", dbHelper.fetchTotalAmountOrderHead());
        /* hashmap.put("data[buyer_email]", 1);
         hashmap.put("data[discount_amt]", 0);
         hashmap.put("data[user_id]", prefs.getString("User_Id", null));
@@ -489,7 +552,9 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
                     loaderlayout.setVisibility(View.INVISIBLE);
                     dbHelp.deleterec();
+                    dbHelper.deleteOrderHeadData();
                     Intent intent = new Intent(Checkout_Update_Order_Ui.this, Thank_You_UI.class);
+                    intent.putExtra("order_status","update");
                     startActivity(intent);
                     overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
                     finish();
@@ -514,20 +579,29 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     @Override
     public void updateCart() {
 
+
+        callretailerdetailsAPI();
+
         float priceinDb = dbHelp.fetchTotalUpdateCartAmount();
         if (priceinDb > 0) {
 
             ArrayList<UpdateCartClass> cartClasses = dbHelp.updateorder();
             mRecyclerView.setVisibility(View.VISIBLE);
-            txtamount_main.setText("" + priceinDb);
+            total_am = priceinDb + shippingCharges;
+            txtamount_main.setText("" + df.format(total_am));
+
+            subtxtamount_main.setText("" + priceinDb);
+
             ((LinearLayout) findViewById(R.id.llEmptyCart)).setVisibility(View.GONE);
             ((LinearLayout) findViewById(R.id.list_main_footer_)).setVisibility(View.VISIBLE);
         } else {
-            txtamount_main.setText("0");
+            txtamount_main.setText(shippingCharges.toString());
+            subtxtamount_main.setText("0.0");
             ((LinearLayout) findViewById(R.id.llEmptyCart)).setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             ((LinearLayout) findViewById(R.id.list_main_footer_)).setVisibility(View.GONE);
         }
+        dbHelper.insertOrderHeadData(shippingCharges , total_am ,priceinDb);
 
     }
 
@@ -702,5 +776,214 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
     }
 
+
+
+
+    void callretailerdetailsAPI(){
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getretailerdetailsresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<HttpResponse<user_profile>>(){
+            @Override
+            public void success ( HttpResponse httpResponse , Response response ){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdcheckout,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdcheckout,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+
+                    if (retailerdetails.size() == 0) {
+                        retailerdetails = (ArrayList<user_profile>) httpResponse.data.responseData.docs;
+                    }
+
+
+
+                    String retailerName = retailerdetails.get(0).retailerName;
+                    String salesRepName = retailerdetails.get(0).salesRepName;
+                    String outstandingDate = retailerdetails.get(0).outstandingDate;
+                    //String collectionRepName = retailerdetails.get(0).collectionRepName;
+                    // Double outstandingAmount = retailerdetails.get(0).outstandingAmount;
+                    // Double shippingCharge = retailerdetails.get(0).shippingCharge;
+                    Double min_order_price;
+                    if (retailerdetails.get(0).minOrderPrice == null){
+                        min_order_price = 0.0;
+
+                    }
+                    else
+                    {
+                        min_order_price = retailerdetails.get(0).minOrderPrice;
+                    }
+
+                    minOrderPrice = min_order_price.toString();
+                    min_orderprice =Float.parseFloat(minOrderPrice);
+
+
+
+                    float priceinDb = dbHelp.fetchTotalUpdateCartAmount();
+                   Double shippingcharges = retailerdetails.get(0).shippingCharge;
+
+
+
+
+
+
+                         if (Float.compare(priceinDb ,min_orderprice ) < 0){
+
+
+                             //  shipping_amount.setText(shippingcharge.toString());
+                             shippingtxtamount_main.setText(shippingcharges.toString());
+                           shippingCharges = shippingcharges;
+
+                             //shippingtxtamount_main.setText(shippingCharges.toString());
+
+
+
+                         }
+                         else if (min_order_price == 0.0){
+                             shippingtxtamount_main.setText(shippingcharges.toString());
+                             shippingCharges = shippingcharges;
+
+
+
+                         }
+
+                         else {
+                             shippingtxtamount_main.setText("0.0");
+                             shippingCharges = 0.0;
+                         }
+
+
+
+
+
+                   /* if (retailerdetails.get(0).shippingCharge == null){
+                        shippingcharge = 0.0 ;
+                    }
+                    else {
+                        shippingcharge = retailerdetails.get(0).shippingCharge;
+
+                    }*/
+
+                    //Double shipping_amount = retailerdetails.get(0).shippingCharge;
+
+
+                    // shipping_amount.setText(shippingcharge.toString());
+                   // shipping_amount.setText("0.0");
+
+
+
+                    /*else if (min_order_price != 0.0){
+
+                    }*/
+
+                    shippingAmount = shippingCharges.toString();
+
+
+
+                    total_am = priceinDb + shippingCharges;
+                    txtamount_main.setText("" + df.format(total_am));
+                    subtxtamount_main.setText("" + priceinDb);
+
+
+
+
+                    dbHelper.insertOrderHeadData(shippingCharges , total_am ,priceinDb);
+
+
+
+
+
+
+
+
+                   /* if (Status == true){
+                        //String orderId =
+                        //orderfeedback.orderId;
+                        Intent i = new Intent(Splash.this, RateUs.class);
+                        i.putExtra("ID",O_id);
+                        i.putExtra("date",datee);
+                        startActivity(i);
+                        finish();
+
+                    }
+                    else {
+
+
+                        Intent i = new Intent(Splash.this, Landing_Update.class);
+                        startActivity(i);
+                        finish();
+                    }
+*/
+                    // if (httpResponse.data.responseData.docs.size() != 0 ){
+
+
+
+                    //}
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdcheckout, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+        });
+
+
+
+
+
+    }
 
 }

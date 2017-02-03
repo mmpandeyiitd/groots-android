@@ -75,6 +75,8 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
     DbHelper dbHelper;
     TextView total_amount;
     UpdateCart updateCart;
+    String cust_support_no,order_support_no;
+
     RelativeLayout loaderlayout;
     String data, textcomment, date;
     Dialog dialog;
@@ -90,6 +92,11 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
         updateCart = this;
         dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
+
         newCalendar = Calendar.getInstance();
 
         total_amount = (TextView) findViewById(R.id.total_amount);
@@ -262,18 +269,20 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeAcall("+91-11-3958-9893");
+                    makeAcall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-9892");
+                    makeAcall(cust_support_no);
                     dismiss();
                 }
             });

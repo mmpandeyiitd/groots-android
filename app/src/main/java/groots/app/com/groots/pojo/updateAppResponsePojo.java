@@ -18,6 +18,8 @@ public class updateAppResponsePojo {
     @Expose
     public Boolean recommendedUpdate;
 
+
+
     @SerializedName("link")
     @Expose
     public String appLink;

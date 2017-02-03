@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -122,6 +123,7 @@ public class dbHelp extends SQLiteOpenHelper {
         db = openDataBase();
 
         try{
+            db.execSQL("CREATE TABLE if not exists ContactNumber (cust_support_no VARCHAR , order_support_no VARCHAR );");
             db.execSQL("CREATE TABLE if not exists UpdateCart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR);");
 
         }
@@ -354,6 +356,96 @@ public class dbHelp extends SQLiteOpenHelper {
 	/* insert cart data
      * in product table
 	 * */
+
+
+    public void insertcontactnumbersdata(String cust_support , String order_support){
+
+        try {
+            db = openDataBase();
+
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put("cust_support_no",cust_support);
+            contentValues.put("order_support_no" , order_support);
+
+
+
+            String Que = "Select * from ContactNumbers";
+
+            Cursor cursor = null ;
+            cursor = db.rawQuery(Que , null);
+            int count = cursor.getCount();
+
+            if (count == 0 ){
+                String Query = "insert into ContactNumbers (cust_support_no , order_support_no) values"+"('"+ cust_support + "','"+ order_support +"')" ;
+           db.execSQL(Query);
+            }
+
+
+            copyDBToPhoneSD1();
+            if (db != null)
+                db.close();
+
+
+
+
+
+
+        }
+        catch(Exception e ){
+
+        }
+
+    }
+    public ArrayList<String> selectfromcontactnumbers(){
+        db = openDataBase();
+
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        String que = "Select * from ContactNumbers";
+         db.execSQL("Select * from ContactNumbers");
+
+
+
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(que, null);
+            count = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("customer_support_no")));
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("order_support_no")));
+
+                } while (cursor.moveToNext());
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return arrayList;
+
+
+
+
+
+
+
+
+    }
+
+
+
+
 
     public void insertUpdateCartData(int subscribe_prod_id, int base_product_id, int store_id, String product_name,
                                      String product_description, String product_image, Double product_qty, Double unit_price, String pack_size, String packUnit) {
@@ -650,6 +742,11 @@ public class dbHelp extends SQLiteOpenHelper {
         return arrayList;
 
     }
+
+
+
+
+
 
 
 

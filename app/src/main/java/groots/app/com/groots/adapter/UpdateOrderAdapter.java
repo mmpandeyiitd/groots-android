@@ -129,6 +129,12 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final dbHelp dbHelp = new dbHelp(context);
             dbHelp.createDb(false);
 
+            holder.txtPlus.setEnabled(true);
+            holder.txtMinus.setEnabled(true);
+            holder.txtCount.setEnabled(true);
+
+            holder.textRup.setVisibility(View.VISIBLE);
+
             holder.textItemName.setText(productListData.get(position).title);
             holder.textItemdesc.setText(productListData.get(position).description);
             int pack_size = productListData.get(position).packSize;
@@ -138,12 +144,16 @@ public class UpdateOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 holder.textRup.setVisibility(View.GONE);
                 holder.textItemPrice.setText("Out of Stock");
-               /* holder.txtPlus.setEnabled(false);
+                holder.txtPlus.setEnabled(false);
                 holder.txtMinus.setEnabled(false);
-                holder.txtCount.setEnabled(false);*/
+                holder.txtCount.setEnabled(false);
 
             }
            else {
+                holder.txtPlus.setEnabled(true);
+                holder.txtMinus.setEnabled(true);
+                holder.txtCount.setEnabled(true);
+                holder.textRup.setVisibility(View.VISIBLE);
 
                 if (pack_size <= 1) {
                     holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);

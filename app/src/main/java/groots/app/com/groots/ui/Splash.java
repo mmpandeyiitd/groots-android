@@ -62,6 +62,7 @@ import groots.app.com.groots.pojo.ForgetPwdData;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.LoginData;
 import groots.app.com.groots.pojo.OrderFeedback;
+import groots.app.com.groots.pojo.contactnumberpojo;
 import groots.app.com.groots.pojo.updateAppResponsePojo;
 import groots.app.com.groots.utilz.Analytics;
 import groots.app.com.groots.utilz.Applicationclass;
@@ -81,6 +82,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
     ImageView ivGroots, ivCallLogin;
     ArrayList<OrderFeedback> orderFeedback = new ArrayList<>();
+    ArrayList<contactnumberpojo> contactnumbers = new ArrayList<>();
+    ArrayList<contactnumberpojo> salescontactnumbers = new ArrayList<>();
+    String cust_support,order_support,sales_contact_number ;
     ArrayList<updateAppResponsePojo> updateappResponsePojos = new ArrayList<>();
     AlphaAnimation alphaAnimation;
     //updateAppResponsePojo updateappResponsePojo;
@@ -120,13 +124,15 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+
+
+
+
         // analytics
         application = (Applicationclass) getApplication();
         //Analytics.sendScreenName(screenName, application);
 
-
-
-
+        callsalesnumberAPI();
 
         // google tag manage invocation code
 
@@ -171,7 +177,6 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
 
 
-
         //btnSignIn = (Button)findViewById(R.id.btnSignIn);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         btnSignIn.setEnabled(true);
@@ -211,7 +216,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
         dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
-
+        /*ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);*/
 
 
         if (msg != null )
@@ -286,6 +293,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 tvSignUp.setVisibility(View.VISIBLE);
                 viewUser.setVisibility(View.VISIBLE);
                 viewPass.setVisibility(View.VISIBLE);
+
+
 
 
             } else {
@@ -397,8 +406,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
               //  ShowDialog showdialog = new ShowDialog(this);
                // showdialog.show();
-                //Analytics.sendEvent(Constants.SplashCategory, "Call", application);
-                 makeCall("+91-11-3958-9895");
+		//Analytics.sendEvent(Constants.SplashCategory, "Call", application);
+                
+                 makeCall(sales_contact_number);
                 break;
 
             case R.id.btnSignIn:
@@ -636,7 +646,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 if (status == -1){
 
                     String msg = httpResponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -645,7 +655,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 } else if (status == 0) {
 
                     String msg = httpResponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -654,6 +664,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                 }
                 else if (status == 1){
+
+
+                   // Toast.makeText(Splash.this,"feedback response", Toast.LENGTH_LONG).show();
 
 
                     if (orderFeedback.size() == 0) {
@@ -676,10 +689,12 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     }
                     else {
 
+                        callcontactnumberAPI();
 
-                        Intent i = new Intent(Splash.this, Landing_Update.class);
-                        startActivity(i);
-                        finish();
+
+
+
+
                     }
 
                    // if (httpResponse.data.responseData.docs.size() != 0 ){
@@ -713,7 +728,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void failure(RetrofitError error) {
                 progressMobile.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -748,7 +763,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
               int status = httpResponse.status;
               if (status == -1){
-                  Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                  Snackbar snackbar = Snackbar.make(cdLogin,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_LONG);
                   snackbar.setActionTextColor(Color.WHITE);
                   View snackbarView = snackbar.getView();
                   snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -758,7 +773,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
               }
               else if (status == 0){
 
-                  Snackbar snackbar = Snackbar.make(cdLanding,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                  Snackbar snackbar = Snackbar.make(cdLogin,"Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_LONG);
                   snackbar.setActionTextColor(Color.WHITE);
                   View snackbarView = snackbar.getView();
                   snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -769,6 +784,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
               }
               else if (status == 1){
+
+
+                 // Toast.makeText(Splash.this,"update app", Toast.LENGTH_LONG).show();
 
                   if (updateappResponsePojos.size() == 0){
 
@@ -899,7 +917,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
            @Override
            public void failure (RetrofitError error){
 
-               Snackbar snackbar = Snackbar.make(cdLogin, "Oops! .Please try again later !...", Snackbar.LENGTH_SHORT);
+               Snackbar snackbar = Snackbar.make(cdLogin, "Oops! .Please try again later !...", Snackbar.LENGTH_LONG);
                snackbar.setActionTextColor(Color.WHITE);
                View snackbarView = snackbar.getView();
                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -950,7 +968,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     if (status == -1) {
                         // btnSignIn.setText("Sign In");
                         String msg = loginData.getErrors().get(0).toString();
-                        Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_LONG);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
                         snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -959,7 +977,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     } else if (status == 0) {
                         // btnSignIn.setText("Sign In");
                         String msg = loginData.getErrors().get(0).toString();
-                        Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_LONG);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
                         snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -1000,10 +1018,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             startActivity(i);
                             finish();*/
 
-                             Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_SHORT).show();
+                             Toast.makeText(Splash.this,"You have logged in successfully!", Toast.LENGTH_LONG).show();
                         } else {
                             //    btnSignIn.setText("Sign In");
-                            Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                            Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
                             snackbar.setActionTextColor(Color.WHITE);
                             View snackbarView = snackbar.getView();
                             snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -1013,7 +1031,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 } else {
                     btnSignIn.setEnabled(true);
                     // btnSignIn.setText("Sign In");
-                    Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -1024,7 +1042,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             @Override
             public void failure(RetrofitError error) {
                 progressMobile.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -1116,7 +1134,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-            setContentView(R.layout.phone_dialog);
+            /*setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1131,7 +1151,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     makeCall("+91-11-3958-9892");
                     dismiss();
                 }
-            });
+            });*/
 
         }
 
@@ -1207,5 +1227,200 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             Log.i("CuteAnimals", "Custom function call tag :" + tagName + " is fired.");
         }
     }
+
+
+
+    void callsalesnumberAPI(){
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        apiInterface.getsalesnoresponse(Utilz.apikey ,Utilz.app_version,Utilz.config_version ,new Callback<HttpResponse<contactnumberpojo>>(){
+
+            @Override
+            public void success(HttpResponse httpResponse , Response response){
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    // String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,"Something went wrong. Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+                    if (salescontactnumbers.size() == 0 ){
+
+
+                        salescontactnumbers = (ArrayList<contactnumberpojo>) httpResponse.data.responseData.docs;
+
+                    }
+                    sales_contact_number = salescontactnumbers.get(0).salesSupportNumber;
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error){
+
+
+
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+
+
+        });
+
+
+
+    }
+
+    void callcontactnumberAPI(){
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getcontactnumberresponse(Utilz.apikey ,Utilz.app_version,Utilz.config_version , AuthToken , new Callback<HttpResponse<contactnumberpojo>>(){
+
+
+            @Override
+            public void success ( HttpResponse httpResponse , Response response ){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                   // String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,"Something went wrong. Please try again later.", Snackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+                  //  Toast.makeText(Splash.this,"contact number", Toast.LENGTH_LONG).show();
+
+
+                    if (contactnumbers.size() == 0 ){
+
+
+                        contactnumbers = (ArrayList<contactnumberpojo>) httpResponse.data.responseData.docs;
+
+
+
+                    }
+
+                    cust_support = contactnumbers.get(0).custSupportNumber;
+                    order_support = contactnumbers.get(0).orderSupportNumber;
+
+                    dbHelper.insertcontactnumbersdata(cust_support , order_support);
+
+
+
+                    Intent i = new Intent(Splash.this, Landing_Update.class);
+                    startActivity(i);
+                    finish();
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+
+
+
+        });
+
+
+
+
+    }
+
+
 
 }

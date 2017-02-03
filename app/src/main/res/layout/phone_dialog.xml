@@ -66,8 +66,9 @@
                     <groots.app.com.groots.utilz.TextViewLatoRegular
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/ordering_support"
                         android:gravity="center"
-                        android:text="+91-11-3958-9893"
+                        android:text="+91-11-"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14dp" />
 
@@ -94,7 +95,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="+91-11-3958-9892"
+                        android:id="@+id/customer_support"
+                        android:text="+91-1"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14dp"/>
 

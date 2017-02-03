@@ -36,7 +36,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     ArrayList<Product> productListData;
     Context context;
-    View view = null;
+    View view ;
 
     int lastPosition = -1;
     UpdateCart updateCart;
@@ -124,6 +124,11 @@ view = null;
             final DbHelper dbHelper = DbHelper.getInstance(context);
             dbHelper.createDb(false);
 
+            holder.textRup.setVisibility(View.VISIBLE);
+            holder.txtPlus.setEnabled(true);
+            holder.txtMinus.setEnabled(true);
+            holder.txtCount.setEnabled(true);
+
             holder.textItemName.setText(productListData.get(position).title);
             holder.textItemdesc.setText(productListData.get(position).description);
             int pack_size = productListData.get(position).packSize;
@@ -132,12 +137,17 @@ view = null;
 
                  holder.textRup.setVisibility(View.GONE);
                 holder.textItemPrice.setText("Out of Stock");
-                /*holder.txtPlus.setEnabled(false);
+                holder.txtPlus.setEnabled(false);
                 holder.txtMinus.setEnabled(false);
-                holder.txtCount.setEnabled(false);*/
+                holder.txtCount.setEnabled(false);
 
             }
             else {
+                holder.txtPlus.setEnabled(true);
+                holder.txtMinus.setEnabled(true);
+                holder.txtCount.setEnabled(true);
+
+                holder.textRup.setVisibility(View.VISIBLE);
 
                 if (pack_size <= 1) {
                     holder.textItemPrice.setText("" + productListData.get(position).storeOfferPrice + "/" + pack_size + productListData.get(position).packUnit);

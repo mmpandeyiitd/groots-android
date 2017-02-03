@@ -1,6 +1,11 @@
 package groots.app.com.groots.adapter;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +22,10 @@ import groots.app.com.groots.R;
 import groots.app.com.groots.model.CartClass;
 import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.ui.History;
+import groots.app.com.groots.ui.Landing_Update;
 import groots.app.com.groots.ui.historyList;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by aakash on 3/11/16.
@@ -167,6 +175,13 @@ view = null;
 
                 holder.status.setText(historyListData.get(position).Status);
 
+                /*if (historyListData.get(position).Status.equals("Delivered")){
+
+                    showNotification(view);
+
+
+
+                }*/
                 if (historyListData.get(position).Status .equals("Cancelled") ){
                     holder.textItemPric.setText("0.00");
                 }else{
@@ -426,6 +441,23 @@ view = null;
         show_footer = true;
 
     }
+
+    /*public void showNotification(View view) {
+        PendingIntent pi = PendingIntent.getActivity(context, 0, new Intent(context, History.class), 0);
+        // Resources r = getResources();
+        //Resources t = Resources.getSystem();
+        Notification notification = new NotificationCompat.Builder(context)
+                .setTicker("Groots Notification")
+                .setSmallIcon(R.drawable.logoo)
+                .setContentTitle("Gogroots")
+                .setContentText("Your last order has been delivered.")
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
+    }*/
 
 
 

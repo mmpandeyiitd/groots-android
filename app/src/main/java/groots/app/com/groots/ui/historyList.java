@@ -47,7 +47,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +82,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome;
+    Double shippingcharges;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts;
+    String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Order> productListDocDatas = new ArrayList<>();
     ArrayList<Product> products = new ArrayList<>();
@@ -96,6 +97,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     dbHelp dbHelp;
     String add;
     Utilz util;
+    TextView shippingtxtamount_main, subtxtamount_main;
     Dialog dialog;
     LinearLayout listicon, callicon;
     int offsetValue = 0;
@@ -105,7 +107,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     UpdateCart updateCart;
     LinearLayoutManager linearLayoutManager;
     public boolean loadingMore = true;
-    TextView txtamount_detail, txtCart_detail , updateicon_checkout ,cancelbutton, total_amount;
+    TextView txtamount_detail, txtCart_detail , updateicon_checkout ,cancelbutton,download_invoice, total_amount;
     LinearLayout checkouticon , navback;
     ImageView callimage;
     Utilz utilz;
@@ -151,11 +153,17 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         loadermain.setOnClickListener(this);
         cancelbutton = (TextView) findViewById(R.id.cancelicon_checkout);
         cancelbutton.setOnClickListener(this);
-        cancelbutton.setVisibility(View.INVISIBLE);
+        cancelbutton.setVisibility(View.GONE);
+        download_invoice = (TextView) findViewById(R.id.download_invoice);
+        download_invoice.setOnClickListener(this);
+        download_invoice.setVisibility(View.GONE);
         updateicon_checkout = (TextView) findViewById(R.id.updateicon_checkout);
         updateicon_checkout.setOnClickListener(this);
-        updateicon_checkout.setVisibility(View.INVISIBLE);
+        updateicon_checkout.setVisibility(View.GONE);
 
+
+        shippingtxtamount_main = (TextView) findViewById(R.id.shippingtxtamount_main);
+        subtxtamount_main = (TextView) findViewById(R.id.subtxtamount_main);
 
 
 
@@ -227,6 +235,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
         navback = (LinearLayout) findViewById(R.id.backbtn);
 
+        navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
+        navAllProducts.setOnClickListener(this);
+
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
@@ -251,6 +262,11 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
         editor.commit();
+
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -494,7 +510,13 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                             productListDocDatas.add((Order) httpResponse.data.responseData.docs.get(i));
                         }
 
+
                         Order order = productListDocDatas.get(0);
+                         shippingcharges = order.shippingCharges;
+                        Double subtotal = order.total;
+                        shippingtxtamount_main.setText(shippingcharges.toString());
+                        subtxtamount_main.setText(subtotal.toString());
+
                         List<OrderItem> orderItems = order.orderItems;
                         for(OrderItem item:orderItems ){
                             bpIdQuantityMap.put(item.subscribedProductId, item.productQty );
@@ -674,6 +696,21 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 new android.os.Handler().postDelayed(runnable, 300);
 
                 break;
+            case R.id.allproducts_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent inten = new Intent(context , UnmappedProducts.class);
+                        startActivity(inten);
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable , 300);
+                break;
+
+
 
             case R.id.help_menu:
 
@@ -838,6 +875,35 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 new android.os.Handler().postDelayed(runnable, 300);
 
                 break;
+
+            case R.id.download_invoice:
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = getIntent();
+
+                        final String o_i = intent.getStringExtra("OrderId");
+
+
+
+
+                        callemailinvoiceAPI(o_i);
+
+
+
+
+
+
+
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable, 300);
+
+                break;
+
 
 
 
@@ -1174,18 +1240,20 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeaCall("+91-11-3958-9893");
+                    makeaCall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-9892");
+                    makeaCall(cust_support_no);
                     dismiss();
                 }
             });
@@ -1276,6 +1344,101 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
 
+    public void callemailinvoiceAPI(String orderId){
+
+        HashMap hashmap = new HashMap();
+        hashmap.put("order_id",orderId);
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME",MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken",null);
+
+        apiInterface.getemailinvoiceresponse(Utilz.apikey , Utilz.app_version , Utilz.config_version , AuthToken ,hashmap, new Callback<HttpResponse>(){
+
+            @Override
+            public void success (HttpResponse httpResponse , Response response){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+
+                    Snackbar snackbar =  Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 0){
+
+                    Snackbar snackbar =  Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later.",Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+
+
+
+
+
+                    Toast.makeText(context,"Your invoice has been emailed to you. Please check your email.",Toast.LENGTH_SHORT).show();
+
+
+
+
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void failure (RetrofitError error){
+
+
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong. Please try again.", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
     private void CallDateTimeApi(final String add) {
 
 
@@ -1332,13 +1495,22 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                             System.out.println("exception in formatting deliver date");
                         }
 
+                        if (statu.equals("Delivered")){
+                            download_invoice.setVisibility(View.VISIBLE);
+                            updateicon_checkout.setVisibility(View.GONE);
+                            cancelbutton.setVisibility(View.GONE);
+
+                        }
+
 
                         if (delv_date != null && (date_today.compareTo(delv_date) == 0) && (statu.equals("Pending"))) {
-
                             updateicon_checkout.setVisibility(View.VISIBLE);
+                            download_invoice.setVisibility(View.GONE);
+
                         }
                         if (delv_date != null && (date_today.compareTo(delv_date) == 0 ) && (statu.equals("Pending"))){
                             cancelbutton.setVisibility(View.VISIBLE);
+                            download_invoice.setVisibility(View.GONE);
                         }
 
 
@@ -1422,7 +1594,12 @@ Intent inten = getIntent();
 
 
 
+                        if (stat.equals("Delivered")){
+                            download_invoice.setVisibility(View.VISIBLE);
+                            updateicon_checkout.setVisibility(View.GONE);
+                            cancelbutton.setVisibility(View.GONE);
 
+                        }
 
 
 
@@ -1457,15 +1634,17 @@ Intent inten = getIntent();
 
 
                             Intent intent = new Intent(context, UpdateOrder.class);
+                           String shippingcharge = shippingcharges.toString();
 
 
                             intent.putExtra("map", bpIdQuantityMap);
                             intent.putExtra("orderId", o_i);
                             intent.putExtra("datee",date);
+                            intent.putExtra("shipping",shippingcharge);
 
 
                                                                                   //intent.putExtra("Name", "About Groots");
-                                                                                  startActivity(intent);
+                            startActivity(intent);
                                                                          /*     }
                                                                           });*/
 

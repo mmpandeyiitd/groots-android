@@ -55,12 +55,11 @@ import java.util.List;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.adapter.Detail_Adapter;
-import groots.app.com.groots.adapter.Landing_Adapter;
 import groots.app.com.groots.adapter.UpdateOrderAdapter;
+import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.interfaces.UpdateCart;
-import groots.app.com.groots.model.CartClass;
 import groots.app.com.groots.model.UpdateCartClass;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.Order;
@@ -84,12 +83,14 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder,navAllProducts;
+    String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Product> productListDocDatas = new ArrayList<>();
     Context context;
     RelativeLayout loadermain;
     DrawerLayout drawer;
+    DbHelper dbHelper;
     dbHelp dbHelp;
     LinearLayout listicon, callicon;
     int offsetValue = 1;
@@ -128,7 +129,10 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
 
 
+        dbHelper = DbHelper.getInstance(context);
+        dbHelper.createDb(false);
 
+        dbHelper.deleteOrderHeadData();
 
 
 
@@ -193,6 +197,8 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
         navaddOrder = (RelativeLayout)findViewById(R.id.addOrder_menu);
 
+        navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
+        navAllProducts.setOnClickListener(this);
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
@@ -205,6 +211,10 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
         editor.commit();
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
 
        /* ...............................Navigation Drawer........................................*/
 
@@ -284,12 +294,17 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                 Intent inten = getIntent();
                 String dat = inten.getStringExtra("datee");
                String o_id =  inten.getStringExtra("orderId");
+                String shipping = inten.getStringExtra("shipping");
+                     //Double ship = Double.parseDouble(shipping);
+
 
 
                 if (itemInCart > 0) {
                     Intent intent = new Intent(UpdateOrder.this, Checkout_Update_Order_Ui.class);
+
                     intent.putExtra("orderId",o_id);
                     intent.putExtra("datee",dat);
+                    intent.putExtra("shipping", shipping);
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, "Oops! No item in cart", Toast.LENGTH_SHORT).show();
@@ -690,19 +705,46 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
 
 
+
+
             case R.id.pending_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
+                        Intent inten = getIntent();
+                        String dat = inten.getStringExtra("datee");
+                        String o_id =  inten.getStringExtra("orderId");
+                        String shipping = inten.getStringExtra("shipping");
+                        Double ship = Double.parseDouble(shipping);
+
 
                         Intent intent = new Intent(context, Checkout_Update_Order_Ui.class);
+                        intent.putExtra("orderId",o_id);
+                        intent.putExtra("datee",dat);
+                        intent.putExtra("shipping", ship);
+
                         startActivity(intent);
                     }
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
+                break;
+
+
+            case R.id.allproducts_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent inten = new Intent(context , UnmappedProducts.class);
+                        startActivity(inten);
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable , 300);
                 break;
 
             case R.id.help_menu:
@@ -1077,18 +1119,21 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
+
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeaCall("+91-11-3958-9893");
+                    makeaCall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-9892");
+                    makeaCall(cust_support_no);
                     dismiss();
                 }
             });

@@ -55,7 +55,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return mInstance;
     }
 
-    private DbHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DB_NAME, null, 2);
         this.context = context;
 
@@ -111,7 +111,19 @@ public class DbHelper extends SQLiteOpenHelper {
         db = openDataBase();
 
         try{
-            db.execSQL("CREATE TABLE if not exists Cart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR);");
+            db.execSQL("CREATE TABLE if not exists Maillist (mailid VARCHAR)");
+
+            db.execSQL("CREATE TABLE if not exists OrderHead (shipping_charge FLOAT , total FLOAT(20,2), sub_total FLOAT);");
+
+            db.execSQL("CREATE TABLE if not exists Retailer (name VARCHAR , shipping_charge FLOAT)");
+
+            db.execSQL("CREATE TABLE if not exists ContactNumber (cust_support_no VARCHAR , order_support_no VARCHAR );");
+
+            db.execSQL("CREATE TABLE if not exists SearchList (searchedText VARCHAR)");
+
+            db.execSQL("CREATE TABLE if not exists Cart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR , shipping_charge FLOAT);");
+
+            //db.execSQL("CREATE TABLE if not exists UnmapToMap (subscribe_prod_id INTEGER)");
 
         }
         catch (SQLException e) {
@@ -127,6 +139,279 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     }
+
+    public void insertSearchListdata(String text){
+        try{
+            db = openDataBase();
+
+            String query = "Select * from SearchList";
+            Cursor cursor = null;
+            cursor = db.rawQuery(query,null);
+            int count = cursor.getCount();
+
+             if (count == 0){
+                 String Query = "insert into SearchList(searchedText) values"+"('"+ text+ "')";
+                 db.execSQL(Query);
+             }
+            else if (count > 0){
+                 String q = "Select * from SearchList where searchedText ="+"'"+text+"'";
+                 Cursor cursor1 = null;
+                 cursor1 = db.rawQuery(q,null);
+                int c = cursor1.getCount();
+                 if (c == 0){
+                     String Query = "insert into SearchList(searchedText) values"+"('"+ text+ "')";
+                     db.execSQL(Query);
+                 }
+
+                 if (cursor1 != null){
+                     cursor1.close();
+                 }
+             }
+
+            copyDBToPhoneSD1();
+            if (db != null){
+                db.close();
+            }
+            if (cursor != null){
+                cursor.close();
+            }
+
+
+        }
+        catch(Exception e){
+
+        }
+
+    }
+
+
+
+    public int getTotalSearchList() {
+
+
+        db = openDataBase();
+        String countQuery = "SELECT  * FROM SearchList";
+        int cnt = 0;
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(countQuery, null);
+            cnt = cursor.getCount();
+            cursor.close();
+        } catch (Exception ex) {
+
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return cnt;
+    }
+
+    public ArrayList<String> getSearchListdata(){
+        db = openDataBase();
+
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        String countQuery = "SELECT * FROM SearchList";
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(countQuery, null);
+            count = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("searchedText")));
+
+                } while (cursor.moveToNext());
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return arrayList;
+    }
+
+
+
+    public void insertretailerdetailsdata(String name ,Double shipping_charge){
+        try {
+
+            db = openDataBase();
+
+            String que = "Select * from Retailer";
+            Cursor cursor = null ;
+            cursor = db.rawQuery(que , null);
+            int count = cursor.getCount();
+            if (count == 0){
+                String query = "insert into Retailer (name,shipping_charge) values"+ "('"+ name +"'," + shipping_charge + ")";
+            db.execSQL(query);
+            }
+            copyDBToPhoneSD1();
+            if (db != null ){
+                db.close();
+            }
+
+
+        }
+        catch (Exception e){
+
+        }
+    }
+
+
+    public void deleteOrderHeadData(){
+
+
+            try {
+                db = openDataBase();
+                db.execSQL("DELETE FROM OrderHead");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                if (db != null)
+                    db.close();
+            }
+
+
+    }
+
+
+    public void insertOrderHeadData(Double shipping_charge , Double total , Float sub_total)
+    {
+        try{
+            db = openDataBase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("shipping" , shipping_charge);
+            contentValues.put("totalAmount" , total);
+            contentValues.put("subTotal" , sub_total);
+
+            String que = "Select * from OrderHead";
+            Cursor cursor = null ;
+            cursor = db.rawQuery(que , null);
+            int count = cursor.getCount();
+            if (count == 0 ){
+                String Query = "insert into OrderHead (shipping_charge , total , sub_total) values"+"("+shipping_charge +","+ total +"," +sub_total + ")" ;
+                db.execSQL(Query);
+            }
+            else {
+                String query = "update OrderHead set shipping_charge ="+shipping_charge+",total = "+total+",sub_total ="+sub_total+ "";
+                db.execSQL(query);
+            }
+            //copyDBToPhoneSD1();
+            if (db != null){
+                db.close();
+            }
+
+        }
+        catch (Exception e ){
+
+        }
+
+    }
+
+
+    public void insertcontactnumbersdata(String cust_support , String order_support){
+
+        try {
+            db = openDataBase();
+
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put("cust_support_no",cust_support);
+            contentValues.put("order_support_no" , order_support);
+
+
+
+            String Que = "Select * from ContactNumber";
+
+            Cursor cursor = null ;
+            cursor = db.rawQuery(Que,null);
+            int count = cursor.getCount();
+
+            if (count == 0 ){
+               // db.insert("ContactNumber", null, contentValues);
+                String Query = "insert into ContactNumber (cust_support_no , order_support_no) values"+"('"+ cust_support + "','"+ order_support +"')" ;
+                db.execSQL(Query);
+            }
+
+
+            //copyDBToPhoneSD1();
+            if (db != null)
+                db.close();
+
+
+
+
+
+
+        }
+        catch(Exception e ){
+
+        }
+
+    }
+    public ArrayList<String> selectfromcontactnumbers(){
+        db = openDataBase();
+
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        String que = "Select * from ContactNumber";
+       // db.execSQL("Select * from ContactNumber");
+
+
+
+
+        Cursor cursor = null;
+        try {
+
+            cursor = db.rawQuery(que, null);
+            count = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("cust_support_no")));
+                    arrayList.add(cursor.getString(cursor.getColumnIndexOrThrow("order_support_no")));
+
+                } while (cursor.moveToNext());
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+        return arrayList;
+
+
+
+
+
+
+
+
+    }
+
+
+
+
 
     public boolean checkversion() {
         String MISC_PREFS = "MiscPrefsFile";
@@ -260,7 +545,56 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 /*.............................Mail List.............................................*/
 
-    public void insertMailData(String mail)
+
+    public void insertMailData(String mail){
+        try{
+            db = openDataBase();
+
+            String query = "Select * from Maillist";
+            Cursor cursor = null;
+            cursor = db.rawQuery(query,null);
+            int count = cursor.getCount();
+
+            if (count == 0){
+                String Query = "insert into Maillist(mailid) values"+"('"+ mail+ "')";
+                db.execSQL(Query);
+            }
+            else if (count > 0){
+                String q = "Select * from Maillist where mailid ="+"'"+mail+"'";
+                Cursor cursor1 = null;
+                cursor1 = db.rawQuery(q,null);
+                int c = cursor1.getCount();
+                if (c == 0){
+                    String Query = "insert into Maillist(mailid) values"+"('"+ mail+ "')";
+                    db.execSQL(Query);
+                }
+
+                if (cursor1 != null){
+                    cursor1.close();
+                }
+            }
+
+            copyDBToPhoneSD1();
+            if (db != null){
+                db.close();
+            }
+            if (cursor != null){
+                cursor.close();
+            }
+
+
+        }
+        catch(Exception e){
+
+        }
+
+    }
+
+
+
+
+
+    /*public void insertMailData(String mail)
     {
         try
         {
@@ -271,20 +605,20 @@ public class DbHelper extends SQLiteOpenHelper {
             String query = "select * from Maillist";
             cursor = db.rawQuery(query, null);
             int count = cursor.getCount();
-            /*if (count > 0) {
+            *//*if (count > 0) {
                 db.execSQL("UPDATE Maillist SET mailid= "+mail);
-            }*/ /*else if (count == 0)*/
+            }*//* *//*else if (count == 0)*//*
                 db.insert("Maillist", null, contentValues);
 
 
-            copyDBToPhoneSD1();
+           // copyDBToPhoneSD1();
             if (db != null)
                 db.close();
         }catch (Exception e)
         {
             Log.e("Exception ",e.toString());
         }
-    }
+    }*/
 
    /* ................................ReadData for AutoSuggestion..................................*/
 
@@ -445,7 +779,7 @@ public class DbHelper extends SQLiteOpenHelper {
             total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
          //   Log.e("Total Price",String.valueOf(total_unit_price));
             db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + ",unit_price= " + unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
-            copyDBToPhoneSD1();
+          //  copyDBToPhoneSD1();
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -530,6 +864,36 @@ public class DbHelper extends SQLiteOpenHelper {
                 cursor.close();
         }
         return cnt;
+    }
+
+
+    public float fetchTotalAmountOrderHead(){
+        String query = "SELECT total from OrderHead";
+        float i = 0;
+        db = openDataBase();
+        Cursor cursor = null;
+        try{
+            cursor = db.rawQuery(query, null);
+            while((cursor.moveToNext())){
+                i = cursor.getFloat((int) i );
+
+            }
+
+
+        }
+        catch(Exception e){
+
+        }
+        if (db != null ) {
+            db.close();
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+
+
+        return i ;
+
     }
 
 

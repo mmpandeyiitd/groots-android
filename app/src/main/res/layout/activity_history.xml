@@ -418,6 +418,41 @@
 
 
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/allproducts_menu"
+                >
+                <groots.app.com.groots.utilz.TextViewLatoBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/productlist"
+                    android:text="PRODUCTS"
+                    android:textColor="@color/textPrimaryDark"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/productlist"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/product_list" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#9CC19d"></View>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:id="@+id/help_menu"
                 android:layout_width="match_parent"
                 android:layout_height="60dp">

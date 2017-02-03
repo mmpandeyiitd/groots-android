@@ -1,10 +1,12 @@
 package groots.app.com.groots.interfaces;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import groots.app.com.groots.pojo.AddOrderParent;
 import groots.app.com.groots.pojo.DateTimePojo;
 import groots.app.com.groots.pojo.ForgetPwdData;
+import groots.app.com.groots.pojo.HttpResponseofProducts;
 import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.pojo.LoginData;
 
@@ -14,10 +16,13 @@ import groots.app.com.groots.pojo.Product;
 //import groots.canbrand.com.groots.pojo.ProductListDocData;
 import groots.app.com.groots.pojo.SubmitFeedback;
 import groots.app.com.groots.pojo.UpdateOrderParent;
+import groots.app.com.groots.pojo.allProduct;
+import groots.app.com.groots.pojo.contactnumberpojo;
 import groots.app.com.groots.pojo.signUpResponse;
 import groots.app.com.groots.pojo.updateAppResponsePojo;
 import groots.app.com.groots.pojo.user_profile;
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -74,6 +79,16 @@ public interface API_Interface {
                               @Header("AUTH_TOKEN") String auth,
                               @FieldMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
 
+    @FormUrlEncoded
+    @POST("/index.php/api/selectedProducts")
+     void getselectedproductsresponse(@Header("API_KEY") String apikey,
+                                      @Header("APP_VERSION") String appversion,
+                                      @Header("CONFIG_VERSION") String config,
+                                      @Header("Content-Type") String type,
+                                      @Header("AUTH_TOKEN") String auth,
+                                      @Body ArrayList<allProduct> subs , Callback<HttpResponse> cb);
+
+
 
     @GET("/index.php/api/orders")
     void getorderListingResponse(@Header("API_KEY") String apikey,
@@ -90,17 +105,17 @@ public interface API_Interface {
                                  @Header("APP_VERSION") String appversion,
                                  @Header("CONFIG_VERSION") String config,
                                  @Header("AUTH_TOKEN") String auth,
-                                 @QueryMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
+                                 @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<allProduct>> cb);
 
 
 
 
-    @GET("/index.php/api/allproducts")
+    @GET("/cucumber/data/v1/retailer/product")
     void getallproductslistingresponse(@Header("API_KEY") String apikey,
                                   @Header("APP_VERSION") String appversion,
                                   @Header("CONFIG_VERSION") String config,
                                   @Header("AUTH_TOKEN") String auth,
-                                  @QueryMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
+                                  @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<allProduct>> cb);
 
 
 
@@ -163,6 +178,30 @@ public interface API_Interface {
                               @Header("CONFIG_VERSION") String config,
                               @Header("AUTH_TOKEN") String auth,
                               Callback<HttpResponse<updateAppResponsePojo>> cb);
+
+
+    @GET("/index.php/api/getcontactnumbers")
+    void getcontactnumberresponse(@Header("API_KEY") String apikey,
+                                  @Header("APP_VERSION") String appversion,
+                                  @Header("CONFIG_VERSION") String config,
+                                  @Header("AUTH_TOKEN") String auth,
+                                  Callback<HttpResponse<contactnumberpojo>> cb);
+
+    @GET("/index.php/api/salesContactNo")
+    void getsalesnoresponse(@Header("API_KEY") String apikey,
+                            @Header("APP_VERSION") String appversion,
+                            @Header("CONFIG_VERSION") String config,
+                            Callback<HttpResponse<contactnumberpojo>> cb);
+
+
+
+    @GET("/index.php/api/emailInvoice")
+    void getemailinvoiceresponse(@Header("API_KEY") String apikey,
+                                 @Header("APP_VERSION") String appversion,
+                                 @Header("CONFIG_VERSION") String config,
+                                 @Header("AUTH_TOKEN") String auth,
+                                @QueryMap Map<String,String> alldata,Callback<HttpResponse> cb);
+
 
 
 
