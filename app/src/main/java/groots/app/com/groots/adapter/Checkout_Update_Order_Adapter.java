@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import groots.app.com.groots.R;
+import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.databases.dbHelp;
 import groots.app.com.groots.interfaces.UpdateCart;
 import groots.app.com.groots.model.UpdateCartClass;
@@ -46,6 +47,8 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
     Runnable                        runnable;
     UpdateCart                      updateCart;
     dbHelp dbHelp;
+    DbHelper dbHelper;
+    Double shippingCharge;
     Double previousCount;
 
     ImageLoader imageLoader = ImageLoader.getInstance();
@@ -60,12 +63,15 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
             .build();
 
 
-    public Checkout_Update_Order_Adapter(ArrayList<UpdateCartClass> cartClasses, Context context, UpdateCart updateCart) {
+    public Checkout_Update_Order_Adapter(ArrayList<UpdateCartClass> cartClasses, Context context, UpdateCart updateCart , Double shippingCharge) {
         this.cartClasses = cartClasses;
         this.context = context;
+        this.shippingCharge = shippingCharge;
         this.updateCart = updateCart;
         dbHelp = new dbHelp(context);
         dbHelp.createDb(false);
+        dbHelper = new DbHelper(context);
+        dbHelper.createDb(false);
         Collections.reverse(cartClasses);
 
     }
@@ -162,6 +168,17 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
                             cartClasses.get(position).product_description,
                             "abcde", cartClasses.get(position).product_qty,
                             cartClasses.get(position).unit_price,cartClasses.get(position).packSize,cartClasses.get(position).packUnit);
+                    Float subtotal = dbHelp.fetchTotalUpdateCartAmount();
+
+                    if (shippingCharge == null){
+                        shippingCharge = 0.0;
+                    }
+                    Double total = subtotal + shippingCharge;
+                    dbHelper.insertOrderHeadData(shippingCharge,total,subtotal);
+
+
+
+
 
                     notifyDataSetChanged();
 
@@ -251,6 +268,9 @@ public class Checkout_Update_Order_Adapter extends RecyclerView.Adapter<Checkout
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (cartClasses.get(position).product_qty == 0) {
+                    if (previousCount == null){
+                        previousCount = 0.0;
+                    }
                     previousCount++;
                     cartClasses.get(position).product_qty = previousCount;
                 }

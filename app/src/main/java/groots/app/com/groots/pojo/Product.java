@@ -16,6 +16,10 @@ public class Product {
     @SerializedName("subscribed_product_id")
     @Expose
     public Integer subscribedProductId;
+
+    @SerializedName("isMapped")
+    @Expose
+    public boolean isMapped;
     @SerializedName("length_unit")
     @Expose
     public String length_unit;

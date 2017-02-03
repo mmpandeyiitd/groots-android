@@ -39,6 +39,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
     Runnable                        runnable;
     UpdateCart                      updateCart;
     DbHelper                        dbHelper;
+    Double shippingCharge;
     Double previousCount;
 
     ImageLoader imageLoader = ImageLoader.getInstance();
@@ -53,10 +54,11 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             .build();
 
 
-    public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context, UpdateCart updateCart) {
+    public Checkout_Adapter(ArrayList<CartClass> cartClasses, Context context, UpdateCart updateCart ,Double shippingcharge) {
         this.cartClasses = cartClasses;
         this.context = context;
         this.updateCart = updateCart;
+        this.shippingCharge = shippingcharge;
         dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
         Collections.reverse(cartClasses);
@@ -145,6 +147,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
                     }
 
+
                     dbHelper.insertCartData(cartClasses.get(position).subscribe_prod_id,
                             cartClasses.get(position).base_product_id,
                             cartClasses.get(position).store_id,
@@ -153,7 +156,18 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
                             "abcde", cartClasses.get(position).product_qty,
                             cartClasses.get(position).unit_price,cartClasses.get(position).packSize,cartClasses.get(position).packUnit);
 
+
+                    Float subtotal = dbHelper.fetchTotalCartAmount();
+                    if (shippingCharge == null){
+                        shippingCharge = 0.0;
+                    }
+                    Double total = subtotal + shippingCharge;
+                    dbHelper.insertOrderHeadData(shippingCharge,total,subtotal);
+
+
                     notifyDataSetChanged();
+
+
 
                 }
             }
@@ -243,6 +257,9 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (cartClasses.get(position).product_qty == 0) {
+                    if (previousCount == null){
+                        previousCount = 0.0;
+                    }
                     previousCount++;
                     cartClasses.get(position).product_qty = previousCount;
                 }

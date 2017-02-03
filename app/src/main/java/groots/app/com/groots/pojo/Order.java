@@ -29,6 +29,15 @@ public class Order {
     public String invoiceNo;
 
 
+    @SerializedName("shippingCharges")
+    @Expose
+    public Double shippingCharges;
+
+    @SerializedName("total")
+    @Expose
+    public Double total;
+
+
     @SerializedName("deliveryDate")
     @Expose
     public String deliveryDate;

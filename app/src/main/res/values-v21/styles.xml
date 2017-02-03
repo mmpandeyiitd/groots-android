@@ -9,7 +9,6 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
 
 
-
     </style>
 
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -21,7 +20,6 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
 
-        
     </style>
 
 

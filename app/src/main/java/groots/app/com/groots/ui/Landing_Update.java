@@ -83,17 +83,20 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public boolean backflag = false;
     ArrayList<user_profile> retailerdetails = new ArrayList<>();
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts;
     CoordinatorLayout cdLanding;
+
     ArrayList<Product> productListDocDatas = new ArrayList<>();
+    int offsetValue = 1;
+    RecyclerView detail_recycler_view;
     Context context;
     RelativeLayout loadermain;
     String shippingAmount;
+    String cust_support_no, order_support_no;
     DrawerLayout drawer;
-    DbHelper dbHelper;
+    DbHelper  dbHelper;
     LinearLayout listicon, callicon;
-    int offsetValue = 1;
-    RecyclerView detail_recycler_view;
+
     UpdateCart updateCart;
     LinearLayoutManager linearLayoutManager;
     public boolean loadingMore = true;
@@ -173,6 +176,9 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
 
+
+
+
         if (message != null) {
 
             if (message.equals("four")) {
@@ -241,10 +247,13 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
 
+        dbHelper.deleteOrderHeadData();
+
         navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
+
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
@@ -253,6 +262,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
+        navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
+        navAllProducts.setOnClickListener(this);
         navContact.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
@@ -262,6 +273,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
         editor.commit();
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+          cust_support_no = ContactNumbers.get(0);
+          order_support_no = ContactNumbers.get(1);
+
+
 
        /* ...............................Navigation Drawer........................................*/
 
@@ -614,6 +631,21 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
+                break;
+
+
+            case R.id.allproducts_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent inten = new Intent(context , mapping.class);
+                        startActivity(inten);
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable , 300);
                 break;
 
             case R.id.help_menu:
@@ -1010,18 +1042,21 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeaCall("+91-11-3958-9893");
+                    makeaCall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeaCall("+91-11-3958-9892");
+                    makeaCall(cust_support_no);
                     dismiss();
                 }
             });
@@ -1029,159 +1064,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    /*void callretailerdetailsAPI(){
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(Http_Urls.sBaseUrl)
-                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
-        API_Interface apiInterface = restAdapter.create(API_Interface.class);
-        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        String AuthToken = prefs.getString("AuthToken", null);
-        apiInterface.getretailerdetailsresponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, new Callback<HttpResponse<user_profile>>(){
-            @Override
-            public void success ( HttpResponse httpResponse , Response response ){
-
-
-                int status = httpResponse.status;
-
-                if (status == -1){
-
-                    String msg = httpResponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-
-                } else if (status == 0) {
-
-                    String msg = httpResponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(Color.WHITE);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    snackbar.show();
-
-
-                }
-                else if (status == 1){
-
-
-                    if (retailerdetails.size() == 0) {
-                        retailerdetails = (ArrayList<user_profile>) httpResponse.data.responseData.docs;
-                    }
-
-
-
-                   *//* String retailerName = retailerdetails.get(0).retailerName;
-                    String salesRepName = retailerdetails.get(0).salesRepName;
-                    String outstandingDate = retailerdetails.get(0).outstandingDate;*//*
-                    //String collectionRepName = retailerdetails.get(0).collectionRepName;
-                   // Double outstandingAmount = retailerdetails.get(0).outstandingAmount;
-                   // Double shippingCharge = retailerdetails.get(0).shippingCharge;
-                    Double min_order_price;
-                    if (retailerdetails.get(0).minOrderPrice == null){
-                        min_order_price = 0.0;
-
-                    }
-                    else
-                    {
-                        min_order_price = retailerdetails.get(0).minOrderPrice;
-                    }
-
-
-
-
-
-
-
-                    Double shippingcharge;
-                    if (retailerdetails.get(0).shippingCharge == null){
-                         shippingcharge = 0.0 ;
-                    }
-                    else {
-                         shippingcharge = retailerdetails.get(0).shippingCharge;
-
-                    }
-
-                   //Double shipping_amount = retailerdetails.get(0).shippingCharge;
-
-
-                    shipping_amount.setText(shippingcharge.toString());
-
-
-                     shippingAmount = shippingcharge.toString();
-
-
-
-
-
-
-
-                   *//* if (Status == true){
-                        //String orderId =
-                        //orderfeedback.orderId;
-                        Intent i = new Intent(Splash.this, RateUs.class);
-                        i.putExtra("ID",O_id);
-                        i.putExtra("date",datee);
-                        startActivity(i);
-                        finish();
-
-                    }
-                    else {
-
-
-                        Intent i = new Intent(Splash.this, Landing_Update.class);
-                        startActivity(i);
-                        finish();
-                    }*//*
-
-                    // if (httpResponse.data.responseData.docs.size() != 0 ){
-
-
-
-                    //}
-
-
-
-                }
-
-
-
-
-
-
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-            @Override
-            public void failure(RetrofitError error) {
-                //progressMobile.setVisibility(View.INVISIBLE);
-                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
-                snackbar.setActionTextColor(Color.WHITE);
-                View snackbarView = snackbar.getView();
-                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                snackbar.show();
-
-            }
-
-        });
-
-
-
-
-
-    }*/
 
 
 

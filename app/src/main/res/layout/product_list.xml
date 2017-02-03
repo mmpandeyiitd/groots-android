@@ -67,7 +67,7 @@
                     android:scaleType="centerCrop"
                     android:layout_gravity="center_vertical|center_horizontal"/>-->
 
-        <android.support.v7.widget.Toolbar
+        <!--<android.support.v7.widget.Toolbar
             android:id="@+id/toolbars"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -116,14 +116,15 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>-->
 
 
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp">
 
 
 
@@ -135,7 +136,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
+
                 android:orientation="vertical">
 
 
@@ -144,11 +145,12 @@
                     android:layout_height="wrap_content"
                     android:weightSum="2">
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:id="@+id/search_text"
                         android:layout_marginLeft="5dp"
+                        android:maxLines="1"
                         android:layout_below="@+id/toolbars"
                         android:hint="Search Here"
                         android:layout_weight="2"
@@ -157,7 +159,7 @@
 
 
 
-                    <!--<LinearLayout
+                    <LinearLayout
                         android:id="@+id/search_icon"
                         android:layout_width="50dp"
                         android:layout_marginRight="10dp"
@@ -173,7 +175,7 @@
                             android:layout_marginRight="0dp"
                             android:src="@drawable/newest_search"
                             />
-                    </LinearLayout>-->
+                    </LinearLayout>
 
 
 
@@ -205,6 +207,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+
             android:layout_height="40dp"
 
             android:layout_gravity="bottom"
@@ -223,7 +226,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
-                  android:text="ADD"
+                  android:id="@+id/addproducts_button"
+                  android:text="DONE"
 
                   />
 
@@ -256,6 +260,7 @@
             android:id="@+id/loadermainfooter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
             android:gravity="bottom"
             android:visibility="gone">
 
@@ -329,6 +334,40 @@
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
                     android:background="#9CC19d"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/allproducts_menu"
+                >
+                <groots.app.com.groots.utilz.TextViewLatoBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/productlist"
+                    android:text="PRODUCTS"
+                    android:textColor="@color/textPrimaryDark"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/productlist"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/product_list" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#9CC19d"></View>
+
+
             </RelativeLayout>
 
 

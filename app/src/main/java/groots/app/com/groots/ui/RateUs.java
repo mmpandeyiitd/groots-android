@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import groots.app.com.groots.R;
+import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.SubmitFeedback;
@@ -55,6 +56,10 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
 
 
     LinearLayout cdLogin;
+    String cust_support_no, order_support_no;
+    DbHelper dbHelper;
+
+    Context context;
 
 
 
@@ -90,6 +95,16 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rateus);
+
+
+
+        dbHelper = DbHelper.getInstance(context);
+        dbHelper.createDb(false);
+
+
+        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+        cust_support_no = ContactNumbers.get(0);
+        order_support_no = ContactNumbers.get(1);
 
 
         cdLogin = (LinearLayout) findViewById(R.id.cdLogin);
@@ -644,18 +659,20 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             setContentView(R.layout.phone_dialog);
+            ((TextView) findViewById(R.id.customer_support)).setText(cust_support_no);
+            ((TextView) findViewById(R.id.ordering_support)).setText(order_support_no);
             ((LinearLayout) findViewById(R.id.orderSupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    makeAcall("+91-11-3958-9893");
+                    makeAcall(order_support_no);
                     dismiss();
                 }
             });
             ((LinearLayout) findViewById(R.id.custsupport)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeAcall("+91-11-3958-9892");
+                    makeAcall(cust_support_no);
                     dismiss();
                 }
             });

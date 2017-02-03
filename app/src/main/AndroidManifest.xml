@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="groots.app.com.groots">
+    package="groots.app.com.groots">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -11,20 +11,20 @@
 
     <supports-screens
         android:largeScreens="true"
-        android:smallScreens="true"
         android:normalScreens="true"
-        android:xlargeScreens="true"/>
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
 
     <application
-        android:name="groots.app.com.groots.utilz.Applicationclass"
+        android:name=".utilz.Applicationclass"
         android:allowBackup="true"
         android:icon="@drawable/groots_icon_transp"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service android:name="com.google.android.gms.tagmanager.InstallReferrerService" />
+
         <receiver
             android:name="com.google.android.gms.tagmanager.InstallReferrerReceiver"
             android:exported="true">
@@ -33,21 +33,26 @@
             </intent-filter>
         </receiver>
 
-
-        <!-- register AnalyticsReceiver and AnalyticsService to support background
-      dispatching on non-Google Play devices -->
-        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true" android:exported="true">
+        <!--
+      register AnalyticsReceiver and AnalyticsService to support background
+      dispatching on non-Google Play devices
+        -->
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
-        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
-            android:name="groots.app.com.groots.ui.Splash"
+            android:name=".ui.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -57,7 +62,8 @@
             </intent-filter>
         </activity>
 
-        <!--<activity
+        <!--
+        <activity
             android:name="com.google.android.gms.tagmanager.PreviewActivity"
             android:label="@string/app_name"
             android:noHistory="true">  &lt;!&ndash; optional, removes the previewActivity from the activity stack. &ndash;&gt;
@@ -67,79 +73,67 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE"/>
             </intent-filter>
-        </activity>-->
-
-
-
-
-
-
+        </activity>
+        -->
 
         <activity
-            android:name="groots.app.com.groots.ui.Thank_You_UI"
+            android:name=".ui.Thank_You_UI"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name="groots.app.com.groots.ui.Checkout_Ui"
+            android:name=".ui.Checkout_Ui"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name="groots.app.com.groots.ui.WebPage"
+            android:name=".ui.WebPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name="groots.app.com.groots.ui.historyList"
+            android:name=".ui.historyList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
-
-
         <activity
-            android:name="groots.app.com.groots.ui.Landing_Update"
+            android:name=".ui.UnmappedProducts"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base" />
+        <activity
+            android:name=".ui.Landing_Update"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="groots.app.com.groots.ui.History"
+            android:name=".ui.History"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="groots.app.com.groots.ui.UpdateOrder"
+            android:name=".ui.UpdateOrder"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
-
-
         <activity
-            android:name="groots.app.com.groots.ui.Checkout_Update_Order_Ui"
+            android:name=".ui.Checkout_Update_Order_Ui"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Base"
-             />
-
+            android:theme="@style/AppTheme.Base" />
         <activity
-            android:name="groots.app.com.groots.ui.RateUs"
+            android:name=".ui.RateUs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="groots.app.com.groots.ui.feedback"
+            android:name=".ui.feedback"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="groots.app.com.groots.ui.signUpPage"
+            android:name=".ui.signUpPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
-
-
-
-
+        <activity
+            android:name=".ui.mapping"
+            android:label="@string/title_activity_mapping"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
