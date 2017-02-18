@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName;
  * Created by aakash on 21/1/17.
  */
 
-public class allProduct {
+public class RetailerProduct {
     @SerializedName("retailerId")
     @Expose
-    public int retailer_id;
+    public Integer retailer_id;
 
     @SerializedName("status")
     @Expose
@@ -23,6 +23,9 @@ public class allProduct {
     @SerializedName("product")
     @Expose
     public Items product;
+
+
+
 
 
 

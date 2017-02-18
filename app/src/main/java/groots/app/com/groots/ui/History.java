@@ -379,7 +379,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
 
                 } else if (status == 1) {
 
-                    backflag = false;
+
                     ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.GONE);
                     detail_recycler_view.setVisibility(View.VISIBLE);
 

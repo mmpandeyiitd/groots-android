@@ -87,6 +87,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     String cust_support,order_support,sales_contact_number ;
     ArrayList<updateAppResponsePojo> updateappResponsePojos = new ArrayList<>();
     AlphaAnimation alphaAnimation;
+
+    String registrationStatus;
     //updateAppResponsePojo updateappResponsePojo;
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
@@ -123,6 +125,11 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+       /* SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+        editor.putString("Check", null);
+        editor.commit();*/
 
 
 
@@ -261,21 +268,41 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         Bundle bundle = i.getExtras();
 */
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
-        if (prefs.getString("AuthToken", null) != null & prefs.getString("Check", null) != null) {
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    //HashMap hashMap = new HashMap();
-                   // hashMap.put();
 
-                   callupdateappAPI();
-                   // callfeedbackresponseAPI();
+
+
+
+        if (prefs.getString("AuthToken", null) != null & prefs.getString("Check", null) != null) {
+
+            registrationStatus = prefs.getString("registrationStatus",null);
+
+            /*if (prefs.getString("registrationStatus","Complete") != null) {*/
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+
+
+
+
+                        callupdateappAPI();
+                        // callfeedbackresponseAPI();
                     /*Intent i = new Intent(Splash.this, Landing_Update.class);
                     startActivity(i);
                     finish();*/
-                }
-            };
-            handler.postDelayed(runnable, 2200);
+
+
+                    }
+                };
+                handler.postDelayed(runnable, 2200);
+           /* }
+            else {
+                Intent inten = new Intent(Splash.this,SampleActivity.class);
+
+                startActivity(inte);
+                finish();
+            }*/
+
         } else {
             if (prefs.getString("AuthToken", null) != null & prefs.getString("Check", null) == null) {
 
@@ -883,7 +910,17 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                           @Override
                           public void onClick(View v) {
                               dialog.dismiss();
-                              callfeedbackresponseAPI();
+
+                              if (registrationStatus.equals("Complete")) {
+                                  callfeedbackresponseAPI();
+                              }
+                              else{
+                                  Intent inte = new Intent(Splash.this,SampleActivity.class);
+                                  Toast.makeText(context,"Please fill your details first.",Toast.LENGTH_LONG).show();
+                                  startActivity(inte);
+                                  finish();
+                              }
+
 
                           }
                       });
@@ -897,7 +934,18 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                   else if (requestForceUpdate == false && requestRecUpdate == false ){
 
 
-                      callfeedbackresponseAPI();
+
+
+
+                      if (registrationStatus.equals("Complete")) {
+                          callfeedbackresponseAPI();
+                      }
+                      else{
+                          Intent inte = new Intent(Splash.this,SampleActivity.class);
+                          Toast.makeText(context,"Please fill your details first.",Toast.LENGTH_LONG).show();
+                          startActivity(inte);
+                          finish();
+                      }
 
 
 
@@ -998,9 +1046,13 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                             editor.putString("Retailer_Name", loginData.getData().getRetailerName());
                             editor.putString("UserName", loginData.getData().getName());
                             editor.putString("User_Id", loginData.getData().getUserId());
+                            editor.putString("registrationStatus",loginData.getData().regStatus);
                             editor.putString("Check", "name");
 
                             editor.commit();
+
+                            registrationStatus = loginData.getData().regStatus;
+
 
 
 

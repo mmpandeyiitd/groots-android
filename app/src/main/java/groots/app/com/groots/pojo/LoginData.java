@@ -12,6 +12,9 @@ import java.util.List;
 
 public class LoginData {
 
+
+
+
     @SerializedName("status")
     @Expose
     private int status;

@@ -1,5 +1,8 @@
 package groots.app.com.groots.pojo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by can on 11/4/16.
  */
@@ -8,6 +11,9 @@ public class LoginData1 {
     private String user_id;
     private String retailer_name;
     private String name;
+    @SerializedName("registration_status")
+    @Expose
+    public String regStatus;
 
     /**
      *

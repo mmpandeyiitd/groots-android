@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,20 +22,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.adapter.mappedProductList_Adapter;
 import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.interfaces.UpdateCart;
+import groots.app.com.groots.model.MappingClass;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.HttpResponseofProducts;
 import groots.app.com.groots.pojo.Product;
-import groots.app.com.groots.pojo.allProduct;
+import groots.app.com.groots.pojo.RetailerProduct;
+import groots.app.com.groots.pojo.RetailerProducts;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -52,6 +57,8 @@ public class mappedProducts extends Fragment {
     LinearLayout search_icon;
     CoordinatorLayout cdLanding;
     String searched_text;
+    HashMap hash = new HashMap();
+    String registrationStatus;
     public boolean backflag = false;
     RelativeLayout blankLayout , loadermain;
     mappedProductList_Adapter adapter;
@@ -70,8 +77,8 @@ public class mappedProducts extends Fragment {
     public boolean loadingMoreforselected = true;
     public boolean loadingMoreforsearch = true;
 
-    ArrayList<allProduct> searchedproducts = new ArrayList<>();
-    ArrayList<allProduct> allproducts = new ArrayList<>();
+    ArrayList<RetailerProduct> searchedproducts = new ArrayList<>();
+    ArrayList<RetailerProduct> allproducts = new ArrayList<>();
 
 
     @Override
@@ -83,6 +90,8 @@ public class mappedProducts extends Fragment {
 
 
         context = getActivity();
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
 
@@ -131,6 +140,9 @@ public class mappedProducts extends Fragment {
         addproducts_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
                 //Array pro;
@@ -210,6 +222,9 @@ public class mappedProducts extends Fragment {
 
 
                 String searched_tex = search_text.getText().toString();
+
+
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
                if (searched_tex.trim().contains(" ")){
                   searched_tex = searched_tex.replace(" ","* *");
@@ -291,7 +306,7 @@ return null;
         SharedPreferences prefs = this.getActivity().getSharedPreferences("MY_PREFS_NAME", Context.MODE_PRIVATE);
         String AuthToken = prefs.getString("AuthToken", null);
 
-        apiInterface.getallproductslistingresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version, AuthToken,hashMap, new Callback<HttpResponseofProducts<allProduct>>(){
+        apiInterface.getallproductslistingresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version, AuthToken,hashMap, new Callback<HttpResponseofProducts<RetailerProduct>>(){
 
             @Override
 
@@ -367,7 +382,7 @@ return null;
                            searchedproducts.clear();
                         }
                         for (int i = 0; i < httpResponse.data.size(); i++) {
-                            searchedproducts.add((allProduct) httpResponse.data.get(i));
+                            searchedproducts.add((RetailerProduct) httpResponse.data.get(i));
                         }
                     }
 
@@ -377,7 +392,7 @@ return null;
                         recycle.setLayoutManager(new LinearLayoutManager(context));
                         recycle.setHasFixedSize(true);
                         recycle.setNestedScrollingEnabled(false);
-                        recycle.setAdapter(new mappedProductList_Adapter(searchedproducts,mappedProducts.this, context, true));
+                        recycle.setAdapter(new mappedProductList_Adapter(searchedproducts,hash,mappedProducts.this, context, true));
                         recycle.scrollToPosition(Utilz.count);
 
                     }
@@ -406,6 +421,7 @@ return null;
                 snackbar.setActionTextColor(Color.WHITE);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
                 snackbar.show();
 
 
@@ -443,7 +459,7 @@ return null;
         String AuthToken = prefs.getString("AuthToken", null);
 
 
-        apiInterface.getallproductslistingresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version, AuthToken,hashMap, new Callback<HttpResponseofProducts<allProduct>>(){
+        apiInterface.getallproductslistingresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version, AuthToken,hashMap, new Callback<HttpResponseofProducts<RetailerProduct>>(){
 
 
 
@@ -493,7 +509,7 @@ return null;
 
 
 
-                    if (httpResponse.data.size() == 0 || httpResponse.data == null){
+                    if (/*httpResponse.data.size() == 0 ||*/ httpResponse.data == null){
 
                         if (offsetValue == 10) {
                             blankLayout.setVisibility(View.VISIBLE);
@@ -516,7 +532,7 @@ return null;
                         }
 
                         for (int i = 0; i < httpResponse.data.size(); i++) {
-                            allproducts.add((allProduct) httpResponse.data.get(i));
+                            allproducts.add((RetailerProduct) httpResponse.data.get(i));
                         }
 
 
@@ -542,7 +558,7 @@ return null;
                         recycle.setLayoutManager(new LinearLayoutManager(context));
                         recycle.setHasFixedSize(true);
                         recycle.setNestedScrollingEnabled(false);
-                        recycle.setAdapter(new mappedProductList_Adapter(allproducts,mappedProducts.this, context, true));
+                        recycle.setAdapter(new mappedProductList_Adapter(allproducts,hash,mappedProducts.this, context, true));
                         recycle.scrollToPosition(Utilz.count);
                     }
                 }
@@ -585,23 +601,48 @@ return null;
         int row = 10;
 
         HashMap hashMap = new HashMap();
-        ArrayList<allProduct> selected = ((mappedProductList_Adapter) adapter).getSelectedProducts();
+       // ArrayList<RetailerProduct> selected = ((mappedProductList_Adapter) adapter).getSelectedProducts();
+        ArrayList<MappingClass> selected = dbHelper.getmaptounmapdata();
 
-
-        Product products = new Product();
-        ArrayList<allProduct> subs =  new ArrayList<>(products.subscribedProductId);
-
-
-        for (int i=0 ; i<= selected.size();i++) {
+        RetailerProducts retailerPr = new RetailerProducts();
 
 
 
-            subs.add(selected.get(i));
+        ArrayList<RetailerProduct> sel = new ArrayList<>();
 
+
+        if (selected.size() == 0){
+            Toast.makeText(context,"Please unmap some products.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (int i=0 ; i< selected.size();i++) {
+
+            RetailerProduct addprod  = new RetailerProduct();
+
+            addprod.subscribedProductId = selected.get(i).subscProdId;
+            addprod.retailer_id = selected.get(i).retailerId;
+            addprod.isMapped = Boolean.parseBoolean(selected.get(i).status);
+
+
+
+            sel.add(addprod);
+
+        }
+        retailerPr.retailerProds = sel;
+        for (int i=0;i<=retailerPr.retailerProds.size();i++) {
 
 
 
         }
+
+
+
+
+
+
+
+
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
         API_Interface apiInterface = restAdapter.create(API_Interface.class);
         SharedPreferences prefs = this.getActivity().getSharedPreferences("MY_PREFS_NAME", Context.MODE_PRIVATE);
@@ -611,16 +652,20 @@ return null;
         // hashMap.putAll();
 
 
-        apiInterface.getselectedproductsresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version,"application/json", AuthToken,subs, new Callback<HttpResponse>(){
+        apiInterface.getselectedproductsresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version,"application/json", AuthToken,retailerPr, new Callback<HttpResponseofProducts>(){
 
 
-            public void success(HttpResponse httpresponse , Response response){
-                int status = httpresponse.status;
+            public void success(HttpResponseofProducts httpresponse , Response response){
+                //int status = httpresponse.status;
 
-                if (status == -1){
+                String statu = httpresponse.status;
+                String stat = statu.substring(0,1);
+                int status = Integer.parseInt(stat);
 
-                    String msg = httpresponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                if (status == 5){
+
+                  //  String msg = httpresponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,"Something went wrong.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -630,10 +675,10 @@ return null;
 
 
                 }
-                else if (status == 0){
+                else if (status == 4){
 
-                    String msg = httpresponse.errors.get(0).toString();
-                    Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
+                   // String msg = httpresponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLanding,"Something went wrong.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -642,12 +687,25 @@ return null;
 
 
                 }
-                else if(status == 1){
+                else if(status == 2){
+
+
+                    SharedPreferences prefs = getActivity().getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE);
+
+
+                    registrationStatus = prefs.getString("registrationStatus",null);
+
+                    if (!registrationStatus.equals("Complete")){
+
+                        callchangeRegStatusAPI();
+                    }
+
+
 
 
 
                     // String msg = httpresponse.errors.get(0).toString();
-                    Toast.makeText(context,"Products has been mapped successfully.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Products has been unmapped successfully.",Toast.LENGTH_LONG).show();
                    /* Snackbar snackbar = Snackbar.make(cdLanding,"Products has been mapped successfully", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -656,7 +714,8 @@ return null;
 
 
                     Intent intent = new Intent(context, Landing_Update.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                   // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     getActivity().finish();
 
@@ -685,6 +744,79 @@ return null;
 
 
         });
+
+
+
+    }
+
+
+
+
+    void callchangeRegStatusAPI(){
+        HashMap hashm = new HashMap();
+        hashm.put("makeActive","yes");
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("MY_PREFS_NAME", Context.MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+        apiInterface.getChangeRegStatusResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken,hashm, new Callback<HttpResponse>() {
+            @Override
+            public void success(HttpResponse httpResponse, Response response) {
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 0){
+                    Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 1){
+
+                    Toast.makeText(context,"You have done your complete registration.",Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE).edit();
+                    editor.putString("registrationStatus","Complete");
+                    editor.commit();
+
+
+
+                }
+
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                Snackbar snackbar = Snackbar.make(cdLanding, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+        });
+
 
 
 

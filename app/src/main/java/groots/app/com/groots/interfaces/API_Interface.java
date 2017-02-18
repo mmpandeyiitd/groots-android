@@ -6,7 +6,9 @@ import java.util.Map;
 import groots.app.com.groots.pojo.AddOrderParent;
 import groots.app.com.groots.pojo.DateTimePojo;
 import groots.app.com.groots.pojo.ForgetPwdData;
+import groots.app.com.groots.pojo.HttpResponseObject;
 import groots.app.com.groots.pojo.HttpResponseofProducts;
+import groots.app.com.groots.pojo.Items;
 import groots.app.com.groots.pojo.Order;
 import groots.app.com.groots.pojo.LoginData;
 
@@ -14,10 +16,12 @@ import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.OrderFeedback;
 import groots.app.com.groots.pojo.Product;
 //import groots.canbrand.com.groots.pojo.ProductListDocData;
+import groots.app.com.groots.pojo.RetailerProduct;
+import groots.app.com.groots.pojo.RetailerProducts;
 import groots.app.com.groots.pojo.SubmitFeedback;
 import groots.app.com.groots.pojo.UpdateOrderParent;
-import groots.app.com.groots.pojo.allProduct;
 import groots.app.com.groots.pojo.contactnumberpojo;
+import groots.app.com.groots.pojo.otpResponse;
 import groots.app.com.groots.pojo.signUpResponse;
 import groots.app.com.groots.pojo.updateAppResponsePojo;
 import groots.app.com.groots.pojo.user_profile;
@@ -27,9 +31,7 @@ import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.PATCH;
 import retrofit.http.POST;
-import retrofit.http.PUT;
 import retrofit.http.QueryMap;
 
 
@@ -59,6 +61,13 @@ public interface API_Interface {
                              @Header("CONFIG_VERSION") String config,
                              @Header("AUTH_TOKEN")String authtoken,
                              @FieldMap Map<String,String> alldata, Callback<AddOrderParent> cb);
+    @FormUrlEncoded
+    @POST("/index.php/api/makeRetailerActive")
+    void getChangeRegStatusResponse(@Header("API_KEY") String apikey,
+                                    @Header("APP_VERSION") String appversion,
+                                    @Header("CONFIG_VERSION") String config,
+                                    @Header("AUTH_TOKEN")String authtoken,
+                                    @FieldMap Map<String,String> alldata, Callback<HttpResponse> cb);
 
 
     @FormUrlEncoded
@@ -79,15 +88,40 @@ public interface API_Interface {
                               @Header("AUTH_TOKEN") String auth,
                               @FieldMap Map<String,String> alldata, Callback<HttpResponse<Product>> cb);
 
-    @FormUrlEncoded
-    @POST("/index.php/api/selectedProducts")
+
+    @POST("/cucumber/data/v1/retailer/product")
      void getselectedproductsresponse(@Header("API_KEY") String apikey,
                                       @Header("APP_VERSION") String appversion,
                                       @Header("CONFIG_VERSION") String config,
-                                      @Header("Content-Type") String type,
+                                      @Header("Content-Type") String ContentType,
                                       @Header("AUTH_TOKEN") String auth,
-                                      @Body ArrayList<allProduct> subs , Callback<HttpResponse> cb);
+                                      @Body RetailerProducts retailerProds , Callback<HttpResponseofProducts> cb);
 
+
+
+    @POST("/cucumber/data/v1/retailer/register")
+    void getsignupresponse(@Header("API_KEY") String apikey,
+                           @Header("APP_VERSION") String appversion,
+                           @Header("CONFIG_VERSION") String config,
+                           @Header("Content-Type") String ContentType,
+                           @Body user_profile retailer, Callback<HttpResponseObject<user_profile>> cb);
+
+    @POST("/cucumber/data/v1/otp/validate")
+    void getOtpcheckResponse(@Header("API_KEY") String apikey,
+                             @Header("APP_VERSION") String appversion,
+                             @Header("CONFIG_VERSION") String config,
+                             @QueryMap Map<String,String> alldata,
+                             @Body String otp, Callback<HttpResponseofProducts> cb);
+
+
+
+    @GET("/cucumber/data/v1/product/sample")
+    void getSampleProductsResponse(@Header("API_KEY") String apikey,
+                                   @Header("APP_VERSION") String app_version,
+                                   @Header("CONFIG_VERSION") String config,
+                                   @Header("Content-Type") String ContentType,
+                                   @Header("AUTH_TOKEN") String auth,
+                                   @QueryMap Map<String,String> alldata,Callback<HttpResponseofProducts<Items>> cb);
 
 
     @GET("/index.php/api/orders")
@@ -100,12 +134,12 @@ public interface API_Interface {
 
 
 
-    @GET("/index.php/api/search")
+    /*@GET("/index.php/api/search")
     void getsearchlistingresponse(@Header("API_KEY") String apikey,
                                  @Header("APP_VERSION") String appversion,
                                  @Header("CONFIG_VERSION") String config,
                                  @Header("AUTH_TOKEN") String auth,
-                                 @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<allProduct>> cb);
+                                 @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<RetailerProduct>> cb);*/
 
 
 
@@ -115,7 +149,18 @@ public interface API_Interface {
                                   @Header("APP_VERSION") String appversion,
                                   @Header("CONFIG_VERSION") String config,
                                   @Header("AUTH_TOKEN") String auth,
-                                  @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<allProduct>> cb);
+                                  @QueryMap Map<String,String> alldata, Callback<HttpResponseofProducts<RetailerProduct>> cb);
+
+
+
+
+    @FormUrlEncoded
+    @POST("/index.php/api/fillRetailerDetails")
+    void getFillRetailerDetails(@Header("API_KEY") String apikey,
+                                @Header("APP_VERSION") String appversion,
+                                @Header("CONFIG_VERSION") String config,
+                                @Header("AUTH_TOKEN") String auth,
+                                @FieldMap Map<String,String> alldata,Callback<HttpResponse> cb);
 
 
 
@@ -147,13 +192,7 @@ public interface API_Interface {
                           @FieldMap Map<String,String> alldata, Callback<HttpResponse<SubmitFeedback>> cb);
 
 
-    @FormUrlEncoded
-    @POST("/index.php/api/signUp")
-    void getsignupresponse(@Header("API_KEY") String apikey,
-                                   @Header("APP_VERSION") String appversion,
-                                   @Header("CONFIG_VERSION") String config,
 
-                                   @FieldMap Map<String,String> alldata, Callback<HttpResponse<signUpResponse>> cb);
 
 
     @GET("/index.php/api/user_profile")

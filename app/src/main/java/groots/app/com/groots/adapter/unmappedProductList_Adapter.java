@@ -11,13 +11,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.UpdateCart;
-import groots.app.com.groots.pojo.allProduct;
+import groots.app.com.groots.pojo.RetailerProduct;
 import groots.app.com.groots.ui.UnmappedProducts;
-import groots.app.com.groots.ui.mapping;
+import groots.app.com.groots.utilz.Utilz;
 
 /**
  * Created by aakash on 26/12/16.
@@ -26,8 +27,10 @@ import groots.app.com.groots.ui.mapping;
 public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    ArrayList<allProduct> allproducts;
-    ArrayList<allProduct> selectedProducts = new ArrayList<>();
+    ArrayList<RetailerProduct> allproducts;
+    ArrayList<RetailerProduct> selectedProducts = new ArrayList<>();
+    HashMap hash = new HashMap();
+
 
     Fragment fragment;
     Context context;
@@ -43,12 +46,13 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
 
 
 
-    public unmappedProductList_Adapter(ArrayList<allProduct> allproducts, Context context, Fragment fragment, boolean f){
+    public unmappedProductList_Adapter(ArrayList<RetailerProduct> allproducts,HashMap hash ,Context context, Fragment fragment, boolean f){
 
 
         this.allproducts = allproducts;
         this.context = context;
         this.fragment = fragment;
+        this.hash = hash;
         this.updateCart = updateCart;
         this.show_footer = f;
     }
@@ -131,9 +135,23 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
 
 
 
-            if (allproducts.get(position).isMapped == true){
+          /*  if (allproducts.get(position).isMapped == true){
                 holder.checkedTextView.setChecked(true);
+                allproducts.get(position).setstatus(true);
             }else{
+                holder.checkedTextView.setChecked(false);
+                allproducts.get(position).setstatus(false);
+
+            }
+*/
+            holder.itemView.setTag(position);
+            holder.checkedTextView.setTag(position);
+
+            if ((hash.containsKey(allproducts.get(position).subscribedProductId))  ){
+                holder.checkedTextView.setChecked(true);
+            }
+            else {
+
                 holder.checkedTextView.setChecked(false);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +159,40 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
                 public void onClick(View v) {
                     if (holder.checkedTextView.isChecked()){
                         holder.checkedTextView.setChecked(false);
-                        selectedProducts.remove(allproducts.get(position));
+                        dbHelper.insertunmaptomapdata(allproducts.get(position).subscribedProductId,"false",allproducts.get(position).retailer_id);
+
+
+                        hash.remove(allproducts.get(position).subscribedProductId);
+
+
+                       /* Utilz.count = position;
+
+                        int clickedPos = (int) v.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusunmap();
+
+                        if (stat == true) {
+
+                            allproducts.get(clickedPos).setstatusunmap(false);
+                        }*/
+
                     }
                     else{
                         holder.checkedTextView.setChecked(true);
-                        selectedProducts.add(allproducts.get(position));
-                    }
+                        dbHelper.insertunmaptomapdata(allproducts.get(position).subscribedProductId,"true",allproducts.get(position).retailer_id);
 
+                        hash.put(allproducts.get(position).subscribedProductId,true);
+
+
+                       /* Utilz.count = position;
+                        int clickedPos = (int) v.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusunmap();
+
+                        if (stat == false) {
+
+                            allproducts.get(clickedPos).setstatusunmap(true);
+                        }*/
+                    }
+                   //notifyDataSetChanged();
 
 
 
@@ -161,17 +206,52 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
                 public void onClick(View view) {
                     if (holder.checkedTextView.isChecked() == true){
                         holder.checkedTextView.setChecked(true);
-                        selectedProducts.add(allproducts.get(position));
+                        dbHelper.insertunmaptomapdata(allproducts.get(position).subscribedProductId,"true",allproducts.get(position).retailer_id);
+                        hash.put(allproducts.get(position).subscribedProductId , true);
+
+
+
+                        /*selectedProducts.add(allproducts.get(position));
+
+                        Utilz.count = position;
+                        int clickedPos = (int) view.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusunmap();
+
+                        if (stat == false) {
+
+                            allproducts.get(clickedPos).setstatusunmap(true);
+                        }*/
+
+
                     }
                     else{
                         holder.checkedTextView.setChecked(false);
-                        selectedProducts.remove(allproducts.get(position));
+                        dbHelper.insertunmaptomapdata(allproducts.get(position).subscribedProductId,"false",allproducts.get(position).retailer_id);
+                        hash.remove(allproducts.get(position).subscribedProductId);
+                        /*selectedProducts.remove(allproducts.get(position));
+
+                        Utilz.count = position;
+
+                        int clickedPos = (int) view.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusunmap();
+
+                        if (stat == true) {
+
+                            allproducts.get(clickedPos).setstatusunmap(false);
+                        }*/
+
+
                     }
+
+                  //  notifyDataSetChanged();
                 }
             });
 
 
             int pack_size = allproducts.get(position).product.packSize;
+
+
+
 
 
 
@@ -269,7 +349,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
         show_footer = true;
 
     }
-    public ArrayList<allProduct> getSelectedProducts(){
+    public ArrayList<RetailerProduct> getSelectedProducts(){
         return selectedProducts;
     }
 

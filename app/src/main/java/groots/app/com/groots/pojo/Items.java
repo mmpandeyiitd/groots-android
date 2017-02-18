@@ -44,6 +44,8 @@ public class Items {
     @Expose
     public List<String> thumbUrl = new ArrayList<String>();
 
+
+
     public Double getItemCount() {
         return itemCount;
     }

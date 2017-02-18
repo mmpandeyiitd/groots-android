@@ -126,6 +126,8 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
 
 
 
+
+
         shippingtxtamount_main = (TextView) findViewById(R.id.shippingtxtamount_main);
         subtxtamount_main = (TextView) findViewById(R.id.subtxtamount_main);
 

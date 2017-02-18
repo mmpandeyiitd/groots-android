@@ -2,15 +2,16 @@ package groots.app.com.groots.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.ObjectConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by aakash on 21/1/17.
+ * Created by aakash on 16/2/17.
  */
 
-public class HttpResponseofProducts<T> {
+public class HttpResponseObject<T> {
 
     @SerializedName("totalCount")
     @Expose
@@ -34,11 +35,5 @@ public class HttpResponseofProducts<T> {
 
     @SerializedName("data")
     @Expose
-    public List<T> data = new ArrayList<T>();
-
-   /* @SerializedName("data")
-    @Expose
-    public Object dataObject;*/
-
-
+    public T data;
 }

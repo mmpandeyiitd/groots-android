@@ -35,6 +35,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.tagmanager.Container;
@@ -74,6 +77,13 @@ import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 public class Landing_Update extends AppCompatActivity implements View.OnClickListener, UpdateCart {
+
+
+
+
+    private ShowcaseView showcaseView;
+    private int caseshow = 0;
+    private Target t1,t2,t3;
 
 
     Order order;
@@ -123,6 +133,15 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing__update);
 
+        t1 = new ViewTarget(R.id.listicon,this);
+        showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setOnClickListener(this).setContentTitle("List Buttton")
+                .setContentText("On click this button the grid view appears.").build();
+
+        showcaseView.setButtonText("Grid View");
+
+
+
+
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
 
         // analytics
@@ -132,6 +151,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
+
+
+
+
 
 
       //  callretailerdetailsAPI();
@@ -615,6 +638,21 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         ShowDialog showdialog = new ShowDialog(this);
+
+        switch (caseshow){
+            case 0 :
+                showcaseView.setShowcase(t1,true);
+                showcaseView.setContentTitle("GRid View");
+                showcaseView.setContentText("it shows products in grid view");
+                break;
+            case 1 :
+                showcaseView.hide();
+                break;
+        }
+        caseshow++;
+
+
+
         switch (view.getId()) {
 
 
@@ -713,7 +751,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
 
-                        Intent intent = new Intent(context, WebPage.class);
+                        Intent intent = new Intent(context, FillRetailerDetails.class);
                         intent.putExtra("Name", "About Groots");
                         startActivity(intent);
                     }

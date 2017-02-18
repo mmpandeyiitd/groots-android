@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import groots.app.com.groots.model.CartClass;
+import groots.app.com.groots.model.MappingClass;
 
 /**
  * Created by Administrator
@@ -123,7 +124,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
             db.execSQL("CREATE TABLE if not exists Cart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR , shipping_charge FLOAT);");
 
-            //db.execSQL("CREATE TABLE if not exists UnmapToMap (subscribe_prod_id INTEGER)");
+            db.execSQL("CREATE TABLE if not exists UnmapToMap (subscribe_prod_id INTEGER,status VARCHAR,retailer_id INTEGER);");
+
+            db.execSQL("CREATE TABLE if not exists MapToUnmap (subscribe_prod_id INTEGER,status VARCHAR,retailer_id INTEGER);");
 
         }
         catch (SQLException e) {
@@ -138,6 +141,183 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 
+    }
+
+
+
+
+
+    public void deletemaptounmapdata(){
+
+        try{
+
+            db = openDataBase();
+            String q = "select * from MapToUnmap";
+            Cursor cursor = null;
+            cursor = db.rawQuery(q,null);
+            int count = cursor.getCount();
+            if (count > 0){
+                String query ="delete from MapToUnmap";
+                db.execSQL(query);
+
+            }
+            if (db !=  null){
+                db.close();
+
+            }
+            if (cursor != null)
+            {
+
+                cursor.close();
+            }
+
+
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    public void  insertmaptounmapdata(int subs_prod_id ,String status , int retailer_id){
+
+        try{
+            db = openDataBase();
+            String query = "Select * from MapToUnmap";
+            Cursor cursor = null;
+            cursor = db.rawQuery(query , null);
+            int count = cursor.getCount();
+
+            if (count == 0){
+                String Query = "insert into MapToUnmap(subscribe_prod_id,status,retailer_id) values"+"("+subs_prod_id+",'"+status+"',"+retailer_id+")";
+                db.execSQL(Query);
+            }
+            else if (count > 0 ){
+                String q = "select * from MapToUnmap where subscribe_prod_id = "+subs_prod_id ;
+                //db.execSQL(q);
+                Cursor curs = null;
+                curs = db.rawQuery(q,null);
+                int c = curs.getCount();
+
+                if (c == 0 ){
+                    String que = "insert into MapToUnmap (subscribe_prod_id,status,retailer_id) values"+"("+subs_prod_id+",'"+status+"',"+retailer_id+")";
+                    db.execSQL(que);
+                }
+                else if (c > 0){
+                    //String que = "update MapToUnmap set status ='"+status+"', retailer_id="+retailer_id+"where subscribe_prod_id = "+subs_prod_id ;
+                    String que ="delete from MapToUnmap where subscribe_prod_id = " + subs_prod_id;
+                    db.execSQL(que);
+                }
+                if (curs != null){
+                    curs.close();
+                }
+
+            }
+            copyDBToPhoneSD1();
+            if (db != null){
+                db.close();
+            }
+            if (cursor != null){
+                cursor.close();
+            }
+
+
+        }
+        catch (Exception e){
+
+        }
+    }
+
+
+    public void deleteunmaptomapdata(){
+
+        try{
+
+            db = openDataBase();
+            String q = "select * from UnmapToMap";
+            Cursor cursor = null;
+            cursor = db.rawQuery(q,null);
+            int count = cursor.getCount();
+            if (count > 0){
+                String query ="delete from UnmapToMap";
+                db.execSQL(query);
+
+            }
+            if (db !=  null){
+                db.close();
+
+            }
+            if (cursor != null)
+            {
+
+                cursor.close();
+            }
+
+
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    public void  insertunmaptomapdata(int subs_prod_id ,String status , int retailer_id){
+
+        try{
+            db = openDataBase();
+            String query = "Select * from UnmapToMap";
+            Cursor cursor = null;
+            cursor = db.rawQuery(query , null);
+            int count = cursor.getCount();
+
+            if (count == 0){
+                String Query = "insert into UnmapToMap(subscribe_prod_id,status,retailer_id) values"+"("+subs_prod_id+",'"+status+"',"+retailer_id+")";
+                db.execSQL(Query);
+            }
+            else if (count > 0 ){
+                String q = "Select * from UnmapToMap where subscribe_prod_id = " + subs_prod_id ;
+                //System.out.println(q);
+
+
+                //db.execSQL(q);
+                Cursor curs = null;
+                curs = db.rawQuery(q,null);
+                int c = curs.getCount();
+
+                if (c == 0 ){
+                    String que = "insert into UnmapToMap (subscribe_prod_id,status,retailer_id) values"+"("+subs_prod_id+",'"+status+"',"+retailer_id+")";
+                    db.execSQL(que);
+                }
+                else if (c > 0){
+                   // String que = "update UnmapToMap set status ='"+status+"', retailer_id="+retailer_id+" where subscribe_prod_id = "+subs_prod_id ;
+
+                    String que ="delete from UnmapToMap where subscribe_prod_id = " + subs_prod_id;
+                  System.out.println(que);
+
+
+                   // String query = "update OrderHead set shipping_charge ="+shipping_charge+",total = "+total+",sub_total ="+sub_total+ "";
+
+
+                    db.execSQL(que);
+                }
+                if (curs != null){
+                    curs.close();
+                }
+
+            }
+           // copyDBToPhoneSD1();
+            if (db != null){
+                db.close();
+            }
+            if (cursor != null){
+                cursor.close();
+            }
+
+
+        }
+        catch (Exception e){
+
+            System.out.println(e);
+
+        }
     }
 
     public void insertSearchListdata(String text){
@@ -161,6 +341,9 @@ public class DbHelper extends SQLiteOpenHelper {
                  if (c == 0){
                      String Query = "insert into SearchList(searchedText) values"+"('"+ text+ "')";
                      db.execSQL(Query);
+                 }
+                 else if (c > 0){
+
                  }
 
                  if (cursor1 != null){
@@ -408,6 +591,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     }
+
+
 
 
 
@@ -679,6 +864,9 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return cnt;
     }
+
+
+
     //...............................Product Table.............................
 
 	/* insert cart data
@@ -790,6 +978,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     }
+
 
 
 
@@ -924,6 +1113,97 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
         return i;
+    }
+
+
+    public ArrayList<MappingClass> getmaptounmapdata(){
+
+        ArrayList<MappingClass> arrayList = new ArrayList<>();
+        MappingClass mapclass;
+        String que = "select * from MapToUnmap";
+        int cnt = 0;
+        db = openDataBase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.rawQuery(que, null);
+            cnt = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+                    mapclass = new MappingClass();
+                    mapclass.subscProdId = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
+                    mapclass.retailerId= cursor.getInt(cursor.getColumnIndexOrThrow("retailer_id"));
+                    mapclass.status =  cursor.getString(cursor.getColumnIndexOrThrow("status"));
+
+
+                    arrayList.add(mapclass);
+                }
+                while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+
+
+        return arrayList;
+
+
+
+
+    }
+
+
+
+    public ArrayList<MappingClass> getunmaptomapdata(){
+
+        ArrayList<MappingClass> arrayList = new ArrayList<>();
+        MappingClass mapclass;
+        String que = "select * from UnmapToMap";
+        int cnt = 0;
+        db = openDataBase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.rawQuery(que, null);
+            cnt = cursor.getCount();
+
+            if (cursor.moveToNext()) {
+                do {
+                    mapclass = new MappingClass();
+                    mapclass.subscProdId = cursor.getInt(cursor.getColumnIndexOrThrow("subscribe_prod_id"));
+                    mapclass.retailerId = cursor.getInt(cursor.getColumnIndexOrThrow("retailer_id"));
+                    mapclass.status =  cursor.getString(cursor.getColumnIndexOrThrow("status"));
+
+
+
+
+                    arrayList.add(mapclass);
+                }
+                while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
+
+            if (cursor != null)
+                cursor.close();
+        }
+
+
+        return arrayList;
+
+
+
+
     }
 
 

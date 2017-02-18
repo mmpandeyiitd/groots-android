@@ -12,6 +12,8 @@
     <color name="textLogin">#E0DBDB</color>
     <color name="textHintColor">#817C80</color>
 
+    <color name="spinnerTextColor">#FFFFFF</color>
+
 
     <color name="white">#ffffff</color>
     <color name="view">#77B1B1B1</color>
