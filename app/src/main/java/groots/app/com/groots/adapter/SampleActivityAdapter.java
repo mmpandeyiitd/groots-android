@@ -29,7 +29,7 @@ import groots.app.com.groots.pojo.Product;
 
 public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<Product> sampleProducts;
+    ArrayList<Items> sampleProducts;
     Context context;
     boolean show_footer;
     public static final int TYPE_ITEM = 1;
@@ -37,7 +37,7 @@ public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     View view ;
 
 
-    public SampleActivityAdapter(ArrayList<Product> sampleProducts,Context context , boolean flag){
+    public SampleActivityAdapter(ArrayList<Items> sampleProducts,Context context , boolean flag){
 
         this.context = context;
         this.sampleProducts = sampleProducts;
@@ -116,8 +116,8 @@ public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             holder.textItemName.setText(sampleProducts.get(position).title);
             holder.textItemdesc.setText(sampleProducts.get(position).description);
-            holder.textItemPriceMin.setText(sampleProducts.get(position).storeOfferPrice.toString());
-            holder.textItemPriceMax.setText(sampleProducts.get(position).storeOfferPrice.toString());
+            holder.textItemPriceMin.setText(sampleProducts.get(position).minPrice.toString());
+            holder.textItemPriceMax.setText(sampleProducts.get(position).maxPrice.toString());
             if (!sampleProducts.get(position).thumbUrl.equals(null)) {
            /* Picasso.with(context).load(orderItems.get(position).thumbUrl.get(0))
                     .into(holder.imgItemIcon);*/

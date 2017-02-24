@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -69,6 +70,9 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout drawer;
     DbHelper dbHelper;
     String shownav = "true";
+    String fromWhere ="home" ;
+    Button next_btn,back_btn;
+
 
     CoordinatorLayout cdmapping;
     String cust_support_no, order_support_no;
@@ -98,9 +102,27 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_mapping);
 
 
+        next_btn = (Button) findViewById(R.id.next_btn);
+        back_btn = (Button) findViewById(R.id.back_btn);
+       /* back_btn.setVisibility(View.VISIBLE);
+
+        next_btn.setVisibility(View.VISIBLE);*/
+
+
+
 
        Intent intent = getIntent();
          shownav = intent.getStringExtra("showNav");
+        fromWhere = intent.getStringExtra("fromWhere");
+
+        if (fromWhere != null){
+
+            fromWhere = "sample";
+        }
+        else {
+            fromWhere = "home";
+        }
+
 
 
         if (shownav != null ){
@@ -111,13 +133,25 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
             shownav = "true";
         }
 
+        Bundle bundle = new Bundle();
+
+        bundle.putString("showNav","false");
+
+        bundle.putString("fromWhere","sample");
+
+// set Fragmentclass Arguments
+        mappedProducts bundleMap = new mappedProducts();
+        bundleMap.setArguments(bundle);
+        UnmappedProducts bundleUnmap = new UnmappedProducts();
+        bundleUnmap.setArguments(bundle);
 
 
 
 
-        t1 = new ViewTarget(R.id.tabs,this);
+
+      /*  t1 = new ViewTarget(R.id.tabs,this);
         showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setContentTitle("map products").setContentText("Tabs for mapping your products.").setOnClickListener(this).build();
-        showcaseView.setButtonText("Map Products");
+        showcaseView.setButtonText("Map Products");*/
 
 
 
@@ -168,6 +202,12 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         order_support_no = ContactNumbers.get(1);
 
         utilz = new Utilz();
+
+
+
+
+
+
 
 
 
@@ -274,6 +314,34 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
         }
+
+
+
+        if (fromWhere.equals("home")){
+            next_btn.setVisibility(View.GONE);
+            back_btn.setVisibility(View.GONE);
+        }
+        else{
+            next_btn.setVisibility(View.VISIBLE);
+            back_btn.setVisibility(View.VISIBLE);
+
+        }
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
+        next_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(mapping.this,FillRetailerDetails.class);
+                startActivity(intent);
+            }
+        });
 
 
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -389,7 +457,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
     public void onClick(View view) {
 
-        switch(caseshow){
+       /* switch(caseshow){
             case 0:
                 showcaseView.setShowcase(t1,true);
                 showcaseView.setContentTitle("map products");
@@ -401,7 +469,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
         }
-        caseshow++;
+        caseshow++;*/
 
 
 

@@ -1,5 +1,6 @@
 package groots.app.com.groots.ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,8 +14,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.Target;
@@ -29,6 +32,7 @@ import groots.app.com.groots.adapter.Detail_Adapter;
 import groots.app.com.groots.adapter.History_Adapter;
 import groots.app.com.groots.adapter.Landing_Adapter;
 import groots.app.com.groots.adapter.SampleActivityAdapter;
+import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.model.CartClass;
 import groots.app.com.groots.pojo.HttpResponse;
@@ -65,7 +69,8 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<Product> productListDocDatas = new ArrayList<>();
 
 
-    Button nextActivity;
+    Button nextActivity,logout;
+    DbHelper dbHelper;
 
 
     protected void onCreate(Bundle savedInstanceState){
@@ -73,18 +78,22 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
      super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        t1 = new ViewTarget(R.id.detail_recycler_view,this);
+       // t1 = new ViewTarget(R.id.detail_recycler_view,this);
 
-      showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setContentText("Price List").setContentTitle("Sample").setOnClickListener(this).build();
+        dbHelper = DbHelper.getInstance(context);
+        dbHelper.createDb(false);
 
-
-        showcaseView.setButtonText("Sample");
+//      showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setContentText("Price List").setContentTitle("Sample").setOnClickListener(this).build();
+//
+//
+//        showcaseView.setButtonText("Sample");
 
 
 
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
 
         nextActivity = (Button) findViewById(R.id.next_button);
+        logout = (Button) findViewById(R.id.logout_button);
         loaderMain = (RelativeLayout) findViewById(R.id.loadermain);
         loaderMain.setVisibility(View.INVISIBLE);
         loaderMainFooter = (RelativeLayout) findViewById(R.id.loadermainfooter);
@@ -96,17 +105,31 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
         context = SampleActivity.this;
 
-        //callSampleProductsAPI(offsetValue);
-        callProductListingAPI(offsetValue);
+        callSampleProductsAPI(offsetValue);
+        //callProductListingAPI(offsetValue);
 
 
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+
+            }
+        });
 
 
         nextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(SampleActivity.this,FillRetailerDetails.class);
+                Intent intent = new Intent(SampleActivity.this,mapping.class);
+
+                intent.putExtra("showNav","false");
+
+                intent.putExtra("fromWhere","sample");
                 startActivity(intent);
 
             }
@@ -132,7 +155,55 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-/*
+
+
+    private void logoutPopUp() {
+        final Dialog logoutdialog = new Dialog(SampleActivity.this);
+        logoutdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        logoutdialog.setContentView(R.layout.logout_layout);
+        logoutdialog.setCancelable(true);
+        TextView logout = (TextView) logoutdialog.findViewById(R.id.logout);
+        TextView cancel = (TextView) logoutdialog.findViewById(R.id.cancel);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                editor.putString("Check", null);
+                editor.commit();
+
+                Utilz.count = 0;
+                // File cache = getCacheDir();
+                dbHelper.deleterec();
+                // File appDir = new File(cache.getParent());
+              /*  if (appDir.exists()) {
+                    String[] children = appDir.list();
+
+                    for (String s : children) {
+
+                        File f = new File(appDir, s);
+                        if (deleteDir(f))
+                            System.out.println("delete" + f.getPath());
+                    }
+                }*/
+                Intent i = new Intent(SampleActivity.this, Splash.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                finish();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutdialog.dismiss();
+            }
+        });
+        logoutdialog.show();
+    }
+
+
+
     public void callSampleProductsAPI(int offset){
 
         int row  = 10;
@@ -156,7 +227,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         String AuthToken = prefs.getString("AuthToken",null);
 
 
-        apiInterface.getSampleProductsResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, "application/json", AuthToken, hash, new Callback<HttpResponseofProducts<Items>>() {
+        apiInterface.getSampleProductsResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken, hash, new Callback<HttpResponseofProducts<Items>>() {
 
             public void success(HttpResponseofProducts httpResponse , Response response){
 
@@ -280,7 +351,6 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
     }
-*/
 
 
 
@@ -292,9 +362,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-    private void callProductListingAPI(final int offset) {
+  /*  private void callProductListingAPI(final int offset) {
 
-       /* Log.e("data",String.valueOf(offset));*/
+       *//* Log.e("data",String.valueOf(offset));*//*
         offsetValue = offset;
 
         HashMap hashMap = new HashMap();
@@ -361,7 +431,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
                     //  Log.e("incoming data",productListData.data.response.docs.toString());
-             /*       ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+             *//*       ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
 
                     for (int i = 0; i < productListDocDatas.size(); i++) {
 
@@ -372,7 +442,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                                 productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
                             }
                         }
-                    }*/
+                    }*//*
                     //  Log.e("incoming data",productListData.data.response.docs.toString());
 
                     if (httpResponse.data.responseData.docs.size() == 0) {
@@ -435,7 +505,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
         offsetValue++;
         //   Log.e("No of Page ", String.valueOf(offsetValue));
-    }
+    }*/
 
 
 
@@ -458,7 +528,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
 
 
-        switch(caseshow){
+        /*switch(caseshow){
             case 0:
                 showcaseView.setShowcase(t1,true);
                 showcaseView.setContentTitle("Sample");
@@ -470,7 +540,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
         }
-        caseshow++;
+        caseshow++;*/
 
     }
 }

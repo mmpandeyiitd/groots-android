@@ -26,6 +26,14 @@ public class Items {
     @Expose
     public Double storeOfferPrice;
 
+    @SerializedName("minPrice")
+    @Expose
+    public Double minPrice;
+
+    @SerializedName("maxPrice")
+    @Expose
+    public Double maxPrice;
+
     @SerializedName("packSize")
     @Expose
     public Integer packSize;

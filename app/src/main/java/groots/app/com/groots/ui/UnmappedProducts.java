@@ -73,6 +73,7 @@ public class UnmappedProducts extends Fragment {
     RecyclerView detail_recycler_view;
     Button addproducts_button;
     DbHelper dbHelper;
+    String fromWhere,showNav;
 
     RecyclerView recycle;
     public boolean loadingMoreforall = true;
@@ -90,6 +91,14 @@ public class UnmappedProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.product_list, container, false);
+
+/*
+         fromWhere = this.getArguments().getString("fromWhere");
+        showNav = this.getArguments().getString("showNav");*/
+         fromWhere = getActivity().getIntent().getStringExtra("fromWhere");
+         showNav = getActivity().getIntent().getStringExtra("showNav");
+
+
 
 
 
@@ -728,7 +737,7 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
                 else if(status == 2){
 
 
-                    SharedPreferences prefs = getActivity().getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE);
+                   /* SharedPreferences prefs = getActivity().getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE);
 
 
                     registrationStatus = prefs.getString("registrationStatus",null);
@@ -736,7 +745,7 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
                     if (!registrationStatus.equals("Complete")){
 
                         callchangeRegStatusAPI();
-                    }
+                    }*/
                    // String msg = httpresponse.errors.get(0).toString();
                     Toast.makeText(context,"Products has been mapped successfully.",Toast.LENGTH_LONG).show();
                    /* Snackbar snackbar = Snackbar.make(cdLanding,"Products has been mapped successfully", Snackbar.LENGTH_SHORT);
@@ -746,9 +755,20 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
                     snackbar.show();*/
 
 
-                    Intent intent = new Intent(context, Landing_Update.class);
+                    Intent intent = new Intent(context, mapping.class);
+
+                    if (fromWhere != null) {
+                        if (fromWhere.equals("sample")) {
+                            intent.putExtra("fromWhere", "sample");
+                        }
+                    }
+                    if (showNav != null) {
+                        if (showNav.equals("false")) {
+                            intent.putExtra("showNav", "false");
+                        }
+                    }
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                  //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     getActivity().finish();
 
@@ -788,7 +808,7 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
 
 
 
-    void callchangeRegStatusAPI(){
+   /* void callchangeRegStatusAPI(){
         HashMap hashm = new HashMap();
         hashm.put("makeActive","yes");
 
@@ -856,7 +876,7 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
 
 
 
-    }
+    }*/
 
 
 

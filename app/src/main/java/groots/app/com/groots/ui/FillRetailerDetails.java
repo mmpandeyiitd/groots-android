@@ -50,11 +50,13 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
     ArrayList<user_profile> retailerdetails = new ArrayList<>();
 
     Button btnBack , btnNext;
+    String registrationStatus;
     Context context;
     String addressDelivery,tanNumber,personNamee,pan_number,City,State,alternate_email,pin_code,web_site;
     String spinPayMode,spinPayFreq,statee;
     Utilz utilz;
     TextView cName,contact,email,personName;
+    LinearLayout cdsignup;
     int pos,pos1,pos2;
 
 
@@ -78,6 +80,7 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
         pinCode = (EditText) findViewById(R.id.pincode);
         webSite =(EditText) findViewById(R.id.website);
         panNo = (EditText) findViewById(R.id.pan_no);
+        cdsignup = (LinearLayout) findViewById(R.id.cdsignUp);
         cName = (TextView) findViewById(R.id.cName);
         contact = (TextView)findViewById(R.id.Contact);
         email = (TextView) findViewById(R.id.email_id);
@@ -266,9 +269,24 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
 
 
                     Toast.makeText(context,"Your information has been saved.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(FillRetailerDetails.this,mapping.class);
-                    intent.putExtra("showNav","false");
+                    SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+
+
+                    registrationStatus = prefs.getString("registrationStatus",null);
+
+                    if (!registrationStatus.equals("Complete")){
+
+                        callchangeRegStatusAPI();
+                    }
+
+
+                    Intent intent = new Intent(FillRetailerDetails.this,Landing_Update.class);
+                   // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+
                     startActivity(intent);
+                    finish();
 
                 }
 
@@ -283,6 +301,81 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
 
             }
         });
+
+
+
+    }
+
+
+
+
+
+
+    void callchangeRegStatusAPI(){
+        HashMap hashm = new HashMap();
+        hashm.put("makeActive","yes");
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+        apiInterface.getChangeRegStatusResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken,hashm, new Callback<HttpResponse>() {
+            @Override
+            public void success(HttpResponse httpResponse, Response response) {
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 0){
+                    Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 1){
+
+                    Toast.makeText(context,"You have done your complete registration.",Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE).edit();
+                    editor.putString("registrationStatus","Complete");
+                    editor.commit();
+
+
+
+                }
+
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+        });
+
 
 
 

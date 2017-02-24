@@ -21,4 +21,19 @@
     <color name="drawer_header">#1E5C21</color>
 
 
+    <color name="newColorPrimaryGREEN">#4CAF50</color>
+    <color name="newbackgroundcolor">#FAFAFA</color>
+    <color name="newSecondcolorgreen">#17B966</color>
+    <color name="newthirdgreen">#0C914D</color>
+    <color name="newColorPrimaryRED">#E13B3B</color>
+    <color name="newSecondcolorred">#27292B</color>
+    <color name="newthirdred">#BF2222</color>
+    <color name="newtextcolorprimary">#1f1f1f</color>
+    <color name="newtextcolorsecondary">#6d6d6d</color>
+    <color name="newhintcolor">#939393</color>
+
+
+
+
+
 </resources>

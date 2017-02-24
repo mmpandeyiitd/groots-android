@@ -74,6 +74,8 @@ public class mappedProducts extends Fragment {
     UpdateCart updateCart;
     Context context;
     boolean flag = true;
+    String fromWhere,showNav;
+
     public boolean loadingMoreforselected = true;
     public boolean loadingMoreforsearch = true;
 
@@ -85,6 +87,11 @@ public class mappedProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.product_list, container, false);
+
+        /*fromWhere = getArguments().getString("fromWhere");
+        showNav = getArguments().getString("showNav");*/
+        fromWhere = getActivity().getIntent().getStringExtra("fromWhere");
+        showNav = getActivity().getIntent().getStringExtra("showNav");
 
 
 
@@ -689,7 +696,7 @@ return null;
                 }
                 else if(status == 2){
 
-
+/*
                     SharedPreferences prefs = getActivity().getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE);
 
 
@@ -698,7 +705,7 @@ return null;
                     if (!registrationStatus.equals("Complete")){
 
                         callchangeRegStatusAPI();
-                    }
+                    }*/
 
 
 
@@ -713,9 +720,17 @@ return null;
                     snackbar.show();*/
 
 
-                    Intent intent = new Intent(context, Landing_Update.class);
+                    Intent intent = new Intent(context, mapping.class);
                    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                   // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    if (fromWhere.equals("sample")){
+                        intent.putExtra("fromWhere","sample");
+                    }
+                    if (showNav.equals("false")){
+                        intent.putExtra("showNav","false");
+                    }
+
+
                     startActivity(intent);
                     getActivity().finish();
 

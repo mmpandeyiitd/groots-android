@@ -133,11 +133,11 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing__update);
 
-        t1 = new ViewTarget(R.id.listicon,this);
+      /*  t1 = new ViewTarget(R.id.listicon,this);
         showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setOnClickListener(this).setContentTitle("List Buttton")
                 .setContentText("On click this button the grid view appears.").build();
 
-        showcaseView.setButtonText("Grid View");
+        showcaseView.setButtonText("Grid View");*/
 
 
 
@@ -639,7 +639,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         ShowDialog showdialog = new ShowDialog(this);
 
-        switch (caseshow){
+        /*switch (caseshow){
             case 0 :
                 showcaseView.setShowcase(t1,true);
                 showcaseView.setContentTitle("GRid View");
@@ -649,7 +649,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 showcaseView.hide();
                 break;
         }
-        caseshow++;
+        caseshow++;*/
 
 
 

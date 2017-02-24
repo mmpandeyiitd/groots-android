@@ -119,7 +119,6 @@ public interface API_Interface {
     void getSampleProductsResponse(@Header("API_KEY") String apikey,
                                    @Header("APP_VERSION") String app_version,
                                    @Header("CONFIG_VERSION") String config,
-                                   @Header("Content-Type") String ContentType,
                                    @Header("AUTH_TOKEN") String auth,
                                    @QueryMap Map<String,String> alldata,Callback<HttpResponseofProducts<Items>> cb);
 

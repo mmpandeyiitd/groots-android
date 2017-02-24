@@ -459,7 +459,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
                     } else if (status == 4) {
                         // btnSignIn.setText("Sign In");
-                       // String msg = httpResponse.errors.toString();
+                        //String msg = httpResponse.errors.toString();
                         Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();

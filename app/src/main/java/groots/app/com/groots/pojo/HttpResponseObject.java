@@ -31,7 +31,7 @@ public class HttpResponseObject<T> {
 
     @SerializedName("error")
     @Expose
-    public String errors;
+    public ArrayList errors;
 
     @SerializedName("data")
     @Expose
