@@ -73,7 +73,7 @@ public class Detail_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_adapter_layout, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_design_detail_card_view, parent, false);
           //  ViewHolderDetail dataObjectHolder = new ViewHolderDetail(view);
             return new ViewHolderDetail(view);
         }

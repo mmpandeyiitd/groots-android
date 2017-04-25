@@ -14,6 +14,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -87,21 +89,25 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     String cust_support,order_support,sales_contact_number ;
     ArrayList<updateAppResponsePojo> updateappResponsePojos = new ArrayList<>();
     AlphaAnimation alphaAnimation;
+    int count1 = 0,count2 = 0;
 
     String registrationStatus;
     //updateAppResponsePojo updateappResponsePojo;
     KenBurnsView kbv;
     Animation animationmoveup, animationmovebt;
-    LinearLayout llUserName, llPassword;
+    LinearLayout llUserName, llPassword,condition_pass;
     EditText etPassword;
     CoordinatorLayout cdLanding;
     AutoCompleteTextView etLogin;
     CoordinatorLayout cdLogin, cdForgetPwd ,feedbackfail;
     TextView tvForgetPass , tvSignUp;
+    LinearLayout tvSignup;
     RelativeLayout progressMobile;
     DbHelper dbHelper;
     Button btnSignIn;
     View viewUser, viewPass;
+    TextView hide_comp,hide_pass;
+
     Dialog dialog;
     Context context;
 
@@ -124,10 +130,10 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.new_design_splash);
 
-
-       /* SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+/*
+        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", null);
         editor.commit();*/
 
@@ -189,6 +195,8 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         btnSignIn.setEnabled(true);
         btnSignIn.setText("Sign In");
         progressMobile = (RelativeLayout) findViewById(R.id.progressMobile);
+        condition_pass = (LinearLayout) findViewById(R.id.condition_pass);
+        condition_pass.setVisibility(View.GONE);
         progressMobile.setVisibility(View.INVISIBLE);
 
         // create our manager instance after the content view is set
@@ -212,13 +220,24 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         kbv = (KenBurnsView) findViewById(R.id.image);
         llUserName = (LinearLayout) findViewById(R.id.llUserName);
         llPassword = (LinearLayout) findViewById(R.id.llPassword);
+
         etPassword = (EditText) findViewById(R.id.etPassword);
         etLogin = (AutoCompleteTextView) findViewById(R.id.etLogin);
+        hide_pass = (TextView) findViewById(R.id.hide_pass);
+        hide_comp = (TextView) findViewById(R.id.hide_email);
+
+
+
+
+
+
+
         viewUser = findViewById(R.id.viewUser);
         viewPass = findViewById(R.id.viewPass);
         tvForgetPass = (TextView) findViewById(R.id.tvForgetPas);
         tvForgetPass.setOnClickListener(this);
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvSignup = (LinearLayout) findViewById(R.id.tvsignup);
         tvSignUp.setOnClickListener(this);
 
         dbHelper = DbHelper.getInstance(context);
@@ -226,6 +245,100 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         /*ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
         cust_support_no = ContactNumbers.get(0);
         order_support_no = ContactNumbers.get(1);*/
+        hide_pass.setVisibility(View.GONE);
+        hide_comp.setVisibility(View.GONE);
+
+
+        etLogin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_comp.setVisibility(View.INVISIBLE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_comp.setVisibility(View.VISIBLE);
+
+                if (count2 == 0) {
+                    hide_comp.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count2++;
+                }
+                viewUser.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+               // hide_comp.setVisibility(View.VISIBLE);
+                viewUser.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+
+                if (etLogin.getText().length() == 0){
+                    hide_comp.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_comp.setVisibility(View.INVISIBLE);
+                    count2 = 0;
+                    viewUser.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
+
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_pass.setVisibility(View.INVISIBLE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_pass.setVisibility(View.VISIBLE);
+
+                if (count1 == 0) {
+                    hide_pass.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count1++;
+                }
+                viewPass.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_pass.setVisibility(View.VISIBLE);
+                //hide_pass.startAnimation(AnimationUtils.loadAnimation(context,android.R.anim.fade_in));
+                viewPass.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (etPassword.getText().length() == 0){
+                    hide_pass.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_pass.setVisibility(View.INVISIBLE);
+                    count1 = 0;
+                    viewPass.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
 
 
         if (msg != null )
@@ -311,13 +424,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                 //      String sender = bundle.getString("sender");
 
                 // Toast.makeText(this,"logout",Toast.LENGTH_LONG).show();
-                kbv.setImageResource(R.drawable.bck_blur);
+                kbv.setImageResource(R.color.newbackgroundcolor);
                 llUserName.setVisibility(View.VISIBLE);
                 llPassword.setVisibility(View.VISIBLE);
                 btnSignIn.setVisibility(View.VISIBLE);
                 ivCallLogin.setVisibility(View.VISIBLE);
                 tvForgetPass.setVisibility(View.VISIBLE);
                 tvSignUp.setVisibility(View.VISIBLE);
+                tvSignup.setVisibility(View.VISIBLE);
                 viewUser.setVisibility(View.VISIBLE);
                 viewPass.setVisibility(View.VISIBLE);
 
@@ -341,13 +455,14 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                         moveup();
                         moveupTextField();
                         //((View) findViewById(R.id.viewBlur)).setVisibility(View.VISIBLE);
-                        kbv.setImageResource(R.drawable.bck_blur);
+                        kbv.setImageResource(R.color.newbackgroundcolor);
                         llUserName.setVisibility(View.VISIBLE);
                         llPassword.setVisibility(View.VISIBLE);
                         btnSignIn.setVisibility(View.VISIBLE);
                         ivCallLogin.setVisibility(View.VISIBLE);
                         tvForgetPass.setVisibility(View.VISIBLE);
                         tvSignUp.setVisibility(View.VISIBLE);
+                        tvSignup.setVisibility(View.VISIBLE);
                         viewUser.setVisibility(View.VISIBLE);
                         viewPass.setVisibility(View.VISIBLE);
                     }
@@ -407,6 +522,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         btnSignIn.startAnimation(animationmovebt);
         tvForgetPass.startAnimation(animationmovebt);
         tvSignUp.startAnimation(animationmovebt);
+        tvSignup.startAnimation(animationmovebt);
         viewUser.startAnimation(animationmovebt);
         viewPass.startAnimation(animationmovebt);
     }
@@ -915,7 +1031,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                                   callfeedbackresponseAPI();
                               }
                               else{
-                                  Intent inte = new Intent(Splash.this,SampleActivity.class);
+                                  Intent inte = new Intent(Splash.this,Welcome.class);
                                   Toast.makeText(context,"Please fill your details first.",Toast.LENGTH_LONG).show();
                                   startActivity(inte);
                                   finish();
@@ -941,7 +1057,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                           callfeedbackresponseAPI();
                       }
                       else{
-                          Intent inte = new Intent(Splash.this,SampleActivity.class);
+                          Intent inte = new Intent(Splash.this,Welcome.class);
                           Toast.makeText(context,"Please fill your details first.",Toast.LENGTH_LONG).show();
                           startActivity(inte);
                           finish();
@@ -1014,6 +1130,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
                     status = loginData.getStatus();
 
                     if (status == -1) {
+
+                        condition_pass.setVisibility(View.VISIBLE);
+
                         // btnSignIn.setText("Sign In");
                         String msg = loginData.getErrors().get(0).toString();
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_LONG);
@@ -1024,7 +1143,9 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                     } else if (status == 0) {
                         // btnSignIn.setText("Sign In");
-                        String msg = loginData.getErrors().get(0).toString();
+                       // String msg = loginData.getErrors().get(0).toString();
+                        String msg = "invalid email/mobile or password.";
+                        condition_pass.setVisibility(View.VISIBLE);
                         Snackbar snackbar = Snackbar.make(cdLogin, msg, Snackbar.LENGTH_LONG);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -1307,7 +1428,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                 } else if (status == 0) {
 
-                    // String msg = httpResponse.errors.get(0).toString();
+                    // String msg = httpResponse.error_object.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLogin,"Something went wrong. Please try again later.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -1388,7 +1509,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
 
                 } else if (status == 0) {
 
-                   // String msg = httpResponse.errors.get(0).toString();
+                   // String msg = httpResponse.error_object.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLogin,"Something went wrong. Please try again later.", Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();

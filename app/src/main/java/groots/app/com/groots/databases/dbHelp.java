@@ -1163,7 +1163,7 @@ public class dbHelp extends SQLiteOpenHelper {
 
 
 	*/
-/*. Delete Cart Data after place the order
+/*. Delete carrt Data after place the order
     .*//*
 
 
@@ -1337,7 +1337,7 @@ public class dbHelp extends SQLiteOpenHelper {
 
 
 		*/
-/*..............................Store Product Cart Table........................*//*
+/*..............................Store Product carrt Table........................*//*
 
 
 
@@ -1786,7 +1786,7 @@ public class dbHelp extends SQLiteOpenHelper {
 
 
     */
-/*. Delete Cart Data after place the order
+/*. Delete carrt Data after place the order
     .*//*
 
 

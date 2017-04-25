@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/newbackgroundcolor"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        android:elevation="2dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardUseCompatPadding="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="71dp"
+                android:layout_height="71dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgItemIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="#ffffff"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textItemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:paddingTop="3dp"
+                        android:singleLine="true"
+                        android:textColor="@color/textPrimaryDark"
+                        android:text="Nasik Onion"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/textItemdesc"
+                        android:layout_marginTop="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Xyz (1 Kg)"
+                        android:textSize="12dp"
+                        android:maxLines="1"
+                        android:layout_marginRight="40dp"
+                        android:ellipsize="end"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textRupee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/indian_rupees"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
+                            android:textColor="@color/newthirdgreen"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/textItemPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="2dp"
+                            android:text="250"
+                            android:textColor="@color/newthirdgreen"
+                            android:textSize="14dp" />
+
+
+                        <LinearLayout
+                            android:id="@+id/linearTxtMinus"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="bottom"
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
+
+                            <ImageButton
+                                android:id="@+id/txtMinus"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/new_design_reduce_quantity_xxhdpi"
+                                android:background="@null"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="7dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <groots.app.com.groots.ui.KeyboardEditText
+                                android:id="@+id/txtCount"
+                                android:background="@android:color/transparent"
+                                android:cursorVisible="true"
+                                android:ems="2"
+                                android:textColor="@color/newtextcolorprimary"
+                                android:gravity="center"
+                                android:imeOptions="actionDone"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:maxLines="1"
+                                android:text="0"
+                                android:layout_marginRight=".5dp"
+                                android:textCursorDrawable="@drawable/cursor_drawable"
+                                android:textSelectHandle="@drawable/emptyimage"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"/>
+
+                           <!-- <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#DCDCDC"></View>-->
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearTxtPlus"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
+
+                            <ImageButton
+                                android:id="@+id/txtPlus"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/new_design_add_quantity"
+                                android:background="@null" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -1,15 +1,22 @@
 package groots.app.com.groots.ui;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,7 +28,11 @@ import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,7 +62,9 @@ import retrofit.client.Response;
 
 public class signUpPage extends AppCompatActivity  {
 
-    LinearLayout backbtn , cdsignUp;
+
+
+    LinearLayout backbtn , cdsignUp,conditionPass;
     user_profile retailer = new user_profile();
     otpResponse otpRespons = new otpResponse();
    // ArrayList<user_profile> retailerdetails = new ArrayList<>();
@@ -62,9 +75,15 @@ public class signUpPage extends AppCompatActivity  {
    // List<user_profile> retailer = new ArrayList<>();
 
 
+
+
+    BroadcastReceiver receiver;
     String otp;
+    int count1,count2,count3,count4,count5;
+    View view1,view2,view3,view4,view5;
     String user_id;
     EditText Name , cName , designation , contactNo , email_id , new_password,confirm_password;
+    TextView atleastFive,signIn,hide_company,hide_contact,hide_email,hide_pass,hide_confirm_pass;
     String new_pass,confirm_pass,email,compName,contact;
     Button btnSignU;
     Dialog dialog;
@@ -85,19 +104,270 @@ public class signUpPage extends AppCompatActivity  {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(final Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_page);
+        setContentView(R.layout.new_design_signup);
 
-backbtn = (LinearLayout) findViewById(R.id.backbtn);
+
+
+        view1 = (View) findViewById(R.id.view1);
+        view2 = (View) findViewById(R.id.view2);
+        view3 = (View) findViewById(R.id.view3);
+        view4 = (View) findViewById(R.id.view4);
+        view5 = (View) findViewById(R.id.view5);
+
+
+
+
+        backbtn = (LinearLayout) findViewById(R.id.backbtn);
         new_password = (EditText) findViewById(R.id.new_password);
         confirm_password = (EditText) findViewById(R.id.confirm_password);
+        signIn = (TextView) findViewById(R.id.sign_in);
+        conditionPass = (LinearLayout) findViewById(R.id.condition_pass);
+        atleastFive = (TextView) findViewById(R.id.atleast_five);
+        hide_company = (TextView) findViewById(R.id.hide_company);
+        hide_contact = (TextView) findViewById(R.id.hide_contact);
+        hide_email = (TextView) findViewById(R.id.hide_email);
+        hide_pass = (TextView) findViewById(R.id.hide_password);
+        hide_confirm_pass = (TextView) findViewById(R.id.hide_confirm_password);
+        hide_confirm_pass.setVisibility(View.GONE);
+        hide_email.setVisibility(View.GONE);
+        hide_pass.setVisibility(View.GONE);
+        hide_company.setVisibility(View.GONE);
+        hide_contact.setVisibility(View.GONE);
+        conditionPass.setVisibility(View.GONE);
+
+
+
       // Name = (EditText) findViewById(R.id.Name);
 
         cName = (EditText) findViewById(R.id.cName);
        // designation = (EditText) findViewById(R.id.Designation);
         contactNo = (EditText) findViewById(R.id.Contact);
         email_id = (EditText) findViewById(R.id.email_id);
+
+        cName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_company.setVisibility(View.GONE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_company.setVisibility(View.VISIBLE);
+                if (count1 == 0) {
+                    hide_company.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count1++;
+                }
+                view1.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_company.setVisibility(View.VISIBLE);
+                view1.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (cName.getText().length() == 0){
+                    hide_company.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_company.setVisibility(View.GONE);
+                    count1 = 0;
+                    view1.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
+        contactNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_contact.setVisibility(View.GONE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_contact.setVisibility(View.VISIBLE);
+                if (count2 == 0) {
+                    hide_contact.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count2++;
+                }
+                view2.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_contact.setVisibility(View.VISIBLE);
+                view2.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (contactNo.getText().length() == 0){
+                    hide_contact.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_contact.setVisibility(View.GONE);
+                    count2 = 0;
+                    view2.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+        new_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_pass.setVisibility(View.GONE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_pass.setVisibility(View.VISIBLE);
+                if (count3 == 0) {
+                    hide_pass.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count3++;
+                }
+                view4.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_pass.setVisibility(View.VISIBLE);
+                view4.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (new_password.getText().length() == 0){
+                    hide_pass.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_pass.setVisibility(View.GONE);
+                    count3 = 0;
+                    view4.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
+
+        confirm_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                hide_confirm_pass.setVisibility(View.GONE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_confirm_pass.setVisibility(View.VISIBLE);
+                if (count4 == 0) {
+                    hide_confirm_pass.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count4++;
+                }
+                view5.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_confirm_pass.setVisibility(View.VISIBLE);
+                view5.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (confirm_password.getText().length() == 0){
+                    hide_confirm_pass.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_confirm_pass.setVisibility(View.GONE);
+                    count4 = 0;
+                    view5.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
+        email_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                    hide_email.setVisibility(View.GONE);
+
+
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hide_email.setVisibility(View.VISIBLE);
+                if (count5 == 0) {
+                    hide_email.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up));
+                    count5++;
+                }
+                view3.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                hide_email.setVisibility(View.VISIBLE);
+                view3.setBackgroundColor(getResources().getColor(R.color.resendotpcolor));
+
+                if (email_id.getText().length() == 0){
+                    hide_email.startAnimation(AnimationUtils.loadAnimation(context,R.anim.slide_down));
+                    hide_email.setVisibility(View.GONE);
+                    count5 = 0;
+                    view3.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
+
+                }
+
+
+            }
+        });
+
+
+        /*email_id.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (email_id.length() > 0){
+
+                    hide_email.setVisibility(View.VISIBLE);
+
+
+
+                }
+
+                hide_email.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });*/
+
         btnSignU = (Button) findViewById(R.id.btnSubmit);
 
         cdsignUp = (LinearLayout) findViewById(R.id.cdsignUp);
@@ -114,6 +384,14 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
             public void onClick(View view) {
 
                 onBackPressed();
+            }
+        });
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                onBackPressed();
+
             }
         });
 
@@ -147,6 +425,7 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
                 retailer.contactNo = contact;
                 retailer.newPassword = new_pass;
                 retailer.confirmPassword = confirm_pass;
+
 
 
 
@@ -192,7 +471,8 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
 
                      }
                      else if (!(new_pass.contains("@")) && !(new_pass.contains("#")) && !(new_pass.contains("$")) && !(new_pass.contains("-")) && !(new_pass.contains("_"))){
-
+                         conditionPass.setVisibility(View.VISIBLE);
+                         atleastFive.setVisibility(View.GONE);
                          Snackbar snackbar = Snackbar.make(cdsignUp, "Password should contain atleast 1 special character from @#$_- ", Snackbar.LENGTH_SHORT);
                          snackbar.setActionTextColor(Color.WHITE);
                          View snackbarView = snackbar.getView();
@@ -201,7 +481,10 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
 
                      }
                      else if (!(passwordValidator.validate(new_pass))){
-                         Snackbar snackbar = Snackbar.make(cdsignUp, "Password should contain 1 uppercase,1 lowercase ,1 character from #$_-% , 1 numeric \n character and atleast 6 characters long.", Snackbar.LENGTH_LONG);
+
+                         conditionPass.setVisibility(View.VISIBLE);
+                         atleastFive.setVisibility(View.GONE);
+                         Snackbar snackbar = Snackbar.make(cdsignUp, "Password should be alphanumeric ,1 special from #$_-%  and atleast 5 characters long.", Snackbar.LENGTH_LONG);
                          snackbar.setActionTextColor(Color.WHITE);
 
                          View snackbarView = snackbar.getView();
@@ -254,7 +537,8 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
                 }
 
                 else if (!(new_pass.contains("@")) && !(new_pass.contains("#")) && !(new_pass.contains("$")) && !(new_pass.contains("-")) && !(new_pass.contains("_"))){
-
+                    conditionPass.setVisibility(View.VISIBLE);
+                    atleastFive.setVisibility(View.GONE);
                     Snackbar snackbar = Snackbar.make(cdsignUp, "Password should contain atleast 1 special character from @#$_- ", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -266,7 +550,9 @@ backbtn = (LinearLayout) findViewById(R.id.backbtn);
 
 
                 else if (!(passwordValidator.validate(new_pass))){
-                    Snackbar snackbar = Snackbar.make(cdsignUp, "Password should contain 1 uppercase,1 lowercase ,1 character from #$_-% , 1 numeric \n character and atleast 6 characters long.", Snackbar.LENGTH_LONG);
+                    conditionPass.setVisibility(View.VISIBLE);
+                    atleastFive.setVisibility(View.GONE);
+                    Snackbar snackbar = Snackbar.make(cdsignUp, "Password should be alphanumeric ,1 special from #$_-%  and atleast 5 characters long.", Snackbar.LENGTH_LONG);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
@@ -356,7 +642,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
        if (status == 5) {
            // btnSignIn.setText("Sign In");
-           //String msg = httpResponse.errors.toString();
+           //String msg = httpResponse.error_object.toString();
            Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
            snackbar.setActionTextColor(Color.WHITE);
            View snackbarView = snackbar.getView();
@@ -365,8 +651,8 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
        } else if (status == 4) {
            // btnSignIn.setText("Sign In");
-          // String msg = httpResponse.errors.toString();
-           Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+           String msg = httpResponse.errors.toString();
+           Snackbar snackbar = Snackbar.make(cdsignUp, msg, Snackbar.LENGTH_SHORT);
            snackbar.setActionTextColor(Color.WHITE);
            View snackbarView = snackbar.getView();
            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -382,7 +668,10 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
                         hashMap.put("password",confirm_pass);
 
                           callLoginAPI(hashMap);
-           Intent intent = new Intent(signUpPage.this,SampleActivity.class);
+           Intent intent = new Intent(signUpPage.this,Welcome.class);
+
+           intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
            startActivity(intent);
            finish();
 
@@ -401,11 +690,46 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
     @Override
     public void failure (RetrofitError e){
 
-        Snackbar snackbar = Snackbar.make(cdsignUp, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+
+
+        String stat = e.getResponse().getReason();
+        int status = Integer.parseInt(stat.substring(0,1));
+
+
+        if (status == 5) {
+            // btnSignIn.setText("Sign In");
+            //String msg = httpResponse.error_object.toString();
+            Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+
+        } else if (status == 4) {
+            // btnSignIn.setText("Sign In");
+            //String msg = e.getResponse().getReason().toString()
+            HttpResponseofProducts h = (HttpResponseofProducts) e.getBodyAs(HttpResponseofProducts.class);
+            String msg = h.errors.msg.toString();
+
+
+            Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
+
+           // String msg = e.getResponse().getBody().toString();
+           /* Snackbar snackbar = Snackbar.make(cdsignUp, msg, Snackbar.LENGTH_SHORT);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();*/
+
+        }
+
+        /*Snackbar snackbar = Snackbar.make(cdsignUp, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
         snackbar.setActionTextColor(Color.WHITE);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        snackbar.show();
+        snackbar.show();*/
+
+
 
     }
 
@@ -413,6 +737,130 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 });
 
     }
+
+
+
+
+
+
+
+
+
+    void callOtpSendapi(){
+
+        HashMap hash = new HashMap();
+        hash.put("userId",user_id);
+        String otp = null;
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+
+        apiInterface.getOtpSendResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version,hash,new Callback<HttpResponseofProducts>(){
+            @Override
+            public void success(HttpResponseofProducts httpResponse ,Response response){
+
+
+                String stat = httpResponse.status;
+                int status = Integer.parseInt(stat.substring(0,1));
+
+
+                if (status == 5) {
+                    // btnSignIn.setText("Sign In");
+                    //String msg = httpResponse.error_object.toString();
+                    Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 4) {
+                    // btnSignIn.setText("Sign In");
+                    String msg = httpResponse.errors.toString();
+                    Snackbar snackbar = Snackbar.make(cdsignUp, msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 2) {
+
+                    Toast.makeText(context,"A new otp has been sent to your mobile.",Toast.LENGTH_LONG).show();
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+            @Override
+            public void failure (RetrofitError e){
+
+
+
+                String stat = e.getResponse().getReason();
+                int status = Integer.parseInt(stat.substring(0,1));
+
+
+                if (status == 5) {
+                    // btnSignIn.setText("Sign In");
+                    //String msg = httpResponse.error_object.toString();
+                    Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 4) {
+                    // btnSignIn.setText("Sign In");
+                    //String msg = e.getResponse().getReason().toString()
+                    HttpResponseofProducts h = (HttpResponseofProducts) e.getBodyAs(HttpResponseofProducts.class);
+                    String msg = h.errors.msg.toString();
+
+
+
+                    // String msg = e.getResponse().getBody().toString();
+
+                    Toast.makeText(context,msg,Toast.LENGTH_LONG).show();
+                   /* Snackbar snackbar = Snackbar.make(cdsignUp, msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();*/
+
+                }
+
+        /*Snackbar snackbar = Snackbar.make(cdsignUp, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+        snackbar.setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show();*/
+
+
+
+            }
+
+
+        });
+
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -450,7 +898,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
                     int status = Integer.parseInt(statu.substring(0,1));
                     if (status == 5) {
                         // btnSignIn.setText("Sign In");
-                        //String msg = httpResponse.errors.toString();
+                        //String msg = httpResponse.error_object.toString();
                         Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -459,7 +907,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
                     } else if (status == 4) {
                         // btnSignIn.setText("Sign In");
-                        //String msg = httpResponse.errors.toString();
+                        //String msg = httpResponse.error_object.toString();
                         Snackbar snackbar = Snackbar.make(cdsignUp, "Something went wrong.Please try again later.", Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -471,6 +919,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
                         retailerdetails =(user_profile) httpResponse.data;
                          user_id = retailerdetails.user_id;
+
 
 
 
@@ -494,23 +943,157 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
                          dialog = new Dialog(signUpPage.this);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setCancelable(false);
-                        dialog.setContentView(R.layout.otp_activity_dialog);
+
+                        dialog.setContentView(R.layout.new_design_otp_dialog);
                         dialog.show();
                         TextView otpDone = (TextView) dialog.findViewById(R.id.otp_done);
 
+                        TextView resendotp = (TextView) dialog.findViewById(R.id.resend_otp);
+
+
+                       final EditText enterotp1 = (EditText) dialog.findViewById(R.id.enterOtp1);
+                       final EditText enterotp2 = (EditText) dialog.findViewById(R.id.enterOtp2);
+                       final EditText enterotp3 = (EditText) dialog.findViewById(R.id.enterOtp3);
+                       final EditText enterotp4 = (EditText) dialog.findViewById(R.id.enterOtp4);
+
+
+                          receiver = new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                if (intent.getAction().equalsIgnoreCase("otp")) {
+                                    final String message = intent.getStringExtra("message");
+
+                                    String numberOnly= message.replaceAll("[^0-9]", "");
+                                    String otpnum = numberOnly.trim();
+
+
+
+                                    //System.out.println(otpnum);
+                                    callOtpCheckAPI(otpnum);
+                                    //Do whatever you want with the code here
+                                }
+                            }
+                        };
+
+
+                        enterotp1.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start,int before, int count)
+                            {
+                                // TODO Auto-generated method stub
+                                if(enterotp1.getText().toString().length()==1)     //size as per your requirement
+                                {
+                                    enterotp2.requestFocus();
+                                    enterotp2.setCursorVisible(true);
+
+                                }
+                            }
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+
+                        enterotp2.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start,int before, int count)
+                            {
+                                // TODO Auto-generated method stub
+                                if(enterotp2.getText().toString().length()==1)     //size as per your requirement
+                                {
+                                    enterotp3.requestFocus();
+                                    enterotp3.setCursorVisible(true);
+
+                                }
+                            }
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+
+                        enterotp3.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start,int before, int count)
+                            {
+                                // TODO Auto-generated method stub
+                                if(enterotp3.getText().toString().length()==1)     //size as per your requirement
+                                {
+                                    enterotp4.requestFocus();
+                                    enterotp4.setCursorVisible(true);
+
+                                }
+                            }
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+
+
+                        enterotp4.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start,int before, int count)
+                            {
+                                // TODO Auto-generated method stub
+                                if(enterotp4.getText().toString().length()==1)     //size as per your requirement
+                                {
+                                    enterotp1.requestFocus();
+                                    enterotp1.setCursorVisible(true);
+
+                                }
+                            }
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
 
 //int a =enterOtp.getSelectionStart();
                         // enterOtp.setSelection(a+2);
 
 
-
                         otpDone.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
+
+
+
+
                                 EditText enterOtp = (EditText) dialog.findViewById(R.id.enterOtp);
+                               String otp1 = enterotp1.getText().toString().trim();
+                                String otp2 = enterotp2.getText().toString().trim();
+                                String otp3 = enterotp3.getText().toString().trim();
+                                String otp4 = enterotp4.getText().toString().trim();
+                               otp = otp1.concat(otp2).concat(otp3).concat(otp4);
 
-
-                                otp = enterOtp.getText().toString().trim();
+                                //otp = enterOtp.getText().toString().trim();
 
                                 if (otp.length() != 4 ){
 
@@ -520,8 +1103,31 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
 
                                  otpRespons.otp = otp;
 
+
+
                                     callOtpCheckAPI(otp);
                                 }
+                            }
+                        });
+
+
+                        resendotp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+
+                               callOtpSendapi();
+
+
+
+
+
+
+
+
+
+
                             }
                         });
 
@@ -616,6 +1222,37 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
         });
 
 
+    }
+
+
+    public void recivedSms(String message)
+    {
+        try
+        {
+
+            String numberOnly= message.replaceAll("[^0-9]", "");
+            String otpnum = numberOnly.trim();
+            callOtpCheckAPI(otpnum);
+
+
+            //OtpNumber.setText(message);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
 
 
@@ -736,7 +1373,7 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
         private Matcher matcher;
 
         private static final String PASSWORD_PATTERN =
-                "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$_-]).{5,20})";
+                "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[@#$_-]).{5,20})";
 
         public PasswordValidator(){
             pattern = Pattern.compile(PASSWORD_PATTERN);

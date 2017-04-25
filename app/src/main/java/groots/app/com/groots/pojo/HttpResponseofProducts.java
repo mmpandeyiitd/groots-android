@@ -30,7 +30,7 @@ public class HttpResponseofProducts<T> {
 
     @SerializedName("error")
     @Expose
-    public String errors;
+    public error_object errors  ;
 
     @SerializedName("data")
     @Expose

@@ -98,6 +98,15 @@ public class user_profile {
     @Expose
     public String panNo;
 
+    @SerializedName("retailer_grade_type")
+    @Expose
+    public String retailerGradeType;
+
+
+    @SerializedName("business_type")
+    @Expose
+    public String businessType;
+
     @SerializedName("id")
     @Expose
     public String user_id;

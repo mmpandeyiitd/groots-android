@@ -105,7 +105,7 @@ public class Landing_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 view = null;
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.landing_card_view_row, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_landing_card_view, parent, false);
             DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
             return dataObjectHolder;
         }

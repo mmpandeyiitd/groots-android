@@ -331,7 +331,7 @@ public class history_ui extends AppCompatActivity implements View.OnClickListene
 
                 } else {
                     final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in Cart !", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in carrt !", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

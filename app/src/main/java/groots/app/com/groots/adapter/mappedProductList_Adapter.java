@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
         TextView textItemName;
         TextView textItemdesc;
         TextView textItemPrice;
-        CheckBox checkedTextView;
+        RadioButton checkedTextView;
         TextView textRup;
 
 
@@ -89,7 +90,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
             //textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             textRup = (TextView) itemView.findViewById(R.id.textRupee);
-            checkedTextView =(CheckBox) itemView.findViewById(R.id.checkbox1);
+            checkedTextView =(RadioButton) itemView.findViewById(R.id.checkbox1);
             //checkedTextView.setOnClickListener((View.OnClickListener)this);
 
 
@@ -105,7 +106,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.product_list_card_view, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_product_list_card_view, parent, false);
             mappedProductList_Adapter.DataObjectHolder dataObjectHolder = new mappedProductList_Adapter.DataObjectHolder(view);
             return dataObjectHolder;
         }
@@ -205,7 +206,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
             });
 
 
-            holder.checkedTextView.setOnClickListener(new View.OnClickListener() {
+           /* holder.checkedTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (holder.checkedTextView.isChecked() == true){
@@ -215,7 +216,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
                         hash.remove(allproducts.get(position).subscribedProductId);
 
 
-                       /* selectedProducts.add(allproducts.get(position));
+                       *//* selectedProducts.add(allproducts.get(position));
 
                         Utilz.count = position;
                         int clickedPos = (int) view.getTag();
@@ -224,7 +225,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
                         if (stat == false) {
 
                             allproducts.get(clickedPos).setstatusmap(true);
-                        }*/
+                        }*//*
                     }
                     else{
                         holder.checkedTextView.setChecked(false);
@@ -232,7 +233,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
 
                         //selectedProducts.remove(allproducts.get(position));
                         hash.put(allproducts.get(position).subscribedProductId ,true );
-                        /*Utilz.count = position;
+                        *//*Utilz.count = position;
 
                         int clickedPos = (int) view.getTag();
                         boolean stat = allproducts.get(clickedPos).getstatusmap();
@@ -240,11 +241,11 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
                         if (stat == true) {
 
                             allproducts.get(clickedPos).setstatusmap(false);
-                        }*/
+                        }*//*
                     }
                 }
             });
-
+*/
 
             int pack_size = allproducts.get(position).product.packSize;
 
@@ -274,11 +275,11 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
 
         } else if (mholder instanceof FooterViewHolder) {
             final FooterViewHolder footerHolder = (FooterViewHolder) mholder;
-            if (((mappedProducts) fragment).loadingMoreforall  == false) {
+            if (((mappedProducts) fragment).loadingMoreforall1  == false) {
                 footerHolder.tvloadmore.setVisibility(View.VISIBLE);
                 footerHolder.progressBar.setVisibility(View.GONE);
             }
-            else if (((mappedProducts) fragment).loadingMoreforsearch == false){
+            else if (((mappedProducts) fragment).loadingMoreforsearch1 == false){
                 footerHolder.tvloadmore.setVisibility(View.VISIBLE);
                 footerHolder.progressBar.setVisibility(View.GONE);
             }

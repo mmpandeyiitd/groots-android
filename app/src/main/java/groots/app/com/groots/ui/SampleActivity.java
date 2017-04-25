@@ -15,7 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,28 +64,31 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
     CoordinatorLayout cdLanding;
     boolean flag = true;
+   public boolean loadingmore = true;
 
     Context context;
+    LinearLayoutManager linearLayoutManager;
     RelativeLayout loaderMain,loaderMainFooter,blankLayout;
     RecyclerView recycle;
-    int offsetValue = 1;
+    int offsetValue = 0;
     ArrayList<Items> sampleProducts = new ArrayList<>();
     ArrayList<Product> productListDocDatas = new ArrayList<>();
 
 
-    Button nextActivity,logout;
+    TextView logout;
+    ImageView nextActivity;
+    LinearLayout backActivity;
     DbHelper dbHelper;
 
 
     protected void onCreate(Bundle savedInstanceState){
 
      super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
+        setContentView(R.layout.new_design_sample_activity);
 
        // t1 = new ViewTarget(R.id.detail_recycler_view,this);
 
-        dbHelper = DbHelper.getInstance(context);
-        dbHelper.createDb(false);
+
 
 //      showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setContentText("Price List").setContentTitle("Sample").setOnClickListener(this).build();
 //
@@ -91,9 +98,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
-
-        nextActivity = (Button) findViewById(R.id.next_button);
-        logout = (Button) findViewById(R.id.logout_button);
+        backActivity = (LinearLayout) findViewById(R.id.back_btn);
+        nextActivity = (ImageView) findViewById(R.id.goToStep2);
+        logout = (TextView) findViewById(R.id.logout_button);
         loaderMain = (RelativeLayout) findViewById(R.id.loadermain);
         loaderMain.setVisibility(View.INVISIBLE);
         loaderMainFooter = (RelativeLayout) findViewById(R.id.loadermainfooter);
@@ -103,10 +110,54 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         blankLayout.setVisibility(View.INVISIBLE);
         recycle = (RecyclerView) findViewById(R.id.detail_recycler_view);
 
+
+
+        recycle.setHasFixedSize(true);
+        recycle.setNestedScrollingEnabled(false);
+        linearLayoutManager = new LinearLayoutManager(context);
+
+
+
         context = SampleActivity.this;
 
         callSampleProductsAPI(offsetValue);
         //callProductListingAPI(offsetValue);
+
+
+        dbHelper = DbHelper.getInstance(context);
+        dbHelper.createDb(false);
+
+
+
+        recycle.setOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+
+               // listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+            }
+
+            @Override
+            public void onShow() {
+                //listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+
+            }
+        });
+
+        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                Utilz.count = layoutManager.findFirstCompletelyVisibleItemPosition();
+             /*   Log.e("count", String.valueOf(offsetValue));*/
+                if (loadingmore) {
+                    //position starts at 0
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == layoutManager.getItemCount() - 1) {
+                        callSampleProductsAPI(offsetValue);
+                    }
+                }
+            }
+        });
 
 
 
@@ -115,8 +166,18 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View view) {
 
 
+                logoutPopUp();
 
 
+
+
+            }
+        });
+
+        backActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -125,11 +186,11 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(SampleActivity.this,mapping.class);
+                Intent intent = new Intent(SampleActivity.this,FillRetailerDetails.class);
 
-                intent.putExtra("showNav","false");
+               /* intent.putExtra("showNav","false");
 
-                intent.putExtra("fromWhere","sample");
+                intent.putExtra("fromWhere","sample");*/
                 startActivity(intent);
 
             }
@@ -204,7 +265,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-    public void callSampleProductsAPI(int offset){
+    public void callSampleProductsAPI(final int offset){
 
         int row  = 10;
         offsetValue = offset;
@@ -215,6 +276,12 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         HashMap hash = new HashMap();
         hash.put("start",offset);
         hash.put("rows",row);
+
+
+
+        if (offset == 0){
+            loaderMain.setVisibility(View.VISIBLE);
+        }
 
 
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setLogLevel(RestAdapter.LogLevel.FULL).build();
@@ -232,8 +299,10 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
             public void success(HttpResponseofProducts httpResponse , Response response){
 
 
+
+
                 //recycle.setVisibility(View.INVISIBLE);
-                loaderMain.setVisibility(View.INVISIBLE);
+              //  loaderMain.setVisibility(View.INVISIBLE);
 
                 String stat = httpResponse.status;
                 int status = Integer.parseInt(stat.substring(0,1));
@@ -277,6 +346,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                             // ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.GONE);
 
                         }
+                        loadingmore = false;
 
 
 
@@ -288,9 +358,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
                         Utilz.count = sampleProducts.size();
 
-                        if (Utilz.count != 0){
+                        /*if (Utilz.count != 0){
                             sampleProducts.clear();
-                        }
+                        }*/
                         for (int i = 0; i < httpResponse.data.size(); i++) {
                             sampleProducts.add((Items) httpResponse.data.get(i));
                         }
@@ -398,7 +468,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (status == -1) {
 
-                    String msg = httpResponse.errors.get(0).toString();
+                    String msg = httpResponse.error_object.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -407,7 +477,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
                 } else if (status == 0) {
 
-                    String msg = httpResponse.errors.get(0).toString();
+                    String msg = httpResponse.error_object.get(0).toString();
                     Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();

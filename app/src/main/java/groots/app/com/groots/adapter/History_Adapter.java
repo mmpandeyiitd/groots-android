@@ -128,7 +128,7 @@ view = null;
         if (viewType == TYPE_ITEM) {
 
             //view = null;
-            view = LayoutInflater.from(context).inflate(R.layout.history_test_card_view, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_history_card_view, parent, false);
             History_Adapter.DataObjectHolder dataObjectHolder = new History_Adapter.DataObjectHolder(view);
             return dataObjectHolder;
         }

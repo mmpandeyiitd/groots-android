@@ -238,6 +238,7 @@
 
     <EditText
         android:layout_width="match_parent"
+        android:textCursorDrawable="@drawable/new_design_cursor"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:shadowColor="@color/drawer_header"

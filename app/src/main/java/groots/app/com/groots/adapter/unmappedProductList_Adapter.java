@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
         TextView textItemName;
         TextView textItemdesc;
         TextView textItemPrice;
-        CheckBox checkedTextView;
+        RadioButton checkedTextView;
         TextView textRup;
 
 
@@ -88,7 +89,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
             //textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             textRup = (TextView) itemView.findViewById(R.id.textRupee);
-            checkedTextView =(CheckBox) itemView.findViewById(R.id.checkbox1);
+            checkedTextView =(RadioButton) itemView.findViewById(R.id.checkbox1);
             //checkedTextView.setOnClickListener((View.OnClickListener)this);
 
 
@@ -104,7 +105,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.product_list_card_view, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_product_list_card_view, parent, false);
             unmappedProductList_Adapter.DataObjectHolder dataObjectHolder = new unmappedProductList_Adapter.DataObjectHolder(view);
             return dataObjectHolder;
         }
@@ -144,6 +145,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
 
             }
 */
+
             holder.itemView.setTag(position);
             holder.checkedTextView.setTag(position);
 
@@ -201,7 +203,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
             });
 
 
-            holder.checkedTextView.setOnClickListener(new View.OnClickListener() {
+         /*   holder.checkedTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (holder.checkedTextView.isChecked() == true){
@@ -211,7 +213,7 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
 
 
 
-                        /*selectedProducts.add(allproducts.get(position));
+                        *//*selectedProducts.add(allproducts.get(position));
 
                         Utilz.count = position;
                         int clickedPos = (int) view.getTag();
@@ -220,15 +222,15 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
                         if (stat == false) {
 
                             allproducts.get(clickedPos).setstatusunmap(true);
-                        }*/
+                        }*//*
 
 
                     }
-                    else{
+                    else if (holder.checkedTextView.isChecked() == false){
                         holder.checkedTextView.setChecked(false);
                         dbHelper.insertunmaptomapdata(allproducts.get(position).subscribedProductId,"false",allproducts.get(position).retailer_id);
                         hash.remove(allproducts.get(position).subscribedProductId);
-                        /*selectedProducts.remove(allproducts.get(position));
+                        *//*selectedProducts.remove(allproducts.get(position));
 
                         Utilz.count = position;
 
@@ -238,14 +240,14 @@ public class unmappedProductList_Adapter extends RecyclerView.Adapter<RecyclerVi
                         if (stat == true) {
 
                             allproducts.get(clickedPos).setstatusunmap(false);
-                        }*/
+                        }*//*
 
 
                     }
 
                   //  notifyDataSetChanged();
                 }
-            });
+            });*/
 
 
             int pack_size = allproducts.get(position).product.packSize;

@@ -22,6 +22,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -83,6 +84,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     boolean flag = true;
     public boolean backflag = false;
     NavigationView navigationView;
+    SwipeRefreshLayout swipe_refresh_layout;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder,navAllProducts;
     String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
@@ -118,7 +120,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing__update);
+        setContentView(R.layout.new_design_landing_update);
 
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
@@ -144,8 +146,8 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         loadermain = (RelativeLayout) findViewById(R.id.loadermain);
         loadermain.setOnClickListener(this);
 
-        callicon = (LinearLayout) findViewById(R.id.callicon);
-        callicon.setOnClickListener(this);
+       // callicon = (LinearLayout) findViewById(R.id.callicon);
+        //callicon.setOnClickListener(this);
         listicon = (LinearLayout) findViewById(R.id.listicon);
         listicon.setVisibility(View.GONE);
         //listicon.setOnClickListener(this);
@@ -188,7 +190,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         dbHelp = new dbHelp(context);
         dbHelp.createDb(false);
 
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
+        //navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
@@ -199,7 +201,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
-        navOrder.setOnClickListener(this);
+        //navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
@@ -216,6 +218,31 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         cust_support_no = ContactNumbers.get(0);
         order_support_no = ContactNumbers.get(1);
 
+
+
+        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+
+        swipe_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                //swipe_refresh_layout.setVisibility(View.VISIBLE);
+
+                detail_recycler_view.setAdapter(null);
+                productListDocDatas.clear();
+                Utilz.count = 0;
+                offsetValue = 1;
+                callProductListingAPI(offsetValue);
+                loadingMore = true;
+
+
+
+            }
+        });
+
+
+
        /* ...............................Navigation Drawer........................................*/
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -226,10 +253,10 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
 
                 int itemInCart = dbHelp.getTotalRow();
-                if (itemInCart > 0) {
+                /*if (itemInCart > 0) {
                     navOrder.setVisibility(View.VISIBLE);
                 } else
-                    navOrder.setVisibility(View.GONE);
+                    navOrder.setVisibility(View.GONE);*/
 
             }
         };
@@ -316,12 +343,12 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onHide() {
 
-                listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+               // listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override
             public void onShow() {
-                listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+                //listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
 
             }
         });
@@ -349,6 +376,11 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
     private void callProductListingAPI(final int offset) {
 
+       if (swipe_refresh_layout != null) {
+           if (swipe_refresh_layout.isRefreshing()) {
+               swipe_refresh_layout.setRefreshing(false);
+           }
+       }
        /* Log.e("data",String.valueOf(offset));*/
         offsetValue = offset;
 
@@ -707,7 +739,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
 
 
-            case R.id.pending_menu:
+          /*  case R.id.pending_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
                 Runnable runnable = new Runnable() {
@@ -730,17 +762,18 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
-                break;
+                break;*/
 
 
             case R.id.allproducts_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
-                runnable = new Runnable() {
+               Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        Intent inten = new Intent(context , UnmappedProducts.class);
+                        Intent inten = new Intent(context , mapping.class);
                         startActivity(inten);
+                        finish();
 
                     }
                 };
@@ -783,6 +816,9 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                     public void run() {
 
                         Intent intent = new Intent(context,Landing_Update.class);
+
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         //intent.putExtra("Name","Order History");
                         startActivity(intent);
                         finish();
@@ -857,6 +893,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(context,History.class);
                         intent.putExtra("Name","Order History");
                         startActivity(intent);
+                        finish();
 
                     }
                 };
@@ -910,7 +947,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                 }
                 break;*/
 
-            case R.id.callicon:
+           /* case R.id.callicon:
                 if (flag == true) {
 
                     if (!utilz.isInternetConnected(context)) {
@@ -936,7 +973,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
                     showdialog.show();
                 }
-                break;
+                break;*/
             default:
                 break;
         }
@@ -1025,13 +1062,13 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
                 txtCart_detail.setText("99+");
             }
 
-            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
+            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.new_design_cart_xhdpi);
         } else {
 
             listfooter.setVisibility(View.INVISIBLE);
             txtCart_detail.setText("");
             txtamount_detail.setText("0");
-            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.blank_cart);
+            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.new_design_cart_xhdpi);
         }
     }
 

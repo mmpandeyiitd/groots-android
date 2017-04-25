@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/cdLanding"
+        >
+        <RelativeLayout
+            android:id="@+id/blank_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/notfound" />
+
+            <groots.app.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="7dp"
+                android:text="Sorry! nothing found. "
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/newColorPrimaryGREEN"
+
+
+
+            >
+
+            <LinearLayout
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="22dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:src="@drawable/back" />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Sample Items"
+                android:layout_marginLeft="22dp"
+
+                android:textColor="@color/white"
+                android:textSize="20dp"
+
+                android:gravity="center_vertical"
+                />
+
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/logout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Logout"
+                    android:textColor="@color/white"/>
+
+
+            </LinearLayout>
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".8">
+
+
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_recycler_view"
+                    android:background="@color/newbackgroundcolor"
+                    android:layout_width="match_parent"
+                    android:padding="0dp"
+
+
+
+                    android:layout_height="match_parent" />
+
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/text"
+                    android:layout_weight=".2"
+                    android:weightSum="1"
+
+                    android:background="@color/newbackgroundcolor"
+                    android:layout_height="0dp">
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Listing Demo"
+
+                    android:textColor="@color/newtextcolorprimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:textColor="@color/newtextcolorprimary"
+                    android:textSize="14dp"
+                    android:text="Sample of rates of our Items."/>
+
+
+
+               <!-- <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/newtextcolorprimary"
+                    android:textSize="14dp"
+                    android:text="at an affordable price."/>-->
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/newtextcolorprimary"
+                    android:textSize="14dp"
+                    android:text="Step 1/3"/>
+
+                <ImageView
+                    android:layout_width="150dp"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/step_one"
+                    />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/loadermain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <groots.app.com.groots.utilz.Loader
+                android:id="@+id/rotate"
+                android:layout_width="56dp"
+                android:layout_height="56dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loadermainfooter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <groots.app.com.groots.utilz.Loader
+                    android:id="@+id/rotatefooter"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/goToStep2"
+                android:layout_gravity="bottom"
+
+                android:background="@drawable/new_design_footer"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go To Step 2"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/newtextcolorprimary"/>
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>

@@ -68,7 +68,7 @@ public class Checkout_Adapter extends RecyclerView.Adapter<Checkout_Adapter.Cart
 
     @Override
     public Checkout_Adapter.CartHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.checkout_adapter, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.new_design_checkout_card_view, parent, false);
         CartHolder dataObjectHolder = new CartHolder(view);
         return dataObjectHolder;
     }

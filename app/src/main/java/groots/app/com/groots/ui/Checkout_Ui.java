@@ -113,7 +113,7 @@ public class Checkout_Ui extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout__ui);
+        setContentView(R.layout.new_design_checkout_ui);
 
          df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -435,7 +435,7 @@ if (shippingcharge == null ){
 
                 } else {
                     final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in Cart !", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in carrt !", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -541,7 +541,7 @@ if (shippingcharge == null ){
                 } else if (status.equals("1")) {
 
                     loaderlayout.setVisibility(View.INVISIBLE);
-                    dbHelper.deleterec();
+                    dbHelper.deletereco();
                     Intent intent = new Intent(Checkout_Ui.this, Thank_You_UI.class);
                     intent.putExtra("order_status","place");
                     startActivity(intent);

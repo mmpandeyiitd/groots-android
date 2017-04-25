@@ -174,6 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:textCursorDrawable="@drawable/new_design_cursor"
                     android:background="@null"
                     android:paddingBottom="10dp"
                     android:hint="Enter Password"

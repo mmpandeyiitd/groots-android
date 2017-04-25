@@ -38,7 +38,7 @@ public class OtpMain {
     /**
      *
      * @return
-     * The errors
+     * The error_object
      */
     public List<String> getErrors() {
         return errors;
@@ -47,7 +47,7 @@ public class OtpMain {
     /**
      *
      * @param errors
-     * The errors
+     * The error_object
      */
     public void setErrors(List<String> errors) {
         this.errors = errors;

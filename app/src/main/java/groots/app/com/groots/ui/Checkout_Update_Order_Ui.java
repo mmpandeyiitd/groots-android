@@ -118,7 +118,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout_update_order_ui);
+        setContentView(R.layout.new_design_checkout_ui);
         context = Checkout_Update_Order_Ui.this;
 
 
@@ -426,7 +426,7 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
                 } else {
                     final CoordinatorLayout cdcheckout = (CoordinatorLayout) findViewById(R.id.cdcheckout);
-                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in Cart !", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(cdcheckout, "Please Add Something in carrt !", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -846,6 +846,9 @@ public class Checkout_Update_Order_Ui extends AppCompatActivity implements View.
 
                     float priceinDb = dbHelp.fetchTotalUpdateCartAmount();
                    Double shippingcharges = retailerdetails.get(0).shippingCharge;
+                    if (shippingcharges == null){
+                        shippingcharges = 0.0;
+                    }
 
 
 

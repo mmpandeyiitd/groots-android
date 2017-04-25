@@ -4,8 +4,19 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="newRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/new_design_rating_bar</item>
+        <item name="android:numStars">5</item>
+
+        <item name="android:minHeight">52dp</item>
+        <item name="android:minWidth">52dp</item>
+        <item name="android:maxWidth">52dp</item>
+        <item name="android:maxHeight">52dp</item>
     </style>
 
 
@@ -16,6 +27,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:typeface">sans</item>
@@ -29,17 +41,20 @@
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
         <item name="color">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <!--....................toolbar text Size...........-->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">16sp</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
         <item name="color">@android:color/white</item>
     </style>
 
@@ -50,7 +65,7 @@
     <!-- Make the status bar traslucent -->
     <style name="AppTheme.CustomSplash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/newthirdgreen</item>
     </style>
 
 

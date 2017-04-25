@@ -28,6 +28,8 @@ import groots.app.com.groots.model.MappingClass;
  * Created by Administrator
  */
 
+
+
 public class DbHelper extends SQLiteOpenHelper {
 
     private static DbHelper mInstance = null;
@@ -122,7 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
             db.execSQL("CREATE TABLE if not exists SearchList (searchedText VARCHAR)");
 
-            db.execSQL("CREATE TABLE if not exists Cart (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR , shipping_charge FLOAT);");
+            db.execSQL("CREATE TABLE if not exists carrt (subscribe_prod_id INTEGER,base_product_id INTEGER,store_id INTEGER,product_name VARCHAR,product_description VARCHAR,product_image VARCHAR,product_qty INTEGER,unit_price FLOAT,total_unit_price FLOAT,pack_unit VARCHAR, pack_size VARCHAR , shipping_charge FLOAT);");
 
             db.execSQL("CREATE TABLE if not exists UnmapToMap (subscribe_prod_id INTEGER,status VARCHAR,retailer_id INTEGER);");
 
@@ -898,15 +900,15 @@ public class DbHelper extends SQLiteOpenHelper {
            // Log.e("Value at db",String.valueOf(product_qty)+unit_price+"tprice"+total_unit_price);
             contentValues.put("total_unit_price", total_unit_price);
 
-            String query = "select * from Cart where  subscribe_prod_id = " + subscribe_prod_id;
+            String query = "select * from carrt where  subscribe_prod_id = " + subscribe_prod_id;
 
 
             cursor = db.rawQuery(query, null);
             int count = cursor.getCount();
             if (count > 0) {
-                db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE base_product_id = " + base_product_id + " AND subscribe_prod_id=" + subscribe_prod_id);
+                db.execSQL("UPDATE carrt SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + " WHERE base_product_id = " + base_product_id + " AND subscribe_prod_id=" + subscribe_prod_id);
             } else if (count == 0)
-                db.insert("Cart", null, contentValues);
+                db.insert("carrt", null, contentValues);
 
 
 
@@ -932,7 +934,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         try {
             db = openDataBase();
-            db.execSQL("DELETE FROM Cart WHERE subscribe_prod_id = " + subscribe_prod_id + " AND base_product_id = " + base_product_id);
+            db.execSQL("DELETE FROM carrt WHERE subscribe_prod_id = " + subscribe_prod_id + " AND base_product_id = " + base_product_id);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -940,6 +942,20 @@ public class DbHelper extends SQLiteOpenHelper {
                 db.close();
 
 
+        }
+    }
+
+
+    public void deletereco() {
+        try {
+            db = openDataBase();
+            db.execSQL("DELETE FROM carrt");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (db != null)
+                db.close();
         }
     }
 
@@ -966,7 +982,7 @@ public class DbHelper extends SQLiteOpenHelper {
             Double total_unit_price =(Double) unit_price * product_qty;
             total_unit_price = (Double) (Math.round(total_unit_price*100)/100.0d);
          //   Log.e("Total Price",String.valueOf(total_unit_price));
-            db.execSQL("UPDATE Cart SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + ",unit_price= " + unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
+            db.execSQL("UPDATE carrt SET product_qty= " + product_qty + ", total_unit_price= " + total_unit_price + ",unit_price= " + unit_price + " WHERE subscribe_prod_id = " + subscribe_prod_id);
           //  copyDBToPhoneSD1();
         } catch (Exception e) {
             e.printStackTrace();
@@ -997,7 +1013,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ArrayList<CartClass> arrayList = new ArrayList<>();
         CartClass cartClass;
-        String countQuery = "SELECT * FROM Cart";
+        String countQuery = "SELECT * FROM carrt";
         int cnt = 0;
         Cursor cursor = null;
         try {
@@ -1036,7 +1052,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
         db = openDataBase();
-        String countQuery = "SELECT  * FROM Cart";
+        String countQuery = "SELECT  * FROM carrt";
         int cnt = 0;
         Cursor cursor = null;
         try {
@@ -1088,7 +1104,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public float fetchTotalCartAmount() {
 
-        String query = "SELECT sum(total_unit_price) from Cart";
+        String query = "SELECT sum(total_unit_price) from carrt";
 
         float i = 0;
         db = openDataBase();
@@ -1211,7 +1227,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ArrayList<CartClass> arrayList = new ArrayList<>();
         CartClass cartClass;
-        String countQuery = "SELECT * FROM Cart";
+        String countQuery = "SELECT * FROM carrt";
         int cnt = 0;
         db = openDataBase();
         Cursor cursor = null;
@@ -1677,7 +1693,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 	*/
-/*. Delete Cart Data after place the order
+/*. Delete carrt Data after place the order
     .*//*
 
 
@@ -1851,7 +1867,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 		*/
-/*..............................Store Product Cart Table........................*//*
+/*..............................Store Product carrt Table........................*//*
 
 
 
@@ -2300,7 +2316,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     */
-/*. Delete Cart Data after place the order
+/*. Delete carrt Data after place the order
     .*//*
 
 

@@ -22,7 +22,10 @@ public class WebPage extends AppCompatActivity {
             Bundle bundle=i.getExtras();
             ((TextView)findViewById(R.id.headername)).setText(bundle.getString("Name"));
             WebView webView = (WebView) findViewById(R.id.webView1);
+
             webView.getSettings().setJavaScriptEnabled(true);
+
+
 
 
         ((LinearLayout)findViewById(R.id.backbtn)).setOnClickListener(new View.OnClickListener() {
@@ -37,9 +40,12 @@ public class WebPage extends AppCompatActivity {
         if(bundle.getString("Name").equals("About Groots"))
         {
             webView.loadUrl("file:///android_asset/grootsweb.html");
+           // webView.loadUrl("javascript:document.body.style.color ='red';");
         }
         else
             webView.loadUrl("http://gogroots.com/#about");
+       // webView.loadUrl("javascript:document.body.style.color ='red';");
+
 
 
 

@@ -83,7 +83,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     public boolean backflag = false;
     NavigationView navigationView;
     Double shippingcharges;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts,navorderHis;
     String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Order> productListDocDatas = new ArrayList<>();
@@ -124,7 +124,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_list);
+        setContentView(R.layout.new_design_history_list);
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
@@ -226,10 +226,11 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         dbHelp = new dbHelp(context);
         dbHelp.createDb(false);
 
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
+       // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
-        navHome = (RelativeLayout) findViewById(R.id.Home_menu);
+        navHome = (RelativeLayout) findViewById(R.id.addOrder_menu);
+        navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
@@ -238,10 +239,11 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
 
-        navOrder.setOnClickListener(this);
+      //  navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
         navHome.setOnClickListener(this);
+        navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
@@ -277,10 +279,10 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
                 int itemInCart = dbHelper.getTotalRow();
-                if (itemInCart > 0) {
+               /* if (itemInCart > 0) {
                     navOrder.setVisibility(View.VISIBLE);
                 } else
-                    navOrder.setVisibility(View.GONE);
+                    navOrder.setVisibility(View.GONE);*/
 
             }
         };
@@ -682,7 +684,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
 
-            case R.id.pending_menu:
+          /*  case R.id.pending_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
                 Runnable runnable = new Runnable() {
@@ -695,14 +697,14 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
-                break;
+                break;*/
             case R.id.allproducts_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
-                runnable = new Runnable() {
+               Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        Intent inten = new Intent(context , UnmappedProducts.class);
+                        Intent inten = new Intent(context , mapping.class);
                         startActivity(inten);
 
                     }
@@ -786,8 +788,26 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
                 break;
 
+            case R.id.orderHis_menu:
 
-            case R.id.Home_menu:
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        onBackPressed();
+
+                    }
+                };
+
+
+                new android.os.Handler().postDelayed(runnable, 300);
+                break;
+
+
+
+
+            case R.id.addOrder_menu:
                 drawer.closeDrawer(GravityCompat.START);
                 runnable = new Runnable() {
                     @Override
@@ -1266,7 +1286,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
         dialog = new Dialog(historyList.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.cancel_order_dialog);
+        dialog.setContentView(R.layout.new_design_cancel_order_dialog);
 
         TextView cancel_yes =  (TextView) dialog.findViewById(R.id.cancel_yes);
         //cancel_yes.setOnClickListener(this);

@@ -22,6 +22,8 @@ import groots.app.com.groots.R;
 import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.pojo.Items;
 import groots.app.com.groots.pojo.Product;
+import groots.app.com.groots.ui.History;
+import groots.app.com.groots.ui.SampleActivity;
 
 /**
  * Created by aakash on 8/2/17.
@@ -89,7 +91,7 @@ public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = null;
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.sample_card_view, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_sample_card_view, parent, false);
             SampleActivityAdapter.DataObjectHolder dataObjectHolder = new SampleActivityAdapter.DataObjectHolder(view);
             return dataObjectHolder;
         }
@@ -115,7 +117,7 @@ public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
             holder.textItemName.setText(sampleProducts.get(position).title);
-            holder.textItemdesc.setText(sampleProducts.get(position).description);
+//            holder.textItemdesc.setText(sampleProducts.get(position).description);
             holder.textItemPriceMin.setText(sampleProducts.get(position).minPrice.toString());
             holder.textItemPriceMax.setText(sampleProducts.get(position).maxPrice.toString());
             if (!sampleProducts.get(position).thumbUrl.equals(null)) {
@@ -148,6 +150,41 @@ public class SampleActivityAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
         }
+
+
+        else if (mholder instanceof SampleActivityAdapter.FooterViewHolder) {
+            final SampleActivityAdapter.FooterViewHolder footerHolder = (SampleActivityAdapter.FooterViewHolder) mholder;
+
+            if (((SampleActivity) context).loadingmore == false) {
+                footerHolder.tvloadmore.setVisibility(View.VISIBLE);
+                footerHolder.progressBar.setVisibility(View.GONE);
+            }
+
+
+            /*footerHolder.progressBar.setVisibility(View.VISIBLE);
+            try {
+                Thread.sleep(5000);
+                footerHolder.progressBar.setVisibility(View.INVISIBLE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+          /*  Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+
+                    footerHolder.progressBar.setVisibility(View.INVISIBLE);
+                    show_footer=false;
+                    notifyDataSetChanged();
+
+                }
+            };
+            new android.os.Handler().postDelayed(runnable, 900);
+*/
+
+        }
+
+
+
     }
 
 

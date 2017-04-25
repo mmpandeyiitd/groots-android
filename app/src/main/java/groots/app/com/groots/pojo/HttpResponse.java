@@ -19,7 +19,7 @@ public class HttpResponse<T> {
     @Expose
     public String msg;
 
-    @SerializedName("errors")
+    @SerializedName("error_object")
     @Expose
     public List<String> errors = new ArrayList<String>();
 

@@ -114,6 +114,16 @@ public interface API_Interface {
                              @Body String otp, Callback<HttpResponseofProducts> cb);
 
 
+    @POST("/cucumber/data/v1/otp/send")
+    void getOtpSendResponse(@Header("API_KEY") String apikey,
+                             @Header("APP_VERSION") String appversion,
+                             @Header("CONFIG_VERSION") String config,
+                             @QueryMap Map<String,String> alldata,
+                              Callback<HttpResponseofProducts> cb);
+
+
+
+
 
     @GET("/cucumber/data/v1/product/sample")
     void getSampleProductsResponse(@Header("API_KEY") String apikey,

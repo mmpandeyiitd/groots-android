@@ -2,6 +2,7 @@ package groots.app.com.groots.ui;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -46,15 +47,30 @@ import android.widget.Toast;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.squareup.okhttp.OkHttpClient;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.adapter.Detail_Adapter;
 import groots.app.com.groots.adapter.Landing_Adapter;
+import groots.app.com.groots.adapter.mappedProductList_Adapter;
 import groots.app.com.groots.databases.DbHelper;
+import groots.app.com.groots.interfaces.API_Interface;
+import groots.app.com.groots.pojo.HttpResponse;
+import groots.app.com.groots.pojo.HttpResponseofProducts;
+import groots.app.com.groots.pojo.RetailerProduct;
 import groots.app.com.groots.utilz.Constants;
+import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.OkClient;
+import retrofit.client.Response;
 
 public class mapping extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,6 +78,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     private ShowcaseView showcaseView;
     private int caseshow;
     private Target t1,t2,t3;
+    int offsetValue = 0;
 
 
 
@@ -71,10 +88,15 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     DbHelper dbHelper;
     String shownav = "true";
     String fromWhere ="home" ;
-    Button next_btn,back_btn;
+    String registrationStatus;
+    TextView logout;
+    ImageView goToFinalPage;
+    LinearLayout next_btn,back_btn;
+    CoordinatorLayout cdsignup;
 
 
     CoordinatorLayout cdmapping;
+    RelativeLayout gotofinal;
     String cust_support_no, order_support_no;
     RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts;
 
@@ -99,11 +121,19 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapping);
+        setContentView(R.layout.new_design_activity_mapping);
 
 
-        next_btn = (Button) findViewById(R.id.next_btn);
-        back_btn = (Button) findViewById(R.id.back_btn);
+        next_btn = (LinearLayout) findViewById(R.id.next_btn);
+        back_btn = (LinearLayout) findViewById(R.id.back_btn);
+        logout = (TextView) findViewById(R.id.logout);
+      /*  goToFinalPage = (ImageView) findViewById(R.id.goToFinalStep);
+        gotofinal = (RelativeLayout) findViewById(R.id.gotofinal);
+        gotofinal.setVisibility(View.GONE);*/
+        cdsignup = (CoordinatorLayout) findViewById(R.id.main_content);
+
+        context = mapping.this;
+
        /* back_btn.setVisibility(View.VISIBLE);
 
         next_btn.setVisibility(View.VISIBLE);*/
@@ -111,6 +141,12 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutPopUp();
+            }
+        });
        Intent intent = getIntent();
          shownav = intent.getStringExtra("showNav");
         fromWhere = intent.getStringExtra("fromWhere");
@@ -149,6 +185,17 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
       /*  t1 = new ViewTarget(R.id.tabs,this);
         showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setContentTitle("map products").setContentText("Tabs for mapping your products.").setOnClickListener(this).build();
         showcaseView.setButtonText("Map Products");*/
@@ -171,7 +218,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
+       // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
@@ -180,14 +227,15 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
         navaddOrder = (RelativeLayout)findViewById(R.id.addOrder_menu);
-        navaddOrder.setVisibility(View.GONE);
 
-        navOrder.setOnClickListener(this);
+
+        //navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
         navContact.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
+        navaddOrder.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
@@ -197,11 +245,18 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         editor.putString("Check", "true");
         editor.commit();
 
-        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
-        cust_support_no = ContactNumbers.get(0);
-        order_support_no = ContactNumbers.get(1);
+
 
         utilz = new Utilz();
+
+
+
+
+
+
+
+
+
 
 
 
@@ -220,10 +275,10 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
                 int itemInCart = dbHelper.getTotalRow();
-                if (itemInCart > 0) {
+               /* if (itemInCart > 0) {
                     navOrder.setVisibility(View.VISIBLE);
                 } else
-                    navOrder.setVisibility(View.GONE);
+                    navOrder.setVisibility(View.GONE);*/
 
             }
         };
@@ -288,9 +343,11 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
             navLogout.setVisibility(View.GONE);
             navorderHis.setVisibility(View.GONE);
             navRate.setVisibility(View.GONE);
-            navOrder.setVisibility(View.GONE);
+           // navOrder.setVisibility(View.GONE);
             toggle.setDrawerIndicatorEnabled(false);
             drawer.setEnabled(false);
+           // gotofinal.setVisibility(View.VISIBLE);
+
 
 
            // drawer.setVisibility(View.GONE);
@@ -320,6 +377,12 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         if (fromWhere.equals("home")){
             next_btn.setVisibility(View.GONE);
             back_btn.setVisibility(View.GONE);
+            logout.setVisibility(View.GONE);
+
+            ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+            cust_support_no = ContactNumbers.get(0);
+            order_support_no = ContactNumbers.get(1);
+
         }
         else{
             next_btn.setVisibility(View.VISIBLE);
@@ -334,14 +397,30 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         });
 
 
-        next_btn.setOnClickListener(new View.OnClickListener() {
+      /*  goToFinalPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(mapping.this,FillRetailerDetails.class);
-                startActivity(intent);
+
+                callallproductAPI(offsetValue);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         });
+*/
+
 
 
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -355,6 +434,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setTabTextColors(getResources().getColor(R.color.white),getResources().getColor(R.color.white));
         tabLayout.setupWithViewPager(mViewPager);
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -369,12 +449,22 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     }
 
 
+
+
+
+    public void onTabSelected(TabLayout.Tab tab, android.app.FragmentTransaction ft) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mapping, menu);
         return true;
     }*/
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -419,7 +509,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.product_list, container, false);
+            View rootView = inflater.inflate(R.layout.new_design_product_list, container, false);
 
 
 
@@ -478,7 +568,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         switch (view.getId()) {
 
 
-            case R.id.pending_menu:
+          /*  case R.id.pending_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
                 Runnable runnable = new Runnable() {
@@ -491,22 +581,23 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
-                break;
+                break;*/
 
 
-            /*case R.id.allproducts_menu:
+            case R.id.allproducts_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
-                runnable = new Runnable() {
+               Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         Intent inten = new Intent(context , mapping.class);
                         startActivity(inten);
+                        finish();
 
                     }
                 };
                 new android.os.Handler().postDelayed(runnable , 300);
-                break;*/
+                break;
 
             case R.id.help_menu:
 
@@ -533,6 +624,24 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
                 showdialog.show();
 
                 break;
+
+            case R.id.addOrder_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                 runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(mapping.this,Landing_Update.class);
+
+                        startActivity(intent);
+                        finish();
+
+                    }
+                };
+                new android.os.Handler().postDelayed(runnable , 300);
+                break;
+
+
 
             case R.id.rate_menu:
 
@@ -658,6 +767,95 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         });
         logoutdialog.show();
     }
+
+
+
+    void callchangeRegStatusAPI(){
+        HashMap hashm = new HashMap();
+        hashm.put("makeActive","yes");
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+        apiInterface.getChangeRegStatusResponse(Utilz.apikey, Utilz.app_version, Utilz.config_version, AuthToken,hashm, new Callback<HttpResponse>() {
+            @Override
+            public void success(HttpResponse httpResponse, Response response) {
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 0){
+                    Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if  (status == 1){
+
+                    Toast.makeText(context,"You have done your complete registration.",Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE).edit();
+                    editor.putString("registrationStatus","Complete");
+                    editor.commit();
+
+
+
+                }
+
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+        });
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private class ShowDialog extends Dialog {
 
 
@@ -730,6 +928,183 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
 
 
+    public void callallproductAPI(final int offset){
+
+        offsetValue = offset;
+        int row = 10;
+        HashMap hashMap = new HashMap();
+        hashMap.put("rows", row);
+        hashMap.put("start", offset);
+        hashMap.put("mapped","true");
+
+
+
+
+
+
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(Http_Urls.sBaseUrl)
+                .setClient(new OkClient(new OkHttpClient())).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = this.getSharedPreferences("MY_PREFS_NAME", Context.MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+
+
+        apiInterface.getallproductslistingresponse(Utilz.apikey,Utilz.app_version, Utilz.config_version, AuthToken,hashMap, new Callback<HttpResponseofProducts<RetailerProduct>>(){
+
+
+
+            public void success (HttpResponseofProducts httpResponse , Response response ){
+
+
+
+
+
+
+                String statu = httpResponse.status;
+                String stat = statu.substring(0,1);
+                int status = Integer.parseInt(stat);
+                // int status = Integer.parseInt(stat);
+
+
+                if (status == 5){
+
+
+
+                    String msg = httpResponse.errors.toString();
+                    Snackbar snackbar = Snackbar.make(cdsignup,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                }
+
+
+                else if (status == 4) {
+
+                    String msg = httpResponse.errors.toString();
+                    Snackbar snackbar = Snackbar.make(cdsignup,msg, Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 2){
+
+                    //loadermain.setVisibility(View.INVISIBLE);
+
+
+
+
+
+
+                    if (httpResponse.data == null || httpResponse.data.size() == 0  ){
+
+
+                        Toast.makeText(context,"Please select some products. ",Toast.LENGTH_LONG).show();
+
+
+
+
+
+                    }
+                    else{
+
+
+                        Toast.makeText(context,"Your information has been saved.",Toast.LENGTH_SHORT).show();
+                        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+
+
+                        registrationStatus = prefs.getString("registrationStatus",null);
+
+                        if (!registrationStatus.equals("Complete")){
+
+                            callchangeRegStatusAPI();
+                        }
+
+
+                        Intent intent = new Intent(mapping.this,signup_thankyou.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+
+
+
+
+
+
+
+                    }
+
+
+
+                   /* if (allproducts.size() == 0) {
+                        ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.GONE);
+                        recycle.setVisibility(View.VISIBLE);
+
+
+
+                        //allproducts = (ArrayList<Product>) httpResponse.data.responseData.docs;
+                    }*/
+
+
+
+
+                }
+
+
+
+
+
+
+
+            }
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdsignup, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+
+            }
+
+        });
+        // offsetValue = offsetValue + row;
+
+        offsetValue = offsetValue + row;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -752,16 +1127,43 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position) {
-                case 0:
-                UnmappedProducts unmapp = new UnmappedProducts();
-                return unmapp;
-                //break;
-                case 1:
-                    mappedProducts mapp = new mappedProducts();
-                    return mapp;
+
+
+            if (shownav == "true") {
+                switch (position) {
+
+
+                    case 0:
+                        UnmappedProducts unmapp = new UnmappedProducts();
+                        return unmapp;
+                    //break;
+                    case 1:
+                        mappedProducts mapp = new mappedProducts();
+                        return mapp;
+
+                    case 2:
+                        mappedProducts map = new mappedProducts();
+                        return map ;
+
+                    case 3 :
+                        mappedProducts mapi = new mappedProducts();
+                        return mapi ;
+
+
                     //return PlaceholderFragment.newInstance(position + 1);
-                  //  break;
+                    //  break;
+                }
+            }
+
+            else {
+
+                switch(position) {
+
+                    case 0:
+                        UnmappedProducts unmapp = new UnmappedProducts();
+                        return unmapp;
+
+                }
             }
 
            return null;
@@ -770,22 +1172,38 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+
+            if (shownav == "true") {
+                return 4;
+            }
+            else
+                return 1;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
 
-                    //UnmappedProducts all = new UnmappedProducts();
-                    return "Unmapped";
+            if (shownav == "true") {
+                switch (position) {
+                    case 0:
+
+                        //UnmappedProducts all = new UnmappedProducts();
+                        return "Unmapped";
 
 
-                case 1:
-                    return "Mapped";
+                    case 1:
+                        return "Mapped";
+                    case 2:
+                        return "NUll";
+                    case 3 :
+                        return "Nul";
                 /*case 2:
                     return "SECTION 3";*/
+                }
+            }
+            else
+            {
+                return "Unmapped";
             }
             return null;
         }
