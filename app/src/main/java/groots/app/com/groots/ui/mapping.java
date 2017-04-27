@@ -1141,13 +1141,13 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
                         mappedProducts mapp = new mappedProducts();
                         return mapp;
 
-                    case 2:
+                   /* case 2:
                         mappedProducts map = new mappedProducts();
                         return map ;
 
                     case 3 :
                         mappedProducts mapi = new mappedProducts();
-                        return mapi ;
+                        return mapi ;*/
 
 
                     //return PlaceholderFragment.newInstance(position + 1);
@@ -1174,7 +1174,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
             // Show 3 total pages.
 
             if (shownav == "true") {
-                return 4;
+                return 2;
             }
             else
                 return 1;
@@ -1193,10 +1193,10 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
                     case 1:
                         return "Mapped";
-                    case 2:
+                   /* case 2:
                         return "NUll";
                     case 3 :
-                        return "Nul";
+                        return "Nul";*/
                 /*case 2:
                     return "SECTION 3";*/
                 }

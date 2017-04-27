@@ -281,6 +281,7 @@
                     android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="Contact No"
+                    android:maxLength="10"
 
                 android:fontFamily="sans-serif"
                 android:paddingBottom="3dp"

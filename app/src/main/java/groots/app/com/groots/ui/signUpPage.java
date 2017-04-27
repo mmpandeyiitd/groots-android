@@ -450,7 +450,7 @@ public class signUpPage extends AppCompatActivity  {
                         snackbar.show();
                     }
 
-                   else if ( !(contact.length() >= 8 && contact.length() <= 13)){
+                   else if ( !(contact.length() >= 10 && contact.length() <= 13)){
                         Snackbar snackbar = Snackbar.make(cdsignUp, "Please provide a valid contact number.", Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(Color.WHITE);
                         View snackbarView = snackbar.getView();
@@ -514,7 +514,7 @@ public class signUpPage extends AppCompatActivity  {
 
 
                 }
-                else if ( !(contact.length() >= 8 && contact.length() <= 13)){
+                else if ( !(contact.length() >= 10 && contact.length() <= 13)){
                     Snackbar snackbar = Snackbar.make(cdsignUp, "Please provide a valid contact number.", Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
