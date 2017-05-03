@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="215dp"
+        android:layout_height="100dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -16,9 +16,9 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="5dp">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -34,48 +34,73 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="20dp" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <View
+          <!--  <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"></View>
+                android:background="@color/colorPrimary"></View>-->
 
             <groots.app.com.groots.utilz.TextViewLatoRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+
+                android:textColor="@color/newtextcolorprimary"
                 android:text="Are you sure you want to logout ?"
                 android:textSize="14dp" />
 
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/logoutbutton"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Logout"
-                android:textColor="#ffffff"
-                android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/cancel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
-                android:background="#ffffff"
-                android:gravity="center"
-                android:text="Cancel"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15dp" />
+                android:weightSum="2"
+                android:layout_marginRight="0dp"
+                android:gravity="right">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    android:layout_weight=".5">
+
+                    <TextView
+                        android:id="@+id/cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight=".5"
+                        android:background="#ffffff"
+                        android:gravity="center"
+                        android:textStyle="normal"
+                        android:text="CANCEL"
+                        android:textColor="@color/newhintcolor"
+                        android:textSize="16dp" />
+
+
+                    <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+
+                    android:layout_marginTop="20dp"
+                    android:background="@null"
+                    android:gravity="center"
+
+                    android:text="LOGOUT"
+
+                    android:textColor="@color/newSecondcolorgreen"
+                    android:textSize="16dp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

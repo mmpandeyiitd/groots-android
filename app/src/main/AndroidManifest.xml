@@ -6,6 +6,13 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" >
+        </uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" >
+        </uses-permission>
+
     <!-- Get permission for reliable local dispatching on non-Google Play devices. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -17,6 +24,7 @@
 
     <application
         android:name=".utilz.Applicationclass"
+        android:configChanges="orientation|keyboardHidden"
         android:allowBackup="true"
         android:icon="@drawable/groots_icon_transp"
         android:label="@string/app_name"
@@ -45,6 +53,16 @@
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
+
+
+
+        <receiver android:name=".ui.IncomingSms">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+
 
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
@@ -92,10 +110,7 @@
             android:name=".ui.historyList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
-        <activity
-            android:name=".ui.UnmappedProducts"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Base" />
+
         <activity
             android:name=".ui.Landing_Update"
             android:screenOrientation="portrait"
@@ -130,8 +145,32 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.SampleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.FillRetailerDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.Welcome"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity android:name=".ui.signup_thankyou"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".ui.mapping"
+
             android:label="@string/title_activity_mapping"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

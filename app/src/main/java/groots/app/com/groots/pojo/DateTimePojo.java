@@ -55,7 +55,7 @@ public class DateTimePojo {
     /**
      *
      * @return
-     * The errors
+     * The error_object
      */
     public List<Object> getErrors() {
         return errors;
@@ -64,7 +64,7 @@ public class DateTimePojo {
     /**
      *
      * @param errors
-     * The errors
+     * The error_object
      */
     public void setErrors(List<Object> errors) {
         this.errors = errors;

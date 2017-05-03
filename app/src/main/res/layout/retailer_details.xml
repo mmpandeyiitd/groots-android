@@ -1,0 +1,1179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/bck_blur">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbars"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/header_green_texture"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        >
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:weightSum="1">
+
+            <groots.app.com.groots.utilz.TextViewLatoRegular
+                android:id="@+id/tooltext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Save Your Details"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/cdsignUp">
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/CompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Organisation Name - "
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/cName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Your Org Name"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/v5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <!-- <LinearLayout
+             android:id="@+id/designation"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+
+             android:layout_marginTop="20dp"
+             android:layout_marginLeft="22dp"
+             android:layout_marginRight="22dp"
+             android:orientation="horizontal"
+
+             android:weightSum="10">
+
+
+
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="22dp"
+                 android:orientation="vertical">
+
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Designation -"
+                     android:textColor="@color/white"
+                     android:textSize="14dp" />
+
+                 <EditText
+                     android:id="@+id/Designation"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_marginTop="5dp"
+                     android:background="@null"
+                     android:gravity="center_vertical"
+                     android:hint="Write your Designation"
+                     android:fontFamily="sans-serif"
+                     android:paddingBottom="8dp"
+                     android:imeOptions="actionNext"
+                     android:inputType="textPersonName"
+                     android:textColor="@color/textLogin"
+                     android:textColorHint="@color/textHintColor"
+                     android:textSize="14dp" />
+
+             </LinearLayout>
+
+         </LinearLayout>-->
+
+        <View
+            android:id="@+id/v6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ContactNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact No"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/Contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Write Your Contact No"
+                    android:text= "+91"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:digits="0123456789+"
+
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/v7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+
+        <LinearLayout
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email Id -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/email_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Your email (optional)"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--<LinearLayout
+            android:id="@+id/UserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+           android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name - "
+                    android:textColor="@color/white"
+
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+
+                    android:gravity="center_vertical"
+                    android:hint="Enter Your Name"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>-->
+
+
+        <View
+            android:id="@+id/viewUser"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/delivery_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Address -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/delivery_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:textCursorDrawable="@drawable/new_design_cursor"
+                    android:gravity="center_vertical"
+                    android:hint="Delivery Address"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="3"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/viewUse"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+
+        <LinearLayout
+            android:id="@+id/cityy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="City -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter your city"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/statee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" State -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+
+                <Spinner
+                    android:id="@+id/spinner_state"
+                    android:layout_marginTop="10dp"
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:spinnerMode="dialog"
+
+
+
+                    ></Spinner>
+
+                <!--<EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Your State "
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+        <View
+            android:id="@+id/v2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+
+
+        <LinearLayout
+            android:id="@+id/pinCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" PIN Code -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Pincode "
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- <LinearLayout
+             android:id="@+id/designation"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+
+             android:layout_marginTop="20dp"
+             android:layout_marginLeft="22dp"
+             android:layout_marginRight="22dp"
+             android:orientation="horizontal"
+
+             android:weightSum="10">
+
+
+
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="22dp"
+                 android:orientation="vertical">
+
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="Designation -"
+                     android:textColor="@color/white"
+                     android:textSize="14dp" />
+
+                 <EditText
+                     android:id="@+id/Designation"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_marginTop="5dp"
+                     android:background="@null"
+                     android:gravity="center_vertical"
+                     android:hint="Write your Designation"
+                     android:fontFamily="sans-serif"
+                     android:paddingBottom="8dp"
+                     android:imeOptions="actionNext"
+                     android:inputType="textPersonName"
+                     android:textColor="@color/textLogin"
+                     android:textColorHint="@color/textHintColor"
+                     android:textSize="14dp" />
+
+             </LinearLayout>
+
+         </LinearLayout>-->
+
+        <View
+            android:id="@+id/viewUs"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/Payment_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Mode-"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_payment_mode"
+                    android:layout_marginTop="10dp"
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:spinnerMode="dropdown"
+
+
+
+                    ></Spinner>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:id="@+id/viewU"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+
+        <LinearLayout
+            android:id="@+id/web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Web Site -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/website"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Your Website "
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="textWebEmailAddress"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/v3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+
+        <LinearLayout
+            android:id="@+id/altEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Alternate Email -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/alt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Alternate Email "
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:maxLines="1"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/v4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/login_divider"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/tanNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TAN No -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/tan_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter TAN No"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    <!--    <LinearLayout
+            android:id="@+id/person_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your Name -"
+
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+               &lt;!&ndash; <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Alphanumeric and 1 character from _@#$- "
+
+                    android:textColor="@color/textHintColor"
+                    android:textSize="12dp" />&ndash;&gt;
+
+                <EditText
+                    android:id="@+id/pers_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Name"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/pay_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Frequency -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+
+
+
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+
+                    android:id="@+id/spinner_payment_frequency"
+
+                    android:prompt="@string/frequency_prompt"
+                    android:layout_marginTop="10dp"></Spinner>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/panNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:orientation="horizontal"
+
+            android:weightSum="10">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PAN No -"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/pan_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="Enter PAN No"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="8dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/textLogin"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <!-- <CheckBox
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>-->
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+
+                >
+
+
+
+        <Button
+            android:id="@+id/btnBack"
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Back"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+        <Button
+            android:id="@+id/btnNext"
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="DONE"/>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+</LinearLayout>
+

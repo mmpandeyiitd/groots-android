@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1E5C21</color>
+    <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#142C16</color>
     <color name="colorAccent">#ffffff</color>
 
@@ -12,11 +12,40 @@
     <color name="textLogin">#E0DBDB</color>
     <color name="textHintColor">#817C80</color>
 
+    <color name="spinnerTextColor">#FFFFFF</color>
+
 
     <color name="white">#ffffff</color>
     <color name="view">#77B1B1B1</color>
     <color name="toolbar_color">#2A5B2B</color>
     <color name="drawer_header">#1E5C21</color>
+
+
+    <color name="newColorPrimaryGREEN">#4CAF50</color>
+    <color name="newbackgroundcolor">#f1f9fc</color>
+    <color name="newSecondcolorgreen">#17B966</color>
+    <color name="newthirdgreen">#0C914D</color>
+    <color name="newColorPrimaryRED">#E13B3B</color>
+    <color name="newSecondcolorred">#27292B</color>
+    <color name="newthirdred">#BF2222</color>
+    <color name="newtextcolorprimary">#1f1f1f</color>
+    <color name="newtextcolorsecondary">#6d6d6d</color>
+    <color name="newhintcolor">#939393</color>
+    <color name="newotpboxcolor">#f9b933</color>
+    <!--Re-send color : #2b78e4
+    Submit Button color : #17b966
+    Popup box : #ffffff
+    Popup background color : #dfe3e5 (90% opacity)-->
+    <color name="resendotpcolor">#2b78e4</color>
+    <color name="submitbuttoncolor">#17b966</color>
+    <color name="popupboxcolor">#ffffff</color>
+    <color name="popupbackgroundcolor">#dfe3e5</color>
+
+
+
+
+
+
 
 
 </resources>

@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -41,6 +42,7 @@ import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.API_Interface;
 import groots.app.com.groots.pojo.HttpResponse;
 import groots.app.com.groots.pojo.SubmitFeedback;
+import groots.app.com.groots.pojo.contactnumberpojo;
 import groots.app.com.groots.utilz.Http_Urls;
 import groots.app.com.groots.utilz.Utilz;
 import retrofit.Callback;
@@ -56,7 +58,10 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
 
 
     LinearLayout cdLogin;
+    String cust_support,order_support;
+    ArrayList<contactnumberpojo> contactnumbers = new ArrayList<>();
     String cust_support_no, order_support_no;
+    LinearLayout late_deliver,othe,price,qual_product,incomp_order,deliver_boy_behave;
     DbHelper dbHelper;
 
     Context context;
@@ -81,7 +86,7 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
     Button feedback_submit_button;
     String late_del , boy_bhv ,incomp_or ,qua_pro ,pric , oth;
     //RadioGroup late_delivery_group,behaviour_group,incomplete_order_group,quality_product_group,pricing_group,other_group;
-    ToggleButton late_delivery,delivery_boy_behave,incomplete_order,quality_product,pricing,other;
+    RadioButton late_delivery,delivery_boy_behave,incomplete_order,quality_product,pricing,other;
     TextView msgFiveStarId,msgLessStarId;
     EditText /*editText1,editText2,editText3,editText4,editText5,*/comment;
 
@@ -94,7 +99,7 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rateus);
+        setContentView(R.layout.new_design_rate_us);
 
 
 
@@ -102,9 +107,10 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
         dbHelper.createDb(false);
 
 
-        ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
-        cust_support_no = ContactNumbers.get(0);
-        order_support_no = ContactNumbers.get(1);
+        callcontactnumberAPI();
+
+
+
 
 
         cdLogin = (LinearLayout) findViewById(R.id.cdLogin);
@@ -134,6 +140,13 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
         ratebutton = (Button) findViewById(R.id.ratebutton);
         ratebutton.setVisibility(View.GONE);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+
+
+
+
+
+
+
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener(){
 
@@ -223,6 +236,10 @@ msgFiveStarId.setVisibility(View.GONE);
 
 
 
+
+
+
+
        /* ratebutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -276,22 +293,42 @@ msgFiveStarId.setVisibility(View.GONE);
 
 
 
-        late_delivery = (ToggleButton) findViewById(R.id.late_delivery);
+        late_delivery = (RadioButton) findViewById(R.id.late_delivery);
+        late_deliver = (LinearLayout) findViewById(R.id.late_deliver);
+        deliver_boy_behave = (LinearLayout) findViewById(R.id.deliver_boy_behave);
+        qual_product = (LinearLayout) findViewById(R.id.qual_product);
+        othe = (LinearLayout) findViewById(R.id.othe);
+        price = (LinearLayout) findViewById(R.id.price);
+        incomp_order = (LinearLayout) findViewById(R.id.incomp_order);
+
+        late_deliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (late_delivery.isChecked()){
+                    late_delivery.setChecked(false);
 
 
+                }
+                else {
+                    late_delivery.setChecked(true);
+                }
+            }
+        });
+
+/*
         late_delivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                      @Override
                                                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                          if (isChecked) {
 
-late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
+late_delivery.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
 
 
                                                              //editText1.setVisibility(View.VISIBLE);
                                                          } else {
 
-                                                             late_delivery.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                             late_delivery.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
                                                              // editText1.setVisibility(View.GONE);
 
                                                          }
@@ -299,23 +336,23 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
 
                                                      }
                                                  }
-        );
+        );*/
 
-        delivery_boy_behave = (ToggleButton) findViewById(R.id.delivery_boy_behave);
+        delivery_boy_behave = (RadioButton) findViewById(R.id.delivery_boy_behave);
 
 
-        delivery_boy_behave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*delivery_boy_behave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                            @Override
                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                                                                if (isChecked) {
 
-                                                                   delivery_boy_behave.setBackgroundColor(getResources().getColor(R.color.textGreen));
+                                                                   delivery_boy_behave.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
                                                                   // editText2.setVisibility(View.VISIBLE);
 
                                                                } else {
-                                                                   delivery_boy_behave.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                                   delivery_boy_behave.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
 
                                                                    //editText2.setVisibility(View.GONE);
 
@@ -323,23 +360,23 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
 
                                                            }
                                                        }
-        );
+        );*/
 
 
-        incomplete_order = (ToggleButton) findViewById(R.id.incomplete_order);
+        incomplete_order = (RadioButton) findViewById(R.id.incomplete_order);
 
 
-        incomplete_order.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*incomplete_order.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                         @Override
                                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                             if (isChecked) {
 
-                                                                incomplete_order.setBackgroundColor(getResources().getColor(R.color.textGreen));
+                                                                incomplete_order.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
                                                                 //editText3.setVisibility(View.VISIBLE);
 
                                                             } else {
-                                                                incomplete_order.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                                incomplete_order.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
 
                                                                 //editText3.setVisibility(View.GONE);
 
@@ -347,23 +384,23 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
 
                                                         }
                                                     }
-        );
+        );*/
 
 
-        quality_product = (ToggleButton) findViewById(R.id.quality_product);
+        quality_product = (RadioButton) findViewById(R.id.quality_product);
 
 
-        quality_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      /*  quality_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                        @Override
                                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                            if (isChecked) {
 
-                                                               quality_product.setBackgroundColor(getResources().getColor(R.color.textGreen));
+                                                               quality_product.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
                                                                //editText4.setVisibility(View.VISIBLE);
 
                                                            } else {
-                                                               quality_product.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                               quality_product.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
 
                                                                //editText4.setVisibility(View.GONE);
 
@@ -371,23 +408,23 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
                                                        }
                                                    }
         );
+*/
+
+        pricing = (RadioButton) findViewById(R.id.pricing);
 
 
-        pricing = (ToggleButton) findViewById(R.id.pricing);
-
-
-        pricing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      /*  pricing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                @Override
                                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                    if (isChecked) {
 
-                                                       pricing.setBackgroundColor(getResources().getColor(R.color.textGreen));
+                                                       pricing.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
                                                        //editText5.setVisibility(View.VISIBLE);
 
                                                    } else {
 
-                                                       pricing.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                       pricing.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
 
                                                        //editText5.setVisibility(View.GONE);
 
@@ -396,28 +433,112 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
 
                                                }
                                            }
-        );
+        );*/
 
-        other = (ToggleButton) findViewById(R.id.other);
+        other = (RadioButton) findViewById(R.id.other);
 
 
-        other.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+       /* other.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                              @Override
                                              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                  if (isChecked) {
-                                                     other.setBackgroundColor(getResources().getColor(R.color.textGreen));
+                                                     other.setBackgroundColor(getResources().getColor(R.color.newColorPrimaryGREEN));
 
                                                  }
                                                  else{
-                                                     other.setBackgroundColor(getResources().getColor(R.color.textPrimaryLight));
+                                                     other.setBackgroundColor(getResources().getColor(R.color.newhintcolor));
 
 
                                                  }
 
                                              }
                                          }
-        );
+        );*/
+
+
+
+
+        deliver_boy_behave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (delivery_boy_behave.isChecked()){
+                    delivery_boy_behave.setChecked(false);
+
+
+                }
+                else {
+                    delivery_boy_behave.setChecked(true);
+                }
+            }
+        });
+
+
+
+
+        qual_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quality_product.isChecked()){
+                    quality_product.setChecked(false);
+
+
+                }
+                else {
+                    quality_product.setChecked(true);
+                }
+            }
+        });
+
+
+
+
+        incomp_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (incomplete_order.isChecked()){
+                    incomplete_order.setChecked(false);
+
+
+                }
+                else {
+                    incomplete_order.setChecked(true);
+                }
+            }
+        });
+
+
+
+        price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pricing.isChecked()){
+                    pricing.setChecked(false);
+
+
+                }
+                else {
+                    pricing.setChecked(true);
+                }
+            }
+        });
+
+
+        othe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (other.isChecked()){
+                    other.setChecked(false);
+
+
+                }
+                else {
+                    other.setChecked(true);
+                }
+            }
+        });
+
+
 
 
 
@@ -613,6 +734,10 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
                     callsubmitfeedbackAPI(m);
 
 
+
+
+
+
                /* Intent intent = new Intent(feedback.this, feedback.class);
 
 
@@ -684,16 +809,12 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
     @Override
     public void onBackPressed() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+      //  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-            SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-            editor.putString("Check", "name");
-            editor.commit();
+
+
             super.onBackPressed();
-        }
+
     }
 
 
@@ -903,6 +1024,125 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.textGreen));
             }
         });
     }
+
+
+
+    void callcontactnumberAPI(){
+
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Http_Urls.sBaseUrl).setLogLevel(RestAdapter.LogLevel.FULL).build();
+        API_Interface apiInterface = restAdapter.create(API_Interface.class);
+        SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String AuthToken = prefs.getString("AuthToken", null);
+        apiInterface.getcontactnumberresponse(Utilz.apikey ,Utilz.app_version,Utilz.config_version , AuthToken , new Callback<HttpResponse<contactnumberpojo>>(){
+
+
+            @Override
+            public void success ( HttpResponse httpResponse , Response response ){
+
+
+                int status = httpResponse.status;
+
+                if (status == -1){
+
+                    String msg = httpResponse.errors.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,msg, Snackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+                } else if (status == 0) {
+
+                    // String msg = httpResponse.error_object.get(0).toString();
+                    Snackbar snackbar = Snackbar.make(cdLogin,"Something went wrong. Please try again later.", Snackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    snackbar.show();
+
+
+                }
+                else if (status == 1){
+
+                    //  Toast.makeText(Splash.this,"contact number", Toast.LENGTH_LONG).show();
+
+
+                    if (contactnumbers.size() == 0 ){
+
+
+                        contactnumbers = (ArrayList<contactnumberpojo>) httpResponse.data.responseData.docs;
+
+
+
+                    }
+
+                    cust_support = contactnumbers.get(0).custSupportNumber;
+                    order_support = contactnumbers.get(0).orderSupportNumber;
+
+                    dbHelper.insertcontactnumbersdata(cust_support , order_support);
+
+
+
+
+                    ArrayList<String> ContactNumbers  = dbHelper.selectfromcontactnumbers();
+                    cust_support_no = ContactNumbers.get(0);
+                    order_support_no = ContactNumbers.get(1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            @Override
+            public void failure(RetrofitError error) {
+                //progressMobile.setVisibility(View.INVISIBLE);
+                Snackbar snackbar = Snackbar.make(cdLogin, "Oops! Something went wrong.Please try again later !...", Snackbar.LENGTH_LONG);
+                snackbar.setActionTextColor(Color.WHITE);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                snackbar.show();
+
+            }
+
+
+
+
+        });
+
+
+
+
+    }
+
 
 
 

@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.tagmanager.Container;
@@ -76,6 +80,13 @@ import retrofit.client.Response;
 public class Landing_Update extends AppCompatActivity implements View.OnClickListener, UpdateCart {
 
 
+
+
+    private ShowcaseView showcaseView;
+    private int caseshow = 0;
+    private Target t1,t2,t3;
+
+
     Order order;
     List<OrderItem> orderItems;
     Product item;
@@ -98,6 +109,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     LinearLayout listicon, callicon;
 
     UpdateCart updateCart;
+    SwipeRefreshLayout swipe_refresh_layout;
     LinearLayoutManager linearLayoutManager;
     public boolean loadingMore = true;
     TextView txtamount_detail, txtCart_detail,shipping_amount;
@@ -121,7 +133,16 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing__update);
+        setContentView(R.layout.new_design_landing_update);
+
+      /*  t1 = new ViewTarget(R.id.listicon,this);
+        showcaseView = new ShowcaseView.Builder(this).setTarget(Target.NONE).setOnClickListener(this).setContentTitle("List Buttton")
+                .setContentText("On click this button the grid view appears.").build();
+
+        showcaseView.setButtonText("Grid View");*/
+
+
+
 
         cdLanding = (CoordinatorLayout) findViewById(R.id.cdLanding);
 
@@ -132,6 +153,29 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         containerHolder = ContainerHolderSingleton.getContainerHolder();
         container = containerHolder.getContainer();
+        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+
+        swipe_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                //swipe_refresh_layout.setVisibility(View.VISIBLE);
+
+                detail_recycler_view.setAdapter(null);
+                productListDocDatas.clear();
+                Utilz.count = 0;
+                offsetValue = 1;
+                callProductListingAPI(offsetValue);
+                loadingMore = true;
+
+
+
+            }
+        });
+
+
+
 
 
       //  callretailerdetailsAPI();
@@ -162,11 +206,11 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         loadermain = (RelativeLayout) findViewById(R.id.loadermain);
         loadermain.setOnClickListener(this);
 
-        callicon = (LinearLayout) findViewById(R.id.callicon);
-        callicon.setOnClickListener(this);
+       // callicon = (LinearLayout) findViewById(R.id.callicon);
+        //callicon.setOnClickListener(this);
         listicon = (LinearLayout) findViewById(R.id.listicon);
         listicon.setOnClickListener(this);
-        callimage = (ImageView) findViewById(R.id.callimage);
+        //callimage = (ImageView) findViewById(R.id.callimage);
 
         updateCart = this;
         context = Landing_Update.this;
@@ -249,7 +293,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
         dbHelper.deleteOrderHeadData();
 
-        navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
+       // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
@@ -258,9 +302,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
         navAbout = (RelativeLayout) findViewById(R.id.logout_menu);
         navaddOrder = (RelativeLayout)findViewById(R.id.addOrder_menu);
-        navaddOrder.setVisibility(View.GONE);
+       // navaddOrder.setVisibility(View.GONE);
 
-        navOrder.setOnClickListener(this);
+
+        //navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
@@ -269,6 +314,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
         navAbout.setOnClickListener(this);
+        navaddOrder.setOnClickListener(this);
 
         SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", "true");
@@ -290,10 +336,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
                 int itemInCart = dbHelper.getTotalRow();
-                if (itemInCart > 0) {
+                /*if (itemInCart > 0) {
                     navOrder.setVisibility(View.VISIBLE);
                 } else
-                    navOrder.setVisibility(View.GONE);
+                    navOrder.setVisibility(View.GONE);*/
 
             }
         };
@@ -367,12 +413,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onHide() {
 
-                listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+              //  listfooter.animate().translationY(listfooter.getHeight()).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override
             public void onShow() {
-                listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+               // listfooter.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
 
             }
         });
@@ -405,6 +451,10 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
     private void callProductListingAPI(final int offset) {
+
+        swipe_refresh_layout.setRefreshing(false);
+
+
 
        /* Log.e("data",String.valueOf(offset));*/
         offsetValue = offset;
@@ -449,7 +499,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                 } else if (status == 0) {
 
-                    String msg = httpResponse.errors.get(0).toString();
+                    String msg = httpResponse.msg;
                     Snackbar snackbar = Snackbar.make(cdLanding,msg, Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(Color.WHITE);
                     View snackbarView = snackbar.getView();
@@ -542,6 +592,26 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
 
                     } else {
+
+                        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
+                        if (cartClasses != null && cartClasses.size() > 0 && httpResponse != null) {
+                            for (int i = 0; i < productListDocDatas.size(); i++) {
+                                for (int j = 0; j < cartClasses.size(); j++) {
+                                    if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
+                                        productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
+                                        break;
+                                    } else
+                                        productListDocDatas.get(i).setItemCount(0.0);
+                                }
+                            }
+                        } else if (cartClasses != null && cartClasses.size() == 0) {
+                            for (int i = 0; i < productListDocDatas.size(); i++) {
+                                productListDocDatas.get(i).setItemCount(0.0);
+                            }
+                        }
+
+
+
                         detail_recycler_view.setHasFixedSize(true);
                         detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
                         detail_recycler_view.setNestedScrollingEnabled(false);
@@ -615,10 +685,25 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         ShowDialog showdialog = new ShowDialog(this);
+
+        /*switch (caseshow){
+            case 0 :
+                showcaseView.setShowcase(t1,true);
+                showcaseView.setContentTitle("GRid View");
+                showcaseView.setContentText("it shows products in grid view");
+                break;
+            case 1 :
+                showcaseView.hide();
+                break;
+        }
+        caseshow++;*/
+
+
+
         switch (view.getId()) {
 
 
-            case R.id.pending_menu:
+            /*case R.id.pending_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
                 Runnable runnable = new Runnable() {
@@ -631,13 +716,13 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 };
                 new android.os.Handler().postDelayed(runnable, 300);
 
-                break;
+                break;*/
 
 
             case R.id.allproducts_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
-                runnable = new Runnable() {
+               Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         Intent inten = new Intent(context , mapping.class);
@@ -744,6 +829,23 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 logoutPopUp();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
+
+
+            case R.id.addOrder_menu:
+
+                drawer.closeDrawer(GravityCompat.START);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                };
+
+
+                new android.os.Handler().postDelayed(runnable, 300);
+                break;
+
             case R.id.listicon:
 
                 if (flag == false) {
@@ -755,7 +857,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     //  Landing_Adapter mAdapter = ;
                     detail_recycler_view.setAdapter(new Landing_Adapter(productListDocDatas, context, updateCart, true));
                     detail_recycler_view.scrollToPosition(Utilz.count);
-                    callimage.setImageResource(R.drawable.refresh);
+                   // callimage.setImageResource(R.drawable.refresh);
                    // Log.e("Offset Value",String.valueOf(productListDocDatas.size())+String.valueOf(offsetValue)+String.valueOf(loadingMore));
                     if(offsetValue==3 && loadingMore==false & productListDocDatas.size()<5)
                     {
@@ -765,7 +867,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     }
                     //  mAdapter.hideFooter();
                     // mAdapter.notifyDataSetChanged();
-                    ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.expanded_list_view);
+                    ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.new_design_expanded_view);
 
                 } else {
                     flag = false;
@@ -776,13 +878,13 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     // Detail_Adapter mAdapter = ;
                     detail_recycler_view.setAdapter(new Detail_Adapter(productListDocDatas, context, updateCart, true));
                     //  mAdapter.notifyDataSetChanged();
-                    callimage.setImageResource(R.drawable.call);
+                   // callimage.setImageResource(R.drawable.call);
                     detail_recycler_view.scrollToPosition(Utilz.count);
-                    ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.list_view);
+                    ((ImageView) findViewById(R.id.listimage)).setImageResource(R.drawable.new_design_list_view);
                 }
                 break;
 
-            case R.id.callicon:
+           /* case R.id.callicon:
                 if (flag == true) {
 
                     if (!utilz.isInternetConnected(context)) {
@@ -808,7 +910,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                     showdialog.show();
                 }
-                break;
+                break;*/
             default:
                 break;
         }
@@ -897,13 +999,13 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                 txtCart_detail.setText("99+");
             }
 
-            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.cart);
+            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.new_design_cart_xhdpi);
         } else {
 
             listfooter.setVisibility(View.INVISIBLE);
             txtCart_detail.setText("");
             txtamount_detail.setText("0");
-            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.blank_cart);
+            ((RelativeLayout) findViewById(R.id.rlCartDetail)).setBackgroundResource(R.drawable.new_design_cart_xhdpi);
         }
     }
 
@@ -938,6 +1040,16 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+
+        detail_recycler_view.setAdapter(null);
+        productListDocDatas.clear();
+        Utilz.count = 0;
+        offsetValue = 1;
+        callProductListingAPI(offsetValue);
+        loadingMore = true;
+
+
+
         // Always call the superclass method first
         //    ArrayList<ProductListDocData> productListDocDatas=productListData;
        /* Intent intent = getIntent();

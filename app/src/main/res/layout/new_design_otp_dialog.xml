@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="280dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+
+
+
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp" />
+
+            </LinearLayout>-->
+
+            <!-- <View
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="10dp"
+                 android:background="@color/colorPrimary"></View>-->
+
+            <groots.app.com.groots.utilz.TextViewLatoRegular
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:textColor="#000000"
+
+                android:text="Please Enter the OTP"
+                android:textSize="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="The OTP has been sent to your mobile."/>
+                   <!-- <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mobile_no"
+                        android:textSize="15dp"
+                        android:text = "your mobile."/>-->
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="14dp"
+                android:text="Please enter here to proceed."/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+
+                android:gravity="center"
+                android:weightSum="5">
+
+
+            <EditText
+                android:layout_marginTop="0dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:textCursorDrawable="@drawable/new_design_cursor"
+                android:id="@+id/enterOtp1"
+                android:maxLength="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="30dp"
+                android:text=""
+                android:gravity="center"
+                android:inputType="number"
+                android:textColor="#000000"
+
+                android:background="@drawable/new_design_otp_style"
+                android:textColorHint="@color/textHintColor"
+                />
+
+                <EditText
+                    android:layout_marginTop="0dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textCursorDrawable="@drawable/new_design_cursor"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/enterOtp2"
+                    android:textSize="30dp"
+                    android:maxLength="1"
+                    android:text=""
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:background="@drawable/new_design_otp_style"
+                    android:textColorHint="@color/textHintColor"
+                    />
+
+                <EditText
+                    android:layout_marginTop="0dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/enterOtp3"
+                    android:textCursorDrawable="@drawable/new_design_cursor"
+                    android:maxLength="1"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="30dp"
+                    android:text=""
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:background="@drawable/new_design_otp_style"
+                    android:textColorHint="@color/textHintColor"
+                    />
+                <EditText
+                    android:layout_marginTop="0dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="5dp"
+                    android:textCursorDrawable="@drawable/new_design_cursor"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/enterOtp4"
+                    android:textSize="30dp"
+                    android:maxLength="1"
+                    android:text=""
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="#000000"
+                    android:background="@drawable/new_design_otp_style"
+                    android:textColorHint="@color/textHintColor"
+                    />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Re-send OTP"
+                android:gravity="right"
+                android:id="@+id/resend_otp"
+                android:textColor="@color/resendotpcolor"
+                android:layout_marginRight="38dp"
+                android:textSize="16dp"/>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                >
+
+
+
+
+
+                <TextView
+                    android:id="@+id/otp_done"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:background="@drawable/login_button"
+                    android:gravity="center"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+
+                    android:padding="10dp"
+                    android:text="Submit"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

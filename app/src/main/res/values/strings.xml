@@ -11,4 +11,21 @@
     <string name="title_activity_mapping_tab">mapping_tab</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_mapping">mapping</string>
+
+    <string name="mode_prompt">Choose Payment Mode</string>
+    <string name="frequency_prompt">Choose Payment Frequency</string>
+
+    <string-array name="payment_mode">
+        <item>Online Mode</item>
+        <item>Offline Mode</item>
+
+    </string-array>
+
+    <string-array name="payment_frequency">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+
+    </string-array>
+
 </resources>

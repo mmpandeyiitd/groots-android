@@ -8,16 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import groots.app.com.groots.R;
 import groots.app.com.groots.databases.DbHelper;
 import groots.app.com.groots.interfaces.UpdateCart;
-import groots.app.com.groots.pojo.allProduct;
-import groots.app.com.groots.ui.UnmappedProducts;
+import groots.app.com.groots.pojo.RetailerProduct;
 import groots.app.com.groots.ui.mappedProducts;
+import groots.app.com.groots.utilz.Utilz;
 
 /**
  * Created by aakash on 26/12/16.
@@ -26,8 +28,11 @@ import groots.app.com.groots.ui.mappedProducts;
 public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    ArrayList<allProduct> allproducts;
-    ArrayList<allProduct> selectedProducts = new ArrayList<>();
+    ArrayList<RetailerProduct> allproducts;
+    ArrayList<RetailerProduct> selectedProducts = new ArrayList<>();
+
+    HashMap hash = new HashMap();
+
 
     Context context;
     Fragment fragment;
@@ -43,12 +48,13 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
 
 
 
-    public mappedProductList_Adapter(ArrayList<allProduct> allproducts, Fragment fragment, Context context, boolean f){
+    public mappedProductList_Adapter(ArrayList<RetailerProduct> allproducts,HashMap hash, Fragment fragment, Context context, boolean f){
 
 
         this.allproducts = allproducts;
         this.context = context;
         this.fragment = fragment;
+        this.hash = hash;
         this.updateCart = updateCart;
         this.show_footer = f;
     }
@@ -74,7 +80,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
         TextView textItemName;
         TextView textItemdesc;
         TextView textItemPrice;
-        CheckBox checkedTextView;
+        RadioButton checkedTextView;
         TextView textRup;
 
 
@@ -84,7 +90,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
             //textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
             textItemPrice = (TextView) itemView.findViewById(R.id.textItemPrice);
             textRup = (TextView) itemView.findViewById(R.id.textRupee);
-            checkedTextView =(CheckBox) itemView.findViewById(R.id.checkbox1);
+            checkedTextView =(RadioButton) itemView.findViewById(R.id.checkbox1);
             //checkedTextView.setOnClickListener((View.OnClickListener)this);
 
 
@@ -100,7 +106,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(R.layout.product_list_card_view, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.new_design_product_list_card_view, parent, false);
             mappedProductList_Adapter.DataObjectHolder dataObjectHolder = new mappedProductList_Adapter.DataObjectHolder(view);
             return dataObjectHolder;
         }
@@ -131,21 +137,65 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
 
 
 
-            if (allproducts.get(position).isMapped == true){
+           /* if (allproducts.get(position).isMapped == true){
                 holder.checkedTextView.setChecked(true);
             }else{
                 holder.checkedTextView.setChecked(false);
+            }*/
+            holder.itemView.setTag(position);
+            holder.checkedTextView.setTag(position);
+
+            if ((hash.containsKey(allproducts.get(position).subscribedProductId))  ){
+                holder.checkedTextView.setChecked(false);
             }
+            else {
+
+                holder.checkedTextView.setChecked(true);
+            }
+
+
+           // holder.checkedTextView.setChecked(allproducts.get(position).getstatusmap());
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (holder.checkedTextView.isChecked()){
                         holder.checkedTextView.setChecked(false);
+                        dbHelper.insertmaptounmapdata(allproducts.get(position).subscribedProductId,"false",allproducts.get(position).retailer_id);
                         selectedProducts.remove(allproducts.get(position));
+
+
+                        hash.put(allproducts.get(position).subscribedProductId,true);
+                        /*
+                        Utilz.count = position;
+
+                        int clickedPos = (int) v.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusmap();
+
+                        if (stat == true) {
+
+                            allproducts.get(clickedPos).setstatusmap(false);
+
+
+                        }*/
+
                     }
                     else{
                         holder.checkedTextView.setChecked(true);
+                        dbHelper.insertmaptounmapdata(allproducts.get(position).subscribedProductId,"true",allproducts.get(position).retailer_id);
+
                         selectedProducts.add(allproducts.get(position));
+
+                        hash.remove(allproducts.get(position).subscribedProductId);
+
+                        /*Utilz.count = position;
+                        int clickedPos = (int) v.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusmap();
+
+                        if (stat == false) {
+
+                            allproducts.get(clickedPos).setstatusmap(true);
+                        }*/
                     }
 
 
@@ -155,6 +205,47 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
                 }
             });
 
+
+           /* holder.checkedTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (holder.checkedTextView.isChecked() == true){
+                        holder.checkedTextView.setChecked(true);
+                        dbHelper.insertmaptounmapdata(allproducts.get(position).subscribedProductId,"true",allproducts.get(position).retailer_id);
+
+                        hash.remove(allproducts.get(position).subscribedProductId);
+
+
+                       *//* selectedProducts.add(allproducts.get(position));
+
+                        Utilz.count = position;
+                        int clickedPos = (int) view.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusmap();
+
+                        if (stat == false) {
+
+                            allproducts.get(clickedPos).setstatusmap(true);
+                        }*//*
+                    }
+                    else{
+                        holder.checkedTextView.setChecked(false);
+                        dbHelper.insertmaptounmapdata(allproducts.get(position).subscribedProductId,"false",allproducts.get(position).retailer_id);
+
+                        //selectedProducts.remove(allproducts.get(position));
+                        hash.put(allproducts.get(position).subscribedProductId ,true );
+                        *//*Utilz.count = position;
+
+                        int clickedPos = (int) view.getTag();
+                        boolean stat = allproducts.get(clickedPos).getstatusmap();
+
+                        if (stat == true) {
+
+                            allproducts.get(clickedPos).setstatusmap(false);
+                        }*//*
+                    }
+                }
+            });
+*/
 
             int pack_size = allproducts.get(position).product.packSize;
 
@@ -184,11 +275,11 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
 
         } else if (mholder instanceof FooterViewHolder) {
             final FooterViewHolder footerHolder = (FooterViewHolder) mholder;
-            if (((mappedProducts) fragment).loadingMoreforall  == false) {
+            if (((mappedProducts) fragment).loadingMoreforall1  == false) {
                 footerHolder.tvloadmore.setVisibility(View.VISIBLE);
                 footerHolder.progressBar.setVisibility(View.GONE);
             }
-            else if (((mappedProducts) fragment).loadingMoreforsearch == false){
+            else if (((mappedProducts) fragment).loadingMoreforsearch1 == false){
                 footerHolder.tvloadmore.setVisibility(View.VISIBLE);
                 footerHolder.progressBar.setVisibility(View.GONE);
             }
@@ -253,7 +344,7 @@ public class mappedProductList_Adapter extends RecyclerView.Adapter<RecyclerView
         show_footer = true;
 
     }
-    public ArrayList<allProduct> getSelectedProducts(){
+    public ArrayList<RetailerProduct> getSelectedProducts(){
         return selectedProducts;
     }
 

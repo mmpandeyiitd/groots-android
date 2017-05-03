@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="100dp"
     android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="100dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="100dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="15dp"
@@ -45,48 +45,74 @@
             <groots.app.com.groots.utilz.TextViewLatoRegular
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:text="Update your \napp with new version."
-                android:textSize="20dp" />
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:text="Update your app with new version."
+                android:textSize="14dp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="20dp"
                 android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5">
 
 
                 <TextView
                     android:id="@+id/rec_update_yes"
-                    android:layout_weight="1"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/logoutbutton"
+
+
                     android:gravity="center"
-                    android:padding="10dp"
+
                     android:text="Update Now"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+                    android:textColor="@color/newthirdgreen"
+                    android:textSize="16dp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5">
 
                 <TextView
                     android:id="@+id/rec_update_quit"
-                    android:layout_weight="1"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/logoutbutton"
+
+
                     android:gravity="center"
-                    android:padding="10dp"
+
                     android:text="Later"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+                    android:textColor="@color/newthirdgreen"
+                    android:textSize="16dp" />
+
+                        </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -38,5 +38,88 @@ public class user_profile {
     @Expose
     public Double outstandingAmount;
 
+    @SerializedName("mobileNo")
+    @Expose
+    public String contactNo;
+
+    @SerializedName("name")
+    @Expose
+    public String orgName;
+
+    @SerializedName("email")
+    @Expose
+    public String email_id;
+
+    @SerializedName("password")
+    @Expose
+    public String newPassword;
+
+    @SerializedName("confirmPassword")
+    @Expose
+    public String confirmPassword;
+
+    @SerializedName("address")
+    @Expose
+    public String addresss;
+
+    @SerializedName("city")
+    @Expose
+    public String city;
+
+    @SerializedName("state")
+    @Expose
+    public String statee;
+
+    @SerializedName("pincode")
+    @Expose
+    public String pincode;
+
+    @SerializedName("website")
+    @Expose
+    public String website;
+
+    @SerializedName("paymentMode")
+    @Expose
+    public String paymentMode;
+
+    @SerializedName("paymentFreq")
+    @Expose
+    public String paymentFreq;
+
+    @SerializedName("alternateEmail")
+    @Expose
+    public String alternateEmail;
+
+    @SerializedName("tanNo")
+    @Expose
+    public String tanNo;
+
+    @SerializedName("panNo")
+    @Expose
+    public String panNo;
+
+    @SerializedName("retailer_grade_type")
+    @Expose
+    public String retailerGradeType;
+
+
+    @SerializedName("business_type")
+    @Expose
+    public String businessType;
+
+    @SerializedName("id")
+    @Expose
+    public String user_id;
+
+
+    @SerializedName("contact")
+    @Expose
+    public String contactNoo;
+
+    /*@SerializedName("retailerName")
+    @Expose
+    public String orgNamee;*/
+
+
 
 }

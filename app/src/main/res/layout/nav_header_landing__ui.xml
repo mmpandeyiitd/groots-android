@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@+id/parentlayout"
     android:layout_height="100dp"
-    android:background="@color/drawer_header"
+    android:background="@color/newColorPrimaryGREEN"
     android:gravity="center"
     android:orientation="horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/background_veggies"
+        android:src="@null"
         android:scaleType="centerCrop"
         android:layout_gravity="center_vertical|center_horizontal"/>
 

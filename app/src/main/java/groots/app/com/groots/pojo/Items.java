@@ -26,6 +26,14 @@ public class Items {
     @Expose
     public Double storeOfferPrice;
 
+    @SerializedName("minPrice")
+    @Expose
+    public Double minPrice;
+
+    @SerializedName("maxPrice")
+    @Expose
+    public Double maxPrice;
+
     @SerializedName("packSize")
     @Expose
     public Integer packSize;
@@ -43,6 +51,8 @@ public class Items {
     @SerializedName("thumbUrl")
     @Expose
     public List<String> thumbUrl = new ArrayList<String>();
+
+
 
     public Double getItemCount() {
         return itemCount;

@@ -24,13 +24,21 @@ public class HttpResponseofProducts<T> {
     @Expose
     public String version;
 
+    @SerializedName("message")
+    @Expose
+    public String message;
+
     @SerializedName("error")
     @Expose
-    public String errors;
+    public error_object errors  ;
 
     @SerializedName("data")
     @Expose
     public List<T> data = new ArrayList<T>();
+
+   /* @SerializedName("data")
+    @Expose
+    public Object dataObject;*/
 
 
 }

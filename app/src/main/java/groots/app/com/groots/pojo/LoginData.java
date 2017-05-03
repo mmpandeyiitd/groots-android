@@ -12,10 +12,13 @@ import java.util.List;
 
 public class LoginData {
 
+
+
+
     @SerializedName("status")
     @Expose
     private int status;
-    @SerializedName("errors")
+    @SerializedName("error_object")
     @Expose
     private List<Object> errors = new ArrayList<Object>();
     @SerializedName("msg")
@@ -46,7 +49,7 @@ public class LoginData {
     /**
      *
      * @return
-     * The errors
+     * The error_object
      */
     public List<Object> getErrors() {
         return errors;
@@ -55,7 +58,7 @@ public class LoginData {
     /**
      *
      * @param errors
-     * The errors
+     * The error_object
      */
     public void setErrors(List<Object> errors) {
         this.errors = errors;

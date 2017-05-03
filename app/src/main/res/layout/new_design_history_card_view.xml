@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:saveEnabled="true"
+    android:background="@color/newbackgroundcolor"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/history_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardUseCompatPadding="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="6dp"
+
+                    android:orientation="vertical">
+
+
+
+                    <LinearLayout
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+
+
+                        android:orientation="horizontal">
+
+
+                       <!-- <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="BILL"
+                            android:layout_weight="1"
+                            android:textSize="13dp"
+                            android:layout_gravity="left"
+
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+
+                            android:gravity="bottom|center"/>-->
+
+
+
+
+                        <TextView
+                            android:id="@+id/date_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxLines="1"
+
+                            android:gravity="left|top"
+                            android:layout_gravity="left"
+
+                            android:layout_weight="1"
+                            android:textColor="@color/newthirdgreen"
+                            android:text="99/2345/56"
+                            android:textStyle="bold"
+                            android:textSize="15dp" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NUG2179847839"
+                            android:layout_marginRight="0.5dp"
+
+                            android:id="@+id/inv_no_id"
+                            android:textSize="13dp"
+                            android:textColor="@color/newhintcolor"
+
+                            android:layout_weight="1"                                        android:gravity="right"
+                            android:textStyle="normal"
+                            />
+
+                        <!--<TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".7"
+                            android:text="PAYMENT"
+                            android:layout_gravity="right"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="12dp"
+                            android:gravity="center|bottom"
+                            />-->
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left">
+
+
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/new_design_delivery_bus"
+                            />
+                        <TextView
+                            android:id="@+id/stat"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left|center"
+
+                            android:textStyle="normal"
+                            android:layout_marginLeft="5dp"
+
+                            android:textColor="@color/newtextcolorsecondary"
+                            android:text="Cancelled"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center">
+
+
+
+
+
+                        <TextView
+                            android:id="@+id/tex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Order Total"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="0dp"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:textSize="13dp" />
+
+
+
+
+
+
+                        <!--<TextView
+                            android:id="@+id/tx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="0dp"
+                            android:textColor="@color/textPrimaryDark"
+                            android:textSize="13dp" />-->
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
+
+
+
+                            <TextView
+                                android:id="@+id/textRupee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/indian_rupees"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="3dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginBottom="0dp"
+                                android:textColor="@color/newthirdgreen"
+                                android:textSize="13dp" />
+
+
+                        <TextView
+                            android:id="@+id/textItemPric"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_gravity="center"
+                            android:gravity="right"
+
+
+
+                            android:layout_marginRight="3dp"
+                            android:layout_marginBottom="0dp"
+                            android:text="0.00"
+                            android:textStyle="bold"
+                            android:textColor="@color/newthirdgreen"
+                            android:textSize="13dp" />
+
+
+
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="5dp"
+
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payment Received"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:textSize="12dp"
+                            android:gravity="bottom"
+
+                            />
+
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/indian_rupees"
+
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="3dp"
+
+
+                            android:textColor="@color/newColorPrimaryRED"
+                            android:textSize="13dp"
+                            android:gravity="center"/>
+
+                       <!-- <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=")"
+                            android:textSize="12dp"
+                            android:textColor="@color/textPrimaryDark"
+                            android:gravity="bottom"
+                            android:layout_marginLeft="0dp"/>-->
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30000.00"
+
+                            android:textSize="13dp"
+                            android:layout_marginRight="3dp"
+
+                            android:id="@+id/paid_amount_id"
+                            android:textColor="@color/newColorPrimaryRED"
+                            android:textStyle="bold"
+                            android:gravity="right|center"
+                            />
+
+                            </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="match_parent"
+                        android:layout_height=".5dp"
+
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/newhintcolor"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:textSize="12dp"
+                            android:gravity="left"
+                            android:text="Payment Mode"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="ONLINE TRANSFER"
+                            android:textSize="11dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="1"
+                            android:gravity="right|center"
+                            android:textStyle="normal"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:id="@+id/mode_payment_id"
+                            />
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height=".5dp"
+
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/newhintcolor"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Customer ID"
+                            android:textSize="12dp"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:layout_marginLeft="0dp"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="1"
+                            android:gravity="right|center"
+                            android:textStyle="normal"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:id="@+id/trans_no_id"
+                            android:textSize="12dp"
+                            android:text="1234567890GMOIHDN"/>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+                   <!-- <View
+                        android:id="@+id/view3"
+                        android:layout_width="match_parent"
+                        android:layout_height=".5dp"
+
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/newhintcolor"
+
+                        />-->
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/chequeStatus"
+                        >
+
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:textSize="11dp"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:layout_weight="1"
+                            android:text="Cheque Status-"
+                            android:id="@+id/cheq_stat_id"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:id="@+id/cheque_status_id"
+                            android:text="PENDING"
+                            android:textColor="@color/newtextcolorprimary"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="1"
+                            android:textSize="13dp"
+                            android:textStyle="normal"
+                            />
+
+
+
+
+
+                    </LinearLayout>
+
+
+                   <!-- <View
+                        android:id="@+id/view4"
+                        android:layout_width="match_parent"
+                        android:layout_height=".5dp"
+
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/newhintcolor"
+
+                        />-->
+
+
+
+
+
+                  <!--  <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                            android:orientation="vertical"
+                            android:id="@+id/first_half_id">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="INV NO"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="12dp"
+                                    android:layout_weight="1"
+
+                                    />
+
+
+
+
+                                &lt;!&ndash;<TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="NUG2179847839"
+                                    android:layout_marginRight="0.5dp"
+
+                                    android:id="@+id/inv_no_id"
+                                    android:textSize="11dp"
+                                    android:textColor="@color/textPrimaryDark"
+
+                                    android:layout_weight="1"                                        android:gravity="right"
+                                    android:textStyle="bold"
+                                    />&ndash;&gt;
+                            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="5dp"
+
+                                >
+
+
+
+                                <TextView
+                                    android:id="@+id/status"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:text="Status"
+                                    android:textSize="13dp" />
+
+
+
+                                &lt;!&ndash;<TextView
+                                    android:id="@+id/stat"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginRight=".5dp"
+
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:text="Cancelled"
+                                    android:textSize="13dp" />&ndash;&gt;
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="3dp">
+
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+
+                                   &lt;!&ndash; <TextView
+                                        android:id="@+id/tex"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Total("
+                                        android:layout_gravity="center"
+                                        android:layout_marginBottom="0dp"
+                                        android:textColor="@color/textPrimaryDark"
+                                        android:textSize="13dp" />
+
+
+
+                                    <TextView
+                                        android:id="@+id/textRupee"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/indian_rupees"
+                                        android:layout_gravity="center"
+                                        android:layout_marginRight="0dp"
+                                        android:layout_marginLeft="0dp"
+                                        android:layout_marginBottom="0dp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="13dp" />
+
+
+                                    <TextView
+                                        android:id="@+id/tx"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=")"
+                                        android:layout_gravity="center"
+                                        android:layout_marginBottom="0dp"
+                                        android:textColor="@color/textPrimaryDark"
+                                        android:textSize="13dp" />&ndash;&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </LinearLayout>
+
+
+
+
+
+                                &lt;!&ndash;<TextView
+                                    android:id="@+id/textItemPric"
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:layout_gravity="center"
+                                    android:gravity="right"
+                                    android:layout_weight="1"
+                                    android:layout_marginRight=".5dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:text="0.00"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13dp" />&ndash;&gt;
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="4dp"
+                            android:orientation="vertical"
+                            android:id="@+id/second_half_id">
+
+                           &lt;!&ndash; <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="Id"
+                                    android:textSize="12dp"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_weight="1"
+                                    android:textAllCaps="true"/>
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:gravity="right|center"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:id="@+id/trans_no_id"
+                                    android:textSize="12dp"
+                                    android:text="1234567890GMOIHDN"/>
+
+
+
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>&ndash;&gt;
+
+
+
+                           &lt;!&ndash; <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Amount("
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="12dp"
+                                    android:gravity="bottom"
+
+                                    />
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/indian_rupees"
+
+                                    android:layout_gravity="bottom"
+                                    android:layout_marginLeft="0dp"
+
+
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="12dp"
+                                    android:gravity="bottom"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=")"
+                                    android:textSize="12dp"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:gravity="bottom"
+                                    android:layout_marginLeft="0dp"/>
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="30000.00"
+                                    android:layout_weight="1"
+                                    android:textSize="13dp"
+                                    android:layout_marginRight="3dp"
+
+                                    android:id="@+id/paid_amount_id"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textStyle="bold"
+                                    android:gravity="right|center"
+                                    />
+
+
+
+
+                            </LinearLayout>&ndash;&gt;
+
+
+                           &lt;!&ndash; <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:textSize="12dp"
+                                    android:gravity="left"
+                                    android:text="Mode"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="ONLINE TRANSFER"
+                                    android:textSize="11dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:gravity="right|center"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:id="@+id/mode_payment_id"
+                                    />
+
+
+
+
+
+
+                            </LinearLayout>&ndash;&gt;
+
+
+
+
+                           &lt;!&ndash; <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:id="@+id/chequeStatus"
+
+                                android:layout_marginTop="4dp"
+
+                                >
+
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:textSize="11dp"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:layout_weight="1"
+                                    android:text="Cheque Status-"
+                                    android:id="@+id/cheq_stat_id"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right"
+                                    android:id="@+id/cheque_status_id"
+                                    android:text="PENDING"
+                                    android:textColor="@color/textPrimaryDark"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:textSize="13dp"
+                                    android:textStyle="bold"
+                                    />
+
+
+
+
+
+                            </LinearLayout>&ndash;&gt;
+
+
+
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>-->
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

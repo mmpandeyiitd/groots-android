@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/newbackgroundcolor"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="groots.app.com.groots.ui.RateUs"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbars"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+        android:background="@color/newColorPrimaryGREEN"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            android:gravity="center"
+            android:weightSum="2">
+
+
+
+            <groots.app.com.groots.utilz.TextViewLatoRegular
+                android:id="@+id/headername"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:gravity="left|center"
+                android:layout_marginLeft="25dp"
+                android:text="Rate Us"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+            <LinearLayout
+                android:id="@+id/callicon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+
+                android:gravity="right|center">
+                <ImageView
+                    android:id="@+id/makecall"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="0dp"
+
+                    android:layout_marginRight="10dp"
+
+
+                    android:src="@drawable/call"
+                    android:background="@null"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/newbackgroundcolor"
+        android:orientation="vertical"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/new_design_blank"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center|top"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="0dp"
+                    android:text="Your order GRT "
+                    android:layout_marginTop="5dp"
+                    android:textStyle="normal"
+                    android:textSize="13dp"
+                    android:textColor="@color/newtextcolorprimary"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="5dp"
+                    android:text=" order_id "
+                    android:textStyle="bold"
+                    android:id="@+id/order_id"
+                    android:textSize="13dp"
+                    android:textColor="@color/newtextcolorprimary"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=" has been delivered to"
+                    android:textStyle="normal"
+                    android:layout_marginTop="5dp"
+                    android:textSize="13dp"
+                    android:textColor="@color/newtextcolorprimary"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:gravity="center">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text=" you on "
+
+                android:layout_weight="1"
+                android:layout_marginRight="1dp"
+                android:gravity="right"
+                android:textColor="@color/newtextcolorprimary"
+
+                android:textSize="13dp"
+
+                />
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Date"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:textColor="@color/newtextcolorprimary"
+                android:id="@+id/rateus_date"
+
+                android:textSize="13dp"
+                android:layout_gravity="center"
+                android:gravity="left"
+                />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Please rate your experience with\n us here."
+            android:textStyle="normal"
+            android:textSize="16dp"
+            android:background="@null"
+            android:textColor="@color/newtextcolorprimary"
+            />
+
+
+
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:padding="3dp"
+            android:layout_gravity="center"
+            style="@style/newRatingBar"
+
+
+
+
+
+            android:layout_marginTop="20dp"
+            android:id="@+id/ratingBar"
+
+            android:stepSize="1"
+            />
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/msgOnFiveId"
+            android:background="@null"
+            android:textColor="@color/newtextcolorprimary"
+            android:layout_marginTop="10dp"
+            android:textStyle="normal"
+            android:gravity="center"
+            android:textSize="15dp"
+
+            android:text="Thankyou for your\n feeback !"/>
+
+
+        <Button
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="20dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/login_button"
+
+            android:id="@+id/ratebutton" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+
+
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:fitsSystemWindows="true"
+            >
+            <LinearLayout
+
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cdLogin"
+                android:layout_marginTop="0dp">
+
+
+
+
+                <!--
+                                <android.support.v7.widget.Toolbar
+                                    android:id="@+id/toolbars"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="?attr/actionBarSize"
+                                    android:background="@drawable/header_green_texture"
+                                    android:contentInsetLeft="0dp"
+                                    android:contentInsetStart="0dp"
+                                    >
+
+                -->
+
+
+                <!--<groots.canbrand.com.groots.utilz.TextViewLatoRegular
+                    android:id="@+id/headername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="85dp"
+                    android:gravity="center_vertical"
+
+                    android:text="GIVE YOUR FEEDBACK"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+                <LinearLayout
+                    android:id="@+id/callicon"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/makecall"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="0dp"
+
+                        android:src="@drawable/call"
+                        android:background="@null"/>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.Toolbar>-->
+
+                <LinearLayout
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginLeft="22dp"
+
+
+                    android:background="@drawable/new_design_blank_second"
+                    android:layout_marginBottom="05dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="bold"
+                        android:text ="What went wrong? \n "
+                        android:gravity="center_horizontal"
+
+                        android:textColor="@color/newtextcolorprimary"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+
+                        android:textStyle="normal"
+                        android:text = "Please share your feedback with us."
+                        android:gravity="center_horizontal"
+
+                        android:textColor="@color/newtextcolorprimary"
+                        android:textSize="15dp"
+                        />
+
+
+                </LinearLayout>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:orientation="vertical">
+
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/late_deliver"
+                        android:gravity="center"
+
+                        
+                        android:layout_marginTop="0dp"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/late_delivery"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Late Delivery"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/deliver_boy_behave"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/delivery_boy_behave"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Delivery Boy Behaviour"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/incomp_order"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/incomplete_order"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Incomplete Order"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/qual_product"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/quality_product"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Product Quality"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/price"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/pricing"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Pricing"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="0dp"
+                        android:id="@+id/othe"
+                        android:background="@color/white"
+
+                        >
+
+
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+
+                            android:gravity="left|center"
+                            android:button="@drawable/new_design_radio_button"
+
+                            android:checked="false"
+                            android:clickable="false"
+
+                            android:id="@+id/other"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"/>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+
+
+                                android:orientation="vertical">
+
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:paddingTop="5dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/newtextcolorprimary"
+                                    android:text="Other"
+
+
+
+                                    android:textSize="16dp" />
+
+
+
+
+
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginTop="20dp"
+
+                    android:orientation="horizontal"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1.8"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="left"
+                        android:layout_marginLeft="30dp">
+
+                        <ToggleButton
+                            android:layout_width="106dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+
+
+
+                            android:textOn="Late Delivery"
+                            android:textOff="Late Delivery"
+                            android:background="@color/newhintcolor"
+
+
+
+                            android:textSize="12dp"
+                            android:textStyle="bold"
+
+
+                            android:buttonTint="@color/drawer_header"
+                            android:textColorHighlight="@color/detailSec"
+                            android:textColor="@color/white"
+                            android:id="@+id/late_delivery"/>
+
+
+
+
+
+                        <ToggleButton
+                            android:layout_width="107dp"
+                            android:layout_height="25dp"
+                            android:textOn="Incomplete\n Order"
+                            android:textOff="Incomplete\n Order"
+                            android:layout_marginTop="4dp"
+                            android:textStyle="bold"
+
+
+
+                            android:background="@color/newhintcolor"
+
+
+                            android:buttonTint="@color/drawer_header"
+                            android:textSize="10dp"
+                            android:textColor="@color/white"
+                            android:id="@+id/incomplete_order"/>
+
+
+
+
+                        <ToggleButton
+                            android:layout_width="107dp"
+                            android:layout_height="25dp"
+                            android:textOn="Other"
+                            android:textOff="Other"
+                            android:layout_marginTop="4dp"
+                            android:textStyle="bold"
+                            android:background="@color/newhintcolor"
+
+
+                            android:textSize="12dp"
+                            android:textColor="@color/white"
+                            android:buttonTint="@color/drawer_header"
+                            android:id="@+id/other"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_gravity="right"
+
+                        android:layout_marginRight="30dp"
+                        android:orientation="vertical"
+                        android:layout_weight=".2">
+
+
+                        <ToggleButton
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textStyle="bold"
+
+
+                            android:textOn="Delivery Boy \n Behaviour"
+                            android:textOff="Delivery Boy \n Behaviour"
+
+                            android:background="@color/newhintcolor"
+
+
+                            android:textSize="10dp"
+
+
+                            android:buttonTint="@color/drawer_header"
+                            android:textColor="@color/white"
+                            android:id="@+id/delivery_boy_behave"
+                            />
+                        <ToggleButton
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textOn="Product Quality"
+                            android:textOff="Product Quality"
+                            android:layout_gravity="right"
+                            android:textStyle="bold"
+
+                            android:gravity="center"
+                            android:layout_marginTop="4dp"
+
+                            android:background="@color/newhintcolor"
+
+
+                            android:buttonTint="@color/drawer_header"
+                            android:textSize="12dp"
+                            android:textColor="@color/white"
+                            android:id="@+id/quality_product"/>
+
+
+
+
+                        <ToggleButton
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textOn="Pricing"
+                            android:textOff="Pricing"
+
+                            android:layout_marginTop="4dp"
+                            android:textStyle="bold"
+
+                            android:background="@color/newhintcolor"
+
+
+                            android:buttonTint="@color/drawer_header"
+                            android:textSize="12dp"
+                            android:textColor="@color/white"
+                            android:id="@+id/pricing"/>
+
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/new_design_blank">
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- <EditText
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:inputType="textMultiLine"
+
+                         android:id="@+id/editText2" />-->
+
+
+
+
+
+                    <!--<EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+
+                        android:id="@+id/editText4" />-->
+
+
+
+
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:inputType="textMultiLine"
+                        android:maxLines="3"
+                        android:layout_marginTop="3dp"
+                        android:background="@null"
+
+
+                        android:textCursorDrawable="@drawable/new_design_cursor"
+
+
+
+                        android:id="@+id/comment" />
+
+                </LinearLayout>
+
+
+                <Button
+                    android:text="Submit"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_gravity="top|center"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/login_button"
+                    android:layout_height="40dp"
+                    android:id="@+id/feedback_submit_btn" />
+
+                <!--<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/msgOnLessFiveId"
+                    android:background="@color/textGreen"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="05dp"
+                    android:textStyle="italic"
+                    android:gravity="center"
+                    android:textSize="12dp"
+
+                    android:text="Our customer support team is looking into the matter to address your grievances.We will look forward to serve you better. "/>
+
+
+
+
+
+
+-->
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    </ScrollView>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/goToStep2"
+            android:layout_gravity="bottom"
+
+            android:background="@drawable/new_design_footer"
+            />
+    </RelativeLayout>
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+

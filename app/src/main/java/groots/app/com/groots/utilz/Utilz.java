@@ -11,6 +11,8 @@ import static groots.app.com.groots.BuildConfig.CONFIG_VERSION;
 public class Utilz {
 
 	public static int count=0;
+	public static int count1 = 0;
+	public static int count2 = 0;
 	public static String app_version = APP_VERSION;
 	public static String config_version = CONFIG_VERSION;
 	public static String apikey =  APIKEY ;
