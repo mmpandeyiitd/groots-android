@@ -530,6 +530,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 String Query = "insert into ContactNumber (cust_support_no , order_support_no) values"+"('"+ cust_support + "','"+ order_support +"')" ;
                 db.execSQL(Query);
             }
+            else if (count == 1 ){
+                String Query = "update ContactNumber set cust_support_no ="+cust_support + ",order_support_no = "+ order_support + ";";
+                db.execSQL(Query);
+            }
+
 
 
             //copyDBToPhoneSD1();

@@ -1110,8 +1110,9 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuiopasdfghjklmnbvcxz1234567890"
 
                         android:fontFamily="sans-serif"
-                        android:inputType="textEmailAddress"
+
                         android:maxLength="10"
+                        android:inputType="textWebEmailAddress"
 
 
                         android:imeOptions="actionNext"

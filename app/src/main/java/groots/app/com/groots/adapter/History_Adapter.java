@@ -98,8 +98,8 @@ public class History_Adapter extends  RecyclerView.Adapter<RecyclerView.ViewHold
             textRupee = (TextView) itemView.findViewById(R.id.textRupee);
             textItemPric = (TextView) itemView.findViewById(R.id.textItemPric);
             status = (TextView) itemView.findViewById(R.id.stat);
-            first_half_order = (LinearLayout) itemView.findViewById(R.id.first_half_id);
-            second_half_payment =(LinearLayout) itemView.findViewById(R.id.second_half_id);
+           // first_half_order = (LinearLayout) itemView.findViewById(R.id.first_half_id);
+            //second_half_payment =(LinearLayout) itemView.findViewById(R.id.second_half_id);
             chequeStatus =(LinearLayout) itemView.findViewById(R.id.chequeStatus);
             chequeStatus.setVisibility(View.GONE);
 

@@ -567,7 +567,11 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     }
 
 
+
+
+
                     if (flag == true) {
+
 
                         ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
                         if (cartClasses != null && cartClasses.size() > 0 && httpResponse != null) {
@@ -585,6 +589,8 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                                 productListDocDatas.get(i).setItemCount(0.0);
                             }
                         }
+
+
                         detail_recycler_view.setLayoutManager(new LinearLayoutManager(context));
                         detail_recycler_view.setHasFixedSize(true);
                         detail_recycler_view.setAdapter(new Landing_Adapter(productListDocDatas, context, updateCart, true));
@@ -593,22 +599,6 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                     } else {
 
-                        ArrayList<CartClass> cartClasses = dbHelper.getProductQty();
-                        if (cartClasses != null && cartClasses.size() > 0 && httpResponse != null) {
-                            for (int i = 0; i < productListDocDatas.size(); i++) {
-                                for (int j = 0; j < cartClasses.size(); j++) {
-                                    if (productListDocDatas.get(i).subscribedProductId == cartClasses.get(j).subscribe_prod_id) {
-                                        productListDocDatas.get(i).setItemCount(cartClasses.get(j).product_qty);
-                                        break;
-                                    } else
-                                        productListDocDatas.get(i).setItemCount(0.0);
-                                }
-                            }
-                        } else if (cartClasses != null && cartClasses.size() == 0) {
-                            for (int i = 0; i < productListDocDatas.size(); i++) {
-                                productListDocDatas.get(i).setItemCount(0.0);
-                            }
-                        }
 
 
 

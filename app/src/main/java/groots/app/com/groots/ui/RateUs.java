@@ -214,11 +214,8 @@ public class RateUs extends AppCompatActivity implements View.OnClickListener {
 msgFiveStarId.setVisibility(View.GONE);
                     cdLogin.setVisibility(View.VISIBLE);
                     ratebutton.setVisibility(View.GONE);
-                    Intent intent = new Intent(RateUs.this, feedback.class);
-                    intent.putExtra("value", value.toString());
-                    intent.putExtra("o_id",o_id);
 
-                    //startActivity(intent);
+
                 }
 
 
@@ -856,7 +853,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.newColorPrimary
 
 
 
-    private void fivestar_popup(){
+   /* private void fivestar_popup(){
         final Dialog fivestar = new Dialog(RateUs.this);
         fivestar.requestWindowFeature(Window.FEATURE_NO_TITLE);
         fivestar.setContentView(R.layout.cancel_order_dialog);
@@ -876,7 +873,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.newColorPrimary
                 // File cache = getCacheDir();
                 //dbHelper.deleterec();
                 // File appDir = new File(cache.getParent());
-              /*  if (appDir.exists()) {
+              *//*  if (appDir.exists()) {
                     String[] children = appDir.list();
 
                     for (String s : children) {
@@ -885,7 +882,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.newColorPrimary
                         if (deleteDir(f))
                             System.out.println("delete" + f.getPath());
                     }
-                }*/
+                }*//*
                 Intent i = new Intent(RateUs.this, Landing_Update.class);
                 //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
@@ -899,7 +896,7 @@ late_delivery.setBackgroundColor(getResources().getColor(R.color.newColorPrimary
 
 
 
-    }
+    }*/
 
 
     void callsubmitfeedbackAPI(HashMap hashMap) {

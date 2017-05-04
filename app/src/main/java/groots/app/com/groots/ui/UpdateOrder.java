@@ -151,7 +151,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         listicon = (LinearLayout) findViewById(R.id.listicon);
         listicon.setVisibility(View.GONE);
         //listicon.setOnClickListener(this);
-        callimage = (ImageView) findViewById(R.id.callimage);
+       // callimage = (ImageView) findViewById(R.id.callimage);
 
         updateCart = this;
         context = UpdateOrder.this;

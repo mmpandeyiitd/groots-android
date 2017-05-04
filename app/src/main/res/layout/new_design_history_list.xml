@@ -445,7 +445,7 @@
                         android:id="@+id/subtxtamount_main"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="4354545"
+                        android:text="0.0"
                         android:textColor="@color/newtextcolorprimary"
                         android:textSize="15sp" />
 
@@ -614,7 +614,7 @@
                         android:id="@+id/total_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="4355445"
+                        android:text="0.0"
                         android:textColor="@color/newtextcolorprimary"
                         android:textSize="15sp" />
 
@@ -952,7 +952,7 @@
 
                 </LinearLayout>
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/download_invoice"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -963,7 +963,7 @@
                     android:textColor="@color/newthirdgreen"
                     android:textSize="13dp"
                     android:visibility="visible"
-                    />
+                    />-->
 
 
 
