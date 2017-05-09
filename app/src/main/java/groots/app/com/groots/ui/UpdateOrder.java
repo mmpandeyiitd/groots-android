@@ -85,7 +85,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
     public boolean backflag = false;
     NavigationView navigationView;
     SwipeRefreshLayout swipe_refresh_layout;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder,navAllProducts;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis,navaddOrder,navAllProducts,navProfile;
     String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Product> productListDocDatas = new ArrayList<>();
@@ -193,6 +193,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         //navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
         navLogout = (RelativeLayout) findViewById(R.id.about_menu);
@@ -204,6 +205,7 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
         //navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
@@ -804,6 +806,14 @@ public class UpdateOrder extends AppCompatActivity implements View.OnClickListen
 
                 showdialog.show();
 
+                break;
+
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(UpdateOrder.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
                 break;
 
 

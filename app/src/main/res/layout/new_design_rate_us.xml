@@ -86,7 +86,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="0dp">
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -1268,7 +1268,7 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
@@ -1283,7 +1283,7 @@
 
             android:background="@drawable/new_design_footer"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 
 

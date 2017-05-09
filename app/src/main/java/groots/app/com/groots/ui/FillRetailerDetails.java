@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,11 +64,13 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
     String registrationStatus;
     Context context;
     String addressDelivery,tanNumber,personNamee,pan_number,City,State,alternate_email,pin_code,web_site;
-    String spinPayMode,spinPayFreq,statee,spinBusType,gradeType;
+    String spinPayMode,spinPayFreq,statee,spinBusType,gradeType , fromWhere;
     Utilz utilz;
     TextView cName,contact,personName,logout,hide_company,hide_contact,hide_email,hide_alt_email,hide_del_address,hide_city,hide_state,hide_pin_code,hide_payment_mode,hide_payment_freq,hide_website,hide_tan_no,hide_pan_no,hide_business_type;
     LinearLayout cdsignup;
+    TextView savetext;
     int pos,pos1,pos2,pos3;
+    RelativeLayout Business_type;
 
 
     EditText deliveryAddress,tanNo,city,alternateEmail,pinCode,webSite,panNo,email;
@@ -84,6 +87,7 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
         context = FillRetailerDetails.this;
 
         logout = (TextView) findViewById(R.id.logout);
+        savetext = (TextView) findViewById(R.id.savetext);
 
         deliveryAddress = (EditText) findViewById(R.id.delivery_add);
         city =(EditText) findViewById(R.id.city);
@@ -94,9 +98,16 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
         panNo = (EditText) findViewById(R.id.pan_no);
         cdsignup = (LinearLayout) findViewById(R.id.cdsignUp);
         cName = (TextView) findViewById(R.id.cName);
+        Business_type  = (RelativeLayout) findViewById(R.id.Business_type);
         contact = (TextView)findViewById(R.id.Contact);
         email = (EditText) findViewById(R.id.email_id);
         spinnerBusinessType = (Spinner) findViewById(R.id.spinner_business_type);
+
+
+        Intent in = getIntent();
+
+        fromWhere = in.getStringExtra("fromWhere");
+
 
 
         view1 = (View) findViewById(R.id.view1);
@@ -155,6 +166,21 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
 
         dbHelper = DbHelper.getInstance(context);
         dbHelper.createDb(false);
+
+        if (fromWhere.equals("Inside")){
+           savetext.setText("SAVE");
+            logout.setVisibility(View.GONE);
+            Business_type.setVisibility(View.GONE);
+            view14.setVisibility(View.GONE);
+
+
+        }
+        else if (fromWhere.equals("Outside")){
+            logout.setVisibility(View.VISIBLE);
+            savetext.setText("GO TO FINAL STEP");
+
+
+        }
 
 
 
@@ -730,8 +756,10 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
                     Toast.makeText(context,"Please Select Mode",Toast.LENGTH_LONG).show();
 
                 }
-                else if (spinBusType == "Select Business Type"){
-                    Toast.makeText(context,"Please Select Business Type",Toast.LENGTH_LONG).show();
+                else if ((fromWhere.equals("Outside")) && (spinBusType == "Select Business Type") ) {
+
+                        Toast.makeText(context, "Please Select Business Type", Toast.LENGTH_LONG).show();
+
 
                 }
                 else {
@@ -860,17 +888,30 @@ public class FillRetailerDetails extends AppCompatActivity implements AdapterVie
                     }
 */
 
-                    Intent intent = new Intent(FillRetailerDetails.this,mapping.class);
+                    if (fromWhere.equals("Inside")){
 
-                    intent.putExtra("showNav","false");
+                        Intent intent = new Intent(FillRetailerDetails.this,Landing_Update.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
 
-                    intent.putExtra("fromWhere","sample");
-                   // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    }
+                    else if (fromWhere.equals("Outside")){
+                        Intent intent = new Intent(FillRetailerDetails.this,mapping.class);
+
+                        intent.putExtra("showNav","false");
+
+                        intent.putExtra("fromWhere","sample");
+                        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 
-                    startActivity(intent);
-                    //finish();
+                        startActivity(intent);
+                        //finish();
+                    }
+
+
 
                 }
 

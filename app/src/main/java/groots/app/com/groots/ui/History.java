@@ -77,7 +77,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
     ArrayList<user_profile> retailerdetails = new ArrayList<>();
 
 
-    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout,navHome,navAllProducts,navorderHis ;
+    RelativeLayout navOrder,navHelp,navContact,navRate,navLogout,navAbout,navHome,navAllProducts,navorderHis,navProfile ;
     CoordinatorLayout cdLanding;
     ArrayList<Order> historyListDocDatas = new ArrayList<Order>();
     String cust_support_no, order_support_no;
@@ -187,6 +187,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
        // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navHome = (RelativeLayout) findViewById(R.id.addOrder_menu);
 
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
@@ -201,6 +202,7 @@ public class History extends AppCompatActivity implements View.OnClickListener  
         //navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navHome.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
@@ -566,6 +568,15 @@ public class History extends AppCompatActivity implements View.OnClickListener  
                 showdialog.show();
 
                 break;
+
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(History.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
+                break;
+
 
             case R.id.rate_menu:
 

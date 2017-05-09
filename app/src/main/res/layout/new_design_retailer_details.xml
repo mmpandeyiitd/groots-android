@@ -163,7 +163,7 @@
                         android:layout_marginTop="0dp"
                         android:background="@null"
                         android:gravity="bottom"
-                        android:hint="Organisation Name"
+                        android:hint="Organisation Name *"
                         android:fontFamily="sans-serif"
                         android:paddingBottom="3dp"
                         android:imeOptions="actionNext"
@@ -553,7 +553,7 @@
                         android:textCursorDrawable="@drawable/new_design_cursor"
                         android:background="@null"
                         android:gravity="bottom"
-                        android:hint="Delivery Address"
+                        android:hint="Delivery Address *"
                         android:fontFamily="sans-serif"
                         android:paddingBottom="3dp"
                         android:imeOptions="actionNext"
@@ -625,7 +625,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/new_design_cursor"
                         android:gravity="bottom"
-                        android:hint="City"
+                        android:hint="City *"
                         android:fontFamily="sans-serif"
                         android:paddingBottom="3dp"
                         android:imeOptions="actionNext"
@@ -677,7 +677,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12dp"
                     android:id="@+id/hide_state"
-                    android:text="State"/>
+                    android:text="State *"/>
 
 
 
@@ -785,7 +785,7 @@
                         android:textCursorDrawable="@drawable/new_design_cursor"
                         android:background="@null"
                         android:gravity="bottom"
-                        android:hint="Pin Code"
+                        android:hint="Pin Code *"
                         android:maxLength="6"
                         android:fontFamily="sans-serif"
                         android:paddingBottom="3dp"

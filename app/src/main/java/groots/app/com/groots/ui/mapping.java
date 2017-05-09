@@ -88,6 +88,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     DbHelper dbHelper;
     String shownav = "true";
     String fromWhere ="home" ;
+    String from;
     String registrationStatus;
     TextView logout;
     ImageView goToFinalPage;
@@ -98,7 +99,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
     CoordinatorLayout cdmapping;
     RelativeLayout gotofinal;
     String cust_support_no, order_support_no;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts,navProfile;
 
     Context context;
     Utilz utilz;
@@ -148,6 +149,12 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
             }
         });
        Intent intent = getIntent();
+        from = intent.getStringExtra("from");
+        if (from == null){
+            from = "f";
+        }
+
+
          shownav = intent.getStringExtra("showNav");
         fromWhere = intent.getStringExtra("fromWhere");
 
@@ -221,6 +228,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
        // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
 
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
@@ -234,6 +242,7 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navaddOrder.setOnClickListener(this);
         navRate.setOnClickListener(this);
@@ -625,6 +634,14 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
 
                 break;
 
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(mapping.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
+                break;
+
             case R.id.addOrder_menu:
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -917,11 +934,15 @@ public class mapping extends AppCompatActivity implements View.OnClickListener {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (from.equals("landing")) {
 
-           /* SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-            editor.putString("Check", "name");
-            editor.commit();*/
+            Intent inten = new Intent(mapping.this,Landing_Update.class);
+            inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(inten);
+            }
+
+        else{
+
             super.onBackPressed();
         }
     }

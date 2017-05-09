@@ -70,6 +70,7 @@ public class mappedProducts extends Fragment {
     ArrayList<Product> productListDocDatas = new ArrayList<>();
     int offsetValue = 0;
     int offsetval = 0;
+    String from;
     RecyclerView detail_recycler_view;
     Button addproducts_button;
     DbHelper dbHelper;
@@ -102,6 +103,7 @@ public class mappedProducts extends Fragment {
         showNav = getArguments().getString("showNav");*/
         fromWhere = getActivity().getIntent().getStringExtra("fromWhere");
         showNav = getActivity().getIntent().getStringExtra("showNav");
+        from = getActivity().getIntent().getStringExtra("from");
 
 
 
@@ -837,7 +839,9 @@ return null;
                             // goToFinalPage.setVisibility(View.GONE);
                         }
                     }
-
+                    if (from != null) {
+                        intent.putExtra("from", from);
+                    }
                     startActivity(intent);
                     getActivity().finish();
 

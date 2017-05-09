@@ -191,6 +191,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                /* intent.putExtra("showNav","false");
 
                 intent.putExtra("fromWhere","sample");*/
+                intent.putExtra("fromWhere","Outside");
                 startActivity(intent);
 
             }

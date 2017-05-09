@@ -94,7 +94,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public boolean backflag = false;
     ArrayList<user_profile> retailerdetails = new ArrayList<>();
     NavigationView navigationView;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navorderHis , navaddOrder,navAllProducts,navProfile;
     CoordinatorLayout cdLanding;
 
     ArrayList<Product> productListDocDatas = new ArrayList<>();
@@ -296,6 +296,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
        // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
 
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
@@ -310,6 +311,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
         navAllProducts = (RelativeLayout) findViewById(R.id.allproducts_menu);
         navAllProducts.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
         navLogout.setOnClickListener(this);
@@ -716,6 +718,7 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
                         Intent inten = new Intent(context , mapping.class);
+                        inten.putExtra("from","landing");
                         startActivity(inten);
 
                     }
@@ -747,6 +750,15 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
 
                 showdialog.show();
 
+                break;
+
+
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(Landing_Update.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
                 break;
 
             case R.id.rate_menu:
@@ -1031,12 +1043,12 @@ public class Landing_Update extends AppCompatActivity implements View.OnClickLis
     public void onResume() {
         super.onResume();
 
-        detail_recycler_view.setAdapter(null);
+      /*  detail_recycler_view.setAdapter(null);
         productListDocDatas.clear();
         Utilz.count = 0;
         offsetValue = 1;
         callProductListingAPI(offsetValue);
-        loadingMore = true;
+        loadingMore = true;*/
 
 
 

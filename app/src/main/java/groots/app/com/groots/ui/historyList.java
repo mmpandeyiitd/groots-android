@@ -83,7 +83,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     public boolean backflag = false;
     NavigationView navigationView;
     Double shippingcharges;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts,navorderHis;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts,navorderHis,navProfile;
     String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Order> productListDocDatas = new ArrayList<>();
@@ -229,6 +229,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
        // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navHome = (RelativeLayout) findViewById(R.id.addOrder_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
@@ -242,6 +243,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
       //  navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navHome.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
@@ -738,6 +740,14 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
                 showdialog.show();
 
+                break;
+
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(historyList.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
                 break;
 
             case R.id.rate_menu:
