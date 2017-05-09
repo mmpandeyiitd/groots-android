@@ -132,8 +132,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_design_splash);
 
-/*
-        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+      /*  SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
         editor.putString("Check", null);
         editor.commit();*/
 
@@ -696,6 +695,7 @@ public class Splash extends AppCompatActivity implements AnimationListener, OnCl
             case R.id.tvSignUp:
                 //Analytics.sendEvent(Constants.SplashCategory, "SignUp", application);
                 Intent i = new Intent (Splash.this , signUpPage.class);
+                i.putExtra("salesNo",sales_contact_number);
 
                 startActivity(i);
 

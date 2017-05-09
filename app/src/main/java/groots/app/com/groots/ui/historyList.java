@@ -83,7 +83,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
     public boolean backflag = false;
     NavigationView navigationView;
     Double shippingcharges;
-    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts,navorderHis;
+    RelativeLayout navOrder, navHelp, navContact, navRate, navLogout, navAbout, navHome,navAllProducts,navorderHis,navProfile;
     String cust_support_no, order_support_no;
     CoordinatorLayout cdLanding;
     ArrayList<Order> productListDocDatas = new ArrayList<>();
@@ -154,9 +154,9 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         cancelbutton = (TextView) findViewById(R.id.cancelicon_checkout);
         cancelbutton.setOnClickListener(this);
         cancelbutton.setVisibility(View.GONE);
-        download_invoice = (TextView) findViewById(R.id.download_invoice);
-        download_invoice.setOnClickListener(this);
-        download_invoice.setVisibility(View.GONE);
+        //download_invoice = (TextView) findViewById(R.id.download_invoice);
+      //  download_invoice.setOnClickListener(this);
+       // download_invoice.setVisibility(View.GONE);
         updateicon_checkout = (TextView) findViewById(R.id.updateicon_checkout);
         updateicon_checkout.setOnClickListener(this);
         updateicon_checkout.setVisibility(View.GONE);
@@ -189,7 +189,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
         //callicon.setOnClickListener(this);
         //listicon = (LinearLayout) findViewById(R.id.listicon);
         //listicon.setOnClickListener(this);
-        callimage = (ImageView) findViewById(R.id.callimage);
+       // callimage = (ImageView) findViewById(R.id.callimage);
 
         updateCart = this;
 
@@ -229,6 +229,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
        // navOrder = (RelativeLayout) findViewById(R.id.pending_menu);
         navHelp = (RelativeLayout) findViewById(R.id.help_menu);
         navContact = (RelativeLayout) findViewById(R.id.contact_menu);
+        navProfile = (RelativeLayout) findViewById(R.id.profile_menu);
         navHome = (RelativeLayout) findViewById(R.id.addOrder_menu);
         navorderHis = (RelativeLayout) findViewById(R.id.orderHis_menu);
         navRate = (RelativeLayout) findViewById(R.id.rate_menu);
@@ -242,6 +243,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
       //  navOrder.setOnClickListener(this);
         navHelp.setOnClickListener(this);
         navContact.setOnClickListener(this);
+        navProfile.setOnClickListener(this);
         navHome.setOnClickListener(this);
         navorderHis.setOnClickListener(this);
         navRate.setOnClickListener(this);
@@ -421,7 +423,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
         Log.e("Sending Data", hashMap.toString());
 
-        if (offset == 1) {
+        if (offset == 0) {
             loadermain.setVisibility(View.VISIBLE);
             //loadermainfooter.setVisibility(View.INVISIBLE);
         }
@@ -460,17 +462,17 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                     snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     snackbar.show();
 
-                    if (offsetValue == 10) {
+                   /* if (offsetValue == 10) {
                         ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.VISIBLE);
                         detail_recycler_view.setVisibility(View.GONE);
                         // ((LinearLayout) findViewById(R.id.listfooter)).setVisibility(View.GONE);
 
-                    }
+                    }*/
 
 
                 } else if (status == 1) {
 
-                    backflag = false;
+                   // backflag = false;
                     ((RelativeLayout) findViewById(R.id.blank_layout)).setVisibility(View.GONE);
                     detail_recycler_view.setVisibility(View.VISIBLE);
                     /*int itemInCart = dbHelper.getTotalRow();
@@ -609,8 +611,8 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-
-        offsetValue++;
+        offsetValue = offsetValue + row;
+        //offsetValue++;
         //   Log.e("No of Page ", String.valueOf(offsetValue));
     }
 
@@ -738,6 +740,14 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
                 showdialog.show();
 
+                break;
+
+            case R.id.profile_menu :
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent in = new Intent(historyList.this,FillRetailerDetails.class);
+                in.putExtra("fromWhere","Inside");
+                startActivity(in);
                 break;
 
             case R.id.rate_menu:
@@ -896,7 +906,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
                 break;
 
-            case R.id.download_invoice:
+          /*  case R.id.download_invoice:
 
                 runnable = new Runnable() {
                     @Override
@@ -909,7 +919,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
 
 
-                        callemailinvoiceAPI(o_i);
+                       // callemailinvoiceAPI(o_i);
 
 
 
@@ -923,7 +933,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                 new android.os.Handler().postDelayed(runnable, 300);
 
                 break;
-
+*/
 
 
 
@@ -1516,7 +1526,7 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
                         }
 
                         if (statu.equals("Delivered")){
-                            download_invoice.setVisibility(View.VISIBLE);
+                         //   download_invoice.setVisibility(View.VISIBLE);
                             updateicon_checkout.setVisibility(View.GONE);
                             cancelbutton.setVisibility(View.GONE);
 
@@ -1525,12 +1535,12 @@ public class historyList extends AppCompatActivity implements View.OnClickListen
 
                         if (delv_date != null && (date_today.compareTo(delv_date) == 0) && (statu.equals("Pending"))) {
                             updateicon_checkout.setVisibility(View.VISIBLE);
-                            download_invoice.setVisibility(View.GONE);
+                           // download_invoice.setVisibility(View.GONE);
 
                         }
                         if (delv_date != null && (date_today.compareTo(delv_date) == 0 ) && (statu.equals("Pending"))){
                             cancelbutton.setVisibility(View.VISIBLE);
-                            download_invoice.setVisibility(View.GONE);
+                          //  download_invoice.setVisibility(View.GONE);
                         }
 
 
@@ -1615,7 +1625,7 @@ Intent inten = getIntent();
 
 
                         if (stat.equals("Delivered")){
-                            download_invoice.setVisibility(View.VISIBLE);
+                         //   download_invoice.setVisibility(View.VISIBLE);
                             updateicon_checkout.setVisibility(View.GONE);
                             cancelbutton.setVisibility(View.GONE);
 

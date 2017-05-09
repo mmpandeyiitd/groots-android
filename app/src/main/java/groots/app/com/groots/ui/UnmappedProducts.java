@@ -90,6 +90,7 @@ public class UnmappedProducts extends Fragment {
     ImageView goToFinalPage,save;
     RelativeLayout saveit;
     RecyclerView recycle;
+    String from;
     public boolean loadingMoreforall = true;
     UpdateCart updateCart;
     Context context;
@@ -111,6 +112,7 @@ public class UnmappedProducts extends Fragment {
         showNav = this.getArguments().getString("showNav");*/
          fromWhere = getActivity().getIntent().getStringExtra("fromWhere");
          showNav = getActivity().getIntent().getStringExtra("showNav");
+        from = getActivity().getIntent().getStringExtra("from");
 
 
         if (fromWhere != null){
@@ -964,7 +966,9 @@ ArrayList<RetailerProduct> sel = new ArrayList<>();
                                 intent.putExtra("showNav", "false");
                             }
                         }
-
+                        if (from != null) {
+                            intent.putExtra("from", from);
+                        }
                         startActivity(intent);
                         getActivity().finish();
 

@@ -51,6 +51,18 @@
                 android:textSize="24dp" />
 
 
+            <ImageView
+                android:id="@+id/ivCallLogin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+
+                android:layout_marginRight="22dp"
+
+                android:src="@drawable/call_login"
+                android:visibility="visible" />
+
+
 
 
 

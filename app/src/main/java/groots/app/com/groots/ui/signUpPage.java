@@ -1,14 +1,19 @@
 package groots.app.com.groots.ui;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -19,6 +24,7 @@ import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +71,7 @@ public class signUpPage extends AppCompatActivity  {
 
 
     LinearLayout backbtn , cdsignUp,conditionPass;
+
     user_profile retailer = new user_profile();
     otpResponse otpRespons = new otpResponse();
    // ArrayList<user_profile> retailerdetails = new ArrayList<>();
@@ -87,6 +94,8 @@ public class signUpPage extends AppCompatActivity  {
     String new_pass,confirm_pass,email,compName,contact;
     Button btnSignU;
     Dialog dialog;
+    String SalesNo;
+    ImageView ivCallLogin;
     Context context;
     PasswordValidator passwordValidator;
 
@@ -109,6 +118,10 @@ public class signUpPage extends AppCompatActivity  {
         setContentView(R.layout.new_design_signup);
 
 
+        Intent i = getIntent();
+       SalesNo =  i.getStringExtra("salesNo");
+
+
 
         view1 = (View) findViewById(R.id.view1);
         view2 = (View) findViewById(R.id.view2);
@@ -118,7 +131,7 @@ public class signUpPage extends AppCompatActivity  {
 
 
 
-
+        ivCallLogin = (ImageView) findViewById(R.id.ivCallLogin);
         backbtn = (LinearLayout) findViewById(R.id.backbtn);
         new_password = (EditText) findViewById(R.id.new_password);
         confirm_password = (EditText) findViewById(R.id.confirm_password);
@@ -145,6 +158,19 @@ public class signUpPage extends AppCompatActivity  {
        // designation = (EditText) findViewById(R.id.Designation);
         contactNo = (EditText) findViewById(R.id.Contact);
         email_id = (EditText) findViewById(R.id.email_id);
+
+
+
+
+        ivCallLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                makeCall(SalesNo);
+
+            }
+        });
 
         cName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1253,6 +1279,28 @@ apiInterface.getOtpcheckResponse(Utilz.apikey, Utilz.app_version, Utilz.config_v
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
+
+
+
+    void makeCall(String phoneNo) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ActivityCompat.checkSelfPermission(signUpPage.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 9);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + phoneNo));
+                startActivity(intent);
+            }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + phoneNo));
+            startActivity(intent);
+        }
+
     }
 
 
